@@ -1,0 +1,25 @@
+version: v1
+common:
+  tools:
+    oracle-jdk: 8
+  env:
+    CURRENT_ENV: prod
+build:
+  tools:
+    maven: 3.3.3
+  run:
+    workDir: ./
+    cmd:
+      - sh deploy/compile.sh
+  target:
+    distDir: ./quality-report-server/target/
+    files:
+      - ./*.jar
+      - ../../deploy
+autodeploy:
+    targetDir: /opt/meituan/mobile/com.sankuai.meishi.qa.meishireport/
+    env:
+    run: sh ./deploy/run.sh
+    check: sh ./deploy/check.sh
+    checkRetry: 3 #后面下掉，加默认值为1
+    CheckInterval: 20s #后面下掉
