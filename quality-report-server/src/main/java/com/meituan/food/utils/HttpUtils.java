@@ -28,10 +28,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * @author ryanshi
- * @version 2018/8/22
- */
+
 public final class HttpUtils {
 
     private static final HttpClient HTTP_CLIENT = HttpClients.createDefault();
@@ -42,7 +39,7 @@ public final class HttpUtils {
 
     private static final String DEFAULT_CHARSET = "UTF-8";
 
-    private static final String JSON_CONTENT_TYPE = "application/json;charset=" + DEFAULT_CHARSET;
+    public static final String JSON_CONTENT_TYPE = "application/json;charset=" + DEFAULT_CHARSET;
 
     public static Map<String, String> getSignedHeaders(String method, String uri, String key, String token) {
         if (method == null || uri == null) {

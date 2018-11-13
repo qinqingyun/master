@@ -4,5 +4,5 @@ import java.time.LocalDate;
 
 public interface IDataExtract {
 
-    void extractData4Day(LocalDate day) throws Exception;
+    void extractData4Day(LocalDate day);
 }

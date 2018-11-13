@@ -6,16 +6,22 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Component
 public class OneDaySyncJob implements IJob {
 
     @Resource
-    private IDataExtract dataExtract;
+    private List<IDataExtract> dataExtracts;
 
     @Override
-    public void sync() throws Exception {
+    public void sync() {
         LocalDate day = LocalDate.now().minusDays(1);
-        dataExtract.extractData4Day(day);
+        List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
+                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Day(day)))
+                .collect(Collectors.toList());
+        extractFutures.forEach(CompletableFuture::join);
     }
 }

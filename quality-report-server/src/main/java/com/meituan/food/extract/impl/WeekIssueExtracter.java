@@ -8,6 +8,7 @@ import com.meituan.food.extract.IDataExtract;
 import com.meituan.food.mapper.WeekIssuePOMapper;
 import com.meituan.food.po.WeekIssuePO;
 import com.meituan.food.utils.HttpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class WeekIssueExtracter implements IDataExtract {
 
@@ -38,9 +40,15 @@ public class WeekIssueExtracter implements IDataExtract {
 
     @Transactional
     @Override
-    public void extractData4Day(LocalDate day) throws Exception {
+    public void extractData4Day(LocalDate day) {
         String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String encodedRange = URLEncoder.encode(dayStr + " ~ " + dayStr, "utf-8");
+        String encodedRange;
+        try {
+            encodedRange = URLEncoder.encode(dayStr + " ~ " + dayStr, "utf-8");
+        } catch (Exception e) {
+            log.error(" URLEncoder#encode error.", e);
+            throw new RuntimeException("URLEncoder#encode error.", e);
+        }
         List<CompletableFuture<List<WeekIssuePO>>> futures = DEPARTMENTS.stream()
                 .map(deparment -> CATEGORYS.stream().map(category -> MutablePair.of(deparment, category)).collect(Collectors.toList()))
                 .flatMap(Collection::stream)

@@ -16,8 +16,8 @@ public class SyncJob {
     private IJob oneDaySyncJob;
 
     @Crane("sync.job")
-    public void syncOneDay() throws Exception {
-        log.error("job execute at: {}", new Date());
+    public void syncOneDay() {
+        log.error("one day job execute at: {}", new Date());
         oneDaySyncJob.sync();
     }
 }

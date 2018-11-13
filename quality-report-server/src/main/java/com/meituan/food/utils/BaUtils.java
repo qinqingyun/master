@@ -10,10 +10,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-/**
- * @author ryanshi
- * @version 2018/8/23
- */
 public final class BaUtils {
 
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
