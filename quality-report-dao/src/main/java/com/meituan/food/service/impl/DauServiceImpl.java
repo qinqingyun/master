@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DauServiceImpl implements IDauService {
 
     private final static Logger log=LoggerFactory.getLogger(DauServiceImpl.class);
