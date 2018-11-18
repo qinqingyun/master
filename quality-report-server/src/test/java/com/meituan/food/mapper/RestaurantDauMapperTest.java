@@ -25,8 +25,8 @@ public class RestaurantDauMapperTest {
         List<RestaurantDau> lists = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang(
                 CrashRateExtracter.WidgetEnum.DIANPING_IOS.getDauOs(),
                 CrashRateExtracter.WidgetEnum.DIANPING_IOS.getDauPartitionApp(),
-                "2018-11-17",
-                "2018-11-17");
+                "2018-07-18",
+                "2018-07-18");
         log.error("lists: {}", lists);
     }
 }

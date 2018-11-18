@@ -17,7 +17,7 @@ public class SyncJob {
 
     @Crane("sync.job")
     public void syncOneDay() {
-        log.error("one day job execute at: {}", new Date());
+        log.info("one day job execute at: {}", new Date());
         oneDaySyncJob.sync();
     }
 }
