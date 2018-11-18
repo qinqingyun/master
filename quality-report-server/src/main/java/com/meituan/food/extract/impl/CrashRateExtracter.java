@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -66,9 +67,13 @@ public class CrashRateExtracter implements IDataExtract {
                     int int_dau = dau.intValue();
                     crashRatePO.setDau(int_dau);
                     //      crashRatePO.setDau(12);
-                    double crashRate = ((double) arr.getInteger(2) / int_dau) * 100;
-                    crashRate = Double.parseDouble(String.format("%5f", crashRate));
-                    String crashRateStr = crashRate + "%";
+//                    double crashRate = ((double) arr.getInteger(2) / int_dau) * 100;
+                    BigDecimal crashNum=new BigDecimal(arr.getInteger(2));
+                    BigDecimal crashRate = crashNum.divide(new BigDecimal(int_dau));
+                    BigDecimal permillCrashRate = crashRate.movePointRight(3);
+
+                 //   crashRate = Double.parseDouble(String.format("%5f", crashRate));
+                    String crashRateStr = permillCrashRate + "‰";
                     crashRatePO.setCrashRate(crashRateStr);
                     crashRatePO.setStartDate(dayStr);
                     crashRatePO.setEndDate(dayStr);
