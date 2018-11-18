@@ -80,7 +80,7 @@ public class CrashRateExtracter implements IDataExtract {
                 }).collect(Collectors.toList());
     }
 
-    enum WidgetEnum {
+    public enum WidgetEnum {
         MEITUAN_IOS("美团iOS", "widget-93ae6fb8-50db-4eae-bf3f-ff2a014ffe4f", "餐饮北京", "ios", "mt_main_app"),
         MEITUAN_ANDROID("美团Android", "widget-0d28990b-2cd0-4628-8e0a-363dc5f9ba98", "美食频道", "android", "mt_main_app"),
         DIANPING_IOS("点评iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "餐饮(北京)", "ios", "dp_main_app"),
