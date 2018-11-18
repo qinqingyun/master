@@ -83,4 +83,18 @@ public class RestaurantDau {
     private Date createTime;
 
     private Date updateTime;
+
+    @Override
+    public String toString() {
+        return "RestaurantDau{" +
+                "id=" + id +
+                ", cateringDau=" + cateringDau +
+                ", partitionDate='" + partitionDate + '\'' +
+                ", os='" + os + '\'' +
+                ", partitionApp='" + partitionApp + '\'' +
+                ", version='" + version + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }
