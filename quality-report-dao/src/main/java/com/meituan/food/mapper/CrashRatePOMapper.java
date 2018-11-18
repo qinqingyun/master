@@ -87,4 +87,12 @@ public interface CrashRatePOMapper {
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CrashRatePO record);
+
+
+    @Select("select * from crash_rate where plantform=#{plantform} " +
+            "and start_date=#{start_date} " +
+            "and end_date>=#{end_date} " )
+    List<CrashRatePO> getCrashListByOsAndDate(@Param("plantform") String plantform,
+                                                                       @Param("start_date") String start_date,
+                                                                       @Param("end_date") String end_date);
 }

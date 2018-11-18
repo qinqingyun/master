@@ -4,6 +4,7 @@ import com.meituan.food.po.WeekIssuePO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.Date;
 import java.util.List;
 
 public interface WeekIssuePOMapper {
@@ -78,4 +79,13 @@ public interface WeekIssuePOMapper {
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekIssuePO record);
+
+
+
+    @Select("select * from crash_rate where department=#{department} " +
+            "and created_at>=#{start_date} " +
+            "and created_at<=#{end_date} " )
+    List<WeekIssuePO> getIssueListByDepartmentAndDate(@Param("department") String department,
+                                              @Param("start_date") Date start_date,
+                                              @Param("end_date") Date end_date);
 }
