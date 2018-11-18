@@ -10,7 +10,6 @@ import com.meituan.food.service.IDauService;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
-import org.apache.xmlgraphics.util.DoubleFormatUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,14 +61,14 @@ public class CrashRateExtracter implements IDataExtract {
                 .map(arr -> {
                     CrashRatePO crashRatePO = new CrashRatePO();
                     crashRatePO.setCrash(arr.getInteger(2));
-                    crashRatePO.setPlantform(widget.getPlantform());
-                    Long dau=dauService.getWeekDaus(widget.getPlantform(),widget.getPlantfrom_2(),dayStr,dayStr);
-                    int int_dau=dau.intValue();
+                    crashRatePO.setPlantform(widget.getPlatform());
+                    Long dau = dauService.getWeekDaus(widget.getDauOs(), widget.getDauPartitionApp(), dayStr, dayStr);
+                    int int_dau = dau.intValue();
                     crashRatePO.setDau(int_dau);
-              //      crashRatePO.setDau(12);
-                    double crashRate=((double)arr.getInteger(2)/int_dau)*100;
-                    crashRate=Double.parseDouble(String.format("%5f",crashRate));
-                    String crashRateStr=crashRate+"%";
+                    //      crashRatePO.setDau(12);
+                    double crashRate = ((double) arr.getInteger(2) / int_dau) * 100;
+                    crashRate = Double.parseDouble(String.format("%5f", crashRate));
+                    String crashRateStr = crashRate + "%";
                     crashRatePO.setCrashRate(crashRateStr);
                     crashRatePO.setStartDate(dayStr);
                     crashRatePO.setEndDate(dayStr);
@@ -82,39 +81,63 @@ public class CrashRateExtracter implements IDataExtract {
     }
 
     enum WidgetEnum {
-        MEITUAN_IOS("美团iOS","美团", "widget-93ae6fb8-50db-4eae-bf3f-ff2a014ffe4f", "餐饮北京"),
-        MEITUAN_ANDROID("美团Android","美团", "widget-0d28990b-2cd0-4628-8e0a-363dc5f9ba98", "美食频道"),
-        DIANPING_IOS("点评iOS","点评","widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "餐饮(北京)"),
-        DIANPING_ANDROID("点评Android","点评", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "餐饮(北京)");
+        MEITUAN_IOS("美团iOS", "widget-93ae6fb8-50db-4eae-bf3f-ff2a014ffe4f", "餐饮北京", "ios", "mt_main_app"),
+        MEITUAN_ANDROID("美团Android", "widget-0d28990b-2cd0-4628-8e0a-363dc5f9ba98", "美食频道", "android", "mt_main_app"),
+        DIANPING_IOS("点评iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "餐饮(北京)", "ios", "dp_main_app"),
+        DIANPING_ANDROID("点评Android", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "餐饮(北京)", "android", "dp_main_app");
 
-        private String plantform;
-        private String plantfrom_2;
+        private String platform;
         private String widget;
         private String matchField;
+        private String dauOs;
+        private String dauPartitionApp;
 
-
-        WidgetEnum(String plantform, String plantfrom_2, String widget, String matchField) {
-            this.plantform = plantform;
-            this.plantfrom_2=plantfrom_2;
+        WidgetEnum(String platform, String widget, String matchField, String dauOs, String dauPartitionApp) {
+            this.platform = platform;
             this.widget = widget;
             this.matchField = matchField;
+            this.dauOs = dauOs;
+            this.dauPartitionApp = dauPartitionApp;
         }
 
-        public String getPlantform() {
-            return plantform;
+        public String getPlatform() {
+            return platform;
         }
 
-
-        public String getPlantfrom_2() {
-            return plantfrom_2;
+        public void setPlatform(String platform) {
+            this.platform = platform;
         }
 
         public String getWidget() {
             return widget;
         }
 
+        public void setWidget(String widget) {
+            this.widget = widget;
+        }
+
         public String getMatchField() {
             return matchField;
+        }
+
+        public void setMatchField(String matchField) {
+            this.matchField = matchField;
+        }
+
+        public String getDauOs() {
+            return dauOs;
+        }
+
+        public void setDauOs(String dauOs) {
+            this.dauOs = dauOs;
+        }
+
+        public String getDauPartitionApp() {
+            return dauPartitionApp;
+        }
+
+        public void setDauPartitionApp(String dauPartitionApp) {
+            this.dauPartitionApp = dauPartitionApp;
         }
     }
 }
