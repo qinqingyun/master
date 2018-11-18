@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -66,14 +67,11 @@ public class CrashRateExtracter implements IDataExtract {
                     Long dau = dauService.getWeekDaus(widget.getDauOs(), widget.getDauPartitionApp(), dayStr, dayStr);
                     int int_dau = dau.intValue();
                     crashRatePO.setDau(int_dau);
-                    //      crashRatePO.setDau(12);
-//                    double crashRate = ((double) arr.getInteger(2) / int_dau) * 100;
-                    BigDecimal crashNum=new BigDecimal(arr.getInteger(2));
-                    BigDecimal crashRate = crashNum.divide(new BigDecimal(int_dau));
+                    BigDecimal crashNum = new BigDecimal(arr.getInteger(2));
+                    BigDecimal crashRate = crashNum.divide(new BigDecimal(int_dau),8, RoundingMode.HALF_UP);
                     BigDecimal permillCrashRate = crashRate.movePointRight(3);
 
-                 //   crashRate = Double.parseDouble(String.format("%5f", crashRate));
-                    String crashRateStr = permillCrashRate + "‰";
+                    String crashRateStr = permillCrashRate.toPlainString() + "‰";
                     crashRatePO.setCrashRate(crashRateStr);
                     crashRatePO.setStartDate(dayStr);
                     crashRatePO.setEndDate(dayStr);
