@@ -66,7 +66,7 @@ public class CrashRateExtracter implements IDataExtract {
                     Long dau=dauService.getWeekDaus(widget.getPlantform(),widget.getPlantfrom_2(),dayStr,dayStr);
                     int int_dau=dau.intValue();
                     crashRatePO.setDau(int_dau);
-                    crashRatePO.setDau(12);
+              //      crashRatePO.setDau(12);
                     double crashRate=((double)arr.getInteger(2)/int_dau)*100;
                     crashRate=Double.parseDouble(String.format("%5f",crashRate));
                     String crashRateStr=crashRate+"%";
