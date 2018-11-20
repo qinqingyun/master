@@ -90,8 +90,20 @@ public interface CrashRatePOMapper {
 
 
     @Select("select * from crash_rate where plantform=#{plantform} " +
-            "and start_date=#{start_date} " +
-            "and end_date>=#{end_date} " )
+            "and start_date>=#{start_date} " +
+            "and end_date<=#{end_date} " )
+    @Results({
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "crash", property = "crash", jdbcType = JdbcType.INTEGER),
+            @Result(column = "plantform", property = "plantform", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "DAU", property = "dau", jdbcType = JdbcType.INTEGER),
+            @Result(column = "crash_rate", property = "crashRate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "start_date", property = "startDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_date", property = "endDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "show_date_range", property = "showDateRange", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP)
+    })
     List<CrashRatePO> getCrashListByOsAndDate(@Param("plantform") String plantform,
                                                                        @Param("start_date") String start_date,
                                                                        @Param("end_date") String end_date);

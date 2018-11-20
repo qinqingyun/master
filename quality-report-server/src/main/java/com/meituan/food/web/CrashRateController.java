@@ -21,46 +21,46 @@ public class CrashRateController {
     @Resource
     private CrashRatePOMapper crashRatePOMapper;
 
-    @GetMapping("/crash/{plantform}/{startDate}/{endDate}")
-    public CommonResponse<List<CrashVO>> getCrashs(@RequestParam("plantform") String plantform, @RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
+   // @GetMapping("/crash/{platform}/{startDate}/{endDate}")
+    @GetMapping(value = "/crash")
+    public CommonResponse<List<CrashVO>> getCrashs(@RequestParam("platform") String platform, @RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
 
-        List<CrashRatePO> crashListByOsAndDate = crashRatePOMapper.getCrashListByOsAndDate(plantform, startDate, endDate);
+        List<CrashRatePO> crashListByOsAndDate = crashRatePOMapper.getCrashListByOsAndDate(platform, startDate, endDate);
 
         List<CrashVO>  crashVOList=new ArrayList<>();
-        CrashVO crashVO=new CrashVO();
-        for(int i=0;i<crashListByOsAndDate.size();i++){
+        CrashVO crashVO;
 
-            crashVO.setPlantform(crashListByOsAndDate.get(i).getPlantform());
-            crashVO.setStartDate(crashListByOsAndDate.get(i).getStartDate());
-            crashVO.setEndDate(crashListByOsAndDate.get(i).getEndDate());
-            crashVO.setCrash(crashListByOsAndDate.get(i).getCrash());
+        for (CrashRatePO crashRatePO : crashListByOsAndDate) {
+            crashVO=new CrashVO();
+            crashVO.setPlantform(crashRatePO.getPlantform());
+            crashVO.setStartDate(crashRatePO.getStartDate());
+            crashVO.setEndDate(crashRatePO.getEndDate());
+            crashVO.setCrash(crashRatePO.getCrash());
 
             crashVOList.add(crashVO);
         }
+
         if(crashVOList.size()==0){
             return CommonResponse.errorRes("无数据");
         }
         return CommonResponse.successRes("success",crashVOList);
     }
 
-    @GetMapping("/crash_rate/{plantform}/{startDate}/{endDate}")
-    public CommonResponse<List<CrashRateVO>> getCrashRates(@RequestParam("plantfrom") String plantform,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
-        List<CrashRatePO> crashRatePOList=crashRatePOMapper.getCrashListByOsAndDate(plantform,startDate,endDate);
+    //@GetMapping("/crash_rate/{platform}/{startDate}/{endDate}")
+    @GetMapping(value ="/crash_rate")
+    public CommonResponse<List<CrashRateVO>> getCrashRates(@RequestParam("platform") String platform,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
+        List<CrashRatePO> crashRatePOList=crashRatePOMapper.getCrashListByOsAndDate(platform,startDate,endDate);
 
         List<CrashRateVO> crashRateVOList=new ArrayList<>();
-        CrashRateVO crashRateVO=new CrashRateVO();
+        CrashRateVO crashRateVO;
 
         for (CrashRatePO crashRatePO : crashRatePOList) {
-
-        }
-
-
-        for(int i=0;i<crashRatePOList.size();i++){
-            crashRateVO.setPlantform(crashRatePOList.get(i).getPlantform());
-            crashRateVO.setStartDate(crashRatePOList.get(i).getStartDate());
-            crashRateVO.setEndDate(crashRatePOList.get(i).getEndDate());
-            crashRateVO.setCrash(crashRatePOList.get(i).getCrash());
-            crashRateVO.setCrashRate(crashRatePOList.get(i).getCrashRate());
+            crashRateVO=new CrashRateVO();
+            crashRateVO.setPlatform(crashRatePO.getPlantform());
+            crashRateVO.setStartDate(crashRatePO.getStartDate());
+            crashRateVO.setEndDate(crashRatePO.getEndDate());
+            crashRateVO.setCrash(crashRatePO.getCrash());
+            crashRateVO.setCrashRate(crashRatePO.getCrashRate());
 
             crashRateVOList.add(crashRateVO);
         }
@@ -72,7 +72,5 @@ public class CrashRateController {
         return CommonResponse.successRes("success",crashRateVOList);
 
     }
-
-
 
 }

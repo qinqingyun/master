@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CrashRateVO {
 
-    private String plantform;
+    private String platform;
 
     private String startDate;
 
