@@ -67,12 +67,17 @@ public class CrashRateExtracter implements IOneDayDataExtract {
                     Long dau = dauService.getWeekDaus(widget.getDauOs(), widget.getDauPartitionApp(), dayStr, dayStr);
                     int int_dau = dau.intValue();
                     crashRatePO.setDau(int_dau);
-                    BigDecimal crashNum = new BigDecimal(arr.getInteger(2));
-                    BigDecimal crashRate = crashNum.divide(new BigDecimal(int_dau),8, RoundingMode.HALF_UP);
-                    BigDecimal permillCrashRate = crashRate.movePointRight(3);
+                    if (int_dau == 0) {
+                        crashRatePO.setCrashRate("异常");
+                    } else {
+                        BigDecimal crashNum = new BigDecimal(arr.getInteger(2));
+                        BigDecimal crashRate = crashNum.divide(new BigDecimal(int_dau), 8, RoundingMode.HALF_UP);
+                        BigDecimal permillCrashRate = crashRate.movePointRight(3);
 
-                    String crashRateStr = permillCrashRate.toPlainString() + "‰";
-                    crashRatePO.setCrashRate(crashRateStr);
+                        String crashRateStr = permillCrashRate.toPlainString() + "‰";
+                        crashRatePO.setCrashRate(crashRateStr);
+                    }
+
                     crashRatePO.setStartDate(dayStr);
                     crashRatePO.setEndDate(dayStr);
                     crashRatePO.setShowDateRange(dayStr + " ~ " + dayStr);

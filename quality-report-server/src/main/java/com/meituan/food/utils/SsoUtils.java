@@ -9,10 +9,10 @@ import java.util.Collections;
 public final class SsoUtils {
 
     public static String getSsoId() {
-        JSONObject authParams = new JSONObject();
+       /* JSONObject authParams = new JSONObject();
         authParams.put("user", "test_meishi_qa");
         authParams.put("password", "meishi_qa1234");
-        authParams.put("clientId", "com.sankuai.ep.meishi.monthreport");
+        authParams.put("clientId", "com.sankuai.meishi.qa.meishireport");
         authParams.put("deviceType", "mobile");
         authParams.put("loginIp", "10.20.62.107");
         authParams.put("singleDevice", true);
@@ -27,7 +27,9 @@ public final class SsoUtils {
         JSONObject tokenRes = HttpUtils.doGet("http://api.sso-in.sankuai.com/oauth2.0/accessToken?" + tokenParams,
                 JSONObject.class,
                 Collections.emptyMap());
-        return tokenRes.getString("access_token");
+        return tokenRes.getString("access_token");*/
+
+       return "a3e8a0911a*84b069e6b16d2dd1daef4";
     }
 
     private SsoUtils() {

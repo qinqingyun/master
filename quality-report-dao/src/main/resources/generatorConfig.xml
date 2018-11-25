@@ -43,7 +43,10 @@
         <!--<table tableName="crash_rate" domainObjectName="CrashRatePO" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--enableUpdateByExample="false"/>-->
 
-        <table tableName="crash_rate" domainObjectName="CrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="crash_rate" domainObjectName="CrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+
+        <table tableName="issue" domainObjectName="IssuePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
     </context>
 

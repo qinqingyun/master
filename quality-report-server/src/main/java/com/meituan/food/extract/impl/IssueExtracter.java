@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayDataExtract;
-import com.meituan.food.mapper.WeekIssuePOMapper;
-import com.meituan.food.po.WeekIssuePO;
+import com.meituan.food.mapper.IssuePOMapper;
+import com.meituan.food.po.IssuePO;
 import com.meituan.food.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -36,7 +36,7 @@ public class IssueExtracter implements IOneDayDataExtract {
     private static final List<String> CATEGORYS = ImmutableList.of("backend", "app", "extract");
 
     @Resource
-    private WeekIssuePOMapper weekIssuePOMapper;
+    private IssuePOMapper issuePOMapper;
 
     @Transactional
     @Override
@@ -49,22 +49,22 @@ public class IssueExtracter implements IOneDayDataExtract {
             log.error(" URLEncoder#encode error.", e);
             throw new RuntimeException("URLEncoder#encode error.", e);
         }
-        List<CompletableFuture<List<WeekIssuePO>>> futures = DEPARTMENTS.stream()
+        List<CompletableFuture<List<IssuePO>>> futures = DEPARTMENTS.stream()
                 .map(deparment -> CATEGORYS.stream().map(category -> MutablePair.of(deparment, category)).collect(Collectors.toList()))
                 .flatMap(Collection::stream)
-                .map(deparmentCategoryPair -> queryWeekIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, dayStr, encodedRange))
+                .map(deparmentCategoryPair -> queryIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, dayStr, encodedRange))
                 .collect(Collectors.toList());
-        List<WeekIssuePO> weekIssuePOS = futures.stream()
+        List<IssuePO> issuePOS = futures.stream()
                 .map(CompletableFuture::join)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(weekIssuePOS)) {
-            weekIssuePOMapper.batchInsert(weekIssuePOS);
+        if (CollectionUtils.isNotEmpty(issuePOS)) {
+            issuePOMapper.batchInsert(issuePOS);
         }
     }
 
 
-    private CompletableFuture<List<WeekIssuePO>> queryWeekIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String dayStr, String encodedRange) {
+    private CompletableFuture<List<IssuePO>> queryIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String dayStr, String encodedRange) {
         return CompletableFuture.supplyAsync(() -> {
             JSONObject result = HttpUtils.doGet(URL + "?start=" + dayStr + "&end=" + dayStr + "&bg=到店餐饮&department=" + deparmentCategoryPair.getLeft()
                             + "&category=" + deparmentCategoryPair.getRight() + "&range=" + encodedRange,
@@ -75,16 +75,16 @@ public class IssueExtracter implements IOneDayDataExtract {
             return incidents.stream()
                     .map(o -> (JSONObject) o)
                     .map(incident -> {
-                        WeekIssuePO weekIssuePO = new WeekIssuePO();
-                        weekIssuePO.setBrief(incident.getString("brief"));
-                        weekIssuePO.setWiki(incident.getString("wiki"));
-                        weekIssuePO.setType("");
-                        weekIssuePO.setLevel(incident.getString("level"));
-                        weekIssuePO.setDepartment(incident.getString("department"));
+                        IssuePO issuePO = new IssuePO();
+                        issuePO.setBrief(incident.getString("brief"));
+                        issuePO.setWiki(incident.getString("wiki"));
+                        issuePO.setType("");
+                        issuePO.setLevel(incident.getString("level"));
+                        issuePO.setDepartment(incident.getString("department"));
                         Date now = new Date();
-                        weekIssuePO.setCreatedAt(now);
-                        weekIssuePO.setUpdatedAt(now);
-                        return weekIssuePO;
+                        issuePO.setCreatedAt(now);
+                        issuePO.setUpdatedAt(now);
+                        return issuePO;
                     })
                     .collect(Collectors.toList());
         });
