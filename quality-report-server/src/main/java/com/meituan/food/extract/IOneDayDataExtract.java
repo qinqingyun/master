@@ -2,7 +2,7 @@ package com.meituan.food.extract;
 
 import java.time.LocalDate;
 
-public interface IDataExtract {
+public interface IOneDayDataExtract {
 
     void extractData4Day(LocalDate day);
 }

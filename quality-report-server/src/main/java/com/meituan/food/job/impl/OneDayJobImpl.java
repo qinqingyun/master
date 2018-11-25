@@ -1,7 +1,7 @@
 package com.meituan.food.job.impl;
 
-import com.meituan.food.extract.IDataExtract;
-import com.meituan.food.job.IJob;
+import com.meituan.food.extract.IOneDayDataExtract;
+import com.meituan.food.job.IOneDayJob;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -11,10 +11,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
-public class OneDaySyncJob implements IJob {
+public class OneDayJobImpl implements IOneDayJob {
 
     @Resource
-    private List<IDataExtract> dataExtracts;
+    private List<IOneDayDataExtract> dataExtracts;
 
     @Override
     public void sync() {

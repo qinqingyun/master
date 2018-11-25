@@ -1,7 +1,7 @@
 package com.meituan.food.extract.impl;
 
 import com.meituan.food.ApplicationLoader;
-import com.meituan.food.extract.IDataExtract;
+import com.meituan.food.extract.IOneDayDataExtract;
 import groovy.util.logging.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,15 +12,13 @@ import javax.annotation.Resource;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
-
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationLoader.class)
 public class CrashRateExtracterTest {
 
     @Resource(name = "crashRateExtracter")
-    private IDataExtract dataExtract;
+    private IOneDayDataExtract dataExtract;
 
     @Test
     public void extractData4Day() {

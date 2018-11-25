@@ -1,7 +1,7 @@
 package com.meituan.food.extract.impl;
 
 import com.meituan.food.ApplicationLoader;
-import com.meituan.food.extract.IDataExtract;
+import com.meituan.food.extract.IOneDayDataExtract;
 import groovy.util.logging.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,15 +11,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
-
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationLoader.class)
-public class WeekIssueExtracterTest {
+public class IssueExtracterTest {
 
-    @Resource(name = "weekIssueExtracter")
-    private IDataExtract dataExtract;
+    @Resource(name = "issueExtracter")
+    private IOneDayDataExtract dataExtract;
 
     @Test
     public void extractData4Day() throws Exception {

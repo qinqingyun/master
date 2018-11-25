@@ -3,7 +3,7 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
-import com.meituan.food.extract.IDataExtract;
+import com.meituan.food.extract.IOneDayDataExtract;
 import com.meituan.food.mapper.CrashRatePOMapper;
 import com.meituan.food.po.CrashRatePO;
 import com.meituan.food.service.IDauService;
@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
-public class CrashRateExtracter implements IDataExtract {
+public class CrashRateExtracter implements IOneDayDataExtract {
 
     private static final String URL = "https://yuntu.sankuai.com/api/widget/";
 

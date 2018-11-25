@@ -1,6 +1,6 @@
 package com.meituan.food.job;
 
-public interface IJob {
+public interface IOneDayJob {
 
     void sync();
 }

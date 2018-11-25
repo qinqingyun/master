@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.meituan.food.extract.IDataExtract;
+import com.meituan.food.extract.IOneDayDataExtract;
 import com.meituan.food.mapper.WeekIssuePOMapper;
 import com.meituan.food.po.WeekIssuePO;
 import com.meituan.food.utils.HttpUtils;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class WeekIssueExtracter implements IDataExtract {
+public class IssueExtracter implements IOneDayDataExtract {
 
     private static final String URL = "http://issue.sankuai.com/api/incidents";
 
