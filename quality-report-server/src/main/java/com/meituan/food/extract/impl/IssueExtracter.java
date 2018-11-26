@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayDataExtract;
+import com.meituan.food.extract.IOneMonthDataExtract;
 import com.meituan.food.mapper.IssuePOMapper;
 import com.meituan.food.po.IssuePO;
 import com.meituan.food.utils.HttpUtils;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class IssueExtracter implements IOneDayDataExtract {
+public class IssueExtracter implements IOneMonthDataExtract {
 
     private static final String URL = "http://issue.sankuai.com/api/incidents";
 
@@ -40,11 +41,11 @@ public class IssueExtracter implements IOneDayDataExtract {
 
     @Transactional
     @Override
-    public void extractData4Day(LocalDate day) {
-        String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    public void extractData4Month(String firstDay,String lastDay) {
+     //   String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String encodedRange;
         try {
-            encodedRange = URLEncoder.encode(dayStr + " ~ " + dayStr, "utf-8");
+            encodedRange = URLEncoder.encode(firstDay + " ~ " + lastDay, "utf-8");
         } catch (Exception e) {
             log.error(" URLEncoder#encode error.", e);
             throw new RuntimeException("URLEncoder#encode error.", e);
@@ -52,7 +53,7 @@ public class IssueExtracter implements IOneDayDataExtract {
         List<CompletableFuture<List<IssuePO>>> futures = DEPARTMENTS.stream()
                 .map(deparment -> CATEGORYS.stream().map(category -> MutablePair.of(deparment, category)).collect(Collectors.toList()))
                 .flatMap(Collection::stream)
-                .map(deparmentCategoryPair -> queryIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, dayStr, encodedRange))
+                .map(deparmentCategoryPair -> queryIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, firstDay,lastDay, encodedRange))
                 .collect(Collectors.toList());
         List<IssuePO> issuePOS = futures.stream()
                 .map(CompletableFuture::join)
@@ -64,9 +65,9 @@ public class IssueExtracter implements IOneDayDataExtract {
     }
 
 
-    private CompletableFuture<List<IssuePO>> queryIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String dayStr, String encodedRange) {
+    private CompletableFuture<List<IssuePO>> queryIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String firstDay,String lastDay, String encodedRange) {
         return CompletableFuture.supplyAsync(() -> {
-            JSONObject result = HttpUtils.doGet(URL + "?start=" + dayStr + "&end=" + dayStr + "&bg=到店餐饮&department=" + deparmentCategoryPair.getLeft()
+            JSONObject result = HttpUtils.doGet(URL + "?start=" + firstDay + "&end=" + lastDay + "&bg=到店餐饮&department=" + deparmentCategoryPair.getLeft()
                             + "&category=" + deparmentCategoryPair.getRight() + "&range=" + encodedRange,
                     JSONObject.class,
                     ImmutableMap.of("Authorization", "Bearer 9767c6e3488c88135f5032bc6da7339084b1a05b"));
