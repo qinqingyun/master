@@ -18,7 +18,7 @@ public class OneDayJobImpl implements IOneDayJob {
 
     @Override
     public void sync() {
-        LocalDate day = LocalDate.now().minusDays(2);
+        LocalDate day = LocalDate.now().minusDays(1);
         List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Day(day)))
                 .collect(Collectors.toList());
