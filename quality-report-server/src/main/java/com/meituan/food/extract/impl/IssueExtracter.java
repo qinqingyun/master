@@ -79,7 +79,7 @@ public class IssueExtracter implements IOneMonthDataExtract {
                         IssuePO issuePO = new IssuePO();
                         issuePO.setBrief(incident.getString("brief"));
                         issuePO.setWiki(incident.getString("wiki"));
-                        issuePO.setType("");
+                        issuePO.setType(incident.getString("major_type"));
                         issuePO.setLevel(incident.getString("level"));
                         issuePO.setDepartment(incident.getString("department"));
                         Date now = new Date();
