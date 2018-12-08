@@ -56,7 +56,7 @@ public class CrashRateExtracter implements IOneDayDataExtract {
     private List<CrashRatePO> queryCrashRate4EachWidget(String dayStr, String encodedParams, WidgetEnum widget) {
         String url = URL + widget.getWidget() + "/data?params=" + encodedParams;
         JSONObject crashRes = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
-        JSONArray datas = crashRes.getJSONObject("data").getJSONArray("data");
+        JSONArray datas = crashRes.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
         return datas.stream()
                 .map(o -> (JSONArray) o)
                 .filter(arr -> arr.getString(1).equals(widget.getMatchField()))
