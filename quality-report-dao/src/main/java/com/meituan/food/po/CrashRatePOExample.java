@@ -1,5 +1,6 @@
 package com.meituan.food.po;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -752,6 +753,66 @@ public class CrashRatePOExample {
 
         public Criteria andUpdatedAtNotBetween(Date value1, Date value2) {
             addCriterion("updated_at not between", value1, value2, "updatedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateIsNull() {
+            addCriterion("final_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateIsNotNull() {
+            addCriterion("final_rate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateEqualTo(BigDecimal value) {
+            addCriterion("final_rate =", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateNotEqualTo(BigDecimal value) {
+            addCriterion("final_rate <>", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateGreaterThan(BigDecimal value) {
+            addCriterion("final_rate >", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("final_rate >=", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateLessThan(BigDecimal value) {
+            addCriterion("final_rate <", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("final_rate <=", value, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateIn(List<BigDecimal> values) {
+            addCriterion("final_rate in", values, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateNotIn(List<BigDecimal> values) {
+            addCriterion("final_rate not in", values, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("final_rate between", value1, value2, "finalRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinalRateNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("final_rate not between", value1, value2, "finalRate");
             return (Criteria) this;
         }
     }

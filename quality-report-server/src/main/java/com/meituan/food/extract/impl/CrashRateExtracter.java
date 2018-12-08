@@ -76,6 +76,8 @@ public class CrashRateExtracter implements IOneDayDataExtract {
 
                         String crashRateStr = permillCrashRate.toPlainString() + "‰";
                         crashRatePO.setCrashRate(crashRateStr);
+                        crashRatePO.setFinalRate(permillCrashRate);
+
                     }
 
                     crashRatePO.setStartDate(dayStr);

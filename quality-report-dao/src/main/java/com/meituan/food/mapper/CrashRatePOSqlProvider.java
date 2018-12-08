@@ -68,6 +68,10 @@ public class CrashRatePOSqlProvider {
             sql.VALUES("updated_at", "#{updatedAt,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getFinalRate() != null) {
+            sql.VALUES("final_rate", "#{finalRate,jdbcType=DECIMAL}");
+        }
+        
         return sql.toString();
     }
 
@@ -87,6 +91,7 @@ public class CrashRatePOSqlProvider {
         sql.SELECT("show_date_range");
         sql.SELECT("created_at");
         sql.SELECT("updated_at");
+        sql.SELECT("final_rate");
         sql.FROM("crash_rate");
         applyWhere(sql, example, false);
         
@@ -144,6 +149,10 @@ public class CrashRatePOSqlProvider {
             sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getFinalRate() != null) {
+            sql.SET("final_rate = #{record.finalRate,jdbcType=DECIMAL}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -162,6 +171,7 @@ public class CrashRatePOSqlProvider {
         sql.SET("show_date_range = #{record.showDateRange,jdbcType=VARCHAR}");
         sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
+        sql.SET("final_rate = #{record.finalRate,jdbcType=DECIMAL}");
         
         CrashRatePOExample example = (CrashRatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -206,6 +216,10 @@ public class CrashRatePOSqlProvider {
         
         if (record.getUpdatedAt() != null) {
             sql.SET("updated_at = #{updatedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getFinalRate() != null) {
+            sql.SET("final_rate = #{finalRate,jdbcType=DECIMAL}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

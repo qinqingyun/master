@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CrashRatePO implements Serializable {
@@ -23,6 +24,8 @@ public class CrashRatePO implements Serializable {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private BigDecimal finalRate;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,6 +109,14 @@ public class CrashRatePO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public BigDecimal getFinalRate() {
+        return finalRate;
+    }
+
+    public void setFinalRate(BigDecimal finalRate) {
+        this.finalRate = finalRate;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +138,8 @@ public class CrashRatePO implements Serializable {
             && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
             && (this.getShowDateRange() == null ? other.getShowDateRange() == null : this.getShowDateRange().equals(other.getShowDateRange()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
-            && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()));
+            && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
+            && (this.getFinalRate() == null ? other.getFinalRate() == null : this.getFinalRate().equals(other.getFinalRate()));
     }
 
     @Override
@@ -144,6 +156,7 @@ public class CrashRatePO implements Serializable {
         result = prime * result + ((getShowDateRange() == null) ? 0 : getShowDateRange().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
+        result = prime * result + ((getFinalRate() == null) ? 0 : getFinalRate().hashCode());
         return result;
     }
 
@@ -163,6 +176,7 @@ public class CrashRatePO implements Serializable {
         sb.append(", showDateRange=").append(showDateRange);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", finalRate=").append(finalRate);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

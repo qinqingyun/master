@@ -34,12 +34,14 @@ public interface CrashRatePOMapper {
         "plantform, DAU, ",
         "crash_rate, start_date, ",
         "end_date, show_date_range, ",
-        "created_at, updated_at)",
+        "created_at, updated_at, ",
+        "final_rate)",
         "values (#{id,jdbcType=INTEGER}, #{crash,jdbcType=INTEGER}, ",
         "#{plantform,jdbcType=VARCHAR}, #{dau,jdbcType=INTEGER}, ",
         "#{crashRate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
         "#{endDate,jdbcType=VARCHAR}, #{showDateRange,jdbcType=VARCHAR}, ",
-        "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})"
+        "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
+        "#{finalRate,jdbcType=DECIMAL})"
     })
     int insert(CrashRatePO record);
 
@@ -57,14 +59,15 @@ public interface CrashRatePOMapper {
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
     })
     List<CrashRatePO> selectByExample(CrashRatePOExample example);
 
     @Select({
         "select",
         "id, crash, plantform, DAU, crash_rate, start_date, end_date, show_date_range, ",
-        "created_at, updated_at",
+        "created_at, updated_at, final_rate",
         "from crash_rate",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -78,7 +81,8 @@ public interface CrashRatePOMapper {
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
     })
     CrashRatePO selectByPrimaryKey(Integer id);
 
@@ -101,14 +105,13 @@ public interface CrashRatePOMapper {
           "end_date = #{endDate,jdbcType=VARCHAR},",
           "show_date_range = #{showDateRange,jdbcType=VARCHAR},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
-          "updated_at = #{updatedAt,jdbcType=TIMESTAMP}",
+          "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
+          "final_rate = #{finalRate,jdbcType=DECIMAL}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CrashRatePO record);
 
-    @Select("select * from crash_rate where plantform=#{plantform} " +
-            "and start_date>=#{start_date} " +
-            "and end_date<=#{end_date} " )
+
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
             @Result(column = "crash", property = "crash", jdbcType = JdbcType.INTEGER),
@@ -119,7 +122,9 @@ public interface CrashRatePOMapper {
             @Result(column = "end_date", property = "endDate", jdbcType = JdbcType.VARCHAR),
             @Result(column = "show_date_range", property = "showDateRange", jdbcType = JdbcType.VARCHAR),
             @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP)
+            @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+
     })
     List<CrashRatePO> getCrashListByOsAndDate(@Param("plantform") String plantform,
                                               @Param("start_date") String start_date,
@@ -139,7 +144,8 @@ public interface CrashRatePOMapper {
             "#{item.plantform,jdbcType=VARCHAR}, #{item.dau,jdbcType=INTEGER}, ",
             "#{item.crashRate,jdbcType=VARCHAR}, #{item.startDate,jdbcType=VARCHAR}, ",
             "#{item.endDate,jdbcType=VARCHAR}, #{item.showDateRange,jdbcType=VARCHAR}, ",
-            "#{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedAt,jdbcType=TIMESTAMP})",
+            "#{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedAt,jdbcType=TIMESTAMP},",
+            "#{finalRate,jdbcType=DECIMAL})",
             "</foreach>",
             "</script>"
     })
