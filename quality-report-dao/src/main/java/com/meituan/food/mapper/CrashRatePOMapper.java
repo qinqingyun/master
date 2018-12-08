@@ -146,7 +146,7 @@ public interface CrashRatePOMapper {
             "#{item.crashRate,jdbcType=VARCHAR}, #{item.startDate,jdbcType=VARCHAR}, ",
             "#{item.endDate,jdbcType=VARCHAR}, #{item.showDateRange,jdbcType=VARCHAR}, ",
             "#{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedAt,jdbcType=TIMESTAMP},",
-            "#{finalRate,jdbcType=DECIMAL})",
+            "#{item.finalRate,jdbcType=DECIMAL})",
             "</foreach>",
             "</script>"
     })
