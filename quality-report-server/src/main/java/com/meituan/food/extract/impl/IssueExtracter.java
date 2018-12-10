@@ -40,8 +40,8 @@ public class IssueExtracter implements IOneMonthDataExtract {
 
     @Transactional
     @Override
-    public void extractData4Month(String firstDay,String lastDay) {
-     //   String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    public void extractData4Month(String firstDay, String lastDay) {
+        //   String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String encodedRange;
         try {
             encodedRange = URLEncoder.encode(firstDay + " ~ " + lastDay, "utf-8");
@@ -52,7 +52,7 @@ public class IssueExtracter implements IOneMonthDataExtract {
         List<CompletableFuture<List<IssuePO>>> futures = DEPARTMENTS.stream()
                 .map(deparment -> CATEGORYS.stream().map(category -> MutablePair.of(deparment, category)).collect(Collectors.toList()))
                 .flatMap(Collection::stream)
-                .map(deparmentCategoryPair -> queryIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, firstDay,lastDay, encodedRange))
+                .map(deparmentCategoryPair -> queryIssue4EachDeparmentCategoryGroup(deparmentCategoryPair, firstDay, lastDay, encodedRange))
                 .collect(Collectors.toList());
         List<IssuePO> issuePOS = futures.stream()
                 .map(CompletableFuture::join)
@@ -64,7 +64,7 @@ public class IssueExtracter implements IOneMonthDataExtract {
     }
 
 
-    private CompletableFuture<List<IssuePO>> queryIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String firstDay,String lastDay, String encodedRange) {
+    private CompletableFuture<List<IssuePO>> queryIssue4EachDeparmentCategoryGroup(Pair<String, String> deparmentCategoryPair, String firstDay, String lastDay, String encodedRange) {
         return CompletableFuture.supplyAsync(() -> {
             JSONObject result = HttpUtils.doGet(URL + "?start=" + firstDay + "&end=" + lastDay + "&bg=到店餐饮&department=" + deparmentCategoryPair.getLeft()
                             + "&category=" + deparmentCategoryPair.getRight() + "&range=" + encodedRange,

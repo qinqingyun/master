@@ -24,9 +24,9 @@ import java.util.List;
 @Slf4j
 @Order(2)
 @Component
-public class BugExtracter  implements IOneMonthDataExtract {
+public class BugExtracter implements IOneMonthDataExtract {
 
-    private static final String URL="https://yuntu.sankuai.com/api/metrics/bug/reports";
+    private static final String URL = "https://yuntu.sankuai.com/api/metrics/bug/reports";
 
     @Resource
     private LeakRatePOMapper leakRatePOMapper;
@@ -37,24 +37,24 @@ public class BugExtracter  implements IOneMonthDataExtract {
     @Override
     public void extractData4Month(String firstDay, String lastDay) {
 
-        String url=URL+"?businessGroupId=100047&statType=statByAssignee&horValue=org_name&verValue=severity_name&timeDimension=created&startDate="+firstDay+"&endDate="+lastDay;
+        String url = URL + "?businessGroupId=100047&statType=statByAssignee&horValue=org_name&verValue=severity_name&timeDimension=created&startDate=" + firstDay + "&endDate=" + lastDay;
 
-        LeakRatePO leakRatePO=new LeakRatePO();
+        LeakRatePO leakRatePO = new LeakRatePO();
 
-        JSONObject result=HttpUtils.doGet(url,JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject result = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
 
-        JSONArray bugArray=result.getJSONArray("data");
+        JSONArray bugArray = result.getJSONArray("data");
 
-        int total=0;
+        int total = 0;
 
-        for(int i=1;i<bugArray.size();i++){
-            total=total+((JSONArray)bugArray.get(i)).getInteger(2);
+        for (int i = 1; i < bugArray.size(); i++) {
+            total = total + ((JSONArray) bugArray.get(i)).getInteger(2);
         }
 
-        List<IssuePO> issuePOS=new ArrayList<>();
-        issuePOS=issuePOMapper.selectByMonth(firstDay);
+        List<IssuePO> issuePOS = new ArrayList<>();
+        issuePOS = issuePOMapper.selectByMonth(firstDay);
 
-        if(total!=0){
+        if (total != 0) {
             leakRatePO.setIssueNum(issuePOS.size());
             leakRatePO.setBugNum(total);
 
@@ -63,19 +63,19 @@ public class BugExtracter  implements IOneMonthDataExtract {
             BigDecimal perCentLeakRate = leakRate.movePointRight(2);
 
             leakRatePO.setLeakTestRate(perCentLeakRate);
-            String issueMonth=firstDay.substring(0,firstDay.indexOf("-",firstDay.indexOf("-")+1));
+            String issueMonth = firstDay.substring(0, firstDay.indexOf("-", firstDay.indexOf("-") + 1));
             leakRatePO.setMonth(issueMonth);
             Date now = new Date();
             leakRatePO.setCreatedAt(now);
             leakRatePO.setUpdatedAt(now);
-        }else {
+        } else {
             leakRatePO.setIssueNum(issuePOS.size());
             leakRatePO.setBugNum(total);
 
-            BigDecimal rate=new BigDecimal(0);
+            BigDecimal rate = new BigDecimal(0);
 
             leakRatePO.setLeakTestRate(rate);
-            String issueMonth=firstDay.substring(0,firstDay.indexOf("-",firstDay.indexOf("-")+1));
+            String issueMonth = firstDay.substring(0, firstDay.indexOf("-", firstDay.indexOf("-") + 1));
             leakRatePO.setMonth(issueMonth);
             Date now = new Date();
             leakRatePO.setCreatedAt(now);

@@ -2,7 +2,9 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.CrashRatePO;
 import com.meituan.food.po.CrashRatePOExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -17,97 +19,97 @@ import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
 public interface CrashRatePOMapper {
-    @SelectProvider(type=CrashRatePOSqlProvider.class, method="countByExample")
+    @SelectProvider(type = CrashRatePOSqlProvider.class, method = "countByExample")
     long countByExample(CrashRatePOExample example);
 
-    @DeleteProvider(type=CrashRatePOSqlProvider.class, method="deleteByExample")
+    @DeleteProvider(type = CrashRatePOSqlProvider.class, method = "deleteByExample")
     int deleteByExample(CrashRatePOExample example);
 
     @Delete({
-        "delete from crash_rate",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from crash_rate",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into crash_rate (id, crash, ",
-        "plantform, DAU, ",
-        "crash_rate, start_date, ",
-        "end_date, show_date_range, ",
-        "created_at, updated_at, ",
-        "final_rate)",
-        "values (#{id,jdbcType=INTEGER}, #{crash,jdbcType=INTEGER}, ",
-        "#{plantform,jdbcType=VARCHAR}, #{dau,jdbcType=INTEGER}, ",
-        "#{crashRate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
-        "#{endDate,jdbcType=VARCHAR}, #{showDateRange,jdbcType=VARCHAR}, ",
-        "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
-        "#{finalRate,jdbcType=DECIMAL})"
+            "insert into crash_rate (id, crash, ",
+            "plantform, DAU, ",
+            "crash_rate, start_date, ",
+            "end_date, show_date_range, ",
+            "created_at, updated_at, ",
+            "final_rate)",
+            "values (#{id,jdbcType=INTEGER}, #{crash,jdbcType=INTEGER}, ",
+            "#{plantform,jdbcType=VARCHAR}, #{dau,jdbcType=INTEGER}, ",
+            "#{crashRate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
+            "#{endDate,jdbcType=VARCHAR}, #{showDateRange,jdbcType=VARCHAR}, ",
+            "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
+            "#{finalRate,jdbcType=DECIMAL})"
     })
     int insert(CrashRatePO record);
 
-    @InsertProvider(type=CrashRatePOSqlProvider.class, method="insertSelective")
+    @InsertProvider(type = CrashRatePOSqlProvider.class, method = "insertSelective")
     int insertSelective(CrashRatePO record);
 
-    @SelectProvider(type=CrashRatePOSqlProvider.class, method="selectByExample")
+    @SelectProvider(type = CrashRatePOSqlProvider.class, method = "selectByExample")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="crash", property="crash", jdbcType=JdbcType.INTEGER),
-        @Result(column="plantform", property="plantform", jdbcType=JdbcType.VARCHAR),
-        @Result(column="DAU", property="dau", jdbcType=JdbcType.INTEGER),
-        @Result(column="crash_rate", property="crashRate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
-        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "crash", property = "crash", jdbcType = JdbcType.INTEGER),
+            @Result(column = "plantform", property = "plantform", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "DAU", property = "dau", jdbcType = JdbcType.INTEGER),
+            @Result(column = "crash_rate", property = "crashRate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "start_date", property = "startDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_date", property = "endDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "show_date_range", property = "showDateRange", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "final_rate", property = "finalRate", jdbcType = JdbcType.DECIMAL)
     })
     List<CrashRatePO> selectByExample(CrashRatePOExample example);
 
     @Select({
-        "select",
-        "id, crash, plantform, DAU, crash_rate, start_date, end_date, show_date_range, ",
-        "created_at, updated_at, final_rate",
-        "from crash_rate",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, crash, plantform, DAU, crash_rate, start_date, end_date, show_date_range, ",
+            "created_at, updated_at, final_rate",
+            "from crash_rate",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="crash", property="crash", jdbcType=JdbcType.INTEGER),
-        @Result(column="plantform", property="plantform", jdbcType=JdbcType.VARCHAR),
-        @Result(column="DAU", property="dau", jdbcType=JdbcType.INTEGER),
-        @Result(column="crash_rate", property="crashRate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
-        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "crash", property = "crash", jdbcType = JdbcType.INTEGER),
+            @Result(column = "plantform", property = "plantform", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "DAU", property = "dau", jdbcType = JdbcType.INTEGER),
+            @Result(column = "crash_rate", property = "crashRate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "start_date", property = "startDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_date", property = "endDate", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "show_date_range", property = "showDateRange", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "final_rate", property = "finalRate", jdbcType = JdbcType.DECIMAL)
     })
     CrashRatePO selectByPrimaryKey(Integer id);
 
-    @UpdateProvider(type=CrashRatePOSqlProvider.class, method="updateByExampleSelective")
+    @UpdateProvider(type = CrashRatePOSqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CrashRatePO record, @Param("example") CrashRatePOExample example);
 
-    @UpdateProvider(type=CrashRatePOSqlProvider.class, method="updateByExample")
+    @UpdateProvider(type = CrashRatePOSqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") CrashRatePO record, @Param("example") CrashRatePOExample example);
 
-    @UpdateProvider(type=CrashRatePOSqlProvider.class, method="updateByPrimaryKeySelective")
+    @UpdateProvider(type = CrashRatePOSqlProvider.class, method = "updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective(CrashRatePO record);
 
     @Update({
-        "update crash_rate",
-        "set crash = #{crash,jdbcType=INTEGER},",
-          "plantform = #{plantform,jdbcType=VARCHAR},",
-          "DAU = #{dau,jdbcType=INTEGER},",
-          "crash_rate = #{crashRate,jdbcType=VARCHAR},",
-          "start_date = #{startDate,jdbcType=VARCHAR},",
-          "end_date = #{endDate,jdbcType=VARCHAR},",
-          "show_date_range = #{showDateRange,jdbcType=VARCHAR},",
-          "created_at = #{createdAt,jdbcType=TIMESTAMP},",
-          "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
-          "final_rate = #{finalRate,jdbcType=DECIMAL}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update crash_rate",
+            "set crash = #{crash,jdbcType=INTEGER},",
+            "plantform = #{plantform,jdbcType=VARCHAR},",
+            "DAU = #{dau,jdbcType=INTEGER},",
+            "crash_rate = #{crashRate,jdbcType=VARCHAR},",
+            "start_date = #{startDate,jdbcType=VARCHAR},",
+            "end_date = #{endDate,jdbcType=VARCHAR},",
+            "show_date_range = #{showDateRange,jdbcType=VARCHAR},",
+            "created_at = #{createdAt,jdbcType=TIMESTAMP},",
+            "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
+            "final_rate = #{finalRate,jdbcType=DECIMAL}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CrashRatePO record);
 
@@ -123,7 +125,7 @@ public interface CrashRatePOMapper {
             @Result(column = "show_date_range", property = "showDateRange", jdbcType = JdbcType.VARCHAR),
             @Result(column = "created_at", property = "createdAt", jdbcType = JdbcType.TIMESTAMP),
             @Result(column = "updated_at", property = "updatedAt", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+            @Result(column = "final_rate", property = "finalRate", jdbcType = JdbcType.DECIMAL)
 
     })
     List<CrashRatePO> getCrashListByOsAndDate(@Param("plantform") String plantform,
