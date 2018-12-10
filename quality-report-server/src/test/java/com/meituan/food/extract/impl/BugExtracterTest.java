@@ -22,6 +22,6 @@ public class BugExtracterTest {
 
     @Test
     public void extractData4Month() {
-        iOneMonthDataExtract.extractData4Month("2018-11-01", "2018-11-30");
+        iOneMonthDataExtract.extractData4Month("2019-11-01", "2019-11-30");
     }
 }

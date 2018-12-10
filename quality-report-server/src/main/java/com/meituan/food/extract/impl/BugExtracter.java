@@ -68,6 +68,18 @@ public class BugExtracter  implements IOneMonthDataExtract {
             Date now = new Date();
             leakRatePO.setCreatedAt(now);
             leakRatePO.setUpdatedAt(now);
+        }else {
+            leakRatePO.setIssueNum(issuePOS.size());
+            leakRatePO.setBugNum(total);
+
+            BigDecimal rate=new BigDecimal(0);
+
+            leakRatePO.setLeakTestRate(rate);
+            String issueMonth=firstDay.substring(0,firstDay.indexOf("-",firstDay.indexOf("-")+1));
+            leakRatePO.setMonth(issueMonth);
+            Date now = new Date();
+            leakRatePO.setCreatedAt(now);
+            leakRatePO.setUpdatedAt(now);
         }
 
         leakRatePOMapper.insert(leakRatePO);
