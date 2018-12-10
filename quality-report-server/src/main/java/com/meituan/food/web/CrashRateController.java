@@ -3,6 +3,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.mapper.CrashRatePOMapper;
 import com.meituan.food.po.CrashRatePO;
+import com.meituan.food.service.IDauService;
 import com.meituan.food.web.vo.CommonResponse;
 import com.meituan.food.web.vo.CrashRateVO;
 import com.meituan.food.web.vo.CrashVO;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -20,6 +23,9 @@ public class CrashRateController {
 
     @Resource
     private CrashRatePOMapper crashRatePOMapper;
+
+    @Resource
+    private IDauService dauService;
 
    // @GetMapping("/crash/{platform}/{startDate}/{endDate}")
     @GetMapping(value = "/crash")
@@ -71,6 +77,18 @@ public class CrashRateController {
 
         return CommonResponse.successRes("success",crashRateVOList);
 
+    }
+
+    @GetMapping(value = "/dau")
+    public long getDau(@RequestParam("os") String os,@RequestParam("platform") String platform,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
+
+
+        Map<String,String> platformMap=new HashMap<String, String>();
+        platformMap.put("美团","mt_main_app");
+        platformMap.put("点评","dp_main_app");
+
+
+        return  dauService.getWeekDaus(os,platformMap.get(platform),startDate,endDate);
     }
 
 }
