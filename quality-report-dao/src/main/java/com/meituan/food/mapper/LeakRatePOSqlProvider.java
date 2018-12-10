@@ -1,55 +1,51 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.IssuePO;
-import com.meituan.food.po.IssuePOExample.Criteria;
-import com.meituan.food.po.IssuePOExample.Criterion;
-import com.meituan.food.po.IssuePOExample;
+import com.meituan.food.po.LeakRatePO;
+import com.meituan.food.po.LeakRatePOExample.Criteria;
+import com.meituan.food.po.LeakRatePOExample.Criterion;
+import com.meituan.food.po.LeakRatePOExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class IssuePOSqlProvider {
+public class LeakRatePOSqlProvider {
 
-    public String countByExample(IssuePOExample example) {
+    public String countByExample(LeakRatePOExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("issue");
+        sql.SELECT("count(*)").FROM("leak_rate");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(IssuePOExample example) {
+    public String deleteByExample(LeakRatePOExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("issue");
+        sql.DELETE_FROM("leak_rate");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(IssuePO record) {
+    public String insertSelective(LeakRatePO record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("issue");
+        sql.INSERT_INTO("leak_rate");
         
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getBrief() != null) {
-            sql.VALUES("brief", "#{brief,jdbcType=VARCHAR}");
+        if (record.getIssueNum() != null) {
+            sql.VALUES("issue_num", "#{issueNum,jdbcType=INTEGER}");
         }
         
-        if (record.getLevel() != null) {
-            sql.VALUES("level", "#{level,jdbcType=VARCHAR}");
+        if (record.getBugNum() != null) {
+            sql.VALUES("bug_num", "#{bugNum,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.VALUES("department", "#{department,jdbcType=VARCHAR}");
+        if (record.getLeakTestRate() != null) {
+            sql.VALUES("leak_test_rate", "#{leakTestRate,jdbcType=DECIMAL}");
         }
         
-        if (record.getType() != null) {
-            sql.VALUES("type", "#{type,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getWiki() != null) {
-            sql.VALUES("wiki", "#{wiki,jdbcType=VARCHAR}");
+        if (record.getMonth() != null) {
+            sql.VALUES("month", "#{month,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedAt() != null) {
@@ -60,29 +56,23 @@ public class IssuePOSqlProvider {
             sql.VALUES("updated_at", "#{updatedAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getOccurMonth() != null) {
-            sql.VALUES("occur_month", "#{occurMonth,jdbcType=VARCHAR}");
-        }
-        
         return sql.toString();
     }
 
-    public String selectByExample(IssuePOExample example) {
+    public String selectByExample(LeakRatePOExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("brief");
-        sql.SELECT("level");
-        sql.SELECT("department");
-        sql.SELECT("type");
-        sql.SELECT("wiki");
+        sql.SELECT("issue_num");
+        sql.SELECT("bug_num");
+        sql.SELECT("leak_test_rate");
+        sql.SELECT("month");
         sql.SELECT("created_at");
         sql.SELECT("updated_at");
-        sql.SELECT("occur_month");
-        sql.FROM("issue");
+        sql.FROM("leak_rate");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -93,34 +83,30 @@ public class IssuePOSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        IssuePO record = (IssuePO) parameter.get("record");
-        IssuePOExample example = (IssuePOExample) parameter.get("example");
+        LeakRatePO record = (LeakRatePO) parameter.get("record");
+        LeakRatePOExample example = (LeakRatePOExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("issue");
+        sql.UPDATE("leak_rate");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getBrief() != null) {
-            sql.SET("brief = #{record.brief,jdbcType=VARCHAR}");
+        if (record.getIssueNum() != null) {
+            sql.SET("issue_num = #{record.issueNum,jdbcType=INTEGER}");
         }
         
-        if (record.getLevel() != null) {
-            sql.SET("level = #{record.level,jdbcType=VARCHAR}");
+        if (record.getBugNum() != null) {
+            sql.SET("bug_num = #{record.bugNum,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.SET("department = #{record.department,jdbcType=VARCHAR}");
+        if (record.getLeakTestRate() != null) {
+            sql.SET("leak_test_rate = #{record.leakTestRate,jdbcType=DECIMAL}");
         }
         
-        if (record.getType() != null) {
-            sql.SET("type = #{record.type,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getWiki() != null) {
-            sql.SET("wiki = #{record.wiki,jdbcType=VARCHAR}");
+        if (record.getMonth() != null) {
+            sql.SET("month = #{record.month,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedAt() != null) {
@@ -131,55 +117,45 @@ public class IssuePOSqlProvider {
             sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getOccurMonth() != null) {
-            sql.SET("occur_month = #{record.occurMonth,jdbcType=VARCHAR}");
-        }
-        
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("issue");
+        sql.UPDATE("leak_rate");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("brief = #{record.brief,jdbcType=VARCHAR}");
-        sql.SET("level = #{record.level,jdbcType=VARCHAR}");
-        sql.SET("department = #{record.department,jdbcType=VARCHAR}");
-        sql.SET("type = #{record.type,jdbcType=VARCHAR}");
-        sql.SET("wiki = #{record.wiki,jdbcType=VARCHAR}");
+        sql.SET("issue_num = #{record.issueNum,jdbcType=INTEGER}");
+        sql.SET("bug_num = #{record.bugNum,jdbcType=INTEGER}");
+        sql.SET("leak_test_rate = #{record.leakTestRate,jdbcType=DECIMAL}");
+        sql.SET("month = #{record.month,jdbcType=VARCHAR}");
         sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
-        sql.SET("occur_month = #{record.occurMonth,jdbcType=VARCHAR}");
         
-        IssuePOExample example = (IssuePOExample) parameter.get("example");
+        LeakRatePOExample example = (LeakRatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(IssuePO record) {
+    public String updateByPrimaryKeySelective(LeakRatePO record) {
         SQL sql = new SQL();
-        sql.UPDATE("issue");
+        sql.UPDATE("leak_rate");
         
-        if (record.getBrief() != null) {
-            sql.SET("brief = #{brief,jdbcType=VARCHAR}");
+        if (record.getIssueNum() != null) {
+            sql.SET("issue_num = #{issueNum,jdbcType=INTEGER}");
         }
         
-        if (record.getLevel() != null) {
-            sql.SET("level = #{level,jdbcType=VARCHAR}");
+        if (record.getBugNum() != null) {
+            sql.SET("bug_num = #{bugNum,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.SET("department = #{department,jdbcType=VARCHAR}");
+        if (record.getLeakTestRate() != null) {
+            sql.SET("leak_test_rate = #{leakTestRate,jdbcType=DECIMAL}");
         }
         
-        if (record.getType() != null) {
-            sql.SET("type = #{type,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getWiki() != null) {
-            sql.SET("wiki = #{wiki,jdbcType=VARCHAR}");
+        if (record.getMonth() != null) {
+            sql.SET("month = #{month,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedAt() != null) {
@@ -190,16 +166,12 @@ public class IssuePOSqlProvider {
             sql.SET("updated_at = #{updatedAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getOccurMonth() != null) {
-            sql.SET("occur_month = #{occurMonth,jdbcType=VARCHAR}");
-        }
-        
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, IssuePOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, LeakRatePOExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

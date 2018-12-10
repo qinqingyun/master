@@ -33,7 +33,7 @@ public final class HttpUtils {
 
     private static final HttpClient HTTP_CLIENT = HttpClients.createDefault();
 
-    private static final int DEFAULT_SOCKET_TIMEOUT = 5 * 1000;
+    private static final int DEFAULT_SOCKET_TIMEOUT = 10 * 1000;
 
     private static final int DEFAULT_CONNECTION_TIMEOUT = 2 * 1000;
 

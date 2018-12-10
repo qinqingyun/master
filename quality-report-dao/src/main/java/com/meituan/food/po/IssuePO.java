@@ -20,6 +20,8 @@ public class IssuePO implements Serializable {
 
     private Date updatedAt;
 
+    private String occurMonth;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -86,6 +88,14 @@ public class IssuePO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public String getOccurMonth() {
+        return occurMonth;
+    }
+
+    public void setOccurMonth(String occurMonth) {
+        this.occurMonth = occurMonth == null ? null : occurMonth.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -105,7 +115,8 @@ public class IssuePO implements Serializable {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getWiki() == null ? other.getWiki() == null : this.getWiki().equals(other.getWiki()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
-            && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()));
+            && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
+            && (this.getOccurMonth() == null ? other.getOccurMonth() == null : this.getOccurMonth().equals(other.getOccurMonth()));
     }
 
     @Override
@@ -120,6 +131,7 @@ public class IssuePO implements Serializable {
         result = prime * result + ((getWiki() == null) ? 0 : getWiki().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
+        result = prime * result + ((getOccurMonth() == null) ? 0 : getOccurMonth().hashCode());
         return result;
     }
 
@@ -137,6 +149,7 @@ public class IssuePO implements Serializable {
         sb.append(", wiki=").append(wiki);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
+        sb.append(", occurMonth=").append(occurMonth);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

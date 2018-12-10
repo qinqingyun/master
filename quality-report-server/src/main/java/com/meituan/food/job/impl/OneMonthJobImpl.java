@@ -26,23 +26,25 @@ public class OneMonthJobImpl implements IOneMonthJob {
     @Override
     public void sync() {
 //        LocalDate day = LocalDate.now().minusMonths(1);
-      /// Calendar lastDay=Calendar.getInstance();
+        /// Calendar lastDay=Calendar.getInstance();
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal_1=Calendar.getInstance();
+        Calendar cal_1 = Calendar.getInstance();
         cal_1.add(Calendar.MONTH, -1);
-        cal_1.set(Calendar.DAY_OF_MONTH,1);
+        cal_1.set(Calendar.DAY_OF_MONTH, 1);
         firstDay = format.format(cal_1.getTime());
 
         Calendar cale = Calendar.getInstance();
-        cale.set(Calendar.DAY_OF_MONTH,0);
+        cale.set(Calendar.DAY_OF_MONTH, 0);
         lastDay = format.format(cale.getTime());
 
 
-        List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
-                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Month(firstDay,lastDay)))
-                .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);
+        dataExtracts.forEach(dataExtract -> dataExtract.extractData4Month(firstDay, lastDay));
+
+//        List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
+//                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Month(firstDay,lastDay)))
+//                .collect(Collectors.toList());
+//        extractFutures.forEach(CompletableFuture::join);
     }
 
 }

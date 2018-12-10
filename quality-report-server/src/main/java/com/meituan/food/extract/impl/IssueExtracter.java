@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.meituan.food.extract.IOneDayDataExtract;
 import com.meituan.food.extract.IOneMonthDataExtract;
 import com.meituan.food.mapper.IssuePOMapper;
 import com.meituan.food.po.IssuePO;
@@ -13,13 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.net.URLEncoder;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Order(1)
 @Component
 public class IssueExtracter implements IOneMonthDataExtract {
 
@@ -85,9 +84,12 @@ public class IssueExtracter implements IOneMonthDataExtract {
                         Date now = new Date();
                         issuePO.setCreatedAt(now);
                         issuePO.setUpdatedAt(now);
+                        issuePO.setOccurMonth(firstDay);
                         return issuePO;
                     })
                     .collect(Collectors.toList());
         });
+
+
     }
 }
