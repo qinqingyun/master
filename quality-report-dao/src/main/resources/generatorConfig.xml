@@ -48,7 +48,10 @@
 
         <!--<table tableName="issue" domainObjectName="IssuePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
-        <table tableName="leak_rate" domainObjectName="LeakRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="leak_rate" domainObjectName="LeakRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+
+        <table tableName="sonar" domainObjectName="SonarPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
     </context>
 
