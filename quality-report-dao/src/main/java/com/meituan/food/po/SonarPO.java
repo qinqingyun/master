@@ -24,6 +24,8 @@ public class SonarPO implements Serializable {
 
     private String sonarDate;
 
+    private Integer groupCount;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -106,6 +108,14 @@ public class SonarPO implements Serializable {
         this.sonarDate = sonarDate == null ? null : sonarDate.trim();
     }
 
+    public Integer getGroupCount() {
+        return groupCount;
+    }
+
+    public void setGroupCount(Integer groupCount) {
+        this.groupCount = groupCount;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +137,8 @@ public class SonarPO implements Serializable {
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
             && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
             && (this.getLink() == null ? other.getLink() == null : this.getLink().equals(other.getLink()))
-            && (this.getSonarDate() == null ? other.getSonarDate() == null : this.getSonarDate().equals(other.getSonarDate()));
+            && (this.getSonarDate() == null ? other.getSonarDate() == null : this.getSonarDate().equals(other.getSonarDate()))
+            && (this.getGroupCount() == null ? other.getGroupCount() == null : this.getGroupCount().equals(other.getGroupCount()));
     }
 
     @Override
@@ -144,6 +155,7 @@ public class SonarPO implements Serializable {
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
         result = prime * result + ((getLink() == null) ? 0 : getLink().hashCode());
         result = prime * result + ((getSonarDate() == null) ? 0 : getSonarDate().hashCode());
+        result = prime * result + ((getGroupCount() == null) ? 0 : getGroupCount().hashCode());
         return result;
     }
 
@@ -163,6 +175,7 @@ public class SonarPO implements Serializable {
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", link=").append(link);
         sb.append(", sonarDate=").append(sonarDate);
+        sb.append(", groupCount=").append(groupCount);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

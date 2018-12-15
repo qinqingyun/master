@@ -68,6 +68,10 @@ public class SonarPOSqlProvider {
             sql.VALUES("sonar_date", "#{sonarDate,jdbcType=VARCHAR}");
         }
         
+        if (record.getGroupCount() != null) {
+            sql.VALUES("group_count", "#{groupCount,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -87,6 +91,7 @@ public class SonarPOSqlProvider {
         sql.SELECT("updated_at");
         sql.SELECT("link");
         sql.SELECT("sonar_date");
+        sql.SELECT("group_count");
         sql.FROM("sonar");
         applyWhere(sql, example, false);
         
@@ -144,6 +149,10 @@ public class SonarPOSqlProvider {
             sql.SET("sonar_date = #{record.sonarDate,jdbcType=VARCHAR}");
         }
         
+        if (record.getGroupCount() != null) {
+            sql.SET("group_count = #{record.groupCount,jdbcType=INTEGER}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -162,6 +171,7 @@ public class SonarPOSqlProvider {
         sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         sql.SET("link = #{record.link,jdbcType=VARCHAR}");
         sql.SET("sonar_date = #{record.sonarDate,jdbcType=VARCHAR}");
+        sql.SET("group_count = #{record.groupCount,jdbcType=INTEGER}");
         
         SonarPOExample example = (SonarPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -206,6 +216,10 @@ public class SonarPOSqlProvider {
         
         if (record.getSonarDate() != null) {
             sql.SET("sonar_date = #{sonarDate,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getGroupCount() != null) {
+            sql.SET("group_count = #{groupCount,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

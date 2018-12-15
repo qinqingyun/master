@@ -34,12 +34,14 @@ public interface SonarPOMapper {
         "includeSubProject, blocker, ",
         "critical, leader, ",
         "created_at, updated_at, ",
-        "link, sonar_date)",
+        "link, sonar_date, ",
+        "group_count)",
         "values (#{id,jdbcType=INTEGER}, #{project,jdbcType=VARCHAR}, ",
         "#{includesubproject,jdbcType=VARCHAR}, #{blocker,jdbcType=INTEGER}, ",
         "#{critical,jdbcType=INTEGER}, #{leader,jdbcType=VARCHAR}, ",
         "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
-        "#{link,jdbcType=VARCHAR}, #{sonarDate,jdbcType=VARCHAR})"
+        "#{link,jdbcType=VARCHAR}, #{sonarDate,jdbcType=VARCHAR}, ",
+        "#{groupCount,jdbcType=INTEGER})"
     })
     int insert(SonarPO record);
 
@@ -57,14 +59,15 @@ public interface SonarPOMapper {
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="link", property="link", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR)
+        @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.INTEGER)
     })
     List<SonarPO> selectByExample(SonarPOExample example);
 
     @Select({
         "select",
         "id, project, includeSubProject, blocker, critical, leader, created_at, updated_at, ",
-        "link, sonar_date",
+        "link, sonar_date, group_count",
         "from sonar",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -78,7 +81,8 @@ public interface SonarPOMapper {
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="link", property="link", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR)
+        @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.INTEGER)
     })
     SonarPO selectByPrimaryKey(Integer id);
 
@@ -101,7 +105,8 @@ public interface SonarPOMapper {
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
           "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
           "link = #{link,jdbcType=VARCHAR},",
-          "sonar_date = #{sonarDate,jdbcType=VARCHAR}",
+          "sonar_date = #{sonarDate,jdbcType=VARCHAR},",
+          "group_count = #{groupCount,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(SonarPO record);

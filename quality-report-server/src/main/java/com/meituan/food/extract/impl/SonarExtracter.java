@@ -23,6 +23,9 @@ public class SonarExtracter implements IOneQuarterDataExtract {
 
     private static final String url="http://sonar.sankuai.com/api/sonarProjectList?filter=";
 
+    private static    int sonarGroupCount=0;
+
+
     @Resource
     SonarPOMapper sonarPOMapper;
 
@@ -141,11 +144,12 @@ public class SonarExtracter implements IOneQuarterDataExtract {
             sonarPO.setUpdatedAt(now);
             sonarPO.setSonarDate(lastDayStr);
             sonarPO.setLink("");
-
+            sonarPO.setGroupCount(sonarGroupCount);
 
             sonarPOMapper.insert(sonarPO);
 
         }
+        sonarGroupCount++;
 
 
 
