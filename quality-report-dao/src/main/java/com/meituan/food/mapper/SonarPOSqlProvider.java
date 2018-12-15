@@ -69,7 +69,7 @@ public class SonarPOSqlProvider {
         }
         
         if (record.getGroupCount() != null) {
-            sql.VALUES("group_count", "#{groupCount,jdbcType=INTEGER}");
+            sql.VALUES("group_count", "#{groupCount,jdbcType=BIGINT}");
         }
         
         return sql.toString();
@@ -150,7 +150,7 @@ public class SonarPOSqlProvider {
         }
         
         if (record.getGroupCount() != null) {
-            sql.SET("group_count = #{record.groupCount,jdbcType=INTEGER}");
+            sql.SET("group_count = #{record.groupCount,jdbcType=BIGINT}");
         }
         
         applyWhere(sql, example, true);
@@ -171,7 +171,7 @@ public class SonarPOSqlProvider {
         sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         sql.SET("link = #{record.link,jdbcType=VARCHAR}");
         sql.SET("sonar_date = #{record.sonarDate,jdbcType=VARCHAR}");
-        sql.SET("group_count = #{record.groupCount,jdbcType=INTEGER}");
+        sql.SET("group_count = #{record.groupCount,jdbcType=BIGINT}");
         
         SonarPOExample example = (SonarPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -219,7 +219,7 @@ public class SonarPOSqlProvider {
         }
         
         if (record.getGroupCount() != null) {
-            sql.SET("group_count = #{groupCount,jdbcType=INTEGER}");
+            sql.SET("group_count = #{groupCount,jdbcType=BIGINT}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

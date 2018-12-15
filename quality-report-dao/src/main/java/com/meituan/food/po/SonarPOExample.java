@@ -765,52 +765,52 @@ public class SonarPOExample {
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountEqualTo(Integer value) {
+        public Criteria andGroupCountEqualTo(Long value) {
             addCriterion("group_count =", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotEqualTo(Integer value) {
+        public Criteria andGroupCountNotEqualTo(Long value) {
             addCriterion("group_count <>", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountGreaterThan(Integer value) {
+        public Criteria andGroupCountGreaterThan(Long value) {
             addCriterion("group_count >", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountGreaterThanOrEqualTo(Integer value) {
+        public Criteria andGroupCountGreaterThanOrEqualTo(Long value) {
             addCriterion("group_count >=", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountLessThan(Integer value) {
+        public Criteria andGroupCountLessThan(Long value) {
             addCriterion("group_count <", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountLessThanOrEqualTo(Integer value) {
+        public Criteria andGroupCountLessThanOrEqualTo(Long value) {
             addCriterion("group_count <=", value, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountIn(List<Integer> values) {
+        public Criteria andGroupCountIn(List<Long> values) {
             addCriterion("group_count in", values, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotIn(List<Integer> values) {
+        public Criteria andGroupCountNotIn(List<Long> values) {
             addCriterion("group_count not in", values, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountBetween(Integer value1, Integer value2) {
+        public Criteria andGroupCountBetween(Long value1, Long value2) {
             addCriterion("group_count between", value1, value2, "groupCount");
             return (Criteria) this;
         }
 
-        public Criteria andGroupCountNotBetween(Integer value1, Integer value2) {
+        public Criteria andGroupCountNotBetween(Long value1, Long value2) {
             addCriterion("group_count not between", value1, value2, "groupCount");
             return (Criteria) this;
         }

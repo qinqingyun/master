@@ -24,7 +24,7 @@ public class SonarPO implements Serializable {
 
     private String sonarDate;
 
-    private Integer groupCount;
+    private Long groupCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -108,11 +108,11 @@ public class SonarPO implements Serializable {
         this.sonarDate = sonarDate == null ? null : sonarDate.trim();
     }
 
-    public Integer getGroupCount() {
+    public Long getGroupCount() {
         return groupCount;
     }
 
-    public void setGroupCount(Integer groupCount) {
+    public void setGroupCount(Long groupCount) {
         this.groupCount = groupCount;
     }
 

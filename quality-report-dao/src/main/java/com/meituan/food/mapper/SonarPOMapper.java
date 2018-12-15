@@ -41,7 +41,7 @@ public interface SonarPOMapper {
         "#{critical,jdbcType=INTEGER}, #{leader,jdbcType=VARCHAR}, ",
         "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
         "#{link,jdbcType=VARCHAR}, #{sonarDate,jdbcType=VARCHAR}, ",
-        "#{groupCount,jdbcType=INTEGER})"
+        "#{groupCount,jdbcType=BIGINT})"
     })
     int insert(SonarPO record);
 
@@ -60,7 +60,7 @@ public interface SonarPOMapper {
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="link", property="link", jdbcType=JdbcType.VARCHAR),
         @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.INTEGER)
+        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.BIGINT)
     })
     List<SonarPO> selectByExample(SonarPOExample example);
 
@@ -82,7 +82,7 @@ public interface SonarPOMapper {
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="link", property="link", jdbcType=JdbcType.VARCHAR),
         @Result(column="sonar_date", property="sonarDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.INTEGER)
+        @Result(column="group_count", property="groupCount", jdbcType=JdbcType.BIGINT)
     })
     SonarPO selectByPrimaryKey(Integer id);
 
@@ -106,7 +106,7 @@ public interface SonarPOMapper {
           "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
           "link = #{link,jdbcType=VARCHAR},",
           "sonar_date = #{sonarDate,jdbcType=VARCHAR},",
-          "group_count = #{groupCount,jdbcType=INTEGER}",
+          "group_count = #{groupCount,jdbcType=BIGINT}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(SonarPO record);
