@@ -23,6 +23,12 @@ public class ScheduleJob {
     @Resource
     private IOneQuarterJob oneQuarterJob;
 
+    @Crane("one.week.sync.job")
+    public void syncOneWeek() {
+        log.info("one week job execute at: {}", new Date());
+        oneQuarterJob.sync();
+    }
+
     @Crane("one.day.sync.job")
     public void syncOneDay() {
         log.info("one day job execute at: {}", new Date());
