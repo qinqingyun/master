@@ -20,10 +20,10 @@
             <artifactId>quality-report-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.meituan.mdp.boot</groupId>
-            <artifactId>mdp-boot-starter-web</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.meituan.mdp.boot</groupId>-->
+            <!--<artifactId>mdp-boot-starter-web</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.meituan.mdp.boot</groupId>
