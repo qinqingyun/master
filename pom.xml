@@ -22,24 +22,6 @@
     </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>com.meituan.trip</groupId>
-            <artifactId>resilience-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.meituan.trip</groupId>
-            <artifactId>resilience-flowcontrol</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.meituan.trip</groupId>
-            <artifactId>resilience-errorsimulate-agent</artifactId>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
