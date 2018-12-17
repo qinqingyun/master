@@ -2,6 +2,7 @@ package com.meituan.food.job.impl;
 
 import com.meituan.food.extract.IOneWeekDataExtract;
 import com.meituan.food.job.IOneWeekJob;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+@Component
 public class OneWeekJobImpl implements IOneWeekJob {
 
     @Resource

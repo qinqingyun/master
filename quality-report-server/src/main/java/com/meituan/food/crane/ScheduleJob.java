@@ -4,6 +4,7 @@ import com.cip.crane.client.spring.annotation.Crane;
 import com.meituan.food.job.IOneDayJob;
 import com.meituan.food.job.IOneMonthJob;
 import com.meituan.food.job.IOneQuarterJob;
+import com.meituan.food.job.IOneWeekJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +24,13 @@ public class ScheduleJob {
     @Resource
     private IOneQuarterJob oneQuarterJob;
 
+    @Resource
+    private IOneWeekJob oneWeekJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
-        oneQuarterJob.sync();
+        oneWeekJob.sync();
     }
 
     @Crane("one.day.sync.job")
