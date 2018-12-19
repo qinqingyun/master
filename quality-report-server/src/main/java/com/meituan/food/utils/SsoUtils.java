@@ -67,11 +67,10 @@ public final class SsoUtils {
                clientId,appSecret);
 
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
+     //  return ssoId;
 
-       return ssoId;
 
-
-     //  return "a3e8a0911a*84b069e6b16d2dd1daef4";
+       return "f73dcc45aa*d498f87b24fc65c51f315";
     }
 
     private SsoUtils() {
