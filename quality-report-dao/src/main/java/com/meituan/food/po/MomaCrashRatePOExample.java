@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BCrashRatePOExample {
+public class MomaCrashRatePOExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public BCrashRatePOExample() {
+    public MomaCrashRatePOExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -166,63 +166,363 @@ public class BCrashRatePOExample {
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateIsNull() {
-            addCriterion("b_crash_rate is null");
+        public Criteria andMomaCrashCountIsNull() {
+            addCriterion("moma_crash_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateIsNotNull() {
-            addCriterion("b_crash_rate is not null");
+        public Criteria andMomaCrashCountIsNotNull() {
+            addCriterion("moma_crash_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateEqualTo(BigDecimal value) {
-            addCriterion("b_crash_rate =", value, "bCrashRate");
+        public Criteria andMomaCrashCountEqualTo(Integer value) {
+            addCriterion("moma_crash_count =", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateNotEqualTo(BigDecimal value) {
-            addCriterion("b_crash_rate <>", value, "bCrashRate");
+        public Criteria andMomaCrashCountNotEqualTo(Integer value) {
+            addCriterion("moma_crash_count <>", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateGreaterThan(BigDecimal value) {
-            addCriterion("b_crash_rate >", value, "bCrashRate");
+        public Criteria andMomaCrashCountGreaterThan(Integer value) {
+            addCriterion("moma_crash_count >", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_crash_rate >=", value, "bCrashRate");
+        public Criteria andMomaCrashCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("moma_crash_count >=", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateLessThan(BigDecimal value) {
-            addCriterion("b_crash_rate <", value, "bCrashRate");
+        public Criteria andMomaCrashCountLessThan(Integer value) {
+            addCriterion("moma_crash_count <", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_crash_rate <=", value, "bCrashRate");
+        public Criteria andMomaCrashCountLessThanOrEqualTo(Integer value) {
+            addCriterion("moma_crash_count <=", value, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateIn(List<BigDecimal> values) {
-            addCriterion("b_crash_rate in", values, "bCrashRate");
+        public Criteria andMomaCrashCountIn(List<Integer> values) {
+            addCriterion("moma_crash_count in", values, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateNotIn(List<BigDecimal> values) {
-            addCriterion("b_crash_rate not in", values, "bCrashRate");
+        public Criteria andMomaCrashCountNotIn(List<Integer> values) {
+            addCriterion("moma_crash_count not in", values, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_crash_rate between", value1, value2, "bCrashRate");
+        public Criteria andMomaCrashCountBetween(Integer value1, Integer value2) {
+            addCriterion("moma_crash_count between", value1, value2, "momaCrashCount");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashRateNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_crash_rate not between", value1, value2, "bCrashRate");
+        public Criteria andMomaCrashCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("moma_crash_count not between", value1, value2, "momaCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateIsNull() {
+            addCriterion("moma_crash_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateIsNotNull() {
+            addCriterion("moma_crash_rate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateEqualTo(BigDecimal value) {
+            addCriterion("moma_crash_rate =", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateNotEqualTo(BigDecimal value) {
+            addCriterion("moma_crash_rate <>", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateGreaterThan(BigDecimal value) {
+            addCriterion("moma_crash_rate >", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("moma_crash_rate >=", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateLessThan(BigDecimal value) {
+            addCriterion("moma_crash_rate <", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("moma_crash_rate <=", value, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateIn(List<BigDecimal> values) {
+            addCriterion("moma_crash_rate in", values, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateNotIn(List<BigDecimal> values) {
+            addCriterion("moma_crash_rate not in", values, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("moma_crash_rate between", value1, value2, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andMomaCrashRateNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("moma_crash_rate not between", value1, value2, "momaCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountIsNull() {
+            addCriterion("bee_crash_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountIsNotNull() {
+            addCriterion("bee_crash_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountEqualTo(Integer value) {
+            addCriterion("bee_crash_count =", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountNotEqualTo(Integer value) {
+            addCriterion("bee_crash_count <>", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountGreaterThan(Integer value) {
+            addCriterion("bee_crash_count >", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("bee_crash_count >=", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountLessThan(Integer value) {
+            addCriterion("bee_crash_count <", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountLessThanOrEqualTo(Integer value) {
+            addCriterion("bee_crash_count <=", value, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountIn(List<Integer> values) {
+            addCriterion("bee_crash_count in", values, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountNotIn(List<Integer> values) {
+            addCriterion("bee_crash_count not in", values, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountBetween(Integer value1, Integer value2) {
+            addCriterion("bee_crash_count between", value1, value2, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("bee_crash_count not between", value1, value2, "beeCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateIsNull() {
+            addCriterion("bee_crash_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateIsNotNull() {
+            addCriterion("bee_crash_rate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateEqualTo(BigDecimal value) {
+            addCriterion("bee_crash_rate =", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateNotEqualTo(BigDecimal value) {
+            addCriterion("bee_crash_rate <>", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateGreaterThan(BigDecimal value) {
+            addCriterion("bee_crash_rate >", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("bee_crash_rate >=", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateLessThan(BigDecimal value) {
+            addCriterion("bee_crash_rate <", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("bee_crash_rate <=", value, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateIn(List<BigDecimal> values) {
+            addCriterion("bee_crash_rate in", values, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateNotIn(List<BigDecimal> values) {
+            addCriterion("bee_crash_rate not in", values, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("bee_crash_rate between", value1, value2, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeeCrashRateNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("bee_crash_rate not between", value1, value2, "beeCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountIsNull() {
+            addCriterion("aboluo_crash_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountIsNotNull() {
+            addCriterion("aboluo_crash_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountEqualTo(Integer value) {
+            addCriterion("aboluo_crash_count =", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountNotEqualTo(Integer value) {
+            addCriterion("aboluo_crash_count <>", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountGreaterThan(Integer value) {
+            addCriterion("aboluo_crash_count >", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("aboluo_crash_count >=", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountLessThan(Integer value) {
+            addCriterion("aboluo_crash_count <", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountLessThanOrEqualTo(Integer value) {
+            addCriterion("aboluo_crash_count <=", value, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountIn(List<Integer> values) {
+            addCriterion("aboluo_crash_count in", values, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountNotIn(List<Integer> values) {
+            addCriterion("aboluo_crash_count not in", values, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountBetween(Integer value1, Integer value2) {
+            addCriterion("aboluo_crash_count between", value1, value2, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("aboluo_crash_count not between", value1, value2, "aboluoCrashCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateIsNull() {
+            addCriterion("aboluo_crash_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateIsNotNull() {
+            addCriterion("aboluo_crash_rate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateEqualTo(BigDecimal value) {
+            addCriterion("aboluo_crash_rate =", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateNotEqualTo(BigDecimal value) {
+            addCriterion("aboluo_crash_rate <>", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateGreaterThan(BigDecimal value) {
+            addCriterion("aboluo_crash_rate >", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("aboluo_crash_rate >=", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateLessThan(BigDecimal value) {
+            addCriterion("aboluo_crash_rate <", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("aboluo_crash_rate <=", value, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateIn(List<BigDecimal> values) {
+            addCriterion("aboluo_crash_rate in", values, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateNotIn(List<BigDecimal> values) {
+            addCriterion("aboluo_crash_rate not in", values, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("aboluo_crash_rate between", value1, value2, "aboluoCrashRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAboluoCrashRateNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("aboluo_crash_rate not between", value1, value2, "aboluoCrashRate");
             return (Criteria) this;
         }
 
@@ -293,246 +593,6 @@ public class BCrashRatePOExample {
 
         public Criteria andMonthNotBetween(String value1, String value2) {
             addCriterion("month not between", value1, value2, "month");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingIsNull() {
-            addCriterion("b_dianping is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingIsNotNull() {
-            addCriterion("b_dianping is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingEqualTo(BigDecimal value) {
-            addCriterion("b_dianping =", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingNotEqualTo(BigDecimal value) {
-            addCriterion("b_dianping <>", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingGreaterThan(BigDecimal value) {
-            addCriterion("b_dianping >", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_dianping >=", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingLessThan(BigDecimal value) {
-            addCriterion("b_dianping <", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_dianping <=", value, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingIn(List<BigDecimal> values) {
-            addCriterion("b_dianping in", values, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingNotIn(List<BigDecimal> values) {
-            addCriterion("b_dianping not in", values, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_dianping between", value1, value2, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBDianpingNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_dianping not between", value1, value2, "bDianping");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiIsNull() {
-            addCriterion("b_waimai is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiIsNotNull() {
-            addCriterion("b_waimai is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiEqualTo(BigDecimal value) {
-            addCriterion("b_waimai =", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiNotEqualTo(BigDecimal value) {
-            addCriterion("b_waimai <>", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiGreaterThan(BigDecimal value) {
-            addCriterion("b_waimai >", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_waimai >=", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiLessThan(BigDecimal value) {
-            addCriterion("b_waimai <", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("b_waimai <=", value, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiIn(List<BigDecimal> values) {
-            addCriterion("b_waimai in", values, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiNotIn(List<BigDecimal> values) {
-            addCriterion("b_waimai not in", values, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_waimai between", value1, value2, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("b_waimai not between", value1, value2, "bWaimai");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtIsNull() {
-            addCriterion("created_at is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtIsNotNull() {
-            addCriterion("created_at is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtEqualTo(Date value) {
-            addCriterion("created_at =", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtNotEqualTo(Date value) {
-            addCriterion("created_at <>", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtGreaterThan(Date value) {
-            addCriterion("created_at >", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtGreaterThanOrEqualTo(Date value) {
-            addCriterion("created_at >=", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtLessThan(Date value) {
-            addCriterion("created_at <", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtLessThanOrEqualTo(Date value) {
-            addCriterion("created_at <=", value, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtIn(List<Date> values) {
-            addCriterion("created_at in", values, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtNotIn(List<Date> values) {
-            addCriterion("created_at not in", values, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtBetween(Date value1, Date value2) {
-            addCriterion("created_at between", value1, value2, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreatedAtNotBetween(Date value1, Date value2) {
-            addCriterion("created_at not between", value1, value2, "createdAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtIsNull() {
-            addCriterion("updated_at is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtIsNotNull() {
-            addCriterion("updated_at is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtEqualTo(Date value) {
-            addCriterion("updated_at =", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtNotEqualTo(Date value) {
-            addCriterion("updated_at <>", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtGreaterThan(Date value) {
-            addCriterion("updated_at >", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtGreaterThanOrEqualTo(Date value) {
-            addCriterion("updated_at >=", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtLessThan(Date value) {
-            addCriterion("updated_at <", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtLessThanOrEqualTo(Date value) {
-            addCriterion("updated_at <=", value, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtIn(List<Date> values) {
-            addCriterion("updated_at in", values, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtNotIn(List<Date> values) {
-            addCriterion("updated_at not in", values, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtBetween(Date value1, Date value2) {
-            addCriterion("updated_at between", value1, value2, "updatedAt");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdatedAtNotBetween(Date value1, Date value2) {
-            addCriterion("updated_at not between", value1, value2, "updatedAt");
             return (Criteria) this;
         }
 
@@ -676,183 +736,123 @@ public class BCrashRatePOExample {
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountIsNull() {
-            addCriterion("b_crash_count is null");
+        public Criteria andCreatedAtIsNull() {
+            addCriterion("created_at is null");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountIsNotNull() {
-            addCriterion("b_crash_count is not null");
+        public Criteria andCreatedAtIsNotNull() {
+            addCriterion("created_at is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountEqualTo(Integer value) {
-            addCriterion("b_crash_count =", value, "bCrashCount");
+        public Criteria andCreatedAtEqualTo(Date value) {
+            addCriterion("created_at =", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountNotEqualTo(Integer value) {
-            addCriterion("b_crash_count <>", value, "bCrashCount");
+        public Criteria andCreatedAtNotEqualTo(Date value) {
+            addCriterion("created_at <>", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountGreaterThan(Integer value) {
-            addCriterion("b_crash_count >", value, "bCrashCount");
+        public Criteria andCreatedAtGreaterThan(Date value) {
+            addCriterion("created_at >", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("b_crash_count >=", value, "bCrashCount");
+        public Criteria andCreatedAtGreaterThanOrEqualTo(Date value) {
+            addCriterion("created_at >=", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountLessThan(Integer value) {
-            addCriterion("b_crash_count <", value, "bCrashCount");
+        public Criteria andCreatedAtLessThan(Date value) {
+            addCriterion("created_at <", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountLessThanOrEqualTo(Integer value) {
-            addCriterion("b_crash_count <=", value, "bCrashCount");
+        public Criteria andCreatedAtLessThanOrEqualTo(Date value) {
+            addCriterion("created_at <=", value, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountIn(List<Integer> values) {
-            addCriterion("b_crash_count in", values, "bCrashCount");
+        public Criteria andCreatedAtIn(List<Date> values) {
+            addCriterion("created_at in", values, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountNotIn(List<Integer> values) {
-            addCriterion("b_crash_count not in", values, "bCrashCount");
+        public Criteria andCreatedAtNotIn(List<Date> values) {
+            addCriterion("created_at not in", values, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountBetween(Integer value1, Integer value2) {
-            addCriterion("b_crash_count between", value1, value2, "bCrashCount");
+        public Criteria andCreatedAtBetween(Date value1, Date value2) {
+            addCriterion("created_at between", value1, value2, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBCrashCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("b_crash_count not between", value1, value2, "bCrashCount");
+        public Criteria andCreatedAtNotBetween(Date value1, Date value2) {
+            addCriterion("created_at not between", value1, value2, "createdAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountIsNull() {
-            addCriterion("b_dianping_crash_count is null");
+        public Criteria andUpdatedAtIsNull() {
+            addCriterion("updated_at is null");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountIsNotNull() {
-            addCriterion("b_dianping_crash_count is not null");
+        public Criteria andUpdatedAtIsNotNull() {
+            addCriterion("updated_at is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountEqualTo(Integer value) {
-            addCriterion("b_dianping_crash_count =", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtEqualTo(Date value) {
+            addCriterion("updated_at =", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountNotEqualTo(Integer value) {
-            addCriterion("b_dianping_crash_count <>", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtNotEqualTo(Date value) {
+            addCriterion("updated_at <>", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountGreaterThan(Integer value) {
-            addCriterion("b_dianping_crash_count >", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtGreaterThan(Date value) {
+            addCriterion("updated_at >", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("b_dianping_crash_count >=", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtGreaterThanOrEqualTo(Date value) {
+            addCriterion("updated_at >=", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountLessThan(Integer value) {
-            addCriterion("b_dianping_crash_count <", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtLessThan(Date value) {
+            addCriterion("updated_at <", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountLessThanOrEqualTo(Integer value) {
-            addCriterion("b_dianping_crash_count <=", value, "bDianpingCrashCount");
+        public Criteria andUpdatedAtLessThanOrEqualTo(Date value) {
+            addCriterion("updated_at <=", value, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountIn(List<Integer> values) {
-            addCriterion("b_dianping_crash_count in", values, "bDianpingCrashCount");
+        public Criteria andUpdatedAtIn(List<Date> values) {
+            addCriterion("updated_at in", values, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountNotIn(List<Integer> values) {
-            addCriterion("b_dianping_crash_count not in", values, "bDianpingCrashCount");
+        public Criteria andUpdatedAtNotIn(List<Date> values) {
+            addCriterion("updated_at not in", values, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountBetween(Integer value1, Integer value2) {
-            addCriterion("b_dianping_crash_count between", value1, value2, "bDianpingCrashCount");
+        public Criteria andUpdatedAtBetween(Date value1, Date value2) {
+            addCriterion("updated_at between", value1, value2, "updatedAt");
             return (Criteria) this;
         }
 
-        public Criteria andBDianpingCrashCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("b_dianping_crash_count not between", value1, value2, "bDianpingCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountIsNull() {
-            addCriterion("b_waimai_crash_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountIsNotNull() {
-            addCriterion("b_waimai_crash_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountEqualTo(Integer value) {
-            addCriterion("b_waimai_crash_count =", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountNotEqualTo(Integer value) {
-            addCriterion("b_waimai_crash_count <>", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountGreaterThan(Integer value) {
-            addCriterion("b_waimai_crash_count >", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("b_waimai_crash_count >=", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountLessThan(Integer value) {
-            addCriterion("b_waimai_crash_count <", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountLessThanOrEqualTo(Integer value) {
-            addCriterion("b_waimai_crash_count <=", value, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountIn(List<Integer> values) {
-            addCriterion("b_waimai_crash_count in", values, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountNotIn(List<Integer> values) {
-            addCriterion("b_waimai_crash_count not in", values, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountBetween(Integer value1, Integer value2) {
-            addCriterion("b_waimai_crash_count between", value1, value2, "bWaimaiCrashCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBWaimaiCrashCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("b_waimai_crash_count not between", value1, value2, "bWaimaiCrashCount");
+        public Criteria andUpdatedAtNotBetween(Date value1, Date value2) {
+            addCriterion("updated_at not between", value1, value2, "updatedAt");
             return (Criteria) this;
         }
     }

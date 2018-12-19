@@ -1,59 +1,63 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.BCrashRatePO;
-import com.meituan.food.po.BCrashRatePOExample.Criteria;
-import com.meituan.food.po.BCrashRatePOExample.Criterion;
-import com.meituan.food.po.BCrashRatePOExample;
+import com.meituan.food.po.MomaCrashRatePO;
+import com.meituan.food.po.MomaCrashRatePOExample.Criteria;
+import com.meituan.food.po.MomaCrashRatePOExample.Criterion;
+import com.meituan.food.po.MomaCrashRatePOExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class BCrashRatePOSqlProvider {
+public class MomaCrashRatePOSqlProvider {
 
-    public String countByExample(BCrashRatePOExample example) {
+    public String countByExample(MomaCrashRatePOExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("b_crash_rate");
+        sql.SELECT("count(*)").FROM("moma_crash_rate");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(BCrashRatePOExample example) {
+    public String deleteByExample(MomaCrashRatePOExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("b_crash_rate");
+        sql.DELETE_FROM("moma_crash_rate");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(BCrashRatePO record) {
+    public String insertSelective(MomaCrashRatePO record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("b_crash_rate");
+        sql.INSERT_INTO("moma_crash_rate");
         
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getbCrashRate() != null) {
-            sql.VALUES("b_crash_rate", "#{bCrashRate,jdbcType=DECIMAL}");
+        if (record.getMomaCrashCount() != null) {
+            sql.VALUES("moma_crash_count", "#{momaCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getMomaCrashRate() != null) {
+            sql.VALUES("moma_crash_rate", "#{momaCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getBeeCrashCount() != null) {
+            sql.VALUES("bee_crash_count", "#{beeCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getBeeCrashRate() != null) {
+            sql.VALUES("bee_crash_rate", "#{beeCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getAboluoCrashCount() != null) {
+            sql.VALUES("aboluo_crash_count", "#{aboluoCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getAboluoCrashRate() != null) {
+            sql.VALUES("aboluo_crash_rate", "#{aboluoCrashRate,jdbcType=DECIMAL}");
         }
         
         if (record.getMonth() != null) {
             sql.VALUES("month", "#{month,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getbDianping() != null) {
-            sql.VALUES("b_dianping", "#{bDianping,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getbWaimai() != null) {
-            sql.VALUES("b_waimai", "#{bWaimai,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getCreatedAt() != null) {
-            sql.VALUES("created_at", "#{createdAt,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedAt() != null) {
-            sql.VALUES("updated_at", "#{updatedAt,jdbcType=TIMESTAMP}");
         }
         
         if (record.getPlatform() != null) {
@@ -64,40 +68,36 @@ public class BCrashRatePOSqlProvider {
             sql.VALUES("os", "#{os,jdbcType=VARCHAR}");
         }
         
-        if (record.getbCrashCount() != null) {
-            sql.VALUES("b_crash_count", "#{bCrashCount,jdbcType=INTEGER}");
+        if (record.getCreatedAt() != null) {
+            sql.VALUES("created_at", "#{createdAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getbDianpingCrashCount() != null) {
-            sql.VALUES("b_dianping_crash_count", "#{bDianpingCrashCount,jdbcType=INTEGER}");
-        }
-        
-        if (record.getbWaimaiCrashCount() != null) {
-            sql.VALUES("b_waimai_crash_count", "#{bWaimaiCrashCount,jdbcType=INTEGER}");
+        if (record.getUpdatedAt() != null) {
+            sql.VALUES("updated_at", "#{updatedAt,jdbcType=TIMESTAMP}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExample(BCrashRatePOExample example) {
+    public String selectByExample(MomaCrashRatePOExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("b_crash_rate");
+        sql.SELECT("moma_crash_count");
+        sql.SELECT("moma_crash_rate");
+        sql.SELECT("bee_crash_count");
+        sql.SELECT("bee_crash_rate");
+        sql.SELECT("aboluo_crash_count");
+        sql.SELECT("aboluo_crash_rate");
         sql.SELECT("month");
-        sql.SELECT("b_dianping");
-        sql.SELECT("b_waimai");
-        sql.SELECT("created_at");
-        sql.SELECT("updated_at");
         sql.SELECT("platform");
         sql.SELECT("os");
-        sql.SELECT("b_crash_count");
-        sql.SELECT("b_dianping_crash_count");
-        sql.SELECT("b_waimai_crash_count");
-        sql.FROM("b_crash_rate");
+        sql.SELECT("created_at");
+        sql.SELECT("updated_at");
+        sql.FROM("moma_crash_rate");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -108,38 +108,42 @@ public class BCrashRatePOSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        BCrashRatePO record = (BCrashRatePO) parameter.get("record");
-        BCrashRatePOExample example = (BCrashRatePOExample) parameter.get("example");
+        MomaCrashRatePO record = (MomaCrashRatePO) parameter.get("record");
+        MomaCrashRatePOExample example = (MomaCrashRatePOExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("b_crash_rate");
+        sql.UPDATE("moma_crash_rate");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getbCrashRate() != null) {
-            sql.SET("b_crash_rate = #{record.bCrashRate,jdbcType=DECIMAL}");
+        if (record.getMomaCrashCount() != null) {
+            sql.SET("moma_crash_count = #{record.momaCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getMomaCrashRate() != null) {
+            sql.SET("moma_crash_rate = #{record.momaCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getBeeCrashCount() != null) {
+            sql.SET("bee_crash_count = #{record.beeCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getBeeCrashRate() != null) {
+            sql.SET("bee_crash_rate = #{record.beeCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getAboluoCrashCount() != null) {
+            sql.SET("aboluo_crash_count = #{record.aboluoCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getAboluoCrashRate() != null) {
+            sql.SET("aboluo_crash_rate = #{record.aboluoCrashRate,jdbcType=DECIMAL}");
         }
         
         if (record.getMonth() != null) {
             sql.SET("month = #{record.month,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getbDianping() != null) {
-            sql.SET("b_dianping = #{record.bDianping,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getbWaimai() != null) {
-            sql.SET("b_waimai = #{record.bWaimai,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getCreatedAt() != null) {
-            sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedAt() != null) {
-            sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         }
         
         if (record.getPlatform() != null) {
@@ -150,16 +154,12 @@ public class BCrashRatePOSqlProvider {
             sql.SET("os = #{record.os,jdbcType=VARCHAR}");
         }
         
-        if (record.getbCrashCount() != null) {
-            sql.SET("b_crash_count = #{record.bCrashCount,jdbcType=INTEGER}");
+        if (record.getCreatedAt() != null) {
+            sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getbDianpingCrashCount() != null) {
-            sql.SET("b_dianping_crash_count = #{record.bDianpingCrashCount,jdbcType=INTEGER}");
-        }
-        
-        if (record.getbWaimaiCrashCount() != null) {
-            sql.SET("b_waimai_crash_count = #{record.bWaimaiCrashCount,jdbcType=INTEGER}");
+        if (record.getUpdatedAt() != null) {
+            sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         }
         
         applyWhere(sql, example, true);
@@ -168,52 +168,56 @@ public class BCrashRatePOSqlProvider {
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("b_crash_rate");
+        sql.UPDATE("moma_crash_rate");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("b_crash_rate = #{record.bCrashRate,jdbcType=DECIMAL}");
+        sql.SET("moma_crash_count = #{record.momaCrashCount,jdbcType=INTEGER}");
+        sql.SET("moma_crash_rate = #{record.momaCrashRate,jdbcType=DECIMAL}");
+        sql.SET("bee_crash_count = #{record.beeCrashCount,jdbcType=INTEGER}");
+        sql.SET("bee_crash_rate = #{record.beeCrashRate,jdbcType=DECIMAL}");
+        sql.SET("aboluo_crash_count = #{record.aboluoCrashCount,jdbcType=INTEGER}");
+        sql.SET("aboluo_crash_rate = #{record.aboluoCrashRate,jdbcType=DECIMAL}");
         sql.SET("month = #{record.month,jdbcType=VARCHAR}");
-        sql.SET("b_dianping = #{record.bDianping,jdbcType=DECIMAL}");
-        sql.SET("b_waimai = #{record.bWaimai,jdbcType=DECIMAL}");
-        sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
-        sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         sql.SET("platform = #{record.platform,jdbcType=VARCHAR}");
         sql.SET("os = #{record.os,jdbcType=VARCHAR}");
-        sql.SET("b_crash_count = #{record.bCrashCount,jdbcType=INTEGER}");
-        sql.SET("b_dianping_crash_count = #{record.bDianpingCrashCount,jdbcType=INTEGER}");
-        sql.SET("b_waimai_crash_count = #{record.bWaimaiCrashCount,jdbcType=INTEGER}");
+        sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
+        sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         
-        BCrashRatePOExample example = (BCrashRatePOExample) parameter.get("example");
+        MomaCrashRatePOExample example = (MomaCrashRatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(BCrashRatePO record) {
+    public String updateByPrimaryKeySelective(MomaCrashRatePO record) {
         SQL sql = new SQL();
-        sql.UPDATE("b_crash_rate");
+        sql.UPDATE("moma_crash_rate");
         
-        if (record.getbCrashRate() != null) {
-            sql.SET("b_crash_rate = #{bCrashRate,jdbcType=DECIMAL}");
+        if (record.getMomaCrashCount() != null) {
+            sql.SET("moma_crash_count = #{momaCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getMomaCrashRate() != null) {
+            sql.SET("moma_crash_rate = #{momaCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getBeeCrashCount() != null) {
+            sql.SET("bee_crash_count = #{beeCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getBeeCrashRate() != null) {
+            sql.SET("bee_crash_rate = #{beeCrashRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getAboluoCrashCount() != null) {
+            sql.SET("aboluo_crash_count = #{aboluoCrashCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getAboluoCrashRate() != null) {
+            sql.SET("aboluo_crash_rate = #{aboluoCrashRate,jdbcType=DECIMAL}");
         }
         
         if (record.getMonth() != null) {
             sql.SET("month = #{month,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getbDianping() != null) {
-            sql.SET("b_dianping = #{bDianping,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getbWaimai() != null) {
-            sql.SET("b_waimai = #{bWaimai,jdbcType=DECIMAL}");
-        }
-        
-        if (record.getCreatedAt() != null) {
-            sql.SET("created_at = #{createdAt,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedAt() != null) {
-            sql.SET("updated_at = #{updatedAt,jdbcType=TIMESTAMP}");
         }
         
         if (record.getPlatform() != null) {
@@ -224,16 +228,12 @@ public class BCrashRatePOSqlProvider {
             sql.SET("os = #{os,jdbcType=VARCHAR}");
         }
         
-        if (record.getbCrashCount() != null) {
-            sql.SET("b_crash_count = #{bCrashCount,jdbcType=INTEGER}");
+        if (record.getCreatedAt() != null) {
+            sql.SET("created_at = #{createdAt,jdbcType=TIMESTAMP}");
         }
         
-        if (record.getbDianpingCrashCount() != null) {
-            sql.SET("b_dianping_crash_count = #{bDianpingCrashCount,jdbcType=INTEGER}");
-        }
-        
-        if (record.getbWaimaiCrashCount() != null) {
-            sql.SET("b_waimai_crash_count = #{bWaimaiCrashCount,jdbcType=INTEGER}");
+        if (record.getUpdatedAt() != null) {
+            sql.SET("updated_at = #{updatedAt,jdbcType=TIMESTAMP}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -241,7 +241,7 @@ public class BCrashRatePOSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, BCrashRatePOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, MomaCrashRatePOExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

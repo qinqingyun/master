@@ -33,13 +33,13 @@ public interface BCrashRatePOMapper {
         "insert into b_crash_rate (id, b_crash_rate, ",
         "month, b_dianping, ",
         "b_waimai, created_at, ",
-        "updated_at, platfrom, ",
+        "updated_at, platform, ",
         "os, b_crash_count, ",
         "b_dianping_crash_count, b_waimai_crash_count)",
         "values (#{id,jdbcType=INTEGER}, #{bCrashRate,jdbcType=DECIMAL}, ",
         "#{month,jdbcType=VARCHAR}, #{bDianping,jdbcType=DECIMAL}, ",
         "#{bWaimai,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, ",
-        "#{updatedAt,jdbcType=TIMESTAMP}, #{platfrom,jdbcType=VARCHAR}, ",
+        "#{updatedAt,jdbcType=TIMESTAMP}, #{platform,jdbcType=VARCHAR}, ",
         "#{os,jdbcType=VARCHAR}, #{bCrashCount,jdbcType=INTEGER}, ",
         "#{bDianpingCrashCount,jdbcType=INTEGER}, #{bWaimaiCrashCount,jdbcType=INTEGER})"
     })
@@ -57,7 +57,7 @@ public interface BCrashRatePOMapper {
         @Result(column="b_waimai", property="bWaimai", jdbcType=JdbcType.DECIMAL),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="platfrom", property="platfrom", jdbcType=JdbcType.VARCHAR),
+        @Result(column="platform", property="platform", jdbcType=JdbcType.VARCHAR),
         @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR),
         @Result(column="b_crash_count", property="bCrashCount", jdbcType=JdbcType.INTEGER),
         @Result(column="b_dianping_crash_count", property="bDianpingCrashCount", jdbcType=JdbcType.INTEGER),
@@ -67,7 +67,7 @@ public interface BCrashRatePOMapper {
 
     @Select({
         "select",
-        "id, b_crash_rate, month, b_dianping, b_waimai, created_at, updated_at, platfrom, ",
+        "id, b_crash_rate, month, b_dianping, b_waimai, created_at, updated_at, platform, ",
         "os, b_crash_count, b_dianping_crash_count, b_waimai_crash_count",
         "from b_crash_rate",
         "where id = #{id,jdbcType=INTEGER}"
@@ -80,7 +80,7 @@ public interface BCrashRatePOMapper {
         @Result(column="b_waimai", property="bWaimai", jdbcType=JdbcType.DECIMAL),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="platfrom", property="platfrom", jdbcType=JdbcType.VARCHAR),
+        @Result(column="platform", property="platform", jdbcType=JdbcType.VARCHAR),
         @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR),
         @Result(column="b_crash_count", property="bCrashCount", jdbcType=JdbcType.INTEGER),
         @Result(column="b_dianping_crash_count", property="bDianpingCrashCount", jdbcType=JdbcType.INTEGER),
@@ -105,7 +105,7 @@ public interface BCrashRatePOMapper {
           "b_waimai = #{bWaimai,jdbcType=DECIMAL},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
           "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
-          "platfrom = #{platfrom,jdbcType=VARCHAR},",
+          "platform = #{platform,jdbcType=VARCHAR},",
           "os = #{os,jdbcType=VARCHAR},",
           "b_crash_count = #{bCrashCount,jdbcType=INTEGER},",
           "b_dianping_crash_count = #{bDianpingCrashCount,jdbcType=INTEGER},",

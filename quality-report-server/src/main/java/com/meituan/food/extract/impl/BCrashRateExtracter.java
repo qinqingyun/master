@@ -56,7 +56,7 @@ public class BCrashRateExtracter implements IOneMonthDataExtract {
                 bCrashRatePO.setbWaimai(((JSONArray) o).getBigDecimal(2));
             }
         }
-        bCrashRatePO.setPlatfrom("开店宝");
+        bCrashRatePO.setPlatform("开店宝");
         bCrashRatePO.setOs("Android");
         bCrashRatePO.setMonth(crashMonth);
         Date now=new Date();
@@ -79,7 +79,7 @@ public class BCrashRateExtracter implements IOneMonthDataExtract {
                 bCrashRatePOIos.setbWaimai(((JSONArray) o).getBigDecimal(2));
             }
         }
-        bCrashRatePOIos.setPlatfrom("开店宝");
+        bCrashRatePOIos.setPlatform("开店宝");
         bCrashRatePOIos.setOs("iPhone");
         bCrashRatePOIos.setMonth(crashMonth);
 

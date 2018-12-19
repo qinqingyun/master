@@ -19,7 +19,7 @@ public class BCrashRatePO implements Serializable {
 
     private Date updatedAt;
 
-    private String platfrom;
+    private String platform;
 
     private String os;
 
@@ -87,12 +87,12 @@ public class BCrashRatePO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public String getPlatfrom() {
-        return platfrom;
+    public String getPlatform() {
+        return platform;
     }
 
-    public void setPlatfrom(String platfrom) {
-        this.platfrom = platfrom == null ? null : platfrom.trim();
+    public void setPlatform(String platform) {
+        this.platform = platform == null ? null : platform.trim();
     }
 
     public String getOs() {
@@ -146,7 +146,7 @@ public class BCrashRatePO implements Serializable {
             && (this.getbWaimai() == null ? other.getbWaimai() == null : this.getbWaimai().equals(other.getbWaimai()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
             && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
-            && (this.getPlatfrom() == null ? other.getPlatfrom() == null : this.getPlatfrom().equals(other.getPlatfrom()))
+            && (this.getPlatform() == null ? other.getPlatform() == null : this.getPlatform().equals(other.getPlatform()))
             && (this.getOs() == null ? other.getOs() == null : this.getOs().equals(other.getOs()))
             && (this.getbCrashCount() == null ? other.getbCrashCount() == null : this.getbCrashCount().equals(other.getbCrashCount()))
             && (this.getbDianpingCrashCount() == null ? other.getbDianpingCrashCount() == null : this.getbDianpingCrashCount().equals(other.getbDianpingCrashCount()))
@@ -164,7 +164,7 @@ public class BCrashRatePO implements Serializable {
         result = prime * result + ((getbWaimai() == null) ? 0 : getbWaimai().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
-        result = prime * result + ((getPlatfrom() == null) ? 0 : getPlatfrom().hashCode());
+        result = prime * result + ((getPlatform() == null) ? 0 : getPlatform().hashCode());
         result = prime * result + ((getOs() == null) ? 0 : getOs().hashCode());
         result = prime * result + ((getbCrashCount() == null) ? 0 : getbCrashCount().hashCode());
         result = prime * result + ((getbDianpingCrashCount() == null) ? 0 : getbDianpingCrashCount().hashCode());
@@ -185,7 +185,7 @@ public class BCrashRatePO implements Serializable {
         sb.append(", bWaimai=").append(bWaimai);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
-        sb.append(", platfrom=").append(platfrom);
+        sb.append(", platform=").append(platform);
         sb.append(", os=").append(os);
         sb.append(", bCrashCount=").append(bCrashCount);
         sb.append(", bDianpingCrashCount=").append(bDianpingCrashCount);
