@@ -51,8 +51,8 @@ public class KmExtracter implements IOneWeekDataExtract {
         //虚拟小组群id：64011826182
 
         DaXiangUtils.pushToPerson("@王洋  @张波  @郭孟瑶 @龚艳艳 @李学超  @杨帅  @马转  @张伟豪  @鄂乾宇  @熊一平 本周周报地址"+kmLink+"辛苦各位填写一下~~","guomengyao");
-     //   DaXiangUtils.pushToRoom("@王洋  @张波  @郭孟瑶 @龚艳艳 @李学超  @杨帅  @马转  @张伟豪  @鄂乾宇  @熊一平 本周周报地址"+kmLink+"辛苦各位填写一下~~",64011826182L);
-        DaXiangUtils.pushToRoom(" @郭孟瑶 "+kmLink,64012858900L);
+        DaXiangUtils.pushToRoom("@王洋  @张波  @郭孟瑶 @龚艳艳 @李学超  @杨帅  @马转  @张伟豪  @鄂乾宇  @熊一平 本周周报地址"+kmLink+"辛苦各位填写一下~~",64011826182L);
+     //   DaXiangUtils.pushToRoom(" @郭孟瑶 "+kmLink,64012858900L);
 
     }
 
