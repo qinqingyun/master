@@ -4,10 +4,12 @@ import com.sankuai.it.mail.sdk.service.MailThriftService;
 import com.sankuai.it.mail.sdk.structs.MailStructDTO;
 import com.sankuai.it.mail.sdk.structs.SendMailResultDTO;
 import org.apache.thrift.TException;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
 
+@Component
 public class MailService {
 
     @Resource
