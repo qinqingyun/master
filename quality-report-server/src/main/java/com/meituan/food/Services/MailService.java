@@ -3,6 +3,7 @@ package com.meituan.food.Services;
 import com.sankuai.it.mail.sdk.service.MailThriftService;
 import com.sankuai.it.mail.sdk.structs.MailStructDTO;
 import com.sankuai.it.mail.sdk.structs.SendMailResultDTO;
+import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +14,20 @@ import java.util.Arrays;
 public class MailService {
 
     @Resource
+    private OrgService orgService;
+
+    @Resource
     private MailThriftService mailThriftService;
 
-    public void sendMailTo() throws TException {
+    public void sendMailTo() throws Exception {
+        EmpItems empItems = orgService.allEmp();
+        String a=empItems.toString();
+
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("发件人名称");
-        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
+//        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
+        mailModel.setBody(a);
         mailModel.setTo(Arrays.asList("guomengyao@meituan.com")); //收件人
         mailModel.setCc(Arrays.asList("shiyongxiang@meituan.com"));  //抄送
         mailModel.setBcc(Arrays.asList("shiyongxiang@meituan.com"));  //密送
