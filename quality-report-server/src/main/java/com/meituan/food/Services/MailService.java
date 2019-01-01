@@ -14,20 +14,15 @@ import java.util.Arrays;
 public class MailService {
 
     @Resource
-    private OrgService orgService;
-
-    @Resource
     private MailThriftService mailThriftService;
 
-    public void sendMailTo() throws Exception {
-        EmpItems empItems = orgService.allEmp();
-        String a=empItems.toString();
+    public void sendMailTo() throws TException {
+
 
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("发件人名称");
-//        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
-        mailModel.setBody(a);
+        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
         mailModel.setTo(Arrays.asList("guomengyao@meituan.com")); //收件人
         mailModel.setCc(Arrays.asList("shiyongxiang@meituan.com"));  //抄送
         mailModel.setBcc(Arrays.asList("shiyongxiang@meituan.com"));  //密送
