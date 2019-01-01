@@ -1,11 +1,10 @@
 package com.meituan.food.crane;
 
 import com.cip.crane.client.spring.annotation.Crane;
-import com.meituan.food.job.IOneDayJob;
-import com.meituan.food.job.IOneMonthJob;
-import com.meituan.food.job.IOneQuarterJob;
-import com.meituan.food.job.IOneWeekJob;
+import com.meituan.food.Services.MailService;
+import com.meituan.food.job.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -26,6 +25,9 @@ public class ScheduleJob {
 
     @Resource
     private IOneWeekJob oneWeekJob;
+
+    @Resource
+    private MailService mailService;
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -49,5 +51,11 @@ public class ScheduleJob {
     public void syncOneQuarter(){
         log.info("one month job execute at: {}", new Date());
         oneQuarterJob.sync();
+    }
+
+    @Crane("mail.test.job")
+    public void mailTest() throws TException {
+        log.info("mail job execute at: {}", new Date());
+        mailService.sendMailTo();
     }
 }
