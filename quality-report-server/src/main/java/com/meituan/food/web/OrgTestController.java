@@ -28,7 +28,7 @@ public class OrgTestController {
         return stringEmp;
     }
 
-    @GetMapping
+   /* @GetMapping
     public String testOrgIdController(@RequestParam("orgId") String orgId)throws MDMThriftException{
 
         EmpHierarchyCond empCond = new EmpHierarchyCond();
@@ -40,5 +40,5 @@ public class OrgTestController {
         String stringEmpItems=empItems.toString();
 
         return stringEmpItems;
-    }
+    }*/
 }
