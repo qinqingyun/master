@@ -8,6 +8,7 @@ public class OrgTestVO {
     private String name;
     private String misId;
     private String reportMis;
+    private String reportName;
     private String orgName;
     private String orgId;
 }
