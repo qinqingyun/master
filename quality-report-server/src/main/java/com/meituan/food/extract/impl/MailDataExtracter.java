@@ -104,8 +104,6 @@ public class MailDataExtracter implements IMailDataExtract {
             Date now=new Date();
             efficiencyTotalDatePO.setCreatedAt(now);
 
-            efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
-
             RestaurantXueCheng restaurantXueCheng = new RestaurantXueCheng();
             restaurantXueCheng=restaurantXueChengMapper.selectByPrimaryMis(orgVO.getMisId(),firstDayStr);
             if (restaurantXueCheng!=null){
@@ -115,6 +113,9 @@ public class MailDataExtracter implements IMailDataExtract {
                 efficiencyTotalDatePO.setCreateWikiNum(0l);
                 efficiencyTotalDatePO.setUpdateWikiNum(0l);
             }
+
+            efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
+
         }
 
     }
