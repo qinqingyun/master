@@ -1,8 +1,9 @@
 package com.meituan.food.job.impl;
 
-import com.meituan.food.extract.IOneDayDataExtract;
+import com.meituan.food.extract.IMailDataExtract;
 import com.meituan.food.extract.IOneDayEffDataEx;
-import com.meituan.food.job.IOneDayEffJob;
+import com.meituan.food.job.IMailJob;
+import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -12,16 +13,22 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
-public class OneDayEffJobImpl implements IOneDayEffJob {
+public class MailJobImpl implements IMailJob {
 
     @Resource
-    private List<IOneDayEffDataEx> dataExtracts;
+    private List<IMailDataExtract> dataExtracts;
 
     @Override
     public void sync() {
         LocalDate day = LocalDate.now().minusDays(2);
         List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
-                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4EffDay(day)))
+                .map(dataExtract -> CompletableFuture.runAsync(() -> {
+                    try {
+                        dataExtract.extractMailData4EffDay(day);
+                    } catch (MDMThriftException e) {
+                        e.printStackTrace();
+                    }
+                }))
                 .collect(Collectors.toList());
         extractFutures.forEach(CompletableFuture::join);
     }

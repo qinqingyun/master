@@ -35,6 +35,9 @@ public class ScheduleJob {
     @Resource
     private IOneDayForEfficiencyJob oneDayForEfficiencyJob;
 
+    @Resource
+    private IMailJob mailJob;
+
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -77,5 +80,11 @@ public class ScheduleJob {
     public void syncOneDayForEfficiency(){
         log.info("one day for efficiency job execute at: {}", new Date());
         oneDayForEfficiencyJob.sync();
+    }
+
+    @Crane("mail.sync.job")
+    public void syncMail(){
+        log.info("mail job execute at: {}", new Date());
+        mailJob.sync();
     }
 }

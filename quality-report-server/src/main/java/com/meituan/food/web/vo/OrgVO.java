@@ -3,7 +3,7 @@ package com.meituan.food.web.vo;
 import lombok.Data;
 
 @Data
-public class OrgTestVO {
+public class OrgVO {
     private String empId;
     private String name;
     private String misId;

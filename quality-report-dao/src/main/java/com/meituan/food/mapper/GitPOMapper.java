@@ -76,6 +76,26 @@ public interface GitPOMapper {
     })
     GitPO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select",
+            "id, misid, name, git_date, git_code_increase, git_code_delete, git_code_submit, ",
+            "git_code_submit_time",
+            "from git",
+            "where misid = #{mis,jdbcType=VARCHAR}",
+            "and git_date=#{gitDate,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="misid", property="misid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="git_date", property="gitDate", jdbcType=JdbcType.VARCHAR),
+            @Result(column="git_code_increase", property="gitCodeIncrease", jdbcType=JdbcType.INTEGER),
+            @Result(column="git_code_delete", property="gitCodeDelete", jdbcType=JdbcType.INTEGER),
+            @Result(column="git_code_submit", property="gitCodeSubmit", jdbcType=JdbcType.INTEGER),
+            @Result(column="git_code_submit_time", property="gitCodeSubmitTime", jdbcType=JdbcType.INTEGER)
+    })
+    GitPO selectByPrimaryMis(String mis,String gitDate);
+
     @UpdateProvider(type=GitPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") GitPO record, @Param("example") GitPOExample example);
 

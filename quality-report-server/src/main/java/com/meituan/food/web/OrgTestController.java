@@ -1,8 +1,6 @@
 package com.meituan.food.web;
 
-import com.alibaba.fastjson.JSONObject;
-import com.meituan.food.web.vo.OrgTestVO;
-import com.sankuai.meituan.org.openapi.model.EmpCond;
+import com.meituan.food.web.vo.OrgVO;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
 import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
@@ -33,7 +31,7 @@ public class OrgTestController {
     }
 
     @GetMapping("/mis")
-    public List<OrgTestVO> myFirstOrgIdController(@RequestParam("orgId") String orgId)throws MDMThriftException{
+    public List<OrgVO> myFirstOrgIdController(@RequestParam("orgId") String orgId)throws MDMThriftException{
 
         EmpHierarchyCond empCond = new EmpHierarchyCond();
         empCond = empCond.jobStatusIdET(15);//在职
@@ -43,22 +41,22 @@ public class OrgTestController {
         EmpItems empItems = empService.queryEmp(orgId, 3, empCond, paging);
         List<Emp> items = empItems.getItems();
 
-        List<OrgTestVO> orgTestVOList=new ArrayList<>();
+        List<OrgVO> orgVOList =new ArrayList<>();
 
         for (Emp item : items) {
-            OrgTestVO orgTestVO=new OrgTestVO();
-            orgTestVO.setEmpId(item.getEmpId());
-            orgTestVO.setMisId(item.getMis());
-            orgTestVO.setName(item.getName());
-            orgTestVO.setOrgId(item.getOrgId());
-            orgTestVO.setOrgName(item.getOrgName());
-            orgTestVO.setReportMis(item.getReportEmpMis());
-            orgTestVO.setReportName(item.getReportEmpName());
+            OrgVO orgVO =new OrgVO();
+            orgVO.setEmpId(item.getEmpId());
+            orgVO.setMisId(item.getMis());
+            orgVO.setName(item.getName());
+            orgVO.setOrgId(item.getOrgId());
+            orgVO.setOrgName(item.getOrgName());
+            orgVO.setReportMis(item.getReportEmpMis());
+            orgVO.setReportName(item.getReportEmpName());
 
-            orgTestVOList.add(orgTestVO);
+            orgVOList.add(orgVO);
         }
         String stringEmpItems=empItems.toString();
 
-        return orgTestVOList;
+        return orgVOList;
     }
 }

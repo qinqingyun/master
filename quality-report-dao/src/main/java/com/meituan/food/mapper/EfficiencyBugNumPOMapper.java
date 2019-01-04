@@ -77,7 +77,8 @@ public interface EfficiencyBugNumPOMapper {
             "select",
             "id, mis, create_num, accept_num, efficiency_date, created_at, updated_at",
             "from efficiency_bug_num",
-            "where mis = #{mis,jdbcType=VARCHAR}"
+            "where mis = #{mis,jdbcType=VARCHAR}",
+            "and efficiency_date = #{efficiencyDate,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -88,7 +89,7 @@ public interface EfficiencyBugNumPOMapper {
             @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
     })
-    EfficiencyBugNumPO selectByPrimaryMis(String mis);
+    EfficiencyBugNumPO selectByPrimaryMis(String mis,String efficiencyDate);
 
     @UpdateProvider(type=EfficiencyBugNumPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") EfficiencyBugNumPO record, @Param("example") EfficiencyBugNumPOExample example);
