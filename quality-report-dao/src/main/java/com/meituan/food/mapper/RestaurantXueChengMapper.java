@@ -33,7 +33,8 @@ public interface RestaurantXueChengMapper {
                                                                        @Param("startPartitionDate") String startPartitionDate,
                                                                        @Param("endPartitionDate") String endPartitionDate);*/
 
-    @Select("select * from restaurant_xuecheng where mis_id = #{mis}")
+    @Select("select * from restaurant_xuecheng where mis_id = #{mis}"+
+    "and partition_date=#{partitionDate}")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="create_count", property="createCount", jdbcType=JdbcType.BIGINT),
