@@ -29,6 +29,9 @@ public class ScheduleJob {
     @Resource
     private MailService mailService;
 
+    @Resource
+    private IOneDayEffJob oneDayEffJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -58,4 +61,10 @@ public class ScheduleJob {
         log.info("mail job execute at: {}", new Date());
         mailService.sendMailTo();
     }
-}
+
+    @Crane("one.day.eff.job")
+    public void syncOneDayEffJob() throws TException{
+        log.info("one month job execute at: {}", new Date());
+        oneDayEffJob.sync();
+    }
+ }
