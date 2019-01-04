@@ -32,6 +32,10 @@ public class ScheduleJob {
     @Resource
     private IOneDayEffJob oneDayEffJob;
 
+    @Resource
+    private IOneDayForEfficiencyJob oneDayForEfficiencyJob;
+
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -62,9 +66,16 @@ public class ScheduleJob {
         mailService.sendMailTo();
     }
 
+
     @Crane("one.day.eff.job")
     public void syncOneDayEffJob() throws TException{
         log.info("one month job execute at: {}", new Date());
         oneDayEffJob.sync();
     }
- }
+
+    @Crane("one.day.for.efficiency.sync.job")
+    public void syncOneDayForEfficiency(){
+        log.info("one day for efficiency job execute at: {}", new Date());
+        oneDayForEfficiencyJob.sync();
+    }
+}
