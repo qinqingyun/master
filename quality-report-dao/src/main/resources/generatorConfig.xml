@@ -6,7 +6,7 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -53,6 +53,7 @@
 
         <!--<table tableName="sonar" domainObjectName="SonarPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
+
         <!--<table tableName="b_crash_rate" domainObjectName="BCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
         <!--<table tableName="moma_crash_rate" domainObjectName="MomaCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -62,6 +63,12 @@
         <table tableName="restaurant_xuecheng" domainObjectName="RestaurantXueChengPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 
+        <!--<table tableName="b_crash_rate" domainObjectName="BCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="moma_crash_rate" domainObjectName="MomaCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="git" domainObjectName="GitPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
     </context>
 
 </generatorConfiguration>
