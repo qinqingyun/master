@@ -22,7 +22,7 @@ public class TestController {
 
     @GetMapping("/xuecheng")
     public String xuechengEx(@RequestParam("mis") String mis){
-        RestaurantXueChengPO restaurantXueChengPO = restaurantXueChengPOMapper.selectByPrimaryMis("guomengyao");
+        RestaurantXueChengPO restaurantXueChengPO = restaurantXueChengPOMapper.selectByPrimaryMis(mis);
         return restaurantXueChengPO.toString();
     }
 }
