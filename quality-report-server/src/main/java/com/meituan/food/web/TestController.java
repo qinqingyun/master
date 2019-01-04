@@ -25,8 +25,8 @@ public class TestController {
     }
 
     @GetMapping("/xuecheng")
-    public String xuechengEx(@RequestParam("mis") String mis){
-        RestaurantXueCheng restaurantXueChengPO = restaurantXueChengMapper.selectByPrimaryMis(mis);
+    public String xuechengEx(@RequestParam("mis") String mis,@RequestParam("xuechengdate") String xuechengDate){
+        RestaurantXueCheng restaurantXueChengPO = restaurantXueChengMapper.selectByPrimaryMis(mis,xuechengDate);
         return restaurantXueChengPO.toString();
     }
 }

@@ -44,5 +44,5 @@ public interface RestaurantXueChengMapper {
             @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
             //   @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
     })
-    RestaurantXueCheng selectByPrimaryMis(String mis);
+    RestaurantXueCheng selectByPrimaryMis(String mis,String partitionDate);
 }
