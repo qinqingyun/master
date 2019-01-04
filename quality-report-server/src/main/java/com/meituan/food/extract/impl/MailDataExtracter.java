@@ -4,9 +4,11 @@ import com.meituan.food.extract.IMailDataExtract;
 import com.meituan.food.mapper.EfficiencyBugNumPOMapper;
 import com.meituan.food.mapper.EfficiencyTotalDatePOMapper;
 import com.meituan.food.mapper.GitPOMapper;
+import com.meituan.food.mapper.RestaurantXueChengMapper;
 import com.meituan.food.po.EfficiencyBugNumPO;
 import com.meituan.food.po.EfficiencyTotalDatePO;
 import com.meituan.food.po.GitPO;
+import com.meituan.food.po.RestaurantXueCheng;
 import com.meituan.food.web.vo.OrgVO;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
 import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
@@ -14,6 +16,7 @@ import com.sankuai.meituan.org.opensdk.service.EmpService;
 import com.sankuai.meituan.org.queryservice.domain.base.Paging;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -37,6 +40,9 @@ public class MailDataExtracter implements IMailDataExtract {
 
     @Resource
     private EfficiencyTotalDatePOMapper efficiencyTotalDatePOMapper;
+
+    @Autowired
+    private RestaurantXueChengMapper restaurantXueChengMapper;
 
     @Override
     public void extractMailData4EffDay(LocalDate day) throws MDMThriftException {
@@ -95,13 +101,20 @@ public class MailDataExtracter implements IMailDataExtract {
                 efficiencyTotalDatePO.setGitSubmitTime(0);
             }
 
-            efficiencyTotalDatePO.setCreateWikiNum(0l);
-            efficiencyTotalDatePO.setUpdateWikiNum(0l);
             Date now=new Date();
             efficiencyTotalDatePO.setCreatedAt(now);
 
             efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
 
+            RestaurantXueCheng restaurantXueCheng = new RestaurantXueCheng();
+            restaurantXueCheng=restaurantXueChengMapper.selectByPrimaryMis(orgVO.getMisId(),firstDayStr);
+            if (restaurantXueCheng!=null){
+                efficiencyTotalDatePO.setCreateWikiNum(restaurantXueCheng.getCreateCount());
+                efficiencyTotalDatePO.setUpdateWikiNum(restaurantXueCheng.getUpdateCount());
+            }else {
+                efficiencyTotalDatePO.setCreateWikiNum(0l);
+                efficiencyTotalDatePO.setUpdateWikiNum(0l);
+            }
         }
 
     }
