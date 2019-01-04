@@ -16,8 +16,6 @@ public class RestaurantXueChengPO implements Serializable {
 
     private Date createTime;
 
-    private Date updateTime;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -68,13 +66,6 @@ public class RestaurantXueChengPO implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @Override
     public boolean equals(Object that) {
@@ -93,8 +84,7 @@ public class RestaurantXueChengPO implements Serializable {
             && (this.getUpdateCount() == null ? other.getUpdateCount() == null : this.getUpdateCount().equals(other.getUpdateCount()))
             && (this.getPartitionDate() == null ? other.getPartitionDate() == null : this.getPartitionDate().equals(other.getPartitionDate()))
             && (this.getMisId() == null ? other.getMisId() == null : this.getMisId().equals(other.getMisId()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
     @Override
@@ -107,7 +97,6 @@ public class RestaurantXueChengPO implements Serializable {
         result = prime * result + ((getPartitionDate() == null) ? 0 : getPartitionDate().hashCode());
         result = prime * result + ((getMisId() == null) ? 0 : getMisId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
 
@@ -123,7 +112,6 @@ public class RestaurantXueChengPO implements Serializable {
         sb.append(", partitionDate=").append(partitionDate);
         sb.append(", misId=").append(misId);
         sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

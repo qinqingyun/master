@@ -75,7 +75,7 @@ public interface RestaurantXueChengPOMapper {
 
     @Select({
             "select",
-            "id, create_count, update_count, partition_date, mis_id, create_time, update_time",
+            "id, create_count, update_count, partition_date, mis_id, create_time",
             "from restaurant_xuecheng",
             "where mis_id = #{mis,jdbcType=VARCHAR}"
     })
@@ -86,7 +86,7 @@ public interface RestaurantXueChengPOMapper {
             @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
             @Result(column="mis_id", property="misId", jdbcType=JdbcType.VARCHAR),
             @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
+         //   @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
     })
     RestaurantXueChengPO selectByPrimaryMis(String mis);
 
