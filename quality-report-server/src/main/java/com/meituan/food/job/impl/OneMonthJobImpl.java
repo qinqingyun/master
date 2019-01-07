@@ -28,7 +28,7 @@ public class OneMonthJobImpl implements IOneMonthJob {
 //        LocalDate day = LocalDate.now().minusMonths(1);
         /// Calendar lastDay=Calendar.getInstance();
 
-      /*  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal_1 = Calendar.getInstance();
         cal_1.add(Calendar.MONTH, -1);
         cal_1.set(Calendar.DAY_OF_MONTH, 1);
@@ -36,9 +36,11 @@ public class OneMonthJobImpl implements IOneMonthJob {
 
         Calendar cale = Calendar.getInstance();
         cale.set(Calendar.DAY_OF_MONTH, 0);
-        lastDay = format.format(cale.getTime());*/
+        lastDay = format.format(cale.getTime());
+        dataExtracts.forEach(dataExtract -> dataExtract.extractData4Month(firstDay, lastDay));
 
-        for(int i=1;i<=12;i++) {
+
+        /*for(int i=1;i<=12;i++) {
             Calendar cal = Calendar.getInstance();
             Calendar cal2 = Calendar.getInstance();
 
@@ -68,7 +70,7 @@ public class OneMonthJobImpl implements IOneMonthJob {
             System.out.println(fir+" "+last);
             dataExtracts.forEach(dataExtract -> dataExtract.extractData4Month(fir, last));
 
-        }
+        }*/
 
 
 
