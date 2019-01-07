@@ -29,6 +29,9 @@ public class TestController {
    @Resource
    private IssuePOMapper issuePOMapper;
 
+   @Resource
+   private CrashRatePOMapper crashRatePOMapper;
+
     @GetMapping("/hello/{name}")
     public String hello(@PathVariable String name) {
         return "hello world," + name;
@@ -61,6 +64,9 @@ public class TestController {
         issuePOMapper.deleteByPrimaryKey(id);
     }
 
-
+    @GetMapping("/delete/ccrash")
+    public void deleteCCrashRate(@RequestParam("id") int id){
+        crashRatePOMapper.deleteByPrimaryKey(id);
+    }
 
 }

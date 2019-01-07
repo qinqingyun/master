@@ -125,7 +125,7 @@ public class SonarExtracter implements IOneQuarterDataExtract {
                     critical = critical + ((JSONObject) o).getInteger("critical_violations");
 
                 }
-                subProjects = subProjects + "、" + s;
+                subProjects = subProjects + " " + s;
             }
 
             SonarPO sonarPO = new SonarPO();
