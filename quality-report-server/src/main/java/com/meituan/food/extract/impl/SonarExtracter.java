@@ -25,7 +25,6 @@ public class SonarExtracter implements IOneQuarterDataExtract {
     @Resource
     SonarPOMapper sonarPOMapper;
 
-    List<SonarGroup> sonarGroups = new ArrayList<SonarGroup>();
 
     @Override
     public void extractData4Quarter(LocalDate firstDay, LocalDate lastDay) {
@@ -33,6 +32,8 @@ public class SonarExtracter implements IOneQuarterDataExtract {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        List<SonarGroup> sonarGroups = new ArrayList<SonarGroup>();
 
         Map<String, String> projects = new HashMap<>();
         projects.put("闪惠", "meishi_b_hui");
