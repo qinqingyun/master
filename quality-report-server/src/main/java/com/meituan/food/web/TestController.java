@@ -1,12 +1,10 @@
 package com.meituan.food.web;
 
-import com.meituan.food.mapper.RestaurantXueChengMapper;
+import com.meituan.food.mapper.*;
+import com.meituan.food.po.LeakRatePO;
 import com.meituan.food.po.RestaurantXueCheng;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,6 +17,18 @@ public class TestController {
    @Autowired
    private RestaurantXueChengMapper restaurantXueChengMapper;
 
+   @Resource
+   private BCrashRatePOMapper bCrashRatePOMapper;
+
+   @Resource
+   private MomaCrashRatePOMapper momaCrashRatePOMapper;
+
+   @Resource
+   private LeakRatePOMapper leakRatePOMapper;
+
+   @Resource
+   private IssuePOMapper issuePOMapper;
+
     @GetMapping("/hello/{name}")
     public String hello(@PathVariable String name) {
         return "hello world," + name;
@@ -29,4 +39,28 @@ public class TestController {
         RestaurantXueCheng restaurantXueChengPO = restaurantXueChengMapper.selectByPrimaryMis(mis,xuechengDate);
         return restaurantXueChengPO.toString();
     }
+
+    @GetMapping("/delete/bcrashrate")
+    public void deleteBCrashRate(@RequestParam("id") int id){
+        bCrashRatePOMapper.deleteByPrimaryKey(id);
+    }
+
+
+    @GetMapping("/delete/moma")
+    public void deleteMoma(@RequestParam("id")int id){
+        momaCrashRatePOMapper.deleteByPrimaryKey(id);
+    }
+
+    @GetMapping("/delete/leakrate")
+    public void deleteLeakRate(@RequestParam("id") int id){
+        leakRatePOMapper.deleteByPrimaryKey(id);
+    }
+
+    @GetMapping("/delete/issue")
+    public void deleteIssue(@RequestParam("id") int id){
+        issuePOMapper.deleteByPrimaryKey(id);
+    }
+
+
+
 }

@@ -42,49 +42,51 @@ public class MomaCrashRateExtracter implements IOneMonthDataExtract {
         JSONArray result=response.getJSONObject("data").getJSONObject("resData").getJSONObject("data").getJSONArray("data");
 
 
-        MomaCrashRatePO momaCrashRatePO=new MomaCrashRatePO();
-        for (Object o : result) {
-            if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("MOMA"))){
-                momaCrashRatePO.setMomaCrashCount(((JSONArray)o).getInteger(3));
-                momaCrashRatePO.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("阿波罗"))){
-                momaCrashRatePO.setAboluoCrashCount(((JSONArray) o).getInteger(3));
-                momaCrashRatePO.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("蜜蜂"))){
-                momaCrashRatePO.setBeeCrashCount(((JSONArray) o).getInteger(3));
-                momaCrashRatePO.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+        if(result.size()!=0 && result.size()!=1) {
+            MomaCrashRatePO momaCrashRatePO = new MomaCrashRatePO();
+            for (Object o : result) {
+                if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("MOMA"))) {
+                    momaCrashRatePO.setMomaCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePO.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("阿波罗"))) {
+                    momaCrashRatePO.setAboluoCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePO.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("蜜蜂"))) {
+                    momaCrashRatePO.setBeeCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePO.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+                }
             }
-        }
-        momaCrashRatePO.setPlatform("MOMA");
-        momaCrashRatePO.setOs("Android");
-        momaCrashRatePO.setMonth(crashMonth);
-        Date now=new Date();
-        momaCrashRatePO.setCreatedAt(now);
-        momaCrashRatePO.setUpdatedAt(now);
-        momaCrashRatePOMapper.insert(momaCrashRatePO);
+            momaCrashRatePO.setPlatform("MOMA");
+            momaCrashRatePO.setOs("Android");
+            momaCrashRatePO.setMonth(crashMonth);
+            Date now = new Date();
+            momaCrashRatePO.setCreatedAt(now);
+            momaCrashRatePO.setUpdatedAt(now);
+            momaCrashRatePOMapper.insert(momaCrashRatePO);
 
 
-        MomaCrashRatePO momaCrashRatePOIos=new MomaCrashRatePO();
+            MomaCrashRatePO momaCrashRatePOIos = new MomaCrashRatePO();
 
-        for (Object o : result) {
-            if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("MOMA"))){
-                momaCrashRatePOIos.setMomaCrashCount(((JSONArray)o).getInteger(3));
-                momaCrashRatePOIos.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("阿波罗"))){
-                momaCrashRatePOIos.setAboluoCrashCount(((JSONArray) o).getInteger(3));
-                momaCrashRatePOIos.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("蜜蜂"))){
-                momaCrashRatePOIos.setBeeCrashCount(((JSONArray) o).getInteger(3));
-                momaCrashRatePOIos.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+            for (Object o : result) {
+                if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("MOMA"))) {
+                    momaCrashRatePOIos.setMomaCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePOIos.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("阿波罗"))) {
+                    momaCrashRatePOIos.setAboluoCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePOIos.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("蜜蜂"))) {
+                    momaCrashRatePOIos.setBeeCrashCount(((JSONArray) o).getInteger(3));
+                    momaCrashRatePOIos.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+                }
             }
-        }
-        momaCrashRatePOIos.setPlatform("MOMA");
-        momaCrashRatePOIos.setOs("iPhone");
-        momaCrashRatePOIos.setMonth(crashMonth);
+            momaCrashRatePOIos.setPlatform("MOMA");
+            momaCrashRatePOIos.setOs("iPhone");
+            momaCrashRatePOIos.setMonth(crashMonth);
 
-        Date nowIos=new Date();
-        momaCrashRatePOIos.setCreatedAt(nowIos);
-        momaCrashRatePOIos.setUpdatedAt(nowIos);
-        momaCrashRatePOMapper.insert(momaCrashRatePOIos);
+            Date nowIos = new Date();
+            momaCrashRatePOIos.setCreatedAt(nowIos);
+            momaCrashRatePOIos.setUpdatedAt(nowIos);
+            momaCrashRatePOMapper.insert(momaCrashRatePOIos);
+        }
     }
 }

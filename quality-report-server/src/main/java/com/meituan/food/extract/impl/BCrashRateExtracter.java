@@ -42,56 +42,57 @@ public class BCrashRateExtracter implements IOneMonthDataExtract {
 
         JSONArray result=response.getJSONObject("data").getJSONObject("resData").getJSONObject("data").getJSONArray("data");
 
-
-        BCrashRatePO bCrashRatePO=new BCrashRatePO();
-        for (Object o : result) {
-            if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("开店宝"))){
-                bCrashRatePO.setbCrashCount(((JSONArray)o).getInteger(3));
-                bCrashRatePO.setbCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("点评管家"))){
-                bCrashRatePO.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
-                bCrashRatePO.setbDianping(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("Android"))&&(((JSONArray)o).getString(1).equals("外卖商家"))){
-                bCrashRatePO.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
-                bCrashRatePO.setbWaimai(((JSONArray) o).getBigDecimal(2));
+        if(result.size()!=0 && result.size()!=1) {
+            BCrashRatePO bCrashRatePO = new BCrashRatePO();
+            for (Object o : result) {
+                if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("开店宝"))) {
+                    bCrashRatePO.setbCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePO.setbCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("点评管家"))) {
+                    bCrashRatePO.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePO.setbDianping(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("外卖商家"))) {
+                    bCrashRatePO.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePO.setbWaimai(((JSONArray) o).getBigDecimal(2));
+                }
             }
-        }
-        bCrashRatePO.setPlatform("开店宝");
-        bCrashRatePO.setOs("Android");
-        bCrashRatePO.setMonth(crashMonth);
-        Date now=new Date();
-        bCrashRatePO.setCreatedAt(now);
-        bCrashRatePO.setUpdatedAt(now);
-        bCrashRatePOMapper.insert(bCrashRatePO);
+            bCrashRatePO.setPlatform("开店宝");
+            bCrashRatePO.setOs("Android");
+            bCrashRatePO.setMonth(crashMonth);
+            Date now = new Date();
+            bCrashRatePO.setCreatedAt(now);
+            bCrashRatePO.setUpdatedAt(now);
+            bCrashRatePOMapper.insert(bCrashRatePO);
 
 
-        BCrashRatePO bCrashRatePOIos=new BCrashRatePO();
+            BCrashRatePO bCrashRatePOIos = new BCrashRatePO();
 
-        for (Object o : result) {
-            if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("开店宝"))){
-                bCrashRatePOIos.setbCrashCount(((JSONArray)o).getInteger(3));
-                bCrashRatePOIos.setbCrashRate(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("点评管家"))){
-                bCrashRatePOIos.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
-                bCrashRatePOIos.setbDianping(((JSONArray) o).getBigDecimal(2));
-            }else if((((JSONArray)o).getString(0).equals("iPhone"))&&(((JSONArray)o).getString(1).equals("外卖商家"))){
-                bCrashRatePOIos.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
-                bCrashRatePOIos.setbWaimai(((JSONArray) o).getBigDecimal(2));
+            for (Object o : result) {
+                if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("开店宝"))) {
+                    bCrashRatePOIos.setbCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePOIos.setbCrashRate(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("点评管家"))) {
+                    bCrashRatePOIos.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePOIos.setbDianping(((JSONArray) o).getBigDecimal(2));
+                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("外卖商家"))) {
+                    bCrashRatePOIos.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
+                    bCrashRatePOIos.setbWaimai(((JSONArray) o).getBigDecimal(2));
+                }
             }
-        }
-        bCrashRatePOIos.setPlatform("开店宝");
-        bCrashRatePOIos.setOs("iPhone");
-        bCrashRatePOIos.setMonth(crashMonth);
+            bCrashRatePOIos.setPlatform("开店宝");
+            bCrashRatePOIos.setOs("iPhone");
+            bCrashRatePOIos.setMonth(crashMonth);
 
-        Date nowIos=new Date();
-        bCrashRatePOIos.setCreatedAt(nowIos);
-        bCrashRatePOIos.setUpdatedAt(nowIos);
-        bCrashRatePOMapper.insert(bCrashRatePOIos);
+            Date nowIos = new Date();
+            bCrashRatePOIos.setCreatedAt(nowIos);
+            bCrashRatePOIos.setUpdatedAt(nowIos);
+            bCrashRatePOMapper.insert(bCrashRatePOIos);
+        }
 
     }
 
     public static void main(String[] args) {
         IOneMonthDataExtract a=new BCrashRateExtracter();
-        a.extractData4Month("2018-11-01","2018-11-30");
+        a.extractData4Month("2018-01-01","2018-01-31");
     }
 }
