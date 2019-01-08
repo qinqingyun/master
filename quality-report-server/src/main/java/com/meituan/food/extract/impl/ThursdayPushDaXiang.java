@@ -21,8 +21,8 @@ public class ThursdayPushDaXiang implements IThursdayPushDaXiang {
         importantProjectReviewPO=importantProjectReviewPOMapper.selectLastData();
 
         DaXiangUtils.pushToPerson("@所有人 本周项目review地址："+importantProjectReviewPO.getKmLink()+" 尽快填写哦~","guomengyao");
-       // DaXiangUtils.pushToRoom("",879074L);
-           DaXiangUtils.pushToRoom("@所有人 本周项目review地址："+importantProjectReviewPO.getKmLink()+" 尽快填写哦~",64012858900L);
+        DaXiangUtils.pushToRoom("@所有人 本周项目review地址："+importantProjectReviewPO.getKmLink()+" 尽快填写哦~",879074L);
+       //    DaXiangUtils.pushToRoom("@所有人 本周项目review地址："+importantProjectReviewPO.getKmLink()+" 尽快填写哦~",64012858900L);
 
     }
 
