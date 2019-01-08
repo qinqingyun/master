@@ -69,8 +69,11 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="git" domainObjectName="GitPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="important_project_review" domainObjectName="ImportantProjectReviewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+
 
     </context>
 

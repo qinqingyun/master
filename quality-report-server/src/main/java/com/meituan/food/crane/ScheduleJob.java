@@ -38,6 +38,11 @@ public class ScheduleJob {
     @Resource
     private IMailJob mailJob;
 
+    @Resource
+    private IImportantProjectReviewJob importantProjectReviewJob;
+
+    @Resource IThursdayPushDaXiangJob thursdayPushDaXiangJob;
+
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -86,5 +91,17 @@ public class ScheduleJob {
     public void syncMail(){
         log.info("mail job execute at: {}", new Date());
         mailJob.sync();
+    }
+
+    @Crane("one.week.eight.sync.job")
+    public void syncOneWeekEight(){
+        log.info("one week job execute at: {}", new Date());
+        importantProjectReviewJob.sync();
+    }
+
+    @Crane("thursday.push.daxiang.job")
+    public void pushDaXiang(){
+        log.info("push daxiang job execute at: {}", new Date());
+        thursdayPushDaXiangJob.sync();
     }
 }
