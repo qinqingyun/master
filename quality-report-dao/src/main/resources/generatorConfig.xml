@@ -71,10 +71,14 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="important_project_review" domainObjectName="ImportantProjectReviewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="important_project_review" domainObjectName="ImportantProjectReviewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+       <!-- <table tableName="week_b_crash" domainObjectName="WeekBCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
-
-
+        <table tableName="week_moma_crash" domainObjectName="WeekMomaCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
     </context>
 
 </generatorConfiguration>

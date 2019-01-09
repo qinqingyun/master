@@ -41,7 +41,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
 
     @Override
     public void extractData4Week(LocalDate firstDay, LocalDate lastDay) throws UnsupportedEncodingException {
-        String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+     /*   String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String kmTitle="到餐项目Review（"+firstDayStr+"-"+lastDayStr+"）";
 
@@ -167,7 +167,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         importantProjectReviewPO.setUpdatedAt(now);
 
         importantProjectReviewPOMapper.insert(importantProjectReviewPO);
-
+*/
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {

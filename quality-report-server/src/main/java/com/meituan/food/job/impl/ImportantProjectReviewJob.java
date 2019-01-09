@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+
+/*
+* 周四上午的定时任务
+* */
+
 @Component
 public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
 
