@@ -3,6 +3,7 @@ package com.meituan.food.crane;
 import com.cip.crane.client.spring.annotation.Crane;
 import com.meituan.food.Services.MailService;
 import com.meituan.food.job.*;
+import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,9 @@ public class ScheduleJob {
     private IImportantProjectReviewJob importantProjectReviewJob;
 
     @Resource IThursdayPushDaXiangJob thursdayPushDaXiangJob;
+
+    @Resource
+    private IOneDayFourteenJob oneDayFourteenJob;
 
 
     @Crane("one.week.sync.job")
@@ -103,5 +107,11 @@ public class ScheduleJob {
     public void pushDaXiang(){
         log.info("push daxiang job execute at: {}", new Date());
         thursdayPushDaXiangJob.sync();
+    }
+
+    @Crane("one.day.fourteen.sync")
+    public void syncFourteen() throws MDMThriftException {
+        log.info("oneDayFourteenJob job execute at: {}", new Date());
+        oneDayFourteenJob.sync();
     }
 }

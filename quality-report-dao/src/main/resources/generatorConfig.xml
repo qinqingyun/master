@@ -77,8 +77,11 @@
                enableUpdateByExample="true"/>
         <table tableName="week_moma_crash" domainObjectName="WeekMomaCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="task_duration" domainObjectName="TaskDurationPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+
     </context>
 
 </generatorConfiguration>

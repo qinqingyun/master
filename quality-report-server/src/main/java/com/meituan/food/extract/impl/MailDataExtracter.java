@@ -157,38 +157,4 @@ public class MailDataExtracter implements IMailDataExtract {
         System.out.println(resultModel);
 
     }
-
-
-    public static void main(String[] args) {
-       /* String a="testa";
-        a=a+"b";*/
-        String mailBody="<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th></tr>";
-        mailBody=mailBody+"<tr><td>"+"a"
-                +"</td><td>"+"a"
-                +"</td><td>"+"1"
-                +"</td><td>"+"2"
-                +"</td><td>"+"3"
-                +"</td><td>"+"4"
-                +"</td><td>"+"5"
-                +"</td><td>"+"6"
-                +"</td><td>"+"7"
-                +"</td><td>"+"8"
-                +"</td><td>"+"9"
-                +"</td></tr>";
-        mailBody=mailBody+"<tr><td>"+"a"
-                +"</td><td>"+"a"
-                +"</td><td>"+"1"
-                +"</td><td>"+"2"
-                +"</td><td>"+"3"
-                +"</td><td>"+"4"
-                +"</td><td>"+"5"
-                +"</td><td>"+"6"
-                +"</td><td>"+"7"
-                +"</td><td>"+"8"
-                +"</td><td>"+"9"
-                +"</td></tr>";
-        mailBody=mailBody+"</table></body></html>";
-
-        System.out.println(mailBody);
-    }
 }
