@@ -23,10 +23,8 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
     private List<IOneWeekEightDataExtract> iOneWeekEightDataExtracts;
     @Override
     public void sync() {
-      /*  LocalDate firstDay=LocalDate.now().minusDays(7);
-        LocalDate lastDay=LocalDate.now().minusDays(1);*/
-        LocalDate firstDay=LocalDate.now().minusDays(11);
-        LocalDate lastDay=LocalDate.now().minusDays(5);
+        LocalDate firstDay=LocalDate.now().minusDays(7);
+        LocalDate lastDay=LocalDate.now().minusDays(1);
 
         List<CompletableFuture<Void>> extractFutures = iOneWeekEightDataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> {
