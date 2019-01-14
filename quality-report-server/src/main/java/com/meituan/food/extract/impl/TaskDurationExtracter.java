@@ -73,6 +73,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     }else {
                         taskDurationPO.setIsnormal(false);
                     }
+
+                    taskDurationPOMapper.insert(taskDurationPO);
                 }
             }
 
