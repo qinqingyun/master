@@ -175,9 +175,5 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         LocalDate firstDay=LocalDate.now().minusDays(8);
         LocalDate lastDay=LocalDate.now().minusDays(1);
         s.extractData4Week(firstDay,lastDay);
-
-      /* for (int i=1;i<=6;i++){
-           System.out.println(i);
-       }*/
     }
 }
