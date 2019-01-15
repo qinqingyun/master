@@ -11,8 +11,11 @@ import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
+import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
+import com.sankuai.meituan.org.queryservice.domain.base.Paging;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
+import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.stereotype.Component;
 
@@ -72,9 +75,12 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     Emp emp = empService.queryByMis(name, null);
                     if(emp!=null){
                         taskDurationPO.setRealName(emp.getName());
-                        if (emp.getReportEmpMis()!=e.getLeaderMis()){
+                        if (emp.getReportEmpMis()!=e.getLeaderMis()&&(!name.equals(e.getLeaderMis()))){
                             taskDurationPO.setFirstLeader(emp.getReportEmpMis());
-                        }else {
+                        }else if(name.equals(e.getLeaderMis())){
+                            taskDurationPO.setFirstLeader(name);
+                        }
+                        else {
                             taskDurationPO.setFirstLeader(name);
                         }
                         if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)) {
@@ -93,11 +99,50 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
 
+            EmpHierarchyCond empCond = new EmpHierarchyCond();
+            empCond = empCond.jobStatusIdET(15);//在职
+            Paging paging = new Paging();
+            paging.setSize(1000);
+
+            EmpItems empItems = empService.queryEmp(e.getOrgId(), 3, empCond, paging);
+            List<Emp> items = empItems.getItems();
+
+            List<String> nameList=new ArrayList<>();
+            for (TaskDurationPO taskDurationPO : taskDurationPOS) {
+                nameList.add(taskDurationPO.getMisid());
+            }
+            for (Emp item : items) {
+                if(nameList.contains(item.getMis())==false){
+                    TaskDurationPO po=new TaskDurationPO();
+                    po.setMisid(item.getMis());
+                    po.setRealName(item.getName());
+                    if(item.getReportEmpMis()!=e.getLeaderMis()&&(!item.getMis().equals(e.getLeaderMis()))){
+                        po.setFirstLeader(item.getReportEmpMis());
+                    }else if(item.getMis().equals(e.getLeaderMis())){
+                        po.setFirstLeader(item.getMis());
+                    }else {
+                        po.setFirstLeader(item.getMis());
+                    }
+                    po.setSecondLeader(e.getLeaderMis());
+                    po.setIsnormal(false);
+                    Date now=new Date();
+                    po.setCreatedAt(now);
+                    po.setStartDate(firstDayStr);
+                    po.setEndDate(lastDayStr);
+                    po.setOrgId(e.getOrgId());
+                    po.setOrgGroup(e.getOrgName());
+                    po.setDuration(new BigDecimal("0.0"));
+                    po.setDashboard("无数据");
+
+                    taskDurationPOS.add(po);
+                    taskDurationPOMapper.insert(po);
+                }
+            }
         }
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+           //     DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
             }
         }
         List<String> allFirstLeader=new ArrayList<>();
@@ -116,8 +161,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     nameList=nameList+po.getRealName()+" ";
                 }
             }
-            if(nameList!=null) {
-                DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
+            if(nameList!="") {
+                DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~"+s, "guomengyao");
             }
         }
 
@@ -128,8 +173,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     secondNameList=secondNameList+po.getRealName()+" ";
                 }
             }
-            if(secondNameList!=null){
-                DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~"+e.getLeaderMis(), "guomengyao");
+            if(secondNameList!=""){
+             //   DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
             }
         }
 
