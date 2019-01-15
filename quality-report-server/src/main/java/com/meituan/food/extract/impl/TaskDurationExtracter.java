@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayFourteenExtract;
 import com.meituan.food.mapper.TaskDurationPOMapper;
 import com.meituan.food.po.TaskDurationPO;
+import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
@@ -18,7 +19,9 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class TaskDurationExtracter  implements IOneDayFourteenExtract {
@@ -35,6 +38,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
     public void extractData4Day(LocalDate firstDay, LocalDate lastDay) throws MDMThriftException {
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<TaskDurationPO> taskDurationPOS=new ArrayList<>();
 
         for(OrgEnum e:OrgEnum.values()){
             JSONObject param=new JSONObject();
@@ -75,9 +79,16 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     }
 
                     taskDurationPOMapper.insert(taskDurationPO);
+                    taskDurationPOS.add(taskDurationPO);
                 }
             }
 
+        }
+
+        for (TaskDurationPO po : taskDurationPOS) {
+            if(po.getIsnormal()==false){
+                DaXiangUtils.pushToPerson(firstDayStr+ "~"+lastDayStr+"工时数据为:"+po.getDuration()+",存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+            }
         }
     }
 

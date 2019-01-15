@@ -19,7 +19,7 @@ public class OneDayFourteenJobImpl implements IOneDayFourteenJob {
 
     @Override
     public void sync() throws MDMThriftException {
-        LocalDate firstDay=LocalDate.now().minusDays(7);
+        LocalDate firstDay=LocalDate.now().minusDays(6);
         LocalDate lastDay=LocalDate.now();
 
         oneDayFourteenExtract.extractData4Day(firstDay,lastDay);
