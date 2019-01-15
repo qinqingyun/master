@@ -13,6 +13,7 @@ import com.meituan.food.utils.UrlUtils;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,7 +40,6 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<TaskDurationPO> taskDurationPOS=new ArrayList<>();
-
         for(OrgEnum e:OrgEnum.values()){
             JSONObject param=new JSONObject();
             param.put("startDate",firstDayStr);
@@ -62,37 +62,34 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     taskDurationPO.setStartDate(firstDayStr);
                     taskDurationPO.setEndDate(lastDayStr);
                     taskDurationPO.setOrgId(e.getOrgId());
+                    taskDurationPO.setOrgGroup(e.getOrgName());
+                    taskDurationPO.setDuration(taskDuration);
+                    taskDurationPO.setSecondLeader(e.getLeaderMis());
+                    Date now=new Date();
+                    taskDurationPO.setCreatedAt(now);
                     BigDecimal lowDuration=new BigDecimal("32.0");
                     BigDecimal highDuration=new BigDecimal("48.0");
                     Emp emp = empService.queryByMis(name, null);
                     if(emp!=null){
                         taskDurationPO.setRealName(emp.getName());
-                        taskDurationPO.setFirstLeader(emp.getReportEmpMis());
+                        if (emp.getReportEmpMis()!=e.getLeaderMis()){
+                            taskDurationPO.setFirstLeader(emp.getReportEmpMis());
+                        }else {
+                            taskDurationPO.setFirstLeader(name);
+                        }
                         if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)) {
                             taskDurationPO.setIsnormal(true);
                         }else {
                             taskDurationPO.setIsnormal(false);
 
                         }
+                        taskDurationPOMapper.insert(taskDurationPO);
+                        taskDurationPOS.add(taskDurationPO);
                     }else {
                         taskDurationPO.setRealName("");
                         taskDurationPO.setFirstLeader("");
                         taskDurationPO.setIsnormal(true);
                     }
-                    taskDurationPO.setOrgGroup(e.getOrgName());
-                    taskDurationPO.setDuration(taskDuration);
-                    taskDurationPO.setSecondLeader(e.getLeaderMis());
-                    Date now=new Date();
-                    taskDurationPO.setCreatedAt(now);
-
-                   /* if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)){
-                        taskDurationPO.setIsnormal(true);
-                    }else {
-                        taskDurationPO.setIsnormal(false);
-                    }*/
-
-                    taskDurationPOMapper.insert(taskDurationPO);
-                    taskDurationPOS.add(taskDurationPO);
                 }
             }
 
@@ -100,9 +97,42 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,[点击此处|："+po.getDashboard()+"]","guomengyao");
+                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
             }
         }
+        List<String> allFirstLeader=new ArrayList<>();
+        if(taskDurationPOS!=null){
+            for (TaskDurationPO po : taskDurationPOS) {
+                if(allFirstLeader.contains(po.getFirstLeader())==false){
+                    allFirstLeader.add(po.getFirstLeader());
+                }
+            }
+        }
+
+        for (String s : allFirstLeader) {
+            String nameList="";
+            for (TaskDurationPO po : taskDurationPOS) {
+                if(po.getFirstLeader().equals(s)&&po.getIsnormal()==false){
+                    nameList=nameList+po.getRealName()+" ";
+                }
+            }
+            if(nameList!=null) {
+                DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
+            }
+        }
+
+        for(OrgEnum e:OrgEnum.values()) {
+            String secondNameList="";
+            for (TaskDurationPO po : taskDurationPOS) {
+                if(po.getSecondLeader().equals(e.getLeaderMis())&&po.getIsnormal()==false){
+                    secondNameList=secondNameList+po.getRealName()+" ";
+                }
+            }
+            if(secondNameList!=null){
+                DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~"+e.getLeaderMis(), "guomengyao");
+            }
+        }
+
     }
 
     public enum OrgEnum{
