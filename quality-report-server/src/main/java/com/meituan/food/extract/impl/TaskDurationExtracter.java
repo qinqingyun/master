@@ -62,21 +62,34 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     taskDurationPO.setStartDate(firstDayStr);
                     taskDurationPO.setEndDate(lastDayStr);
                     taskDurationPO.setOrgId(e.getOrgId());
+                    BigDecimal lowDuration=new BigDecimal("32.0");
+                    BigDecimal highDuration=new BigDecimal("48.0");
                     Emp emp = empService.queryByMis(name, null);
-                    taskDurationPO.setRealName(emp.getName());
+                    if(emp!=null){
+                        taskDurationPO.setRealName(emp.getName());
+                        taskDurationPO.setFirstLeader(emp.getReportEmpMis());
+                        if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)) {
+                            taskDurationPO.setIsnormal(true);
+                        }else {
+                            taskDurationPO.setIsnormal(false);
+
+                        }
+                    }else {
+                        taskDurationPO.setRealName("");
+                        taskDurationPO.setFirstLeader("");
+                        taskDurationPO.setIsnormal(true);
+                    }
                     taskDurationPO.setOrgGroup(e.getOrgName());
                     taskDurationPO.setDuration(taskDuration);
-                    taskDurationPO.setFirstLeader(emp.getReportEmpMis());
                     taskDurationPO.setSecondLeader(e.getLeaderMis());
                     Date now=new Date();
                     taskDurationPO.setCreatedAt(now);
-                    BigDecimal lowDuration=new BigDecimal("32.0");
-                    BigDecimal highDuration=new BigDecimal("48.0");
-                    if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)){
+
+                   /* if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)){
                         taskDurationPO.setIsnormal(true);
                     }else {
                         taskDurationPO.setIsnormal(false);
-                    }
+                    }*/
 
                     taskDurationPOMapper.insert(taskDurationPO);
                     taskDurationPOS.add(taskDurationPO);
@@ -87,7 +100,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-                DaXiangUtils.pushToPerson(firstDayStr+ "~"+lastDayStr+"工时数据为:"+po.getDuration()+",存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,[点击此处|："+po.getDashboard()+"]","guomengyao");
             }
         }
     }
