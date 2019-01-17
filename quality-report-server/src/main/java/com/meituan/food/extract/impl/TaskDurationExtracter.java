@@ -99,7 +99,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
 
-            EmpHierarchyCond empCond = new EmpHierarchyCond();
+          /*  EmpHierarchyCond empCond = new EmpHierarchyCond();
             empCond = empCond.jobStatusIdET(15);//在职
             Paging paging = new Paging();
             paging.setSize(1000);
@@ -138,7 +138,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     taskDurationPOMapper.insert(po);
                 }
             }
-        }
+        }*/
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
