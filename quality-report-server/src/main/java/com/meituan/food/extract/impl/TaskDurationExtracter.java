@@ -99,7 +99,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
 
-         /*   EmpHierarchyCond empCond = new EmpHierarchyCond();
+            EmpHierarchyCond empCond = new EmpHierarchyCond();
             empCond = empCond.jobStatusIdET(15);//在职
             Paging paging = new Paging();
             paging.setSize(1000);
@@ -137,18 +137,18 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     taskDurationPOS.add(po);
                     taskDurationPOMapper.insert(po);
                 }
-            }*/
+            }
         }
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-                DaXiangUtils.pushToPerson(po.getMisid()+"啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+           //     DaXiangUtils.pushToPerson(po.getMisid()+"啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
             }
         }
         List<String> allFirstLeader=new ArrayList<>();
         if(taskDurationPOS!=null){
             for (TaskDurationPO po : taskDurationPOS) {
-                if(allFirstLeader.contains(po.getFirstLeader())==false){
+                if(allFirstLeader.contains(po.getFirstLeader())==false && po.getFirstLeader()!=null && (!po.getFirstLeader().equals(""))){
                     allFirstLeader.add(po.getFirstLeader());
                 }
             }
@@ -157,12 +157,16 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
         for (String s : allFirstLeader) {
             String nameList="";
             for (TaskDurationPO po : taskDurationPOS) {
-                if(po.getFirstLeader().equals(s)&&po.getIsnormal()==false){
-                    nameList=nameList+po.getRealName()+" ";
+                if(po.getFirstLeader()!=null && (!po.getFirstLeader().equals(""))) {
+                    if (po.getFirstLeader().equals(s) && po.getIsnormal() == false) {
+                        nameList = nameList + po.getRealName() + " ";
+                    }
                 }
             }
             if(nameList!="") {
             //    DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", s);
+                    DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
+
             }
         }
 
@@ -175,6 +179,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
             }
             if(secondNameList!=""){
              //   DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~", e.getLeaderMis());
+                   DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~","guomengyao");
+
             }
         }
 
@@ -225,6 +231,14 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
         public void setLeaderMis(String leaderMis) {
             this.leaderMis = leaderMis;
         }
+    }
+
+    public static void main(String[] args) {
+        DaXiangUtils.pushToPerson("test","jiangyu07");
+        DaXiangUtils.pushToPerson("test","lixuechao");
+
+        DaXiangUtils.pushToPerson("test","guomengyao");
+
     }
 
 }
