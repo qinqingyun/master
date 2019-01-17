@@ -142,7 +142,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-           //     DaXiangUtils.pushToPerson(po.getMisid()+"啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),po.getMisid());
             }
         }
         List<String> allFirstLeader=new ArrayList<>();
@@ -164,8 +164,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
             if(nameList!="") {
-            //    DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", s);
-                    DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
+                DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", s);
+             //       DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
 
             }
         }
@@ -178,8 +178,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
             if(secondNameList!=""){
-             //   DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~", e.getLeaderMis());
-                   DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~","guomengyao");
+                DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~", e.getLeaderMis());
+             //      DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~","guomengyao");
 
             }
         }
