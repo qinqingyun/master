@@ -79,7 +79,9 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="task_duration" domainObjectName="TaskDurationPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="task_duration" domainObjectName="TaskDurationPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="duty_table" domainObjectName="DutyTablePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 
     </context>

@@ -47,6 +47,9 @@ public class ScheduleJob {
     @Resource
     private IOneDayFourteenJob oneDayFourteenJob;
 
+    @Resource
+    private IOneDayDuttyJob oneDayDuttyJob;
+
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -113,5 +116,11 @@ public class ScheduleJob {
     public void syncFourteen() throws MDMThriftException {
         log.info("oneDayFourteenJob job execute at: {}", new Date());
         oneDayFourteenJob.sync();
+    }
+
+    @Crane("one.day.duty.job")
+    public void syncDuty(){
+        log.info("oneDutyJob job execute at: {}", new Date());
+        oneDayDuttyJob.sync();
     }
 }
