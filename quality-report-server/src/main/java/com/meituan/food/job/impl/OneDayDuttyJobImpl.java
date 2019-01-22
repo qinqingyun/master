@@ -16,13 +16,13 @@ public class OneDayDuttyJobImpl implements IOneDayDuttyJob {
     @Override
     public void sync() {
     //    LocalDate day=LocalDate.now().minusDays(1);
-        LocalDate day=LocalDate.now().plusDays(15);
+        LocalDate day=LocalDate.now().plusDays(13);
 
         oneDayDutyDataExtract.extractData4Day(day);
     }
 
     public static void main(String[] args) {
-        LocalDate day=LocalDate.now().plusDays(15);
+        LocalDate day=LocalDate.now().plusDays(13);
         System.out.println(day);
     }
 }
