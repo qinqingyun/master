@@ -21,7 +21,7 @@ public class DutyTableController {
 
     @GetMapping("/insert")
     public void insertOneGroupData(){
-        DutyTablePO a=new DutyTablePO();
+        /*DutyTablePO a=new DutyTablePO();
         a.setDutyMis("niyang");
         a.setDutyName("倪阳");
         a.setIsOnDuty(false);
@@ -181,17 +181,19 @@ public class DutyTableController {
         z.setIsOnDuty(false);
         z.setDutyMis("liuxiangyi");
         z.setDutyName("刘香怡");
-        dutyTablePOMapper.insert(z);
+        dutyTablePOMapper.insert(z);*/
 
         DutyTablePO aa=new DutyTablePO();
         aa.setIsOnDuty(false);
         aa.setDutyName("佟美娜");
         aa.setDutyMis("tongmeina");
+        dutyTablePOMapper.insert(aa);
 
         DutyTablePO ab=new DutyTablePO();
         ab.setIsOnDuty(false);
         ab.setDutyMis("chenhui18");
         ab.setDutyName("陈慧");
+        dutyTablePOMapper.insert(ab);
     }
 
 }
