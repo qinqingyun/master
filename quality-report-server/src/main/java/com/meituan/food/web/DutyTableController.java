@@ -183,7 +183,7 @@ public class DutyTableController {
         z.setDutyName("刘香怡");
         dutyTablePOMapper.insert(z);*/
 
-        DutyTablePO aa=new DutyTablePO();
+       /* DutyTablePO aa=new DutyTablePO();
         aa.setIsOnDuty(false);
         aa.setDutyName("佟美娜");
         aa.setDutyMis("tongmeina");
@@ -193,7 +193,7 @@ public class DutyTableController {
         ab.setIsOnDuty(false);
         ab.setDutyMis("chenhui18");
         ab.setDutyName("陈慧");
-        dutyTablePOMapper.insert(ab);
+        dutyTablePOMapper.insert(ab);*/
     }
 
 }
