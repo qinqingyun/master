@@ -69,6 +69,7 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             }
 
             DaXiangUtils.pushToPerson(nameList+"轮到你们值班了\n"+content,"guomengyao");
+            DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
         }
     }
 
