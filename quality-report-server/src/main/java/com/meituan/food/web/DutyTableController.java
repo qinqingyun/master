@@ -5,6 +5,7 @@ import com.meituan.food.po.DutyTablePO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -18,6 +19,11 @@ public class DutyTableController {
 
     @Resource
     private DutyTablePOMapper dutyTablePOMapper;
+
+    @GetMapping("delete")
+    public void deleteDutyById(@RequestParam("id") int id){
+        dutyTablePOMapper.deleteByPrimaryKey(id);
+    }
 
     @GetMapping("/insert")
     public void insertOneGroupData(){
