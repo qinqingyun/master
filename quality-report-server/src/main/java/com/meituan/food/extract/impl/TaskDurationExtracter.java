@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -58,9 +59,14 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     TaskDurationPO taskDurationPO=new TaskDurationPO();
                     String linkAndName=((JSONArray)(result.get(j))).getString(0);
                     String personalLink = linkAndName.substring(linkAndName.indexOf("href=") + 5, linkAndName.lastIndexOf("}")+1);
+
+                    String para = personalLink.substring(personalLink.indexOf("config=") + 7, personalLink.lastIndexOf("}")+1);
+                    String partU=personalLink.substring(personalLink.indexOf("h") ,personalLink.lastIndexOf("config=")+7);
+                    String encodeP=UrlUtils.encode(para);
+
                     String name= linkAndName.substring(linkAndName.indexOf("}>") + 2, linkAndName.lastIndexOf("</a>"));
                     BigDecimal taskDuration=((JSONArray)(result.get(j))).getBigDecimal(1);
-                    taskDurationPO.setDashboard(personalLink);
+                    taskDurationPO.setDashboard(partU+encodeP);
                     taskDurationPO.setMisid(name);
                     taskDurationPO.setStartDate(firstDayStr);
                     taskDurationPO.setEndDate(lastDayStr);
@@ -152,8 +158,8 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
 
         for (TaskDurationPO po : taskDurationPOS) {
             if(po.getIsnormal()==false){
-                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),po.getMisid());
-            //    DaXiangUtils.pushToPerson(po.getMisid()+"啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,地址："+po.getDashboard(),"guomengyao");
+                DaXiangUtils.pushToPerson("啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,[点击此处查看|"+po.getDashboard()+"]",po.getMisid());
+           //     DaXiangUtils.pushToPerson(po.getMisid()+"啊哦，您【"+firstDayStr+ "~"+lastDayStr+"】工时数据为:"+po.getDuration()+", 存在异常请及时处理~,[点击此处查看|"+po.getDashboard()+"]","guomengyao");
 
             }
         }
@@ -191,7 +197,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
             }
             if(secondNameList!=""){
                 DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~", e.getLeaderMis());
-             //      DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~","guomengyao");
+                DaXiangUtils.pushToPerson(secondNameList + "的工时数据存在异常，请及时督促处理~","guomengyao");
 
             }
         }
@@ -246,10 +252,12 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
     }
 
     public static void main(String[] args) {
-        DaXiangUtils.pushToPerson("test","jiangyu07");
-        DaXiangUtils.pushToPerson("test","lixuechao");
+        String url="https://yuntu.sankuai.com/dashboard/dashboard-4c46d3b4-29e2-40a0-9ca8-db7195e41c50/view?config={\"orgId\":\"104638\",\"misId\":\"guomengyao\",\"startDate\":\"2019-01-16\",\"endDate\":\"2019-01-22\"}";
+        String para = url.substring(url.indexOf("config=") + 7, url.lastIndexOf("}")+1);
+        String partU=url.substring(url.indexOf("h") ,url.lastIndexOf("config=")+7);
+        String encodeP=UrlUtils.encode(para);
+        System.out.println(partU+encodeP);
 
-        DaXiangUtils.pushToPerson("test","guomengyao");
 
     }
 
