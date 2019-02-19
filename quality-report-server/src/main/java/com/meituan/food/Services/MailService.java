@@ -26,8 +26,8 @@ public class MailService {
 //        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
         mailModel.setBody(testBody);
         mailModel.setTo(Arrays.asList("guomengyao@meituan.com")); //收件人
-        mailModel.setCc(Arrays.asList("shiyongxiang@meituan.com"));  //抄送
-        mailModel.setBcc(Arrays.asList("shiyongxiang@meituan.com"));  //密送
+     //   mailModel.setCc(Arrays.asList("shiyongxiang@meituan.com"));  //抄送
+     //   mailModel.setBcc(Arrays.asList("shiyongxiang@meituan.com"));  //密送
         mailModel.setSubject("邮件主题");
      //   mailModel.setAttachments(getAttachments()); //带附件发送
 
