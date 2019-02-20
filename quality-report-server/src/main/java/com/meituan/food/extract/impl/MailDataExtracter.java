@@ -168,12 +168,9 @@ public class MailDataExtracter implements IMailDataExtract {
 
         mailBody=mailBody+"</table></body></html>";
 
-        System.out.println(mailBody);
-
-      /*  MailStructDTO mailModel = new MailStructDTO();
+        MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("到餐质量组");
-//        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
         mailModel.setBody(mailBody);
         mailModel.setTo(Arrays.asList("guomengyao@meituan.com")); //收件人
         mailModel.setCc(Arrays.asList());  //抄送
@@ -183,6 +180,5 @@ public class MailDataExtracter implements IMailDataExtract {
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
         System.out.println(resultModel);
-*/
     }
 }
