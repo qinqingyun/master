@@ -22,7 +22,6 @@ import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.tools.tree.NegativeExpression;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
