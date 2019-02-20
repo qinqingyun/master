@@ -22,14 +22,13 @@ import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.tools.tree.NegativeExpression;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class MailDataExtracter implements IMailDataExtract {
@@ -57,7 +56,9 @@ public class MailDataExtracter implements IMailDataExtract {
 
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String mailBody="<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th></tr>";
+        String mailBody="<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
+
+        List<EfficiencyTotalDatePO> totalDatePOS=new ArrayList<>();
 
         EmpHierarchyCond empCond = new EmpHierarchyCond();
         empCond = empCond.jobStatusIdET(15);//在职
@@ -89,6 +90,7 @@ public class MailDataExtracter implements IMailDataExtract {
             efficiencyTotalDatePO.setMis(orgVO.getMisId());
             efficiencyTotalDatePO.setName(orgVO.getName());
             efficiencyTotalDatePO.setPartitionDate(firstDayStr);
+            efficiencyTotalDatePO.setOrgName(orgVO.getOrgName());
             if(efficiencyBugNumPO!=null) {
                 efficiencyTotalDatePO.setCreateBugNum(efficiencyBugNumPO.getCreateNum());
                 efficiencyTotalDatePO.setAcceptBugNum(efficiencyBugNumPO.getAcceptNum());
@@ -125,7 +127,7 @@ public class MailDataExtracter implements IMailDataExtract {
             }
 
             efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
-            mailBody=mailBody+"<tr><td>"+efficiencyTotalDatePO.getMis()
+           /* mailBody=mailBody+"<tr><td>"+efficiencyTotalDatePO.getMis()
                     +"</td><td>"+efficiencyTotalDatePO.getName()
                     +"</td><td>"+efficiencyTotalDatePO.getCreateWikiNum()
                     +"</td><td>"+efficiencyTotalDatePO.getUpdateWikiNum()
@@ -136,13 +138,39 @@ public class MailDataExtracter implements IMailDataExtract {
                     +"</td><td>"+efficiencyTotalDatePO.getCreateBugNum()
                     +"</td><td>"+efficiencyTotalDatePO.getAcceptBugNum()
                     +"</td><td>"+efficiencyTotalDatePO.getPartitionDate()
-                    +"</td></tr>";
+                    +"</td><td>"+efficiencyTotalDatePO.getOrgName()
+                    +"</td></tr>";*/
 
+            totalDatePOS.add(efficiencyTotalDatePO);
+
+        }
+
+        Map<String,List<EfficiencyTotalDatePO>> totalMap=totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
+
+        for(String key:totalMap.keySet()){
+            List<EfficiencyTotalDatePO> listEffData=totalMap.get(key);
+            for (EfficiencyTotalDatePO listEffDatum : listEffData) {
+                mailBody=mailBody+"<tr><td>"+listEffDatum.getMis()
+                        +"</td><td>"+listEffDatum.getName()
+                        +"</td><td>"+listEffDatum.getCreateWikiNum()
+                        +"</td><td>"+listEffDatum.getUpdateWikiNum()
+                        +"</td><td>"+listEffDatum.getGitIncrease()
+                        +"</td><td>"+listEffDatum.getGitDelete()
+                        +"</td><td>"+listEffDatum.getGitSubmit()
+                        +"</td><td>"+listEffDatum.getGitSubmitTime()
+                        +"</td><td>"+listEffDatum.getCreateBugNum()
+                        +"</td><td>"+listEffDatum.getAcceptBugNum()
+                        +"</td><td>"+listEffDatum.getPartitionDate()
+                        +"</td><td>"+listEffDatum.getOrgName()
+                        +"</td></tr>";
+            }
         }
 
         mailBody=mailBody+"</table></body></html>";
 
-        MailStructDTO mailModel = new MailStructDTO();
+        System.out.println(mailBody);
+
+      /*  MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("到餐质量组");
 //        mailModel.setBody("<html><head></head><body>我是测试邮件</body></html>");
@@ -155,6 +183,6 @@ public class MailDataExtracter implements IMailDataExtract {
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
         System.out.println(resultModel);
-
+*/
     }
 }

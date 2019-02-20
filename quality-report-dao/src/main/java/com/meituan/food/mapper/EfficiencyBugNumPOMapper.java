@@ -89,7 +89,7 @@ public interface EfficiencyBugNumPOMapper {
             @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
     })
-    EfficiencyBugNumPO selectByPrimaryMis(String mis,String efficiencyDate);
+    EfficiencyBugNumPO selectByPrimaryMis(@Param("mis") String mis,@Param("efficiencyDate") String efficiencyDate);
 
     @UpdateProvider(type=EfficiencyBugNumPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") EfficiencyBugNumPO record, @Param("example") EfficiencyBugNumPOExample example);

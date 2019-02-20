@@ -80,6 +80,10 @@ public class EfficiencyTotalDatePOSqlProvider {
             sql.VALUES("created_at", "#{createdAt,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getOrgName() != null) {
+            sql.VALUES("org_name", "#{orgName,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -102,6 +106,7 @@ public class EfficiencyTotalDatePOSqlProvider {
         sql.SELECT("accept_bug_num");
         sql.SELECT("partition_date");
         sql.SELECT("created_at");
+        sql.SELECT("org_name");
         sql.FROM("efficiency_total_data");
         applyWhere(sql, example, false);
         
@@ -171,6 +176,10 @@ public class EfficiencyTotalDatePOSqlProvider {
             sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -192,6 +201,7 @@ public class EfficiencyTotalDatePOSqlProvider {
         sql.SET("accept_bug_num = #{record.acceptBugNum,jdbcType=INTEGER}");
         sql.SET("partition_date = #{record.partitionDate,jdbcType=VARCHAR}");
         sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
+        sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
         
         EfficiencyTotalDatePOExample example = (EfficiencyTotalDatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -248,6 +258,10 @@ public class EfficiencyTotalDatePOSqlProvider {
         
         if (record.getCreatedAt() != null) {
             sql.SET("created_at = #{createdAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{orgName,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
