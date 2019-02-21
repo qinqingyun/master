@@ -36,14 +36,14 @@ public interface EfficiencyTotalDatePOMapper {
         "git_delete, git_submit, ",
         "git_submit_time, create_bug_num, ",
         "accept_bug_num, partition_date, ",
-        "created_at)",
+        "created_at, org_name)",
         "values (#{id,jdbcType=INTEGER}, #{mis,jdbcType=VARCHAR}, ",
         "#{name,jdbcType=VARCHAR}, #{createWikiNum,jdbcType=BIGINT}, ",
         "#{updateWikiNum,jdbcType=BIGINT}, #{gitIncrease,jdbcType=INTEGER}, ",
         "#{gitDelete,jdbcType=INTEGER}, #{gitSubmit,jdbcType=INTEGER}, ",
         "#{gitSubmitTime,jdbcType=INTEGER}, #{createBugNum,jdbcType=INTEGER}, ",
         "#{acceptBugNum,jdbcType=INTEGER}, #{partitionDate,jdbcType=VARCHAR}, ",
-        "#{createdAt,jdbcType=TIMESTAMP})"
+        "#{createdAt,jdbcType=TIMESTAMP}, #{orgName,jdbcType=VARCHAR})"
     })
     int insert(EfficiencyTotalDatePO record);
 
@@ -64,14 +64,16 @@ public interface EfficiencyTotalDatePOMapper {
         @Result(column="create_bug_num", property="createBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="accept_bug_num", property="acceptBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
     List<EfficiencyTotalDatePO> selectByExample(EfficiencyTotalDatePOExample example);
 
     @Select({
         "select",
         "id, mis, name, create_wiki_num, update_wiki_num, git_increase, git_delete, git_submit, ",
-        "git_submit_time, create_bug_num, accept_bug_num, partition_date, created_at",
+        "git_submit_time, create_bug_num, accept_bug_num, partition_date, created_at, ",
+        "org_name",
         "from efficiency_total_data",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -88,7 +90,8 @@ public interface EfficiencyTotalDatePOMapper {
         @Result(column="create_bug_num", property="createBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="accept_bug_num", property="acceptBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
     EfficiencyTotalDatePO selectByPrimaryKey(Integer id);
 
@@ -114,7 +117,8 @@ public interface EfficiencyTotalDatePOMapper {
           "create_bug_num = #{createBugNum,jdbcType=INTEGER},",
           "accept_bug_num = #{acceptBugNum,jdbcType=INTEGER},",
           "partition_date = #{partitionDate,jdbcType=VARCHAR},",
-          "created_at = #{createdAt,jdbcType=TIMESTAMP}",
+          "created_at = #{createdAt,jdbcType=TIMESTAMP},",
+          "org_name = #{orgName,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(EfficiencyTotalDatePO record);

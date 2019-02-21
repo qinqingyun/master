@@ -30,6 +30,8 @@ public class EfficiencyTotalDatePO implements Serializable {
 
     private Date createdAt;
 
+    private String orgName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -136,6 +138,14 @@ public class EfficiencyTotalDatePO implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName == null ? null : orgName.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -160,7 +170,8 @@ public class EfficiencyTotalDatePO implements Serializable {
             && (this.getCreateBugNum() == null ? other.getCreateBugNum() == null : this.getCreateBugNum().equals(other.getCreateBugNum()))
             && (this.getAcceptBugNum() == null ? other.getAcceptBugNum() == null : this.getAcceptBugNum().equals(other.getAcceptBugNum()))
             && (this.getPartitionDate() == null ? other.getPartitionDate() == null : this.getPartitionDate().equals(other.getPartitionDate()))
-            && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()));
+            && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
+            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()));
     }
 
     @Override
@@ -180,6 +191,7 @@ public class EfficiencyTotalDatePO implements Serializable {
         result = prime * result + ((getAcceptBugNum() == null) ? 0 : getAcceptBugNum().hashCode());
         result = prime * result + ((getPartitionDate() == null) ? 0 : getPartitionDate().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
+        result = prime * result + ((getOrgName() == null) ? 0 : getOrgName().hashCode());
         return result;
     }
 
@@ -202,6 +214,7 @@ public class EfficiencyTotalDatePO implements Serializable {
         sb.append(", acceptBugNum=").append(acceptBugNum);
         sb.append(", partitionDate=").append(partitionDate);
         sb.append(", createdAt=").append(createdAt);
+        sb.append(", orgName=").append(orgName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
