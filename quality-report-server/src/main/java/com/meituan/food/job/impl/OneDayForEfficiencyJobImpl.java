@@ -18,7 +18,7 @@ public class OneDayForEfficiencyJobImpl implements IOneDayForEfficiencyJob {
 
     @Override
     public void sync() {
-        LocalDate day = LocalDate.now().minusDays(3);
+        LocalDate day = LocalDate.now().minusDays(2);
         List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractEfficiencyData4Day(day)))
                 .collect(Collectors.toList());
