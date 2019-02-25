@@ -17,9 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class EfficiencyBugExtracter implements IOneDayEffDataEx {
@@ -35,72 +33,80 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
 
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+        List<String> orgList = new ArrayList<>();
+        orgList.add("100047");
+        orgList.add("114614");
+        orgList.add("114615");
 
-        JSONObject param = new JSONObject();
-        param.put("orgId", "100047");
-        param.put("startDate", firstDayStr);
-        param.put("endDate", firstDayStr);
-        param.put("dateDim", "DAY_DATE");
-
-        String encodedParam = UrlUtils.encode(param.toJSONString());
-
-        JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
-        JSONArray result = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
-
-        int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
-        System.out.println("index=" + index);
-
-        Map<String, BugCount> bugCountMap = Maps.newHashMap();
+        for (String singleOrg : orgList) {
 
 
-        for (int i = 1; i <= index; i++) {
-            String url = URL + encodedParam + "&index=" + i + "&useCache=true";
-            JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+            JSONObject param = new JSONObject();
+            param.put("orgId", singleOrg);
+            param.put("startDate", firstDayStr);
+            param.put("endDate", firstDayStr);
+            param.put("dateDim", "DAY_DATE");
 
-            JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
-            for (int j = 1; j < partResult.size(); j++) {
-                String createAllName = ((JSONArray) (partResult.get(j))).getString(3);
-                if(createAllName!=null&&(!createAllName.equals("无"))) {
+            String encodedParam = UrlUtils.encode(param.toJSONString());
 
-                    String createMis = createAllName.substring(createAllName.indexOf("(") + 1, createAllName.lastIndexOf(")"));
+            JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+            JSONArray result = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
 
-                    // 创建
-                    BugCount createBugCount = bugCountMap.get(createMis);
-                    if (createBugCount == null) {
-                        createBugCount = BugCount.zero();
-                        bugCountMap.put(createMis, createBugCount);
+            int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
+            System.out.println("index=" + index);
+
+            Map<String, BugCount> bugCountMap = Maps.newHashMap();
+
+
+            for (int i = 1; i <= index; i++) {
+                String url = URL + encodedParam + "&index=" + i + "&useCache=true";
+                JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+
+                JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
+                for (int j = 1; j < partResult.size(); j++) {
+                    String createAllName = ((JSONArray) (partResult.get(j))).getString(3);
+                    if (createAllName != null && (!createAllName.equals("无"))) {
+
+                        String createMis = createAllName.substring(createAllName.indexOf("(") + 1, createAllName.lastIndexOf(")"));
+
+                        // 创建
+                        BugCount createBugCount = bugCountMap.get(createMis);
+                        if (createBugCount == null) {
+                            createBugCount = BugCount.zero();
+                            bugCountMap.put(createMis, createBugCount);
+                        }
+                        createBugCount.increaseCreateBugNum();
                     }
-                    createBugCount.increaseCreateBugNum();
-                }
-                String acceptAllName = ((JSONArray) (partResult.get(j))).getString(4);
-                if(acceptAllName!=null&&(!acceptAllName.equals("无"))) {
+                    String acceptAllName = ((JSONArray) (partResult.get(j))).getString(4);
+                    if (acceptAllName != null && (!acceptAllName.equals("无"))) {
 
-                    String acceptMis = acceptAllName.substring(acceptAllName.indexOf("(") + 1, acceptAllName.lastIndexOf(")"));
+                        String acceptMis = acceptAllName.substring(acceptAllName.indexOf("(") + 1, acceptAllName.lastIndexOf(")"));
 
-                    // 接受
-                    BugCount acceptBugCount = bugCountMap.get(acceptMis);
-                    if (acceptBugCount == null) {
-                        acceptBugCount = BugCount.zero();
-                        bugCountMap.put(acceptMis, acceptBugCount);
+                        // 接受
+                        BugCount acceptBugCount = bugCountMap.get(acceptMis);
+                        if (acceptBugCount == null) {
+                            acceptBugCount = BugCount.zero();
+                            bugCountMap.put(acceptMis, acceptBugCount);
+                        }
+                        acceptBugCount.increaseAcceptBugNum();
                     }
-                    acceptBugCount.increaseAcceptBugNum();
                 }
             }
-        }
 
 //        System.out.println(bugCountMap.toString());
-     for(String key:bugCountMap.keySet()){
-         EfficiencyBugNumPO efficiencyBugNumPO=new EfficiencyBugNumPO();
-         efficiencyBugNumPO.setMis(key);
-         efficiencyBugNumPO.setCreateNum(bugCountMap.get(key).getCreateBugNum());
-         efficiencyBugNumPO.setAcceptNum(bugCountMap.get(key).getAcceptBugNum());
-         efficiencyBugNumPO.setEfficiencyDate(firstDayStr);
-         Date now=new Date();
-         efficiencyBugNumPO.setCreatedAt(now);
-         efficiencyBugNumPO.setUpdatedAt(now);
+            for (String key : bugCountMap.keySet()) {
+                EfficiencyBugNumPO efficiencyBugNumPO = new EfficiencyBugNumPO();
+                efficiencyBugNumPO.setMis(key);
+                efficiencyBugNumPO.setCreateNum(bugCountMap.get(key).getCreateBugNum());
+                efficiencyBugNumPO.setAcceptNum(bugCountMap.get(key).getAcceptBugNum());
+                efficiencyBugNumPO.setEfficiencyDate(firstDayStr);
+                Date now = new Date();
+                efficiencyBugNumPO.setCreatedAt(now);
+                efficiencyBugNumPO.setUpdatedAt(now);
 
-         efficiencyBugNumPOMapper.insert(efficiencyBugNumPO);
-     }
+                efficiencyBugNumPOMapper.insert(efficiencyBugNumPO);
+            }
+        }
 
 
     }
