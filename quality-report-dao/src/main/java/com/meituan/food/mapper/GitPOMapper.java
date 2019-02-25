@@ -94,7 +94,7 @@ public interface GitPOMapper {
             @Result(column="git_code_submit", property="gitCodeSubmit", jdbcType=JdbcType.INTEGER),
             @Result(column="git_code_submit_time", property="gitCodeSubmitTime", jdbcType=JdbcType.INTEGER)
     })
-    GitPO selectByPrimaryMis(String mis,String gitDate);
+    GitPO selectByPrimaryMis(@Param("mis") String mis,@Param("gitDate") String gitDate);
 
     @UpdateProvider(type=GitPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") GitPO record, @Param("example") GitPOExample example);
