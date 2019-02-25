@@ -55,77 +55,86 @@ public class MailDataExtracter implements IMailDataExtract {
 
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String mailBody="<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
+        String mailBody = "<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
 
-        List<EfficiencyTotalDatePO> totalDatePOS=new ArrayList<>();
+        List<EfficiencyTotalDatePO> totalDatePOS = new ArrayList<>();
 
         EmpHierarchyCond empCond = new EmpHierarchyCond();
         empCond = empCond.jobStatusIdET(15);//在职
         Paging paging = new Paging();
         paging.setSize(1000);
 
-        EmpItems empItems = empService.queryEmp("100047", 3, empCond, paging);
-        List<Emp> items = empItems.getItems();
+        List<String> orgList = new ArrayList<>();
+        orgList.add("100047");
+        orgList.add("114614");
+        orgList.add("114615");
+        orgList.add("104638");
 
-        List<OrgVO> orgVOList =new ArrayList<>();
+        for (String singleOrg : orgList) {
 
-        for (Emp item : items) {
-            OrgVO orgVO =new OrgVO();
-            orgVO.setEmpId(item.getEmpId());
-            orgVO.setMisId(item.getMis());
-            orgVO.setName(item.getName());
-            orgVO.setOrgId(item.getOrgId());
-            orgVO.setOrgName(item.getOrgName());
-            orgVO.setReportMis(item.getReportEmpMis());
-            orgVO.setReportName(item.getReportEmpName());
 
-            orgVOList.add(orgVO);
-        }
+            EmpItems empItems = empService.queryEmp(singleOrg, 3, empCond, paging);
+            List<Emp> items = empItems.getItems();
 
-        for (OrgVO orgVO : orgVOList) {
-            EfficiencyTotalDatePO efficiencyTotalDatePO=new EfficiencyTotalDatePO();
-            EfficiencyBugNumPO efficiencyBugNumPO=new EfficiencyBugNumPO();
-            efficiencyBugNumPO= efficiencyBugNumPOMapper.selectByPrimaryMis(orgVO.getMisId(),firstDayStr);
-            efficiencyTotalDatePO.setMis(orgVO.getMisId());
-            efficiencyTotalDatePO.setName(orgVO.getName());
-            efficiencyTotalDatePO.setPartitionDate(firstDayStr);
-            efficiencyTotalDatePO.setOrgName(orgVO.getOrgName());
-            if(efficiencyBugNumPO!=null) {
-                efficiencyTotalDatePO.setCreateBugNum(efficiencyBugNumPO.getCreateNum());
-                efficiencyTotalDatePO.setAcceptBugNum(efficiencyBugNumPO.getAcceptNum());
-            }else {
-                efficiencyTotalDatePO.setCreateBugNum(0);
-                efficiencyTotalDatePO.setAcceptBugNum(0);
+            List<OrgVO> orgVOList = new ArrayList<>();
+
+            for (Emp item : items) {
+                OrgVO orgVO = new OrgVO();
+                orgVO.setEmpId(item.getEmpId());
+                orgVO.setMisId(item.getMis());
+                orgVO.setName(item.getName());
+                orgVO.setOrgId(item.getOrgId());
+                orgVO.setOrgName(item.getOrgName());
+                orgVO.setReportMis(item.getReportEmpMis());
+                orgVO.setReportName(item.getReportEmpName());
+
+                orgVOList.add(orgVO);
             }
 
-            GitPO gitPO=new GitPO();
-            gitPO=gitPOMapper.selectByPrimaryMis(orgVO.getMisId(),firstDayStr);
-            if (gitPO!=null){
-                efficiencyTotalDatePO.setGitDelete(gitPO.getGitCodeDelete());
-                efficiencyTotalDatePO.setGitIncrease(gitPO.getGitCodeIncrease());
-                efficiencyTotalDatePO.setGitSubmit(gitPO.getGitCodeSubmit());
-                efficiencyTotalDatePO.setGitSubmitTime(gitPO.getGitCodeSubmitTime());
-            }else {
-                efficiencyTotalDatePO.setGitDelete(0);
-                efficiencyTotalDatePO.setGitIncrease(0);
-                efficiencyTotalDatePO.setGitSubmit(0);
-                efficiencyTotalDatePO.setGitSubmitTime(0);
-            }
+            for (OrgVO orgVO : orgVOList) {
+                EfficiencyTotalDatePO efficiencyTotalDatePO = new EfficiencyTotalDatePO();
+                EfficiencyBugNumPO efficiencyBugNumPO = new EfficiencyBugNumPO();
+                efficiencyBugNumPO = efficiencyBugNumPOMapper.selectByPrimaryMis(orgVO.getMisId(), firstDayStr);
+                efficiencyTotalDatePO.setMis(orgVO.getMisId());
+                efficiencyTotalDatePO.setName(orgVO.getName());
+                efficiencyTotalDatePO.setPartitionDate(firstDayStr);
+                efficiencyTotalDatePO.setOrgName(orgVO.getOrgName());
+                if (efficiencyBugNumPO != null) {
+                    efficiencyTotalDatePO.setCreateBugNum(efficiencyBugNumPO.getCreateNum());
+                    efficiencyTotalDatePO.setAcceptBugNum(efficiencyBugNumPO.getAcceptNum());
+                } else {
+                    efficiencyTotalDatePO.setCreateBugNum(0);
+                    efficiencyTotalDatePO.setAcceptBugNum(0);
+                }
 
-            Date now=new Date();
-            efficiencyTotalDatePO.setCreatedAt(now);
+                GitPO gitPO = new GitPO();
+                gitPO = gitPOMapper.selectByPrimaryMis(orgVO.getMisId(), firstDayStr);
+                if (gitPO != null) {
+                    efficiencyTotalDatePO.setGitDelete(gitPO.getGitCodeDelete());
+                    efficiencyTotalDatePO.setGitIncrease(gitPO.getGitCodeIncrease());
+                    efficiencyTotalDatePO.setGitSubmit(gitPO.getGitCodeSubmit());
+                    efficiencyTotalDatePO.setGitSubmitTime(gitPO.getGitCodeSubmitTime());
+                } else {
+                    efficiencyTotalDatePO.setGitDelete(0);
+                    efficiencyTotalDatePO.setGitIncrease(0);
+                    efficiencyTotalDatePO.setGitSubmit(0);
+                    efficiencyTotalDatePO.setGitSubmitTime(0);
+                }
 
-            RestaurantXueCheng restaurantXueCheng = new RestaurantXueCheng();
-            restaurantXueCheng=restaurantXueChengMapper.selectByPrimaryMis(orgVO.getMisId(),firstDayStr);
-            if (restaurantXueCheng!=null){
-                efficiencyTotalDatePO.setCreateWikiNum(restaurantXueCheng.getCreateCount());
-                efficiencyTotalDatePO.setUpdateWikiNum(restaurantXueCheng.getUpdateCount());
-            }else {
-                efficiencyTotalDatePO.setCreateWikiNum(0l);
-                efficiencyTotalDatePO.setUpdateWikiNum(0l);
-            }
+                Date now = new Date();
+                efficiencyTotalDatePO.setCreatedAt(now);
 
-            efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
+                RestaurantXueCheng restaurantXueCheng = new RestaurantXueCheng();
+                restaurantXueCheng = restaurantXueChengMapper.selectByPrimaryMis(orgVO.getMisId(), firstDayStr);
+                if (restaurantXueCheng != null) {
+                    efficiencyTotalDatePO.setCreateWikiNum(restaurantXueCheng.getCreateCount());
+                    efficiencyTotalDatePO.setUpdateWikiNum(restaurantXueCheng.getUpdateCount());
+                } else {
+                    efficiencyTotalDatePO.setCreateWikiNum(0l);
+                    efficiencyTotalDatePO.setUpdateWikiNum(0l);
+                }
+
+                efficiencyTotalDatePOMapper.insert(efficiencyTotalDatePO);
            /* mailBody=mailBody+"<tr><td>"+efficiencyTotalDatePO.getMis()
                     +"</td><td>"+efficiencyTotalDatePO.getName()
                     +"</td><td>"+efficiencyTotalDatePO.getCreateWikiNum()
@@ -140,32 +149,34 @@ public class MailDataExtracter implements IMailDataExtract {
                     +"</td><td>"+efficiencyTotalDatePO.getOrgName()
                     +"</td></tr>";*/
 
-            totalDatePOS.add(efficiencyTotalDatePO);
+                totalDatePOS.add(efficiencyTotalDatePO);
 
-        }
-
-        Map<String,List<EfficiencyTotalDatePO>> totalMap=totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
-
-        for(String key:totalMap.keySet()){
-            List<EfficiencyTotalDatePO> listEffData=totalMap.get(key);
-            for (EfficiencyTotalDatePO listEffDatum : listEffData) {
-                mailBody=mailBody+"<tr><td>"+listEffDatum.getMis()
-                        +"</td><td>"+listEffDatum.getName()
-                        +"</td><td>"+listEffDatum.getCreateWikiNum()
-                        +"</td><td>"+listEffDatum.getUpdateWikiNum()
-                        +"</td><td>"+listEffDatum.getGitIncrease()
-                        +"</td><td>"+listEffDatum.getGitDelete()
-                        +"</td><td>"+listEffDatum.getGitSubmit()
-                        +"</td><td>"+listEffDatum.getGitSubmitTime()
-                        +"</td><td>"+listEffDatum.getCreateBugNum()
-                        +"</td><td>"+listEffDatum.getAcceptBugNum()
-                        +"</td><td>"+listEffDatum.getPartitionDate()
-                        +"</td><td>"+listEffDatum.getOrgName()
-                        +"</td></tr>";
             }
         }
 
-        mailBody=mailBody+"</table></body></html>";
+        Map<String, List<EfficiencyTotalDatePO>> totalMap = totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
+
+        for (String key : totalMap.keySet()) {
+            List<EfficiencyTotalDatePO> listEffData = totalMap.get(key);
+            for (EfficiencyTotalDatePO listEffDatum : listEffData) {
+                mailBody = mailBody + "<tr><td>" + listEffDatum.getMis()
+                        + "</td><td>" + listEffDatum.getName()
+                        + "</td><td>" + listEffDatum.getCreateWikiNum()
+                        + "</td><td>" + listEffDatum.getUpdateWikiNum()
+                        + "</td><td>" + listEffDatum.getGitIncrease()
+                        + "</td><td>" + listEffDatum.getGitDelete()
+                        + "</td><td>" + listEffDatum.getGitSubmit()
+                        + "</td><td>" + listEffDatum.getGitSubmitTime()
+                        + "</td><td>" + listEffDatum.getCreateBugNum()
+                        + "</td><td>" + listEffDatum.getAcceptBugNum()
+                        + "</td><td>" + listEffDatum.getPartitionDate()
+                        + "</td><td>" + listEffDatum.getOrgName()
+                        + "</td></tr>";
+            }
+        }
+
+
+        mailBody = mailBody + "</table></body></html>";
 
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
@@ -179,5 +190,6 @@ public class MailDataExtracter implements IMailDataExtract {
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
         System.out.println(resultModel);
+
     }
 }
