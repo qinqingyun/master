@@ -27,7 +27,8 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
     @Resource
     private EfficiencyBugNumPOMapper efficiencyBugNumPOMapper;
 
-    private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data?params=";
+    private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-f4949af3-3bbc-4d46-9a85-30768be352c8/data?params=";
+
 
     @Override
     public void extractData4EffDay(LocalDate day) {
@@ -59,26 +60,31 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
             JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
             for (int j = 1; j < partResult.size(); j++) {
                 String createAllName = ((JSONArray) (partResult.get(j))).getString(3);
-                String createMis = createAllName.substring(createAllName.indexOf("(") + 1, createAllName.lastIndexOf(")"));
+                if(createAllName!=null&&(!createAllName.equals("无"))) {
 
-                // 创建
-                BugCount createBugCount = bugCountMap.get(createMis);
-                if (createBugCount == null) {
-                    createBugCount = BugCount.zero();
-                    bugCountMap.put(createMis, createBugCount);
+                    String createMis = createAllName.substring(createAllName.indexOf("(") + 1, createAllName.lastIndexOf(")"));
+
+                    // 创建
+                    BugCount createBugCount = bugCountMap.get(createMis);
+                    if (createBugCount == null) {
+                        createBugCount = BugCount.zero();
+                        bugCountMap.put(createMis, createBugCount);
+                    }
+                    createBugCount.increaseCreateBugNum();
                 }
-                createBugCount.increaseCreateBugNum();
-
                 String acceptAllName = ((JSONArray) (partResult.get(j))).getString(4);
-                String acceptMis = acceptAllName.substring(acceptAllName.indexOf("(") + 1, acceptAllName.lastIndexOf(")"));
+                if(acceptAllName!=null&&(!acceptAllName.equals("无"))) {
 
-                // 接受
-                BugCount acceptBugCount = bugCountMap.get(acceptMis);
-                if (acceptBugCount == null) {
-                    acceptBugCount = BugCount.zero();
-                    bugCountMap.put(acceptMis, acceptBugCount);
+                    String acceptMis = acceptAllName.substring(acceptAllName.indexOf("(") + 1, acceptAllName.lastIndexOf(")"));
+
+                    // 接受
+                    BugCount acceptBugCount = bugCountMap.get(acceptMis);
+                    if (acceptBugCount == null) {
+                        acceptBugCount = BugCount.zero();
+                        bugCountMap.put(acceptMis, acceptBugCount);
+                    }
+                    acceptBugCount.increaseAcceptBugNum();
                 }
-                acceptBugCount.increaseAcceptBugNum();
             }
         }
 
@@ -103,9 +109,7 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
        /* LocalDate day = LocalDate.now().minusDays(2);
         IOneDayDataExtract a = new EfficiencyBugExtracter();
         a.extractData4Day(day);
-       *//* String createAllName="郭孟瑶(guomengyao)";
-        String NewStr=createAllName.substring(createAllName.indexOf("(")+1, createAllName.lastIndexOf(")"));
-        System.out.println(NewStr);*/
+       */
 
     }
 
