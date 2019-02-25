@@ -14,13 +14,13 @@ public class OpenSdkConfig {
 
     private final static String REMOTE_APP_KEY = "com.sankuai.it.bsi.mdmgatewayservice";
     //TODO 替换成你的appkey
-   /* private final static String CLIENT_APP_KEY = "0d6cf99067";
+    private final static String CLIENT_APP_KEY = "0d6cf99067";
     //TODO 替换成你的appSecret
-    private final static String APP_SECRET = "85762a22382f45e4a3416d9fa48ea4f6";*/
+    private final static String APP_SECRET = "85762a22382f45e4a3416d9fa48ea4f6";
 
    //线下
-    private final static String CLIENT_APP_KEY ="cc6049a1ee";
-    private final static String APP_SECRET = "247fcce757a44d6d9710f88719818988";
+   /* private final static String CLIENT_APP_KEY ="cc6049a1ee";
+    private final static String APP_SECRET = "247fcce757a44d6d9710f88719818988";*/
     private final static Integer APP_TENANT_ID = 1;//如需查询其它租户数据，请设置成其它租户ID
     private final static String APP_SOURCE = "MT";//设置租户下对应的source.如果设置为"ALL"，则查tenantId下所有sources。
 
@@ -33,9 +33,9 @@ public class OpenSdkConfig {
         dataScope.setTenantId(APP_TENANT_ID);
         dataScope.setSources(Arrays.asList(APP_SOURCE));
 
-      //  RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope);
+        RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope);
         //BETA 环境，IP直连方式
-          RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope, "10.24.58.212:9001,10.24.58.115:9001");      //serverIpPorts（最后一个参数） 配置null或者空字符串 则不ip直连
+        //  RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope, "10.24.58.212:9001,10.24.58.115:9001");      //serverIpPorts（最后一个参数） 配置null或者空字符串 则不ip直连
         return remoteServiceClient;
     }
 
