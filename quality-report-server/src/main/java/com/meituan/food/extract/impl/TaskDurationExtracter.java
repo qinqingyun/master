@@ -78,18 +78,18 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                     taskDurationPO.setCreatedAt(now);
                     BigDecimal lowDuration=new BigDecimal("32.0");
                     BigDecimal highDuration=new BigDecimal("48.0");
-                //    Emp emp = empService.queryByMis(name, null);
-                    taskDurationPO.setRealName("");
+                    Emp emp = empService.queryByMis(name, null);
+                  /*  taskDurationPO.setRealName("");
                     taskDurationPO.setFirstLeader("");
                     if((taskDuration.compareTo(lowDuration)==1 || taskDuration.compareTo(lowDuration)==0)&&(taskDuration.compareTo(highDuration)==0||taskDuration.compareTo(highDuration)==-1)) {
                         taskDurationPO.setIsnormal(true);
                     }else {
                         taskDurationPO.setIsnormal(false);
 
-                    }
-                    taskDurationPOMapper.insert(taskDurationPO);
-                    taskDurationPOS.add(taskDurationPO);
-                   /* if(emp!=null){
+                    }*/
+                    /*taskDurationPOMapper.insert(taskDurationPO);
+                    taskDurationPOS.add(taskDurationPO);*/
+                    if(emp!=null){
                         taskDurationPO.setRealName(emp.getName());
                         if (emp.getReportEmpMis()!=e.getLeaderMis()&&(!name.equals(e.getLeaderMis()))){
                             taskDurationPO.setFirstLeader(emp.getReportEmpMis());
@@ -111,49 +111,9 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                         taskDurationPO.setRealName("");
                         taskDurationPO.setFirstLeader("");
                         taskDurationPO.setIsnormal(true);
-                    }*/
-                }
-            }
-/*
-            EmpHierarchyCond empCond = new EmpHierarchyCond();
-            empCond = empCond.jobStatusIdET(15);//在职
-            Paging paging = new Paging();
-            paging.setSize(1000);
-
-            EmpItems empItems = empService.queryEmp(e.getOrgId(), 3, empCond, paging);
-            List<Emp> items = empItems.getItems();
-
-            List<String> nameList=new ArrayList<>();
-            for (TaskDurationPO taskDurationPO : taskDurationPOS) {
-                nameList.add(taskDurationPO.getMisid());
-            }
-            for (Emp item : items) {
-                if(nameList.contains(item.getMis())==false){
-                    TaskDurationPO po=new TaskDurationPO();
-                    po.setMisid(item.getMis());
-                    po.setRealName(item.getName());
-                    if(item.getReportEmpMis()!=e.getLeaderMis()&&(!item.getMis().equals(e.getLeaderMis()))){
-                        po.setFirstLeader(item.getReportEmpMis());
-                    }else if(item.getMis().equals(e.getLeaderMis())){
-                        po.setFirstLeader(item.getMis());
-                    }else {
-                        po.setFirstLeader(item.getMis());
                     }
-                    po.setSecondLeader(e.getLeaderMis());
-                    po.setIsnormal(false);
-                    Date now=new Date();
-                    po.setCreatedAt(now);
-                    po.setStartDate(firstDayStr);
-                    po.setEndDate(lastDayStr);
-                    po.setOrgId(e.getOrgId());
-                    po.setOrgGroup(e.getOrgName());
-                    po.setDuration(new BigDecimal("0.0"));
-                    po.setDashboard("无数据");
-
-                    taskDurationPOS.add(po);
-                    taskDurationPOMapper.insert(po);
                 }
-            }*/
+            }
         }
 
         for (TaskDurationPO po : taskDurationPOS) {
@@ -163,11 +123,11 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
 
             }
         }
-       /* List<String> allFirstLeader=new ArrayList<>();
+        List<String> allFirstLeader=new ArrayList<>();
         if(taskDurationPOS!=null){
             for (TaskDurationPO po : taskDurationPOS) {
                 if(allFirstLeader.contains(po.getFirstLeader())==false && po.getFirstLeader()!=null && (!po.getFirstLeader().equals(""))){
-                //    allFirstLeader.add(po.getFirstLeader());
+                    allFirstLeader.add(po.getFirstLeader());
                 }
             }
         }
@@ -182,17 +142,17 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
                 }
             }
             if(nameList!="") {
-            //    DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", s);
-             //       DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
+                DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", s);
+              //      DaXiangUtils.pushToPerson(nameList + "的工时数据存在异常，请及时督促处理~", "guomengyao");
 
             }
-        }*/
+        }
 
         for(OrgEnum e:OrgEnum.values()) {
             String secondNameList="";
             for (TaskDurationPO po : taskDurationPOS) {
                 if(po.getSecondLeader().equals(e.getLeaderMis())&&po.getIsnormal()==false){
-                    secondNameList=secondNameList+po.getMisid()+" ";
+                    secondNameList=secondNameList+po.getRealName()+" ";
                 }
             }
             if(secondNameList!=""){
