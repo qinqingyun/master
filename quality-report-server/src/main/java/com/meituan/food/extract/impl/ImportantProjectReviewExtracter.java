@@ -35,7 +35,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
     private ImportantProjectReviewPOMapper importantProjectReviewPOMapper;
 
     private static String body="<ul><li><p>发现问题模型：<a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\"https://km.sankuai.com/page/68879971\" title=\"03项目管理发现问题的模型\" id=\"68879971\" pageid=\"68879971\" data-pageid=\"68879971\">03项目管理发现问题的模型</a></p></li></ul><ul><li><p>快速Check项目的10个点：<a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\"https://km.sankuai.com/page/116572478\" title=\"项目管理核心点CheckList\" id=\"116572478\" pageid=\"116572478\" data-pageid=\"116572478\">项目管理核心点CheckList</a></p></li><li><p>健康等级说明：<a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\"https://km.sankuai.com/page/117355269\" title=\"健康度等级说明\" id=\"117355269\" pageid=\"117355269\" data-pageid=\"117355269\">健康度等级说明</a></p></li><li><p>PRD/技术方案设计中，需要增加关键check节点的表格，<a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\"https://km.sankuai.com/page/118436153\" title=\"00.关键check项表格\" id=\"118436153\" pageid=\"118436153\" data-pageid=\"118436153\">00.关键check项表格</a></p></li><li><p>项目阶段：需求阶段，开发阶段，测试阶段，上线阶段，上线后  -- 选择项目当前阶段</p></li></ul><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">1）每周的top5 耗时的项目，做详细的项目管理review</span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">2）没有被详细review的项目，起点为良</span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">3）有问题的项目，项目review级别从 【良】 开始是降级： 【及格】-【不及格】-【差】</span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">4）QA团队内部强调主R不能多个，如果再次出现主R不清晰，QA Leader背责</span></p><h2 id=\"id-TOP5\" style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">TOP5</span></h2>";
-    private static final String tableFirstLine="<table><tbody><tr><th data-colwidth=\"52\" width=\"52\" style=\"background-color: rgb(246, 246, 246);\"><p><strong>序号</strong></p></th><th data-colwidth=\"120\" width=\"120\" style=\"background-color: rgb(246, 246, 246);\"><p>项目健康等级（<span style=\"color: rgb(245, 34, 45);\">点击上下箭头可以排序查看</span>）</p></th><th data-colwidth=\"253\" width=\"253\" style=\"background-color: rgb(246, 246, 246);\"><p>项目名称</p></th><th data-colwidth=\"256\" width=\"256\" style=\"background-color: rgb(246, 246, 246);\"><p>产品需求：PRD</p><p>技术需求：设计方案</p></th><th data-colwidth=\"124\" width=\"124\" style=\"background-color: rgb(246, 246, 246);\"><p>项目当前阶段</p></th><th data-colwidth=\"172\" width=\"172\" style=\"background-color: rgb(246, 246, 246);\"><p>问题分类-子类</p></th><th data-colwidth=\"196\" width=\"196\" style=\"background-color: rgb(246, 246, 246);\"><p>问题描述</p></th><th data-colwidth=\"108\" width=\"108\" style=\"background-color: rgb(246, 246, 246);\"><p>问题责任人</p></th><th data-colwidth=\"96\" width=\"96\" style=\"background-color: rgb(246, 246, 246);\"><p>问题责任人Leader</p></th><th data-colwidth=\"108\" width=\"108\" style=\"background-color: rgb(246, 246, 246);\"><p>所属业务线</p></th><th data-colwidth=\"208\" width=\\\"208\" style=\"background-color: rgb(246, 246, 246);\"><p>项目主R人</p></th></tr>";
+    private static final String tableFirstLine="<table><tbody><tr><th data-colwidth=\"52\" width=\"52\"  style=\"background-color: rgb(246, 246, 246);\"><p><strong>序号</strong></p></th><th data-colwidth=\"120\" width=\"120\" style=\"background-color: rgb(246, 246, 246);\"><p>项目健康等级（<span style=\"color: rgb(245, 34, 45);\">点击上下箭头可以排序查看</span>）</p></th><th data-colwidth=\"253\" width=\"253\" style=\"background-color: rgb(246, 246, 246);\"><p>项目名称</p></th><th data-colwidth=\"256\" width=\"256\" style=\"background-color: rgb(246, 246, 246);\"><p>产品需求：PRD</p><p>技术需求：设计方案</p></th><th data-colwidth=\"124\" width=\"124\" style=\"background-color: rgb(246, 246, 246);\"><p>项目当前阶段</p></th><th data-colwidth=\"172\" width=\"172\" style=\"background-color: rgb(246, 246, 246);\"><p>问题分类-子类</p></th><th data-colwidth=\"196\" width=\"196\" style=\"background-color: rgb(246, 246, 246);\"><p>问题描述</p></th><th data-colwidth=\"108\" width=\"108\" style=\"background-color: rgb(246, 246, 246);\"><p>问题责任人</p></th><th data-colwidth=\"96\" width=\"96\" style=\"background-color: rgb(246, 246, 246);\"><p>问题责任人Leader</p></th><th data-colwidth=\"108\" width=\"108\" style=\"background-color: rgb(246, 246, 246);\"><p>所属业务线</p></th><th data-colwidth=\"208\" width=\\\"208\" style=\"background-color: rgb(246, 246, 246);\"><p>项目主R人</p></th></tr>";
     private static final String content_url = "https://km.sankuai.com/api/pages/contentId";
     private static final String url = "https://km.sankuai.com/api/pages/8045";
 
@@ -66,7 +66,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
                 String projectName=allProject.substring(allProject.indexOf("}>") + 2, allProject.lastIndexOf("</a>"));
                 String s=URLEncoder.encode(unencodedParam,"UTF-8");
                 String finalPartLink=projectLink.substring(0,projectLink.indexOf("orgId")-1)+s+"}";
-                String newLine="<tr><td data-colwidth=\"52\" width=\"52\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
+                String newLine="<tr><td data-colwidth=\"52\" width=\"52\" contenteditable=\"false\" class=\"num-cell\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
                         +finalPartLink+"\" title=\""+projectName+"\" id=\"\"><u>"+projectName
                         +"</u></a></p></td><td data-colwidth=\"256\" width=\"256\\\"><p></p></td><td data-colwidth=\"124\" width=\"124\"><p></p></td><td data-colwidth=\"172\" width=\"172\"><p></p></td><td data-colwidth=\"196\" width=\"196\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"96\" width=\"96\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"208\" width=\"208\"><p></p></td></tr>";
 
@@ -81,7 +81,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
                 String projectName=allProject.substring(allProject.indexOf("}>") + 2, allProject.lastIndexOf("</a>"));
                 String s=URLEncoder.encode(unencodedParam,"UTF-8");
                 String finalPartLink=projectLink.substring(0,projectLink.indexOf("orgId")-1)+s+"}";
-                String newLine="<tr><td data-colwidth=\"52\" width=\"52\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
+                String newLine="<tr><td data-colwidth=\"52\" width=\"52\" contenteditable=\"false\" class=\"num-cell\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
                         +finalPartLink+"\" title=\""+projectName+"\" id=\"\"><u>"+projectName
                         +"</u></a></p></td><td data-colwidth=\"256\" width=\"256\\\"><p></p></td><td data-colwidth=\"124\" width=\"124\"><p></p></td><td data-colwidth=\"172\" width=\"172\"><p></p></td><td data-colwidth=\"196\" width=\"196\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"96\" width=\"96\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"208\" width=\"208\"><p></p></td></tr>";
 
@@ -126,7 +126,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
                     String projectName=allProject.substring(allProject.indexOf("}>") + 2, allProject.lastIndexOf("</a>"));
                     String s=URLEncoder.encode(unencodedParam,"UTF-8");
                     String finalPartLink=projectLink.substring(0,projectLink.indexOf("orgId")-1)+s+"}";
-                    String newLine="<tr><td data-colwidth=\"52\" width=\"52\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
+                    String newLine="<tr><td data-colwidth=\"52\" width=\"52\" contenteditable=\"false\" class=\"num-cell\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
                             +finalPartLink+"\" title=\""+projectName+"\" id=\"\"><u>"+projectName
                             +"</u></a></p></td><td data-colwidth=\"256\" width=\"256\\\"><p></p></td><td data-colwidth=\"124\" width=\"124\"><p></p></td><td data-colwidth=\"172\" width=\"172\"><p></p></td><td data-colwidth=\"196\" width=\"196\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"96\" width=\"96\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"208\" width=\"208\"><p></p></td></tr>";
 
@@ -148,6 +148,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         params2.put("title", kmTitle);
         params2.put("body", body);
         params2.put("parentId", "122541012");
+      //  params2.put("parentId", "119029743");
         params2.put("bodyText", "测试内容" + contentId);
         params2.put("contentId", contentId);
         params2.put("whatUpdate", "");
@@ -156,7 +157,6 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
 
         String kmLink="https://km.sankuai.com/page/"+contentId;
         System.out.println(kmLink);
-
         ImportantProjectReviewPO importantProjectReviewPO=new ImportantProjectReviewPO();
         importantProjectReviewPO.setContentId(contentId);
         importantProjectReviewPO.setKmLink(kmLink);
