@@ -74,7 +74,7 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     }
 
     public static void main(String[] args) {
-        LocalDate now=LocalDate.now().plusDays(14);
+        LocalDate now=LocalDate.now().plusDays(2);
         IOneDayDutyDataExtract a=new DutyDataExtracter();
         a.extractData4Day(now);
     }

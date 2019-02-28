@@ -99,7 +99,7 @@ public interface DutyTablePOMapper {
             @Result(column="is_on_duty", property="isOnDuty", jdbcType=JdbcType.BIT),
             @Result(column="duty_date", property="dutyDate", jdbcType=JdbcType.VARCHAR)
     })
-    List<DutyTablePO> selectDutyPerson(Integer count);
+    List<DutyTablePO> selectDutyPerson(@Param("count") Integer count);
 
 
     @Update({
@@ -132,5 +132,5 @@ public interface DutyTablePOMapper {
             @Result(column="is_on_duty", property="isOnDuty", jdbcType=JdbcType.BIT),
             @Result(column="duty_date", property="dutyDate", jdbcType=JdbcType.VARCHAR)
     })
-    int updateByMis2(DutyTablePO record,String mis);
+    int updateByMis2(@Param("record") DutyTablePO record,@Param("mis") String mis);
 }
