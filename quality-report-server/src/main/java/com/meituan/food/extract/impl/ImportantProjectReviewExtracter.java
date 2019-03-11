@@ -149,8 +149,8 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         JSONObject params2 = new JSONObject();
         params2.put("title", kmTitle);
         params2.put("body", body);
-    //    params2.put("parentId", "122541012");
-        params2.put("parentId", "119029743");
+        params2.put("parentId", "122541012");
+    //    params2.put("parentId", "119029743");
         params2.put("bodyText", "测试内容" + contentId);
         params2.put("contentId", contentId);
         params2.put("whatUpdate", "");
