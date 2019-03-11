@@ -117,12 +117,6 @@ public class DutyTableController {
         n.setDutyMis("zhangbo64");
         dutyTablePOMapper.insert(n);
 
-        DutyTablePO o=new DutyTablePO();
-        o.setIsOnDuty(false);
-        o.setDutyMis("eqianyu");
-        o.setDutyName("鄂乾宇");
-        dutyTablePOMapper.insert(o);
-
         DutyTablePO p=new DutyTablePO();
         p.setIsOnDuty(false);
         p.setDutyName("张伟豪");
