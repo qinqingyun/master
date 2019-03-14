@@ -94,7 +94,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         Map<String,String> orgMap=new HashMap();
         orgMap.put("C端客户端","106453");
         orgMap.put("C端服务端","106452");
-    //    orgMap.put("B端商家端","106454");
+        orgMap.put("B端商家端","106454");
         orgMap.put("M端CRM","106457");
         orgMap.put("M端供应链","106455");
         orgMap.put("财务结算","106456");
@@ -122,16 +122,18 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
                 if(resultIndex.size() > 1) {
                     for (int i = 1; i < resultIndex.size(); i++) {
                         String allProject = ((JSONArray) (resultIndex.get(i))).getString(0);
-                        String projectLink = allProject.substring(allProject.indexOf("href=") + 5, allProject.lastIndexOf("}") + 1);
-                        String unencodedParam = projectLink.substring(projectLink.indexOf("{") + 1, projectLink.indexOf("}"));
-                        String projectName = allProject.substring(allProject.indexOf("}>") + 2, allProject.lastIndexOf("</a>"));
-                        String s = URLEncoder.encode(unencodedParam, "UTF-8");
-                        String finalPartLink = projectLink.substring(0, projectLink.indexOf("orgId") - 1) + s + "}";
-                        String newLine = "<tr><td data-colwidth=\"52\" width=\"52\" contenteditable=\"false\" class=\"num-cell\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
-                                + finalPartLink + "\" title=\"" + projectName + "\" id=\"\"><u>" + projectName
-                                + "</u></a></p></td><td data-colwidth=\"256\" width=\"256\\\"><p></p></td><td data-colwidth=\"124\" width=\"124\"><p></p></td><td data-colwidth=\"172\" width=\"172\"><p></p></td><td data-colwidth=\"196\" width=\"196\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"96\" width=\"96\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"208\" width=\"208\"><p></p></td></tr>";
+                        if (!allProject.equals("")) {
+                            String projectLink = allProject.substring(allProject.indexOf("href=") + 5, allProject.lastIndexOf("}") + 1);
+                            String unencodedParam = projectLink.substring(projectLink.indexOf("{") + 1, projectLink.indexOf("}"));
+                            String projectName = allProject.substring(allProject.indexOf("}>") + 2, allProject.lastIndexOf("</a>"));
+                            String s = URLEncoder.encode(unencodedParam, "UTF-8");
+                            String finalPartLink = projectLink.substring(0, projectLink.indexOf("orgId") - 1) + s + "}";
+                            String newLine = "<tr><td data-colwidth=\"52\" width=\"52\" contenteditable=\"false\" class=\"num-cell\"><p></p></td><td data-colwidth=\"120\" width=\"120\"><p style=\"text-align: start;\"></p></td><td data-colwidth=\"253\" width=\"253\"><p><a target=\"_blank\" rel=\"noopener\" class=\"ct-link\" href=\""
+                                    + finalPartLink + "\" title=\"" + projectName + "\" id=\"\"><u>" + projectName
+                                    + "</u></a></p></td><td data-colwidth=\"256\" width=\"256\\\"><p></p></td><td data-colwidth=\"124\" width=\"124\"><p></p></td><td data-colwidth=\"172\" width=\"172\"><p></p></td><td data-colwidth=\"196\" width=\"196\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"96\" width=\"96\"><p></p></td><td data-colwidth=\"108\" width=\"108\"><p></p></td><td data-colwidth=\"208\" width=\"208\"><p></p></td></tr>";
 
-                        body = body + newLine;
+                            body = body + newLine;
+                        }
                     }
                 }
             }
@@ -149,8 +151,10 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         JSONObject params2 = new JSONObject();
         params2.put("title", kmTitle);
         params2.put("body", body);
+        //大组目录
         params2.put("parentId", "122541012");
-    //    params2.put("parentId", "119029743");
+        // 测试地址
+       // params2.put("parentId", "119029743");
         params2.put("bodyText", "测试内容" + contentId);
         params2.put("contentId", contentId);
         params2.put("whatUpdate", "");
