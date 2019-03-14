@@ -94,7 +94,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         Map<String,String> orgMap=new HashMap();
         orgMap.put("C端客户端","106453");
         orgMap.put("C端服务端","106452");
-        orgMap.put("B端商家端","106454");
+    //    orgMap.put("B端商家端","106454");
         orgMap.put("M端CRM","106457");
         orgMap.put("M端供应链","106455");
         orgMap.put("财务结算","106456");
