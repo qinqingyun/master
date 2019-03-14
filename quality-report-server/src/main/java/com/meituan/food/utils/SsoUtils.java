@@ -49,7 +49,7 @@ public final class SsoUtils {
 
         JSONObject authParams=new JSONObject();
         authParams.put("loginName","test_meishi_qa");
-       authParams.put("password","meishi_qa1234");
+       authParams.put("password","meishi_qa234");
       // authParams.put("password","Ceshi123");
        authParams.put("isSingleDevice",false);
 
@@ -67,8 +67,7 @@ public final class SsoUtils {
                clientId,appSecret);
 
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
-      // return ssoId;
-        return  "337ba49029*340fabcbcdd4903581fd8";
+       return ssoId;
     }
 
     private SsoUtils() {
