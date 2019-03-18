@@ -10,7 +10,7 @@ public class DaXiangUtils {
             .defaultBuilder()
             .withAppkey("4201005481118L01")
             .withApptoken("269ae042f01e1793314057c4853e757f")
-            .withTargetUrl("http://dxw-in.sankuai.com/api/pub/pushToRoom")
+            .withTargetUrl("https://xmapi.vip.sankuai.com/api/pub/pushToRoom")
             .withFromName("虚拟小组")
             .withToAppid((short) 1)
             .withFromUid(137442102174L)
@@ -20,7 +20,7 @@ public class DaXiangUtils {
             .defaultBuilder()
             .withAppkey("4201005481118L01")
             .withApptoken("269ae042f01e1793314057c4853e757f")
-            .withTargetUrl("http://dxw-in.sankuai.com/api/pub/push")
+            .withTargetUrl("https://xmapi.vip.sankuai.com/api/pub/push")
             .withFromName("虚拟小组")
             .withToAppid((short) 1)
             .withFromUid(137442102174L)
@@ -39,5 +39,11 @@ public class DaXiangUtils {
     }
 
     private DaXiangUtils() {
+    }
+
+
+    public static void main(String[] args) {
+        DaXiangUtils.pushToPerson("test","guomengyao");
+        DaXiangUtils.pushToRoom("test",64012858900l);
     }
 }
