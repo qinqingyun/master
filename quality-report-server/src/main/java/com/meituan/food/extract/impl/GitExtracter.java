@@ -95,7 +95,7 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
 
 
     public static void main(String[] args) {
-        LocalDate localDate = LocalDate.now().minusDays(6);//取2018-12-29那天的数据
+        LocalDate localDate = LocalDate.now().minusDays(3);
         IOneDayForEfficiencyDataExtract m = new GitExtracter();
         m.extractEfficiencyData4Day(localDate);
     }

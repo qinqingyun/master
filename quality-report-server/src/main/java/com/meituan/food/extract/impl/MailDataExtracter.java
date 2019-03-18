@@ -55,8 +55,6 @@ public class MailDataExtracter implements IMailDataExtract {
 
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String mailBody = "<body><h4>人效数据表：</h4><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
-
         List<EfficiencyTotalDatePO> totalDatePOS = new ArrayList<>();
 
         EmpHierarchyCond empCond = new EmpHierarchyCond();
@@ -71,7 +69,6 @@ public class MailDataExtracter implements IMailDataExtract {
         orgList.add("104638");
 
         for (String singleOrg : orgList) {
-
 
             EmpItems empItems = empService.queryEmp(singleOrg, 3, empCond, paging);
             List<Emp> items = empItems.getItems();
@@ -156,8 +153,13 @@ public class MailDataExtracter implements IMailDataExtract {
 
         Map<String, List<EfficiencyTotalDatePO>> totalMap = totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
 
+        String mailBody = "<h1>人效数据</h1>";
+
         for (String key : totalMap.keySet()) {
             List<EfficiencyTotalDatePO> listEffData = totalMap.get(key);
+            mailBody = mailBody + "<h3>" + key + "</h3>";
+            mailBody = mailBody + "<body><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
+
             for (EfficiencyTotalDatePO listEffDatum : listEffData) {
                 mailBody = mailBody + "<tr><td>" + listEffDatum.getMis()
                         + "</td><td>" + listEffDatum.getName()
@@ -173,10 +175,11 @@ public class MailDataExtracter implements IMailDataExtract {
                         + "</td><td>" + listEffDatum.getOrgName()
                         + "</td></tr>";
             }
+            mailBody = mailBody + "</table></body>";
         }
 
-
-        mailBody = mailBody + "</table></body></html>";
+        mailBody = mailBody + "</html>";
+        System.out.println(mailBody);
 
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
