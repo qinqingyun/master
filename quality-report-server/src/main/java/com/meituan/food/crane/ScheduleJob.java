@@ -50,6 +50,11 @@ public class ScheduleJob {
     @Resource
     private IOneDayDuttyJob oneDayDuttyJob;
 
+    @Resource
+    private IOneWeekEfficiencyJob oneWeekEfficiencyJob;
+
+    @Resource
+    private IOneMonthEfficiencyJob oneMonthEfficiencyJob;
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -122,5 +127,17 @@ public class ScheduleJob {
     public void syncDuty(){
         log.info("oneDutyJob job execute at: {}", new Date());
         oneDayDuttyJob.sync();
+    }
+
+    @Crane("one.week.efficiency.job")
+    public void syncOneWeekEfficiency() throws MDMThriftException, TException {
+        log.info("one week efficiency job execute at: {}", new Date());
+        oneWeekEfficiencyJob.sync();
+    }
+
+    @Crane("one.month.efficiency.job")
+    public void syncOneMonthEfficiency() throws MDMThriftException, TException {
+        log.info("one month efficiency job execute at: {}", new Date());
+        oneMonthEfficiencyJob.sync();
     }
 }

@@ -158,7 +158,7 @@ public class MailDataExtracter implements IMailDataExtract {
         for (String key : totalMap.keySet()) {
             List<EfficiencyTotalDatePO> listEffData = totalMap.get(key);
             mailBody = mailBody + "<h3>" + key + "</h3>";
-            mailBody = mailBody + "<body><table border=\"1\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
+            mailBody = mailBody + "<body><table border=\"1\" cellspacing=\"0\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>日期</th><th>组织</th></tr>";
 
             for (EfficiencyTotalDatePO listEffDatum : listEffData) {
                 mailBody = mailBody + "<tr><td>" + listEffDatum.getMis()

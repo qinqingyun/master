@@ -6,7 +6,8 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
+    <classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -69,7 +70,9 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="git" domainObjectName="GitPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+        <table tableName="efficiency_total_data_days" domainObjectName="EfficiencyTotalDateDaysPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
         <!--<table tableName="important_project_review" domainObjectName="ImportantProjectReviewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->

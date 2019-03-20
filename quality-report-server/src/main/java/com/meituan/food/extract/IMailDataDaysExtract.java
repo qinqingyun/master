@@ -1,6 +1,9 @@
 package com.meituan.food.extract;
 
-public interface IOneWeekEfficiencyDataExtract {
+import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
+import org.apache.thrift.TException;
 
-    void extractEfficiencyData4Week(String startDate, String endDate);
+public interface IMailDataDaysExtract {
+
+    void extractEfficiencyData4Days(String startDate, String endDate) throws MDMThriftException, TException;
 }

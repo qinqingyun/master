@@ -1,7 +1,7 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.EfficiencyTotalDatePO;
-import com.meituan.food.po.EfficiencyTotalDatePOExample;
+import com.meituan.food.po.EfficiencyTotalDateDaysPO;
+import com.meituan.food.po.EfficiencyTotalDateDaysPOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -16,41 +16,43 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
-public interface EfficiencyTotalDatePOMapper {
-    @SelectProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="countByExample")
-    long countByExample(EfficiencyTotalDatePOExample example);
+public interface EfficiencyTotalDateDaysPOMapper {
+    @SelectProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="countByExample")
+    long countByExample(EfficiencyTotalDateDaysPOExample example);
 
-    @DeleteProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="deleteByExample")
-    int deleteByExample(EfficiencyTotalDatePOExample example);
+    @DeleteProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="deleteByExample")
+    int deleteByExample(EfficiencyTotalDateDaysPOExample example);
 
     @Delete({
-        "delete from efficiency_total_data",
+        "delete from efficiency_total_data_days",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into efficiency_total_data (id, mis, ",
+        "insert into efficiency_total_data_days (id, mis, ",
         "name, create_wiki_num, ",
         "update_wiki_num, git_increase, ",
         "git_delete, git_submit, ",
         "git_submit_time, create_bug_num, ",
-        "accept_bug_num, partition_date, ",
-        "created_at, org_name)",
+        "accept_bug_num, start_date, ",
+        "end_date, created_at, ",
+        "org_name)",
         "values (#{id,jdbcType=INTEGER}, #{mis,jdbcType=VARCHAR}, ",
         "#{name,jdbcType=VARCHAR}, #{createWikiNum,jdbcType=BIGINT}, ",
         "#{updateWikiNum,jdbcType=BIGINT}, #{gitIncrease,jdbcType=INTEGER}, ",
         "#{gitDelete,jdbcType=INTEGER}, #{gitSubmit,jdbcType=INTEGER}, ",
         "#{gitSubmitTime,jdbcType=INTEGER}, #{createBugNum,jdbcType=INTEGER}, ",
-        "#{acceptBugNum,jdbcType=INTEGER}, #{partitionDate,jdbcType=VARCHAR}, ",
-        "#{createdAt,jdbcType=TIMESTAMP}, #{orgName,jdbcType=VARCHAR})"
+        "#{acceptBugNum,jdbcType=INTEGER}, #{startDate,jdbcType=VARCHAR}, ",
+        "#{endDate,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, ",
+        "#{orgName,jdbcType=VARCHAR})"
     })
-    int insert(EfficiencyTotalDatePO record);
+    int insert(EfficiencyTotalDateDaysPO record);
 
-    @InsertProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="insertSelective")
-    int insertSelective(EfficiencyTotalDatePO record);
+    @InsertProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="insertSelective")
+    int insertSelective(EfficiencyTotalDateDaysPO record);
 
-    @SelectProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="selectByExample")
+    @SelectProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="selectByExample")
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="mis", property="mis", jdbcType=JdbcType.VARCHAR),
@@ -63,18 +65,19 @@ public interface EfficiencyTotalDatePOMapper {
         @Result(column="git_submit_time", property="gitSubmitTime", jdbcType=JdbcType.INTEGER),
         @Result(column="create_bug_num", property="createBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="accept_bug_num", property="acceptBugNum", jdbcType=JdbcType.INTEGER),
-        @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
-    List<EfficiencyTotalDatePO> selectByExample(EfficiencyTotalDatePOExample example);
+    List<EfficiencyTotalDateDaysPO> selectByExample(EfficiencyTotalDateDaysPOExample example);
 
     @Select({
         "select",
         "id, mis, name, create_wiki_num, update_wiki_num, git_increase, git_delete, git_submit, ",
-        "git_submit_time, create_bug_num, accept_bug_num, partition_date, created_at, ",
+        "git_submit_time, create_bug_num, accept_bug_num, start_date, end_date, created_at, ",
         "org_name",
-        "from efficiency_total_data",
+        "from efficiency_total_data_days",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
@@ -89,52 +92,24 @@ public interface EfficiencyTotalDatePOMapper {
         @Result(column="git_submit_time", property="gitSubmitTime", jdbcType=JdbcType.INTEGER),
         @Result(column="create_bug_num", property="createBugNum", jdbcType=JdbcType.INTEGER),
         @Result(column="accept_bug_num", property="acceptBugNum", jdbcType=JdbcType.INTEGER),
-        @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
-    EfficiencyTotalDatePO selectByPrimaryKey(Integer id);
+    EfficiencyTotalDateDaysPO selectByPrimaryKey(Integer id);
 
-//    按日期、mis查询一段时间内，该mis的代码/bug/学城一些数量的变化总和
-    @Select({
-            "select",
-            "id, mis, name, sum(create_wiki_num), sum(update_wiki_num), sum(git_increase), sum(git_delete), sum(git_submit), ",
-            "sum(git_submit_time), sum(create_bug_num), sum(accept_bug_num), partition_date, created_at, ",
-            "org_name",
-            "from efficiency_total_data",
-            "where mis = #{misId,jdbcType=VARCHAR}",
-            "and partition_date>=#{startDate,jdbcType=VARCHAR}",
-            "and partition_date<=#{endDate,jdbcType=VARCHAR}"
-    })
-    @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="mis", property="mis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
-            @Result(column="sum(create_wiki_num)", property="sumCreateWikiNum", jdbcType=JdbcType.BIGINT),
-            @Result(column="sum(update_wiki_num)", property="sumUpdateWikiNum", jdbcType=JdbcType.BIGINT),
-            @Result(column="sum(git_increase)", property="sumGitIncrease", jdbcType=JdbcType.INTEGER),
-            @Result(column="sum(git_delete)", property="sumGitDelete", jdbcType=JdbcType.INTEGER),
-            @Result(column="sum(git_submit)", property="sumGitSubmit", jdbcType=JdbcType.INTEGER),
-            @Result(column="sum(git_submit_time)", property="sumGitSubmitTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="sum(create_bug_num)", property="sumCreateBugNum", jdbcType=JdbcType.INTEGER),
-            @Result(column="sum(accept_bug_num)", property="sumAcceptBugNum", jdbcType=JdbcType.INTEGER),
-            @Result(column="partition_date", property="partitionDate", jdbcType=JdbcType.VARCHAR),
-            @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
-    })
-    EfficiencyTotalDatePO selectByPrimaryMisByTime(@Param("misId") String misId,@Param("startDate") String startDate,@Param("endDate") String endDate);
+    @UpdateProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="updateByExampleSelective")
+    int updateByExampleSelective(@Param("record") EfficiencyTotalDateDaysPO record, @Param("example") EfficiencyTotalDateDaysPOExample example);
 
-    @UpdateProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") EfficiencyTotalDatePO record, @Param("example") EfficiencyTotalDatePOExample example);
+    @UpdateProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="updateByExample")
+    int updateByExample(@Param("record") EfficiencyTotalDateDaysPO record, @Param("example") EfficiencyTotalDateDaysPOExample example);
 
-    @UpdateProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="updateByExample")
-    int updateByExample(@Param("record") EfficiencyTotalDatePO record, @Param("example") EfficiencyTotalDatePOExample example);
-
-    @UpdateProvider(type=EfficiencyTotalDatePOSqlProvider.class, method="updateByPrimaryKeySelective")
-    int updateByPrimaryKeySelective(EfficiencyTotalDatePO record);
+    @UpdateProvider(type=EfficiencyTotalDateDaysPOSqlProvider.class, method="updateByPrimaryKeySelective")
+    int updateByPrimaryKeySelective(EfficiencyTotalDateDaysPO record);
 
     @Update({
-        "update efficiency_total_data",
+        "update efficiency_total_data_days",
         "set mis = #{mis,jdbcType=VARCHAR},",
           "name = #{name,jdbcType=VARCHAR},",
           "create_wiki_num = #{createWikiNum,jdbcType=BIGINT},",
@@ -145,10 +120,11 @@ public interface EfficiencyTotalDatePOMapper {
           "git_submit_time = #{gitSubmitTime,jdbcType=INTEGER},",
           "create_bug_num = #{createBugNum,jdbcType=INTEGER},",
           "accept_bug_num = #{acceptBugNum,jdbcType=INTEGER},",
-          "partition_date = #{partitionDate,jdbcType=VARCHAR},",
+          "start_date = #{startDate,jdbcType=VARCHAR},",
+          "end_date = #{endDate,jdbcType=VARCHAR},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
           "org_name = #{orgName,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
-    int updateByPrimaryKey(EfficiencyTotalDatePO record);
+    int updateByPrimaryKey(EfficiencyTotalDateDaysPO record);
 }

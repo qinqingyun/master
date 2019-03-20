@@ -1,34 +1,27 @@
 package com.meituan.food.job.impl;
 
-import com.meituan.food.extract.IOneMonthEfficiencyDataExtract;
-import com.meituan.food.job.IOneMonthEfficiencyJob;
+import com.meituan.food.extract.IMailDataDaysExtract;
+import com.meituan.food.job.IOneWeekEfficiencyJob;
+import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
+import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
-public abstract class OneMonthEfficiencyJobImpl implements IOneMonthEfficiencyJob {
-
+public class OneWeekEfficiencyJobImpl implements IOneWeekEfficiencyJob {
     @Resource
-    private List<IOneMonthEfficiencyDataExtract> dataExtracts;
-
-    private static String firstDate;
-    private static String endDate;
+    private  IMailDataDaysExtract dataDaysExtract;
 
     @Override
-    public void sync() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal_1 = Calendar.getInstance();
-        cal_1.add(Calendar.MONTH, -1);
-        cal_1.set(Calendar.DAY_OF_MONTH, 1);
-        firstDate = format.format(cal_1.getTime());
+    public void sync() throws MDMThriftException, TException {
+        LocalDate firstDate = LocalDate.now().minusDays(8);
+        LocalDate lastDate = LocalDate.now().minusDays(2);
 
-        Calendar cale = Calendar.getInstance();
-        cale.set(Calendar.DAY_OF_MONTH, 0);
-        endDate = format.format(cale.getTime());
-        dataExtracts.forEach(dataExtract -> dataExtract.extractEfficiencyData4Month(firstDate,endDate));
+        String startDate = firstDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String endDate = lastDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        dataDaysExtract.extractEfficiencyData4Days(startDate,endDate);
     }
 }

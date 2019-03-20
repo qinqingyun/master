@@ -1,6 +1,9 @@
 package com.meituan.food.job;
 
-public interface IOneDayForEfficiencyJob {
+import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
+import org.apache.thrift.TException;
 
-    void sync();
+public interface IOneWeekEfficiencyJob {
+
+    void sync() throws MDMThriftException, TException;
 }

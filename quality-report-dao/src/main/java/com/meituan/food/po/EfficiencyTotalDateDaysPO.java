@@ -3,7 +3,7 @@ package com.meituan.food.po;
 import java.io.Serializable;
 import java.util.Date;
 
-public class EfficiencyTotalDatePO implements Serializable {
+public class EfficiencyTotalDateDaysPO implements Serializable {
     private Integer id;
 
     private String mis;
@@ -26,25 +26,9 @@ public class EfficiencyTotalDatePO implements Serializable {
 
     private Integer acceptBugNum;
 
+    private String startDate;
 
-    private Long sumCreateWikiNum;
-
-    private Long sumUpdateWikiNum;
-
-    private Integer sumGitIncrease;
-
-    private Integer sumGitDelete;
-
-    private Integer sumGitSubmit;
-
-    private Integer sumGitSubmitTime;
-
-    private Integer sumCreateBugNum;
-
-    private Integer sumAcceptBugNum;
-
-
-    private String partitionDate;
+    private String endDate;
 
     private Date createdAt;
 
@@ -140,78 +124,20 @@ public class EfficiencyTotalDatePO implements Serializable {
         this.acceptBugNum = acceptBugNum;
     }
 
-
-    public Long getSumCreateWikiNum() {
-        return sumCreateWikiNum;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setSumCreateWikiNum(Long sumCreateWikiNum) {
-        this.sumCreateWikiNum = sumCreateWikiNum;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate == null ? null : startDate.trim();
     }
 
-    public Long getSumUpdateWikiNum() {
-        return sumUpdateWikiNum;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setSumUpdateWikiNum(Long sumUpdateWikiNum) {
-        this.sumUpdateWikiNum = sumUpdateWikiNum;
-    }
-
-    public Integer getSumGitIncrease() {
-        return sumGitIncrease;
-    }
-
-    public void setSumGitIncrease(Integer sumGitIncrease) {
-        this.sumGitIncrease = sumGitIncrease;
-    }
-
-    public Integer getSumGitDelete() {
-        return sumGitDelete;
-    }
-
-    public void setSumGitDelete(Integer sumGitDelete) {
-        this.sumGitDelete = sumGitDelete;
-    }
-
-    public Integer getSumGitSubmit() {
-        return sumGitSubmit;
-    }
-
-    public void setSumGitSubmit(Integer sumGitSubmit) {
-        this.sumGitSubmit = sumGitSubmit;
-    }
-
-    public Integer getSumGitSubmitTime() {
-        return sumGitSubmitTime;
-    }
-
-    public void setSumGitSubmitTime(Integer sumGitSubmitTime) {
-        this.sumGitSubmitTime = sumGitSubmitTime;
-    }
-
-    public Integer getSumCreateBugNum() {
-        return sumCreateBugNum;
-    }
-
-    public void setSumCreateBugNum(Integer sumCreateBugNum) {
-        this.sumCreateBugNum = sumCreateBugNum;
-    }
-
-    public Integer getSumAcceptBugNum() {
-        return sumAcceptBugNum;
-    }
-
-    public void setSumAcceptBugNum(Integer sumAcceptBugNum) {
-        this.sumAcceptBugNum = sumAcceptBugNum;
-    }
-
-
-    public String getPartitionDate() {
-        return partitionDate;
-    }
-
-    public void setPartitionDate(String partitionDate) {
-        this.partitionDate = partitionDate == null ? null : partitionDate.trim();
+    public void setEndDate(String endDate) {
+        this.endDate = endDate == null ? null : endDate.trim();
     }
 
     public Date getCreatedAt() {
@@ -241,7 +167,7 @@ public class EfficiencyTotalDatePO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        EfficiencyTotalDatePO other = (EfficiencyTotalDatePO) that;
+        EfficiencyTotalDateDaysPO other = (EfficiencyTotalDateDaysPO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMis() == null ? other.getMis() == null : this.getMis().equals(other.getMis()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
@@ -253,18 +179,10 @@ public class EfficiencyTotalDatePO implements Serializable {
             && (this.getGitSubmitTime() == null ? other.getGitSubmitTime() == null : this.getGitSubmitTime().equals(other.getGitSubmitTime()))
             && (this.getCreateBugNum() == null ? other.getCreateBugNum() == null : this.getCreateBugNum().equals(other.getCreateBugNum()))
             && (this.getAcceptBugNum() == null ? other.getAcceptBugNum() == null : this.getAcceptBugNum().equals(other.getAcceptBugNum()))
-            && (this.getPartitionDate() == null ? other.getPartitionDate() == null : this.getPartitionDate().equals(other.getPartitionDate()))
+            && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
+            && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
-            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()))
-
-            && (this.getSumCreateWikiNum() == null ? other.getSumCreateWikiNum() == null : this.getSumCreateWikiNum().equals(other.getSumCreateWikiNum()))
-            && (this.getSumUpdateWikiNum() == null ? other.getSumUpdateWikiNum() == null : this.getSumUpdateWikiNum().equals(other.getSumUpdateWikiNum()))
-            && (this.getSumGitIncrease() == null ? other.getSumGitIncrease() == null : this.getSumGitIncrease().equals(other.getSumGitIncrease()))
-            && (this.getSumGitDelete() == null ? other.getSumGitDelete() == null : this.getSumGitDelete().equals(other.getSumGitDelete()))
-            && (this.getSumGitSubmit() == null ? other.getSumGitSubmit() == null : this.getSumGitSubmit().equals(other.getSumGitSubmit()))
-            && (this.getSumGitSubmitTime() == null ? other.getSumGitSubmitTime() == null : this.getSumGitSubmitTime().equals(other.getSumGitSubmitTime()))
-            && (this.getSumCreateBugNum() == null ? other.getSumCreateBugNum() == null : this.getSumCreateBugNum().equals(other.getSumCreateBugNum()))
-            && (this.getSumAcceptBugNum() == null ? other.getSumAcceptBugNum() == null : this.getSumAcceptBugNum().equals(other.getSumAcceptBugNum()));
+            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()));
     }
 
     @Override
@@ -282,19 +200,10 @@ public class EfficiencyTotalDatePO implements Serializable {
         result = prime * result + ((getGitSubmitTime() == null) ? 0 : getGitSubmitTime().hashCode());
         result = prime * result + ((getCreateBugNum() == null) ? 0 : getCreateBugNum().hashCode());
         result = prime * result + ((getAcceptBugNum() == null) ? 0 : getAcceptBugNum().hashCode());
-        result = prime * result + ((getPartitionDate() == null) ? 0 : getPartitionDate().hashCode());
+        result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
+        result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getOrgName() == null) ? 0 : getOrgName().hashCode());
-
-        result = prime * result + ((getSumCreateWikiNum() == null) ? 0 : getSumCreateWikiNum().hashCode());
-        result = prime * result + ((getSumUpdateWikiNum() == null) ? 0 : getSumUpdateWikiNum().hashCode());
-        result = prime * result + ((getSumGitIncrease() == null) ? 0 : getSumGitIncrease().hashCode());
-        result = prime * result + ((getSumGitDelete() == null) ? 0 : getSumGitDelete().hashCode());
-        result = prime * result + ((getSumGitSubmit() == null) ? 0 : getSumGitSubmit().hashCode());
-        result = prime * result + ((getSumGitSubmitTime() == null) ? 0 : getSumGitSubmitTime().hashCode());
-        result = prime * result + ((getSumCreateBugNum() == null) ? 0 : getSumCreateBugNum().hashCode());
-        result = prime * result + ((getSumAcceptBugNum() == null) ? 0 : getSumAcceptBugNum().hashCode());
-
         return result;
     }
 
@@ -315,19 +224,10 @@ public class EfficiencyTotalDatePO implements Serializable {
         sb.append(", gitSubmitTime=").append(gitSubmitTime);
         sb.append(", createBugNum=").append(createBugNum);
         sb.append(", acceptBugNum=").append(acceptBugNum);
-        sb.append(", partitionDate=").append(partitionDate);
+        sb.append(", startDate=").append(startDate);
+        sb.append(", endDate=").append(endDate);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", orgName=").append(orgName);
-
-        sb.append(", sumCreateWikiNum=").append(sumCreateWikiNum);
-        sb.append(", sumUpdateWikiNum=").append(sumUpdateWikiNum);
-        sb.append(", sumGitIncrease=").append(sumGitIncrease);
-        sb.append(", sumGitDelete=").append(sumGitDelete);
-        sb.append(", sumGitSubmit=").append(sumGitSubmit);
-        sb.append(", sumGitSubmitTime=").append(sumGitSubmitTime);
-        sb.append(", sumCreateBugNum=").append(sumCreateBugNum);
-        sb.append(", sumAcceptBugNum=").append(sumAcceptBugNum);
-
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
