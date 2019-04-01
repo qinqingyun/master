@@ -135,7 +135,7 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         }
 
         mailBody = mailBody + "</html>";
-        System.out.println(mailBody);
+//        System.out.println(mailBody);
 
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
@@ -144,7 +144,7 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         mailModel.setTo(Arrays.asList("guomengyao@meituan.com")); //收件人
         mailModel.setCc(Arrays.asList());  //抄送
         mailModel.setBcc(Arrays.asList());  //密送
-        mailModel.setSubject("人效数据表");
+        mailModel.setSubject("人效数据表"+ startDate + "~" + endDate);
         //   mailModel.setAttachments(getAttachments()); //带附件发送
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
