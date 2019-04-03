@@ -150,7 +150,7 @@ public class MailDataExtracter implements IMailDataExtract {
             }
         }
 
-        Map<String, List<EfficiencyTotalDatePO>> totalMap = totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
+        /*Map<String, List<EfficiencyTotalDatePO>> totalMap = totalDatePOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDatePO::getOrgName));
 
         String mailBody = "<h1>人效数据</h1>";
 
@@ -177,10 +177,9 @@ public class MailDataExtracter implements IMailDataExtract {
             mailBody = mailBody + "</table></body>";
         }
 
-        mailBody = mailBody + "</html>";
+        mailBody = mailBody + "</html>";*/
 //        System.out.println(mailBody);
-
-        MailStructDTO mailModel = new MailStructDTO();
+      /*  MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("到餐质量组");
         mailModel.setBody(mailBody);
@@ -191,6 +190,6 @@ public class MailDataExtracter implements IMailDataExtract {
         //   mailModel.setAttachments(getAttachments()); //带附件发送
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
-        System.out.println(resultModel);
+        System.out.println(resultModel);*/
     }
 }

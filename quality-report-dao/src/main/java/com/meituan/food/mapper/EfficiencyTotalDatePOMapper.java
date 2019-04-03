@@ -29,6 +29,18 @@ public interface EfficiencyTotalDatePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from efficiency_total_data",
+            "where id < #{id,jdbcType=INTEGER}"
+    })
+    int deleteLessPrimaryKey(Integer id);
+
+    @Delete({
+            "delete from efficiency_total_data",
+            "where id > #{id,jdbcType=INTEGER}"
+    })
+    int deleteMorePrimaryKey(Integer id);
+
     @Insert({
         "insert into efficiency_total_data (id, mis, ",
         "name, create_wiki_num, ",
