@@ -18,10 +18,25 @@ public class OneDayForEfficiencyJobImpl implements IOneDayForEfficiencyJob {
 
     @Override
     public void sync() {
-        LocalDate day = LocalDate.now().minusDays(2);
+       /* LocalDate day = LocalDate.now().minusDays(2);
         List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractEfficiencyData4Day(day)))
                 .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);
+        extractFutures.forEach(CompletableFuture::join);*/
+        for(int i=92;i>61;i--) {
+            LocalDate day = LocalDate.now().minusDays(i);
+            List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
+                    .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractEfficiencyData4Day(day)))
+                    .collect(Collectors.toList());
+            extractFutures.forEach(CompletableFuture::join);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        for(int i=92;i>61;i--) {
+            LocalDate day = LocalDate.now().minusDays(i);
+            System.out.println(day);
+        }
     }
 }

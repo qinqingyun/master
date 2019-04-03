@@ -29,6 +29,12 @@ public interface GitPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from git",
+            "where id < #{id,jdbcType=INTEGER}"
+    })
+    int deleteLessPrimaryKey(Integer id);
+
     @Insert({
         "insert into git (id, misid, ",
         "name, git_date, git_code_increase, ",
