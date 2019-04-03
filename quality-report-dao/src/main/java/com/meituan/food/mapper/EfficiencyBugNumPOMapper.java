@@ -29,6 +29,18 @@ public interface EfficiencyBugNumPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from efficiency_bug_num",
+            "where id < #{id,jdbcType=INTEGER}"
+    })
+    int deleteLessPrimaryKey(Integer id);
+
+    @Delete({
+            "delete from efficiency_bug_num",
+            "where id > #{id,jdbcType=INTEGER}"
+    })
+    int deleteMorePrimaryKey(Integer id);
+
     @Insert({
         "insert into efficiency_bug_num (id, mis, ",
         "create_num, accept_num, ",
