@@ -135,7 +135,7 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         }
 
         mailBody = mailBody + "</html>";
-//        System.out.println(mailBody);
+        System.out.println(mailBody);
 
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);

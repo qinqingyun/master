@@ -56,6 +56,9 @@ public class ScheduleJob {
     @Resource
     private IOneMonthEfficiencyJob oneMonthEfficiencyJob;
 
+    @Resource
+    private IOneQMailJob oneQMailJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -139,5 +142,11 @@ public class ScheduleJob {
     public void syncOneMonthEfficiency() throws MDMThriftException, TException {
         log.info("one month efficiency job execute at: {}", new Date());
         oneMonthEfficiencyJob.sync();
+    }
+
+    @Crane("one.quarter.mail.job")
+    public void syncOneQMailJob() throws TException, MDMThriftException {
+        log.info("one quarter mail  efficiency job execute at: {}", new Date());
+        oneQMailJob.sync();
     }
 }
