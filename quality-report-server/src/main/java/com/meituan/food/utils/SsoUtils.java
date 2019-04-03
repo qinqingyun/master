@@ -47,7 +47,7 @@ public final class SsoUtils {
         //线下AppSecret
        // String appSecret="55777cf8eda44eaca7ffeedcc806d246";
 
-        /*JSONObject authParams=new JSONObject();
+        JSONObject authParams=new JSONObject();
         authParams.put("loginName","test_meishi_qa");
        authParams.put("password","meishi_qa234");
       // authParams.put("password","Ceshi123");
@@ -66,9 +66,8 @@ public final class SsoUtils {
                JSONObject.class,
                clientId,appSecret);
 
-       String ssoId=ssoRes.getJSONObject("data").getString("accessToken");*/
-    //   return ssoId;
-        return "d649506c02*9407881bf62cc28add1cb";
+       String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
+       return ssoId;
     }
 
     private SsoUtils() {
