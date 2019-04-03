@@ -23,7 +23,7 @@ public class OneDayForEfficiencyJobImpl implements IOneDayForEfficiencyJob {
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractEfficiencyData4Day(day)))
                 .collect(Collectors.toList());
         extractFutures.forEach(CompletableFuture::join);*/
-        for(int i=64;i>61;i--) {
+        for(int i=61;i>=2;i--) {
             LocalDate day = LocalDate.now().minusDays(i);
             List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                     .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractEfficiencyData4Day(day)))
@@ -34,7 +34,7 @@ public class OneDayForEfficiencyJobImpl implements IOneDayForEfficiencyJob {
     }
 
     public static void main(String[] args) {
-        for(int i=64;i>61;i--) {
+        for(int i=61;i>=2;i--) {
             LocalDate day = LocalDate.now().minusDays(i);
             System.out.println(day);
         }
