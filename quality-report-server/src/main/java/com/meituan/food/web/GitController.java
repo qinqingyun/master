@@ -21,4 +21,10 @@ public class GitController {
         return "OK!";
     }
 
+    @GetMapping("/delete2")
+    public String deleteGitData2(@RequestParam("id") int id){
+        gitPOMapper.deleteMorePrimaryKey(id);
+        return "OK!";
+    }
+
 }
