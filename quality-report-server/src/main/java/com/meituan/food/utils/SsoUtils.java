@@ -12,7 +12,7 @@ import java.util.Collections;
 public final class SsoUtils {
 
     public static String getSsoId() {
-       /* JSONObject authParams = new JSONObject();
+     /*  *//* JSONObject authParams = new JSONObject();
         authParams.put("user", "test_meishi_qa");
         authParams.put("password", "meishi_qa1234");
         authParams.put("clientId", "com.sankuai.meishi.qa.meishireport");
@@ -30,7 +30,7 @@ public final class SsoUtils {
         JSONObject tokenRes = HttpUtils.doGet("http://api.sso-in.sankuai.com/oauth2.0/accessToken?" + tokenParams,
                 JSONObject.class,
                 Collections.emptyMap());
-        return tokenRes.getString("access_token");*/
+        return tokenRes.getString("access_token");*//*
 
        //线上sso_host
         String sso_host="https://sso.vip.sankuai.com/sson";
@@ -67,7 +67,9 @@ public final class SsoUtils {
                clientId,appSecret);
 
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
-       return ssoId;
+       return ssoId;*/
+
+       return "d649506c02*9407881bf62cc28add1cb";
     }
 
     private SsoUtils() {
