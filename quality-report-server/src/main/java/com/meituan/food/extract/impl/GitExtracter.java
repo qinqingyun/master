@@ -32,6 +32,8 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
 
         String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+        String mSsoid=SsoUtils.getSsoId();
+
 //        List<String> orgList = new ArrayList<>();
 //        orgList.add("100047");
 //        orgList.add("114614");
@@ -50,7 +52,7 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
         //先发一个请求，取出页数
         String urlForPageNum = URL + "params=" + encodeParam + "&index=1&useCache=true";
 
-        JSONObject jsonObjectForPageNum = HttpUtils.doGet(urlForPageNum, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject jsonObjectForPageNum = HttpUtils.doGet(urlForPageNum, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" +mSsoid));
 
 //        System.out.print(jsonObject.toString());    //调试看输出是否正确
 
@@ -59,7 +61,7 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
 
         for (int pageIndex = 1; pageIndex <= pageNum; pageIndex++) {
             String url = URL + "params=" + encodeParam + "&index=" + pageIndex + "&useCache=true";
-            JSONObject jsonObject = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+            JSONObject jsonObject = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
             JSONArray gitResult = jsonObject.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
 //            System.out.print(gitResult.toString());
 

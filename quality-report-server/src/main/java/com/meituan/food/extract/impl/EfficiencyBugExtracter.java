@@ -41,8 +41,10 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
         param.put("dateDim", "DAY_DATE");
 
         String encodedParam = UrlUtils.encode(param.toJSONString());
+        String mSsoid=SsoUtils.getSsoId();
 
-        JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+
+        JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" +mSsoid));
         JSONArray result = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
 
         int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
@@ -53,7 +55,7 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
 
         for (int i = 1; i <= index; i++) {
             String url = URL + encodedParam + "&index=" + i + "&useCache=true";
-            JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+            JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
 
             JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
             for (int j = 1; j < partResult.size(); j++) {

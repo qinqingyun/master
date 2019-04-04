@@ -43,6 +43,7 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
     public void extractData4Day(LocalDate firstDay, LocalDate lastDay) throws MDMThriftException {
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String mSsoid=SsoUtils.getSsoId();
         List<TaskDurationPO> taskDurationPOS=new ArrayList<>();
         for(OrgEnum e:OrgEnum.values()){
             JSONObject param=new JSONObject();
@@ -50,10 +51,10 @@ public class TaskDurationExtracter  implements IOneDayFourteenExtract {
             param.put("endDate",lastDayStr);
             param.put("orgId",e.getOrgId());
             String encodeParam=UrlUtils.encode(param.toJSONString());
-            JSONObject response=HttpUtils.doGet(url+encodeParam+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+            JSONObject response=HttpUtils.doGet(url+encodeParam+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
             int index=response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
             for(int i=1;i<=index;i++){
-                JSONObject partResponse=HttpUtils.doGet(url+encodeParam+"&useCache=true&index="+i,JSONObject.class,ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+                JSONObject partResponse=HttpUtils.doGet(url+encodeParam+"&useCache=true&index="+i,JSONObject.class,ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
                 JSONArray result=partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 for (int j=1;j<result.size();j++){
                     TaskDurationPO taskDurationPO=new TaskDurationPO();

@@ -52,8 +52,9 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         params.put("startDate",firstDayStr);
         params.put("orgId","104638");
         String encodeParam= UrlUtils.encode(params.toJSONString());
+        String mSsoid=SsoUtils.getSsoId();
 
-        JSONObject response=HttpUtils.doGet(yunTuUrl+encodeParam+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject response=HttpUtils.doGet(yunTuUrl+encodeParam+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
         JSONArray result=response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
 
         body=body+tableFirstLine;
@@ -113,11 +114,11 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
             param3.put("orgId",orgIds);
             String encodeParam3= UrlUtils.encode(param3.toJSONString());
 
-            JSONObject resp=HttpUtils.doGet(yunTuUrl+encodeParam3+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+            JSONObject resp=HttpUtils.doGet(yunTuUrl+encodeParam3+"&index=1&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
             int count=resp.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
 
             for(int j=1;j<=count;j++){
-                JSONObject respIndex=HttpUtils.doGet(yunTuUrl+encodeParam3+"&index="+j+"&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
+                JSONObject respIndex=HttpUtils.doGet(yunTuUrl+encodeParam3+"&index="+j+"&useCache=true",JSONObject.class,ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
                 JSONArray resultIndex=respIndex.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 if(resultIndex.size() > 1) {
                     for (int i = 1; i < resultIndex.size(); i++) {
@@ -142,7 +143,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
 
 
 
-        JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
         Long contentId = jsonObject.getLong("data");
 
         JSONObject param = new JSONObject();
@@ -159,7 +160,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         params2.put("contentId", contentId);
         params2.put("whatUpdate", "");
 
-        JSONObject resp = HttpUtils.doPost(url, params2.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject resp = HttpUtils.doPost(url, params2.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
 
         String kmLink="https://km.sankuai.com/page/"+contentId;
         System.out.println(kmLink);
