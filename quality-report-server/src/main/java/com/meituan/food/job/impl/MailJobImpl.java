@@ -22,7 +22,7 @@ public class MailJobImpl implements IMailJob {
     @Override
     public void sync() {
         for(int i=4;i>=2;i--) {
-            LocalDate day = LocalDate.now().minusDays(2);
+            LocalDate day = LocalDate.now().minusDays(i);
 
             List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                     .map(dataExtract -> CompletableFuture.runAsync(() -> {
