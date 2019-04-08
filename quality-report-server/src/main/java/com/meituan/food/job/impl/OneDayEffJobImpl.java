@@ -19,10 +19,12 @@ public class OneDayEffJobImpl implements IOneDayEffJob {
 
     @Override
     public void sync() {
-        LocalDate day = LocalDate.now().minusDays(2);
-        List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
-                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4EffDay(day)))
-                .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);
+        for(int i=4;i>=2;i--) {
+            LocalDate day = LocalDate.now().minusDays(i);
+            List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
+                    .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4EffDay(day)))
+                    .collect(Collectors.toList());
+            extractFutures.forEach(CompletableFuture::join);
+        }
     }
 }

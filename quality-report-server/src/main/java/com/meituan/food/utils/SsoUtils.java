@@ -69,7 +69,7 @@ public final class SsoUtils {
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
        return ssoId;*/
 
-       return "d649506c02*9407881bf62cc28add1cb";
+       return "47c6b71388*1451c806945b1a754f719";
     }
 
     private SsoUtils() {
