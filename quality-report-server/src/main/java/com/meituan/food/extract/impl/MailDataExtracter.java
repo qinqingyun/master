@@ -177,7 +177,7 @@ public class MailDataExtracter implements IMailDataExtract {
             mailBody = mailBody + "</table></body>";
         }
         mailBody = mailBody + "</html>";
-       /* System.out.println(mailBody);
+        System.out.println(mailBody);
         MailStructDTO mailModel = new MailStructDTO();
         mailModel.setUseHtml(true);
         mailModel.setFromName("到餐质量组");
@@ -189,6 +189,6 @@ public class MailDataExtracter implements IMailDataExtract {
         //   mailModel.setAttachments(getAttachments()); //带附件发送
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
-        System.out.println(resultModel);*/
+        System.out.println(resultModel);
     }
 }
