@@ -30,7 +30,7 @@ public final class SsoUtils {
         JSONObject tokenRes = HttpUtils.doGet("http://api.sso-in.sankuai.com/oauth2.0/accessToken?" + tokenParams,
                 JSONObject.class,
                 Collections.emptyMap());
-        return tokenRes.getString("access_token");*//*
+        return tokenRes.getString("access_token");*/
 
        //线上sso_host
         String sso_host="https://sso.vip.sankuai.com/sson";
@@ -67,10 +67,8 @@ public final class SsoUtils {
                clientId,appSecret);
 
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
-       return ssoId;*/
-
-       return "47c6b71388*1451c806945b1a754f719";
-    }
+       return ssoId;
+       }
 
     private SsoUtils() {
     }

@@ -21,22 +21,21 @@ public class MailJobImpl implements IMailJob {
 
     @Override
     public void sync() {
-        for(int i=4;i>=2;i--) {
-            LocalDate day = LocalDate.now().minusDays(i);
+        LocalDate day = LocalDate.now().minusDays(2);
 
-            List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
-                    .map(dataExtract -> CompletableFuture.runAsync(() -> {
-                        try {
-                            dataExtract.extractMailData4EffDay(day);
-                        } catch (MDMThriftException e) {
-                            e.printStackTrace();
-                        } catch (TException e) {
-                            e.printStackTrace();
-                        }
-                    }))
-                    .collect(Collectors.toList());
-            extractFutures.forEach(CompletableFuture::join);
-        }
+        List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
+                .map(dataExtract -> CompletableFuture.runAsync(() -> {
+                    try {
+                        dataExtract.extractMailData4EffDay(day);
+                    } catch (MDMThriftException e) {
+                        e.printStackTrace();
+                    } catch (TException e) {
+                        e.printStackTrace();
+                    }
+                }))
+                .collect(Collectors.toList());
+        extractFutures.forEach(CompletableFuture::join);
+
     }
 
 }
