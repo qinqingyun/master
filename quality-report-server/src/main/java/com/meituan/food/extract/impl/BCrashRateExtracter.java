@@ -14,6 +14,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 
@@ -92,7 +94,11 @@ public class BCrashRateExtracter implements IOneMonthDataExtract {
     }
 
     public static void main(String[] args) {
-        IOneMonthDataExtract a=new BCrashRateExtracter();
-        a.extractData4Month("2018-01-01","2018-01-31");
+        LocalDate a=LocalDate.now();
+        LocalDate b=LocalDate.now().plusDays(8);
+        Period c=Period.between(a,b);
+        System.out.println(c.getDays());
+
+
     }
 }

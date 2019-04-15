@@ -31,6 +31,8 @@ public class WeekMomaCrashPO implements Serializable {
 
     private String dateRange;
 
+    private Integer flag;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -137,6 +139,14 @@ public class WeekMomaCrashPO implements Serializable {
         this.dateRange = dateRange == null ? null : dateRange.trim();
     }
 
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -161,7 +171,8 @@ public class WeekMomaCrashPO implements Serializable {
             && (this.getPlatform() == null ? other.getPlatform() == null : this.getPlatform().equals(other.getPlatform()))
             && (this.getOs() == null ? other.getOs() == null : this.getOs().equals(other.getOs()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
-            && (this.getDateRange() == null ? other.getDateRange() == null : this.getDateRange().equals(other.getDateRange()));
+            && (this.getDateRange() == null ? other.getDateRange() == null : this.getDateRange().equals(other.getDateRange()))
+            && (this.getFlag() == null ? other.getFlag() == null : this.getFlag().equals(other.getFlag()));
     }
 
     @Override
@@ -181,6 +192,7 @@ public class WeekMomaCrashPO implements Serializable {
         result = prime * result + ((getOs() == null) ? 0 : getOs().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getDateRange() == null) ? 0 : getDateRange().hashCode());
+        result = prime * result + ((getFlag() == null) ? 0 : getFlag().hashCode());
         return result;
     }
 
@@ -203,6 +215,7 @@ public class WeekMomaCrashPO implements Serializable {
         sb.append(", os=").append(os);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", dateRange=").append(dateRange);
+        sb.append(", flag=").append(flag);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,5 +1,6 @@
 package com.meituan.food.job.impl;
 
+import com.meituan.food.extract.IOneWeekCrashExtract;
 import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.job.IImportantProjectReviewJob;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
 
     @Resource
     private List<IOneWeekEightDataExtract> iOneWeekEightDataExtracts;
+
+    @Resource
+    public List<IOneWeekCrashExtract> oneWeekCrashExtracts;
+
     @Override
     public void sync() {
         LocalDate firstDay=LocalDate.now().minusDays(7);
@@ -36,6 +41,11 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
                 }))
                 .collect(Collectors.toList());
         extractFutures.forEach(CompletableFuture::join);
+
+        List<CompletableFuture<Void>> crashExtractFutures = oneWeekCrashExtracts.stream()
+                .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.extractData4Week(firstDay,lastDay)))
+                .collect(Collectors.toList());
+        crashExtractFutures.forEach(CompletableFuture::join);
     }
 
     public static void main(String[] args) {

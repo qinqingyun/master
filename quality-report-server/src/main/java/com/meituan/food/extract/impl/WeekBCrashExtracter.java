@@ -3,6 +3,7 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.meituan.food.extract.IOneWeekCrashExtract;
 import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.mapper.WeekBCrashPOMapper;
 import com.meituan.food.po.BCrashRatePO;
@@ -15,11 +16,12 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Component
-public class WeekBCrashExtracter implements IOneWeekEightDataExtract {
+public class WeekBCrashExtracter implements IOneWeekCrashExtract {
 
     private static final String URL="https://yuntu.sankuai.com/api/widget/widget-2ac24095-2853-47a6-b2bf-70088c0f5f22/data?";
 
@@ -27,7 +29,8 @@ public class WeekBCrashExtracter implements IOneWeekEightDataExtract {
     private WeekBCrashPOMapper weekBCrashPOMapper;
 
     @Override
-    public void extractData4Week(LocalDate firstDay, LocalDate lastDay) throws UnsupportedEncodingException {
+    public void extractData4Week(LocalDate firstDay, LocalDate lastDay){
+        Period next=Period.between(firstDay,lastDay);
 
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -67,6 +70,11 @@ public class WeekBCrashExtracter implements IOneWeekEightDataExtract {
             Date now = new Date();
             weekBCrashPO.setCreatedAt(now);
             weekBCrashPO.setDateRange(dateRange);
+            if (next.getDays()>9){
+                weekBCrashPO.setFlag(1);
+            }else {
+                weekBCrashPO.setFlag(0);
+            }
             weekBCrashPOMapper.insert(weekBCrashPO);
 
 
@@ -92,6 +100,11 @@ public class WeekBCrashExtracter implements IOneWeekEightDataExtract {
 
             Date nowIos = new Date();
             bCrashRatePOIos.setCreatedAt(nowIos);
+            if (next.getDays()>9){
+                bCrashRatePOIos.setFlag(1);
+            }else {
+                bCrashRatePOIos.setFlag(0);
+            }
             weekBCrashPOMapper.insert(bCrashRatePOIos);
         }
     }

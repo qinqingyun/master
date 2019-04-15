@@ -72,6 +72,10 @@ public class WeekCCrashRatePOSqlProvider {
             sql.VALUES("final_rate", "#{finalRate,jdbcType=DECIMAL}");
         }
         
+        if (record.getFlag() != null) {
+            sql.VALUES("flag", "#{flag,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -92,6 +96,7 @@ public class WeekCCrashRatePOSqlProvider {
         sql.SELECT("created_at");
         sql.SELECT("updated_at");
         sql.SELECT("final_rate");
+        sql.SELECT("flag");
         sql.FROM("week_c_crash_rate");
         applyWhere(sql, example, false);
         
@@ -153,6 +158,10 @@ public class WeekCCrashRatePOSqlProvider {
             sql.SET("final_rate = #{record.finalRate,jdbcType=DECIMAL}");
         }
         
+        if (record.getFlag() != null) {
+            sql.SET("flag = #{record.flag,jdbcType=INTEGER}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -172,6 +181,7 @@ public class WeekCCrashRatePOSqlProvider {
         sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         sql.SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
         sql.SET("final_rate = #{record.finalRate,jdbcType=DECIMAL}");
+        sql.SET("flag = #{record.flag,jdbcType=INTEGER}");
         
         WeekCCrashRatePOExample example = (WeekCCrashRatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -220,6 +230,10 @@ public class WeekCCrashRatePOSqlProvider {
         
         if (record.getFinalRate() != null) {
             sql.SET("final_rate = #{finalRate,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getFlag() != null) {
+            sql.SET("flag = #{flag,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

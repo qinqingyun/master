@@ -143,7 +143,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
 
 
 
-        JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
+     /*   JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + mSsoid));
         Long contentId = jsonObject.getLong("data");
 
         JSONObject param = new JSONObject();
@@ -173,7 +173,7 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         importantProjectReviewPO.setCreatedAt(now);
         importantProjectReviewPO.setUpdatedAt(now);
 
-        importantProjectReviewPOMapper.insert(importantProjectReviewPO);
+        importantProjectReviewPOMapper.insert(importantProjectReviewPO);*/
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {

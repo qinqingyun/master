@@ -80,6 +80,10 @@ public class WeekBCrashPOSqlProvider {
             sql.VALUES("date_range", "#{dateRange,jdbcType=VARCHAR}");
         }
         
+        if (record.getFlag() != null) {
+            sql.VALUES("flag", "#{flag,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -102,6 +106,7 @@ public class WeekBCrashPOSqlProvider {
         sql.SELECT("end_date");
         sql.SELECT("created_at");
         sql.SELECT("date_range");
+        sql.SELECT("flag");
         sql.FROM("week_b_crash");
         applyWhere(sql, example, false);
         
@@ -171,6 +176,10 @@ public class WeekBCrashPOSqlProvider {
             sql.SET("date_range = #{record.dateRange,jdbcType=VARCHAR}");
         }
         
+        if (record.getFlag() != null) {
+            sql.SET("flag = #{record.flag,jdbcType=INTEGER}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -192,6 +201,7 @@ public class WeekBCrashPOSqlProvider {
         sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
         sql.SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
         sql.SET("date_range = #{record.dateRange,jdbcType=VARCHAR}");
+        sql.SET("flag = #{record.flag,jdbcType=INTEGER}");
         
         WeekBCrashPOExample example = (WeekBCrashPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -248,6 +258,10 @@ public class WeekBCrashPOSqlProvider {
         
         if (record.getDateRange() != null) {
             sql.SET("date_range = #{dateRange,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getFlag() != null) {
+            sql.SET("flag = #{flag,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

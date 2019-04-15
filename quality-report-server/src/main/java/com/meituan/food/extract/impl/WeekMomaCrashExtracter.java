@@ -3,6 +3,7 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.meituan.food.extract.IOneWeekCrashExtract;
 import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.mapper.WeekMomaCrashPOMapper;
 import com.meituan.food.po.MomaCrashRatePO;
@@ -15,18 +16,20 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Component
-public class WeekMomaCrashExtracter implements IOneWeekEightDataExtract {
+public class WeekMomaCrashExtracter implements IOneWeekCrashExtract {
     private static final String URL="https://yuntu.sankuai.com/api/widget/widget-2ac24095-2853-47a6-b2bf-70088c0f5f22/data?";
 
     @Resource
     private WeekMomaCrashPOMapper weekMomaCrashPOMapper;
 
     @Override
-    public void extractData4Week(LocalDate firstDay, LocalDate lastDay) throws UnsupportedEncodingException {
+    public void extractData4Week(LocalDate firstDay, LocalDate lastDay){
+        Period next=Period.between(firstDay,lastDay);
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -66,6 +69,11 @@ public class WeekMomaCrashExtracter implements IOneWeekEightDataExtract {
             weekMomaCrashPO.setDateRange(dateRange);
             Date now = new Date();
             weekMomaCrashPO.setCreatedAt(now);
+            if (next.getDays()>9){
+                weekMomaCrashPO.setFlag(1);
+            }else {
+                weekMomaCrashPO.setFlag(0);
+            }
             weekMomaCrashPOMapper.insert(weekMomaCrashPO);
 
 
@@ -91,6 +99,11 @@ public class WeekMomaCrashExtracter implements IOneWeekEightDataExtract {
 
             Date nowIos = new Date();
             momaCrashRatePOIos.setCreatedAt(nowIos);
+            if (next.getDays()>9){
+                momaCrashRatePOIos.setFlag(1);
+            }else {
+                momaCrashRatePOIos.setFlag(0);
+            }
             weekMomaCrashPOMapper.insert(momaCrashRatePOIos);
         }
     }

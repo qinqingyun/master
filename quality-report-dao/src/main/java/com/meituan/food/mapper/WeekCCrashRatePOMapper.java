@@ -1,6 +1,5 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.CrashRatePO;
 import com.meituan.food.po.WeekCCrashRatePO;
 import com.meituan.food.po.WeekCCrashRatePOExample;
 import java.util.List;
@@ -36,13 +35,13 @@ public interface WeekCCrashRatePOMapper {
         "crash_rate, start_date, ",
         "end_date, show_date_range, ",
         "created_at, updated_at, ",
-        "final_rate)",
+        "final_rate, flag)",
         "values (#{id,jdbcType=INTEGER}, #{crash,jdbcType=INTEGER}, ",
         "#{plantform,jdbcType=VARCHAR}, #{dau,jdbcType=INTEGER}, ",
         "#{crashRate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
         "#{endDate,jdbcType=VARCHAR}, #{showDateRange,jdbcType=VARCHAR}, ",
         "#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, ",
-        "#{finalRate,jdbcType=DECIMAL})"
+        "#{finalRate,jdbcType=DECIMAL}, #{flag,jdbcType=INTEGER})"
     })
     int insert(WeekCCrashRatePO record);
 
@@ -61,14 +60,15 @@ public interface WeekCCrashRatePOMapper {
         @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     List<WeekCCrashRatePO> selectByExample(WeekCCrashRatePOExample example);
 
     @Select({
         "select",
         "id, crash, plantform, DAU, crash_rate, start_date, end_date, show_date_range, ",
-        "created_at, updated_at, final_rate",
+        "created_at, updated_at, final_rate, flag",
         "from week_c_crash_rate",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -83,7 +83,8 @@ public interface WeekCCrashRatePOMapper {
         @Result(column="show_date_range", property="showDateRange", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL)
+        @Result(column="final_rate", property="finalRate", jdbcType=JdbcType.DECIMAL),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     WeekCCrashRatePO selectByPrimaryKey(Integer id);
 
@@ -107,10 +108,12 @@ public interface WeekCCrashRatePOMapper {
           "show_date_range = #{showDateRange,jdbcType=VARCHAR},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
           "updated_at = #{updatedAt,jdbcType=TIMESTAMP},",
-          "final_rate = #{finalRate,jdbcType=DECIMAL}",
+          "final_rate = #{finalRate,jdbcType=DECIMAL},",
+          "flag = #{flag,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekCCrashRatePO record);
+
 
     @Insert({
             "<script>",
@@ -119,7 +122,7 @@ public interface WeekCCrashRatePOMapper {
             "crash_rate, start_date, ",
             "end_date, show_date_range, ",
             "created_at, updated_at,",
-            "final_rate)",
+            "final_rate,flag)",
             "values ",
             "<foreach collection='list' item='item' index='index' separator=','>",
             "(#{item.id,jdbcType=INTEGER}, #{item.crash,jdbcType=INTEGER}, ",
@@ -127,7 +130,7 @@ public interface WeekCCrashRatePOMapper {
             "#{item.crashRate,jdbcType=VARCHAR}, #{item.startDate,jdbcType=VARCHAR}, ",
             "#{item.endDate,jdbcType=VARCHAR}, #{item.showDateRange,jdbcType=VARCHAR}, ",
             "#{item.createdAt,jdbcType=TIMESTAMP}, #{item.updatedAt,jdbcType=TIMESTAMP},",
-            "#{item.finalRate,jdbcType=DECIMAL})",
+            "#{item.finalRate,jdbcType=DECIMAL},#{item.flag,jdbcType=INTEGER})",
             "</foreach>",
             "</script>"
     })

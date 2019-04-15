@@ -3,6 +3,7 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.meituan.food.extract.IOneWeekCrashExtract;
 import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.mapper.WeekCCrashRatePOMapper;
 import com.meituan.food.po.WeekCCrashRatePO;
@@ -18,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
-public class WeekCCrashExtracter implements IOneWeekEightDataExtract {
+public class WeekCCrashExtracter implements IOneWeekCrashExtract {
 
     private static final String URL = "https://yuntu.sankuai.com/api/widget/";
 
@@ -39,7 +41,8 @@ public class WeekCCrashExtracter implements IOneWeekEightDataExtract {
 
     @Transactional
     @Override
-    public void extractData4Week(LocalDate firstDay, LocalDate lastDay) throws UnsupportedEncodingException {
+    public void extractData4Week(LocalDate firstDay, LocalDate lastDay){
+        int next=Period.between(firstDay,lastDay).getDays();
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
@@ -50,7 +53,7 @@ public class WeekCCrashExtracter implements IOneWeekEightDataExtract {
         params.put("orgId", "-11");
         String encodedParams = UrlUtils.encode(params.toJSONString());
         List<CompletableFuture<List<WeekCCrashRatePO>>> futures = Arrays.stream(WeekCCrashExtracter.WidgetEnum.values())
-                .map(widget -> CompletableFuture.supplyAsync(() -> queryCrashRate4EachWidget(firstDayStr,lastDayStr, encodedParams, widget)))
+                .map(widget -> CompletableFuture.supplyAsync(() -> queryCrashRate4EachWidget(firstDayStr,lastDayStr, encodedParams, widget,next)))
                 .collect(Collectors.toList());
         List<WeekCCrashRatePO> crashRatePOS = futures.stream()
                 .map(CompletableFuture::join)
@@ -59,7 +62,7 @@ public class WeekCCrashExtracter implements IOneWeekEightDataExtract {
         weekCCrashRatePOMapper.batchInsert(crashRatePOS);
     }
 
-    private List<WeekCCrashRatePO> queryCrashRate4EachWidget(String firstDayStr, String lastDayStr,String encodedParams, WeekCCrashExtracter.WidgetEnum widget) {
+    private List<WeekCCrashRatePO> queryCrashRate4EachWidget(String firstDayStr, String lastDayStr,String encodedParams, WeekCCrashExtracter.WidgetEnum widget,int dayNum) {
         String url = URL + widget.getWidget() + "/data?params=" + encodedParams;
         JSONObject crashRes = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + SsoUtils.getSsoId()));
         JSONArray datas = crashRes.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
@@ -92,6 +95,11 @@ public class WeekCCrashExtracter implements IOneWeekEightDataExtract {
                     Date now = new Date();
                     crashRatePO.setCreatedAt(now);
                     crashRatePO.setUpdatedAt(now);
+                    if (dayNum>9){
+                        crashRatePO.setFlag(1);
+                    }else {
+                        crashRatePO.setFlag(0);
+                    }
                     return crashRatePO;
                 }).collect(Collectors.toList());
     }

@@ -35,13 +35,15 @@ public interface WeekBCrashPOMapper {
         "platform, os, b_crash_count, ",
         "b_dianping_crash_count, b_waimai_crash_count, ",
         "start_date, end_date, ",
-        "created_at, date_range)",
+        "created_at, date_range, ",
+        "flag)",
         "values (#{id,jdbcType=INTEGER}, #{bCrashRate,jdbcType=DECIMAL}, ",
         "#{bDianping,jdbcType=DECIMAL}, #{bWaimai,jdbcType=DECIMAL}, ",
         "#{platform,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, #{bCrashCount,jdbcType=INTEGER}, ",
         "#{bDianpingCrashCount,jdbcType=INTEGER}, #{bWaimaiCrashCount,jdbcType=INTEGER}, ",
         "#{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, ",
-        "#{createdAt,jdbcType=TIMESTAMP}, #{dateRange,jdbcType=VARCHAR})"
+        "#{createdAt,jdbcType=TIMESTAMP}, #{dateRange,jdbcType=VARCHAR}, ",
+        "#{flag,jdbcType=INTEGER})"
     })
     int insert(WeekBCrashPO record);
 
@@ -62,14 +64,15 @@ public interface WeekBCrashPOMapper {
         @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR)
+        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     List<WeekBCrashPO> selectByExample(WeekBCrashPOExample example);
 
     @Select({
         "select",
         "id, b_crash_rate, b_dianping, b_waimai, platform, os, b_crash_count, b_dianping_crash_count, ",
-        "b_waimai_crash_count, start_date, end_date, created_at, date_range",
+        "b_waimai_crash_count, start_date, end_date, created_at, date_range, flag",
         "from week_b_crash",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -86,7 +89,8 @@ public interface WeekBCrashPOMapper {
         @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR)
+        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     WeekBCrashPO selectByPrimaryKey(Integer id);
 
@@ -112,7 +116,8 @@ public interface WeekBCrashPOMapper {
           "start_date = #{startDate,jdbcType=VARCHAR},",
           "end_date = #{endDate,jdbcType=VARCHAR},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
-          "date_range = #{dateRange,jdbcType=VARCHAR}",
+          "date_range = #{dateRange,jdbcType=VARCHAR},",
+          "flag = #{flag,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekBCrashPO record);

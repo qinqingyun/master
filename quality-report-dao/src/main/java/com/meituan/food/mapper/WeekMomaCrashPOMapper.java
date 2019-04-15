@@ -36,14 +36,14 @@ public interface WeekMomaCrashPOMapper {
         "aboluo_crash_rate, start_date, ",
         "end_date, platform, ",
         "os, created_at, ",
-        "date_range)",
+        "date_range, flag)",
         "values (#{id,jdbcType=INTEGER}, #{momaCrashCount,jdbcType=INTEGER}, ",
         "#{momaCrashRate,jdbcType=DECIMAL}, #{beeCrashCount,jdbcType=INTEGER}, ",
         "#{beeCrashRate,jdbcType=DECIMAL}, #{aboluoCrashCount,jdbcType=INTEGER}, ",
         "#{aboluoCrashRate,jdbcType=DECIMAL}, #{startDate,jdbcType=VARCHAR}, ",
         "#{endDate,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, ",
         "#{os,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, ",
-        "#{dateRange,jdbcType=VARCHAR})"
+        "#{dateRange,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER})"
     })
     int insert(WeekMomaCrashPO record);
 
@@ -64,14 +64,16 @@ public interface WeekMomaCrashPOMapper {
         @Result(column="platform", property="platform", jdbcType=JdbcType.VARCHAR),
         @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR)
+        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     List<WeekMomaCrashPO> selectByExample(WeekMomaCrashPOExample example);
 
     @Select({
         "select",
         "id, moma_crash_count, moma_crash_rate, bee_crash_count, bee_crash_rate, aboluo_crash_count, ",
-        "aboluo_crash_rate, start_date, end_date, platform, os, created_at, date_range",
+        "aboluo_crash_rate, start_date, end_date, platform, os, created_at, date_range, ",
+        "flag",
         "from week_moma_crash",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -88,7 +90,8 @@ public interface WeekMomaCrashPOMapper {
         @Result(column="platform", property="platform", jdbcType=JdbcType.VARCHAR),
         @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_at", property="createdAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR)
+        @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR),
+        @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER)
     })
     WeekMomaCrashPO selectByPrimaryKey(Integer id);
 
@@ -114,7 +117,8 @@ public interface WeekMomaCrashPOMapper {
           "platform = #{platform,jdbcType=VARCHAR},",
           "os = #{os,jdbcType=VARCHAR},",
           "created_at = #{createdAt,jdbcType=TIMESTAMP},",
-          "date_range = #{dateRange,jdbcType=VARCHAR}",
+          "date_range = #{dateRange,jdbcType=VARCHAR},",
+          "flag = #{flag,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekMomaCrashPO record);

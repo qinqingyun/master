@@ -6,8 +6,8 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
-    <classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -72,16 +72,16 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="efficiency_total_data" domainObjectName="EfficiencyTotalDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
-        <table tableName="efficiency_total_data_days" domainObjectName="EfficiencyTotalDateDaysPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+       <!-- <table tableName="efficiency_total_data_days" domainObjectName="EfficiencyTotalDateDaysPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
         <!--<table tableName="important_project_review" domainObjectName="ImportantProjectReviewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-       <!-- <table tableName="week_b_crash" domainObjectName="WeekBCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <table tableName="week_b_crash" domainObjectName="WeekBCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
         <table tableName="week_moma_crash" domainObjectName="WeekMomaCrashPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>-->
-       <!-- <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>-->
+               enableUpdateByExample="true"/>
+        <table tableName="week_c_crash_rate" domainObjectName="WeekCCrashRatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--<table tableName="task_duration" domainObjectName="TaskDurationPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
         <!--<table tableName="duty_table" domainObjectName="DutyTablePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"

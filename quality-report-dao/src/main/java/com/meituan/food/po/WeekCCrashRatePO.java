@@ -27,6 +27,8 @@ public class WeekCCrashRatePO implements Serializable {
 
     private BigDecimal finalRate;
 
+    private Integer flag;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -117,6 +119,14 @@ public class WeekCCrashRatePO implements Serializable {
         this.finalRate = finalRate;
     }
 
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -139,7 +149,8 @@ public class WeekCCrashRatePO implements Serializable {
             && (this.getShowDateRange() == null ? other.getShowDateRange() == null : this.getShowDateRange().equals(other.getShowDateRange()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
             && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
-            && (this.getFinalRate() == null ? other.getFinalRate() == null : this.getFinalRate().equals(other.getFinalRate()));
+            && (this.getFinalRate() == null ? other.getFinalRate() == null : this.getFinalRate().equals(other.getFinalRate()))
+            && (this.getFlag() == null ? other.getFlag() == null : this.getFlag().equals(other.getFlag()));
     }
 
     @Override
@@ -157,6 +168,7 @@ public class WeekCCrashRatePO implements Serializable {
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
         result = prime * result + ((getFinalRate() == null) ? 0 : getFinalRate().hashCode());
+        result = prime * result + ((getFlag() == null) ? 0 : getFlag().hashCode());
         return result;
     }
 
@@ -177,6 +189,7 @@ public class WeekCCrashRatePO implements Serializable {
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", finalRate=").append(finalRate);
+        sb.append(", flag=").append(flag);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
