@@ -18,12 +18,11 @@ public class OneDayJobImpl implements IOneDayJob {
 
     @Override
     public void sync() {
-        for(int i=90;i>=2;i--) {
-            LocalDate day = LocalDate.now().minusDays(i);
+            LocalDate day = LocalDate.now().minusDays(1);
             List<CompletableFuture<Void>> extractFutures = dataExtracts.stream()
                     .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Day(day)))
                     .collect(Collectors.toList());
             extractFutures.forEach(CompletableFuture::join);
-        }
+
     }
 }

@@ -65,6 +65,9 @@ public class ScheduleJob {
     @Resource
     private IOneDayJenkinsViewsJob oneDayJenkinsViewsJob;
 
+    @Resource
+    private IWeekBugJob weekBugJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -165,5 +168,10 @@ public class ScheduleJob {
     @Crane("one.day.jenkins.views.sync")
     public void syncJenkinsViews() {
         oneDayJenkinsViewsJob.sync();
+    }
+
+    @Crane("one.week.bug.job")
+    public void syncWeekBug(){
+        weekBugJob.sync();
     }
 }
