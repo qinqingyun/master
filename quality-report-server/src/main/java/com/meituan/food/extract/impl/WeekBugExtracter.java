@@ -49,9 +49,6 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             param.put("dateDim", "DAY_DATE");
             String encodedParam = UrlUtils.encode(param.toJSONString());
 
-            String test=URL + encodedParam + "&index=1&useCache=true";
-
-
             JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
             int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
 

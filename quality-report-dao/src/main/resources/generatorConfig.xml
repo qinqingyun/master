@@ -88,7 +88,9 @@
                enableUpdateByExample="true"/>-->
    <!--     <table tableName="jenkins_views" domainObjectName="JenkinsViewPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="week_bug_detail" domainObjectName="WeekBugDetailPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="week_bug_detail" domainObjectName="WeekBugDetailPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="week_bug_total_count" domainObjectName="WeekBugTotalCountPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 
     </context>

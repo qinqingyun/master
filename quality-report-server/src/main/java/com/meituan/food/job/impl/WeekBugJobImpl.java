@@ -18,8 +18,8 @@ public class WeekBugJobImpl implements IWeekBugJob {
 
     @Override
     public void sync() {
-        LocalDate firstDate = LocalDate.now().minusDays(8);
-        LocalDate lastDate = LocalDate.now().minusDays(2);
+        LocalDate firstDate = LocalDate.now().minusDays(7);
+        LocalDate lastDate = LocalDate.now().minusDays(1);
 
         List<CompletableFuture<Void>> extractFutures = weekBugDataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Week(firstDate,lastDate)))
