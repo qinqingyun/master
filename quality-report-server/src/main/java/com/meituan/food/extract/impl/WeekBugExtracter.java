@@ -55,12 +55,6 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             String encodedParam = UrlUtils.encode(param.toJSONString());
 
             WeekBugTotalCountPO po=new WeekBugTotalCountPO();
-          /*  po.setTotalCount(0);
-            po.setBlockerCount(0);
-            po.setMajorCount(0);
-            po.setMinorCount(0);
-            po.setCriticalCount(0);
-            po.setTrivialCount(0);*/
             int totalCount=0;
             int blockerCount=0;
             int majorCount=0;
@@ -86,12 +80,13 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
                     weekBugDetailPO.setCreator(((JSONArray) (partResult.get(j))).getString(3));
                     weekBugDetailPO.setReceiver(((JSONArray) (partResult.get(j))).getString(4));
-                    weekBugDetailPO.setCreatedTime(((JSONArray) (partResult.get(j))).getString(5));
-                    weekBugDetailPO.setBugStatus(((JSONArray) (partResult.get(j))).getString(6));
+                    weekBugDetailPO.setCreatedTime(((JSONArray) (partResult.get(j))).getString(6));
+                    weekBugDetailPO.setBugStatus(((JSONArray) (partResult.get(j))).getString(5));
                     weekBugDetailPO.setOrgid(key);
                     weekBugDetailPO.setOrgname(orgMap.get(key));
                     weekBugDetailPO.setTimeFlag(Long.valueOf(timestamp));
-
+                    weekBugDetailPO.setStartDate(firstDayStr);
+                    weekBugDetailPO.setEndDate(lastDayStr);
                     String link = all.substring(all.indexOf("href=") + 5, all.indexOf(">"));
                     weekBugDetailPO.setBugLink(link);
 
@@ -99,24 +94,6 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     weekBugDetailPO.setTitle(bugDetail);
 
                     weekBugDetailPOMapper.insert(weekBugDetailPO);
-
-                   /* if (bugLevel.equals("Blocker")){
-                        int count=po.getBlockerCount();
-                        po.setBlockerCount(count++);
-                        blockerLink=blockerLink+link+"、";
-                    }else if (bugLevel.equals("Major")){
-                        int count=po.getMajorCount();
-                        po.setMajorCount(count++);
-                    }else if (bugLevel.equals("Critical")){
-                        int count=po.getCriticalCount();
-                        po.setCriticalCount(count++);
-                    }else if (bugLevel.equals("Minor")||bugLevel.equals("Normal")){
-                        int count=po.getMinorCount();
-                        po.setMinorCount(count++);
-                    }else if (bugLevel.equals("Trivial")){
-                        int count=po.getTrivialCount();
-                        po.setTrivialCount(count++);
-                    }*/
 
                     if (bugLevel.equals("Blocker")){
                         blockerCount++;

@@ -80,6 +80,14 @@ public class WeekBugDetailPOSqlProvider {
             sql.VALUES("bug_link", "#{bugLink,jdbcType=VARCHAR}");
         }
         
+        if (record.getStartDate() != null) {
+            sql.VALUES("start_date", "#{startDate,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getEndDate() != null) {
+            sql.VALUES("end_date", "#{endDate,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -102,6 +110,8 @@ public class WeekBugDetailPOSqlProvider {
         sql.SELECT("orgid");
         sql.SELECT("all_title");
         sql.SELECT("bug_link");
+        sql.SELECT("start_date");
+        sql.SELECT("end_date");
         sql.FROM("week_bug_detail");
         applyWhere(sql, example, false);
         
@@ -171,6 +181,14 @@ public class WeekBugDetailPOSqlProvider {
             sql.SET("bug_link = #{record.bugLink,jdbcType=VARCHAR}");
         }
         
+        if (record.getStartDate() != null) {
+            sql.SET("start_date = #{record.startDate,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getEndDate() != null) {
+            sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -192,6 +210,8 @@ public class WeekBugDetailPOSqlProvider {
         sql.SET("orgid = #{record.orgid,jdbcType=VARCHAR}");
         sql.SET("all_title = #{record.allTitle,jdbcType=VARCHAR}");
         sql.SET("bug_link = #{record.bugLink,jdbcType=VARCHAR}");
+        sql.SET("start_date = #{record.startDate,jdbcType=VARCHAR}");
+        sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
         
         WeekBugDetailPOExample example = (WeekBugDetailPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -248,6 +268,14 @@ public class WeekBugDetailPOSqlProvider {
         
         if (record.getBugLink() != null) {
             sql.SET("bug_link = #{bugLink,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getStartDate() != null) {
+            sql.SET("start_date = #{startDate,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getEndDate() != null) {
+            sql.SET("end_date = #{endDate,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

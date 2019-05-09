@@ -29,6 +29,10 @@ public class WeekBugDetailPO implements Serializable {
 
     private String bugLink;
 
+    private String startDate;
+
+    private String endDate;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -135,6 +139,22 @@ public class WeekBugDetailPO implements Serializable {
         this.bugLink = bugLink == null ? null : bugLink.trim();
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate == null ? null : startDate.trim();
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate == null ? null : endDate.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -159,7 +179,9 @@ public class WeekBugDetailPO implements Serializable {
             && (this.getOrgname() == null ? other.getOrgname() == null : this.getOrgname().equals(other.getOrgname()))
             && (this.getOrgid() == null ? other.getOrgid() == null : this.getOrgid().equals(other.getOrgid()))
             && (this.getAllTitle() == null ? other.getAllTitle() == null : this.getAllTitle().equals(other.getAllTitle()))
-            && (this.getBugLink() == null ? other.getBugLink() == null : this.getBugLink().equals(other.getBugLink()));
+            && (this.getBugLink() == null ? other.getBugLink() == null : this.getBugLink().equals(other.getBugLink()))
+            && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
+            && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()));
     }
 
     @Override
@@ -179,6 +201,8 @@ public class WeekBugDetailPO implements Serializable {
         result = prime * result + ((getOrgid() == null) ? 0 : getOrgid().hashCode());
         result = prime * result + ((getAllTitle() == null) ? 0 : getAllTitle().hashCode());
         result = prime * result + ((getBugLink() == null) ? 0 : getBugLink().hashCode());
+        result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
+        result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         return result;
     }
 
@@ -201,6 +225,8 @@ public class WeekBugDetailPO implements Serializable {
         sb.append(", orgid=").append(orgid);
         sb.append(", allTitle=").append(allTitle);
         sb.append(", bugLink=").append(bugLink);
+        sb.append(", startDate=").append(startDate);
+        sb.append(", endDate=").append(endDate);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

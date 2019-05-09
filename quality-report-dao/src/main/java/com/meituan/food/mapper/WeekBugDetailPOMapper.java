@@ -36,14 +36,16 @@ public interface WeekBugDetailPOMapper {
         "bug_status, created_time, ",
         "time_flag, orgname, ",
         "orgid, all_title, ",
-        "bug_link)",
+        "bug_link, start_date, ",
+        "end_date)",
         "values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, ",
         "#{bugLevel,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, ",
         "#{creator,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, ",
         "#{bugStatus,jdbcType=VARCHAR}, #{createdTime,jdbcType=VARCHAR}, ",
         "#{timeFlag,jdbcType=BIGINT}, #{orgname,jdbcType=VARCHAR}, ",
         "#{orgid,jdbcType=VARCHAR}, #{allTitle,jdbcType=VARCHAR}, ",
-        "#{bugLink,jdbcType=VARCHAR})"
+        "#{bugLink,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
+        "#{endDate,jdbcType=VARCHAR})"
     })
     int insert(WeekBugDetailPO record);
 
@@ -64,14 +66,16 @@ public interface WeekBugDetailPOMapper {
         @Result(column="orgname", property="orgname", jdbcType=JdbcType.VARCHAR),
         @Result(column="orgid", property="orgid", jdbcType=JdbcType.VARCHAR),
         @Result(column="all_title", property="allTitle", jdbcType=JdbcType.VARCHAR),
-        @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR)
+        @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR),
+        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR)
     })
     List<WeekBugDetailPO> selectByExample(WeekBugDetailPOExample example);
 
     @Select({
         "select",
         "id, title, bug_level, reason, creator, receiver, bug_status, created_time, time_flag, ",
-        "orgname, orgid, all_title, bug_link",
+        "orgname, orgid, all_title, bug_link, start_date, end_date",
         "from week_bug_detail",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -88,7 +92,9 @@ public interface WeekBugDetailPOMapper {
         @Result(column="orgname", property="orgname", jdbcType=JdbcType.VARCHAR),
         @Result(column="orgid", property="orgid", jdbcType=JdbcType.VARCHAR),
         @Result(column="all_title", property="allTitle", jdbcType=JdbcType.VARCHAR),
-        @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR)
+        @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR),
+        @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
+        @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR)
     })
     WeekBugDetailPO selectByPrimaryKey(Integer id);
 
@@ -114,7 +120,9 @@ public interface WeekBugDetailPOMapper {
           "orgname = #{orgname,jdbcType=VARCHAR},",
           "orgid = #{orgid,jdbcType=VARCHAR},",
           "all_title = #{allTitle,jdbcType=VARCHAR},",
-          "bug_link = #{bugLink,jdbcType=VARCHAR}",
+          "bug_link = #{bugLink,jdbcType=VARCHAR},",
+          "start_date = #{startDate,jdbcType=VARCHAR},",
+          "end_date = #{endDate,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekBugDetailPO record);
