@@ -18,14 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class WeekBugTotalCountExtracter implements IWeekBugDataExtract {
+public class WeekBugTotalCountExtracter{
 
     public static final String URL="https://yuntu.sankuai.com/api/metrics/bug/reports?businessGroupId=104638&statType=statByReporter&horValue=org_name&verValue=severity_name&timeDimension=created&startDate=";
 
     @Resource
     public WeekBugTotalCountPOMapper weekBugTotalCountPOMapper;
 
-    @Override
     public void extractData4Week(LocalDate firstDay, LocalDate lastDay) {
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

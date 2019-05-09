@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IWeekBugDataExtract;
 import com.meituan.food.mapper.WeekBugDetailPOMapper;
+import com.meituan.food.mapper.WeekBugTotalCountPOMapper;
 import com.meituan.food.po.WeekBugDetailPO;
+import com.meituan.food.po.WeekBugTotalCountPO;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
@@ -25,6 +27,9 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
     @Resource
     private WeekBugDetailPOMapper weekBugDetailPOMapper;
+
+    @Resource
+    private WeekBugTotalCountPOMapper weekBugTotalCountPOMapper;
 
     @Override
     public void extractData4Week(LocalDate firstDay, LocalDate lastDay) {
@@ -49,6 +54,21 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             param.put("dateDim", "DAY_DATE");
             String encodedParam = UrlUtils.encode(param.toJSONString());
 
+            WeekBugTotalCountPO po=new WeekBugTotalCountPO();
+          /*  po.setTotalCount(0);
+            po.setBlockerCount(0);
+            po.setMajorCount(0);
+            po.setMinorCount(0);
+            po.setCriticalCount(0);
+            po.setTrivialCount(0);*/
+            int totalCount=0;
+            int blockerCount=0;
+            int majorCount=0;
+            int minorCount=0;
+            int criticalCount=0;
+            int trivialCount=0;
+            String blockerLink="";
+
             JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
             int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
 
@@ -59,9 +79,10 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                 JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 for (int j = 1; j < partResult.size(); j++) {
                     WeekBugDetailPO weekBugDetailPO=new WeekBugDetailPO();
+                    String bugLevel=((JSONArray) (partResult.get(j))).getString(1);
                     String all=((JSONArray) (partResult.get(j))).getString(0);
                     weekBugDetailPO.setAllTitle(all);
-                    weekBugDetailPO.setBugLevel(((JSONArray) (partResult.get(j))).getString(1));
+                    weekBugDetailPO.setBugLevel(bugLevel);
                     weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
                     weekBugDetailPO.setCreator(((JSONArray) (partResult.get(j))).getString(3));
                     weekBugDetailPO.setReceiver(((JSONArray) (partResult.get(j))).getString(4));
@@ -78,8 +99,53 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     weekBugDetailPO.setTitle(bugDetail);
 
                     weekBugDetailPOMapper.insert(weekBugDetailPO);
+
+                   /* if (bugLevel.equals("Blocker")){
+                        int count=po.getBlockerCount();
+                        po.setBlockerCount(count++);
+                        blockerLink=blockerLink+link+"、";
+                    }else if (bugLevel.equals("Major")){
+                        int count=po.getMajorCount();
+                        po.setMajorCount(count++);
+                    }else if (bugLevel.equals("Critical")){
+                        int count=po.getCriticalCount();
+                        po.setCriticalCount(count++);
+                    }else if (bugLevel.equals("Minor")||bugLevel.equals("Normal")){
+                        int count=po.getMinorCount();
+                        po.setMinorCount(count++);
+                    }else if (bugLevel.equals("Trivial")){
+                        int count=po.getTrivialCount();
+                        po.setTrivialCount(count++);
+                    }*/
+
+                    if (bugLevel.equals("Blocker")){
+                        blockerCount++;
+                        blockerLink=blockerLink+link+"、";
+                    }else if (bugLevel.equals("Major")){
+                        majorCount++;
+                    }else if (bugLevel.equals("Critical")){
+                        criticalCount++;
+                    }else if (bugLevel.equals("Minor")||bugLevel.equals("Normal")){
+                        minorCount++;
+                    }else if (bugLevel.equals("Trivial")){
+                        trivialCount++;
+                    }
+                    totalCount++;
                 }
             }
+            po.setBlockerCount(blockerCount);
+            po.setMajorCount(majorCount);
+            po.setCriticalCount(criticalCount);
+            po.setMinorCount(minorCount);
+            po.setTrivialCount(trivialCount);
+            po.setTotalCount(totalCount);
+            po.setTimeFlag(Long.valueOf(timestamp));
+            po.setGroupName(orgMap.get(key));
+            po.setStartDate(firstDayStr);
+            po.setEndDate(lastDayStr);
+            po.setBugLink(blockerLink);
+
+            weekBugTotalCountPOMapper.insert(po);
         }
 
     }
