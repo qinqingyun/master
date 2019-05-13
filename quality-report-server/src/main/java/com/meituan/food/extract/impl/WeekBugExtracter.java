@@ -39,7 +39,8 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String mSsoid = SsoUtils.getSsoId();
+//        String mSsoid = SsoUtils.getSsoId();
+        String mSsoid="eAHjYBRYM69O4WBf05_VukbsvqklRZnJxVYKSanmSSbmJsbmBmlJJsZGZpZpFolaxgaJxgYpRiYWSRZO";
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
 
         Map<String, String> orgMap = new HashMap<>();
