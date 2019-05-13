@@ -29,6 +29,12 @@ public interface WeekBugDetailPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from week_bug_detail",
+            "where id <= #{id,jdbcType=INTEGER}"
+    })
+    int deleteLessByPrimaryKey(Integer id);
+
     @Insert({
         "insert into week_bug_detail (id, title, ",
         "bug_level, reason, ",
