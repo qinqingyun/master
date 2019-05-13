@@ -76,6 +76,10 @@ public class WeekBugTotalCountPOSqlProvider {
             sql.VALUES("time_flag", "#{timeFlag,jdbcType=BIGINT}");
         }
         
+        if (record.getBugDate() != null) {
+            sql.VALUES("bug_date", "#{bugDate,jdbcType=DATE}");
+        }
+        
         return sql.toString();
     }
 
@@ -97,6 +101,7 @@ public class WeekBugTotalCountPOSqlProvider {
         sql.SELECT("start_date");
         sql.SELECT("end_date");
         sql.SELECT("time_flag");
+        sql.SELECT("bug_date");
         sql.FROM("week_bug_total_count");
         applyWhere(sql, example, false);
         
@@ -162,6 +167,10 @@ public class WeekBugTotalCountPOSqlProvider {
             sql.SET("time_flag = #{record.timeFlag,jdbcType=BIGINT}");
         }
         
+        if (record.getBugDate() != null) {
+            sql.SET("bug_date = #{record.bugDate,jdbcType=DATE}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -182,6 +191,7 @@ public class WeekBugTotalCountPOSqlProvider {
         sql.SET("start_date = #{record.startDate,jdbcType=VARCHAR}");
         sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
         sql.SET("time_flag = #{record.timeFlag,jdbcType=BIGINT}");
+        sql.SET("bug_date = #{record.bugDate,jdbcType=DATE}");
         
         WeekBugTotalCountPOExample example = (WeekBugTotalCountPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -234,6 +244,10 @@ public class WeekBugTotalCountPOSqlProvider {
         
         if (record.getTimeFlag() != null) {
             sql.SET("time_flag = #{timeFlag,jdbcType=BIGINT}");
+        }
+        
+        if (record.getBugDate() != null) {
+            sql.SET("bug_date = #{bugDate,jdbcType=DATE}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

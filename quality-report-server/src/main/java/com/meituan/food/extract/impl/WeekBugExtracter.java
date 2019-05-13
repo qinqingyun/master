@@ -14,9 +14,12 @@ import com.meituan.food.utils.UrlUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,12 +78,13 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     WeekBugDetailPO weekBugDetailPO=new WeekBugDetailPO();
                     String bugLevel=((JSONArray) (partResult.get(j))).getString(1);
                     String all=((JSONArray) (partResult.get(j))).getString(0);
+                    String createdTimeStr=((JSONArray) (partResult.get(j))).getString(6);
                     weekBugDetailPO.setAllTitle(all);
                     weekBugDetailPO.setBugLevel(bugLevel);
                     weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
                     weekBugDetailPO.setCreator(((JSONArray) (partResult.get(j))).getString(3));
                     weekBugDetailPO.setReceiver(((JSONArray) (partResult.get(j))).getString(4));
-                    weekBugDetailPO.setCreatedTime(((JSONArray) (partResult.get(j))).getString(6));
+                    weekBugDetailPO.setCreatedTime(createdTimeStr);
                     weekBugDetailPO.setBugStatus(((JSONArray) (partResult.get(j))).getString(5));
                     weekBugDetailPO.setOrgid(key);
                     weekBugDetailPO.setOrgname(orgMap.get(key));
@@ -88,10 +92,15 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     weekBugDetailPO.setStartDate(firstDayStr);
                     weekBugDetailPO.setEndDate(lastDayStr);
                     String link = all.substring(all.indexOf("href=") + 5, all.indexOf(">"));
+
                     weekBugDetailPO.setBugLink(link);
 
                     String bugDetail=all.substring(all.indexOf(">")+1,all.indexOf("</a>"));
                     weekBugDetailPO.setTitle(bugDetail);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    ParsePosition pos = new ParsePosition(0);
+                    Date createdBugDateTime = formatter.parse(createdTimeStr, pos);
+                    weekBugDetailPO.setCreatedTimeDate(createdBugDateTime);
 
                     weekBugDetailPOMapper.insert(weekBugDetailPO);
 
@@ -121,9 +130,23 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             po.setStartDate(firstDayStr);
             po.setEndDate(lastDayStr);
             po.setBugLink(blockerLink);
+            SimpleDateFormat formatter_2 = new SimpleDateFormat("yyyy-MM-dd");
+            ParsePosition pos_2 = new ParsePosition(0);
+            Date bugDat = formatter_2.parse(firstDayStr, pos_2);
+            po.setBugDate(bugDat);
 
             weekBugTotalCountPOMapper.insert(po);
         }
 
+    }
+
+
+    public static void main(String[] args) {
+        String strDate="2019-05-02";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(strDate, pos);
+
+            System.out.println(strtodate);
     }
 }

@@ -1,6 +1,8 @@
 package com.meituan.food.po;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class WeekBugTotalCountPOExample {
@@ -102,6 +104,32 @@ public class WeekBugTotalCountPOExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -861,6 +889,66 @@ public class WeekBugTotalCountPOExample {
 
         public Criteria andTimeFlagNotBetween(Long value1, Long value2) {
             addCriterion("time_flag not between", value1, value2, "timeFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateIsNull() {
+            addCriterion("bug_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateIsNotNull() {
+            addCriterion("bug_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateEqualTo(Date value) {
+            addCriterionForJDBCDate("bug_date =", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("bug_date <>", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("bug_date >", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("bug_date >=", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateLessThan(Date value) {
+            addCriterionForJDBCDate("bug_date <", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("bug_date <=", value, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateIn(List<Date> values) {
+            addCriterionForJDBCDate("bug_date in", values, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("bug_date not in", values, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("bug_date between", value1, value2, "bugDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBugDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("bug_date not between", value1, value2, "bugDate");
             return (Criteria) this;
         }
     }

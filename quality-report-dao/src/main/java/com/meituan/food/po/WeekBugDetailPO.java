@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class WeekBugDetailPO implements Serializable {
     private Integer id;
@@ -32,6 +33,8 @@ public class WeekBugDetailPO implements Serializable {
     private String startDate;
 
     private String endDate;
+
+    private Date createdTimeDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -155,6 +158,14 @@ public class WeekBugDetailPO implements Serializable {
         this.endDate = endDate == null ? null : endDate.trim();
     }
 
+    public Date getCreatedTimeDate() {
+        return createdTimeDate;
+    }
+
+    public void setCreatedTimeDate(Date createdTimeDate) {
+        this.createdTimeDate = createdTimeDate;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -181,7 +192,8 @@ public class WeekBugDetailPO implements Serializable {
             && (this.getAllTitle() == null ? other.getAllTitle() == null : this.getAllTitle().equals(other.getAllTitle()))
             && (this.getBugLink() == null ? other.getBugLink() == null : this.getBugLink().equals(other.getBugLink()))
             && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
-            && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()));
+            && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
+            && (this.getCreatedTimeDate() == null ? other.getCreatedTimeDate() == null : this.getCreatedTimeDate().equals(other.getCreatedTimeDate()));
     }
 
     @Override
@@ -203,6 +215,7 @@ public class WeekBugDetailPO implements Serializable {
         result = prime * result + ((getBugLink() == null) ? 0 : getBugLink().hashCode());
         result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
         result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
+        result = prime * result + ((getCreatedTimeDate() == null) ? 0 : getCreatedTimeDate().hashCode());
         return result;
     }
 
@@ -227,6 +240,7 @@ public class WeekBugDetailPO implements Serializable {
         sb.append(", bugLink=").append(bugLink);
         sb.append(", startDate=").append(startDate);
         sb.append(", endDate=").append(endDate);
+        sb.append(", createdTimeDate=").append(createdTimeDate);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class WeekBugTotalCountPO implements Serializable {
     private Integer id;
@@ -26,6 +27,8 @@ public class WeekBugTotalCountPO implements Serializable {
     private String endDate;
 
     private Long timeFlag;
+
+    private Date bugDate;
 
     private static final long serialVersionUID = 1L;
 
@@ -125,6 +128,14 @@ public class WeekBugTotalCountPO implements Serializable {
         this.timeFlag = timeFlag;
     }
 
+    public Date getBugDate() {
+        return bugDate;
+    }
+
+    public void setBugDate(Date bugDate) {
+        this.bugDate = bugDate;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -148,7 +159,8 @@ public class WeekBugTotalCountPO implements Serializable {
             && (this.getBugLink() == null ? other.getBugLink() == null : this.getBugLink().equals(other.getBugLink()))
             && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
             && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
-            && (this.getTimeFlag() == null ? other.getTimeFlag() == null : this.getTimeFlag().equals(other.getTimeFlag()));
+            && (this.getTimeFlag() == null ? other.getTimeFlag() == null : this.getTimeFlag().equals(other.getTimeFlag()))
+            && (this.getBugDate() == null ? other.getBugDate() == null : this.getBugDate().equals(other.getBugDate()));
     }
 
     @Override
@@ -167,6 +179,7 @@ public class WeekBugTotalCountPO implements Serializable {
         result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
         result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         result = prime * result + ((getTimeFlag() == null) ? 0 : getTimeFlag().hashCode());
+        result = prime * result + ((getBugDate() == null) ? 0 : getBugDate().hashCode());
         return result;
     }
 
@@ -188,6 +201,7 @@ public class WeekBugTotalCountPO implements Serializable {
         sb.append(", startDate=").append(startDate);
         sb.append(", endDate=").append(endDate);
         sb.append(", timeFlag=").append(timeFlag);
+        sb.append(", bugDate=").append(bugDate);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

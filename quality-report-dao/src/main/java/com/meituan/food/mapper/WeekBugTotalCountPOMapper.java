@@ -35,13 +35,15 @@ public interface WeekBugTotalCountPOMapper {
         "critical_count, minor_count, ",
         "trivial_count, total_count, ",
         "bug_link, start_date, ",
-        "end_date, time_flag)",
+        "end_date, time_flag, ",
+        "bug_date)",
         "values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, ",
         "#{majorCount,jdbcType=INTEGER}, #{blockerCount,jdbcType=INTEGER}, ",
         "#{criticalCount,jdbcType=INTEGER}, #{minorCount,jdbcType=INTEGER}, ",
         "#{trivialCount,jdbcType=INTEGER}, #{totalCount,jdbcType=INTEGER}, ",
         "#{bugLink,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, ",
-        "#{endDate,jdbcType=VARCHAR}, #{timeFlag,jdbcType=BIGINT})"
+        "#{endDate,jdbcType=VARCHAR}, #{timeFlag,jdbcType=BIGINT}, ",
+        "#{bugDate,jdbcType=DATE})"
     })
     int insert(WeekBugTotalCountPO record);
 
@@ -61,14 +63,15 @@ public interface WeekBugTotalCountPOMapper {
         @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR),
         @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="time_flag", property="timeFlag", jdbcType=JdbcType.BIGINT)
+        @Result(column="time_flag", property="timeFlag", jdbcType=JdbcType.BIGINT),
+        @Result(column="bug_date", property="bugDate", jdbcType=JdbcType.DATE)
     })
     List<WeekBugTotalCountPO> selectByExample(WeekBugTotalCountPOExample example);
 
     @Select({
         "select",
         "id, group_name, major_count, blocker_count, critical_count, minor_count, trivial_count, ",
-        "total_count, bug_link, start_date, end_date, time_flag",
+        "total_count, bug_link, start_date, end_date, time_flag, bug_date",
         "from week_bug_total_count",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -84,7 +87,8 @@ public interface WeekBugTotalCountPOMapper {
         @Result(column="bug_link", property="bugLink", jdbcType=JdbcType.VARCHAR),
         @Result(column="start_date", property="startDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="end_date", property="endDate", jdbcType=JdbcType.VARCHAR),
-        @Result(column="time_flag", property="timeFlag", jdbcType=JdbcType.BIGINT)
+        @Result(column="time_flag", property="timeFlag", jdbcType=JdbcType.BIGINT),
+        @Result(column="bug_date", property="bugDate", jdbcType=JdbcType.DATE)
     })
     WeekBugTotalCountPO selectByPrimaryKey(Integer id);
 
@@ -109,7 +113,8 @@ public interface WeekBugTotalCountPOMapper {
           "bug_link = #{bugLink,jdbcType=VARCHAR},",
           "start_date = #{startDate,jdbcType=VARCHAR},",
           "end_date = #{endDate,jdbcType=VARCHAR},",
-          "time_flag = #{timeFlag,jdbcType=BIGINT}",
+          "time_flag = #{timeFlag,jdbcType=BIGINT},",
+          "bug_date = #{bugDate,jdbcType=DATE}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(WeekBugTotalCountPO record);

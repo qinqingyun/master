@@ -88,6 +88,10 @@ public class WeekBugDetailPOSqlProvider {
             sql.VALUES("end_date", "#{endDate,jdbcType=VARCHAR}");
         }
         
+        if (record.getCreatedTimeDate() != null) {
+            sql.VALUES("created_time_date", "#{createdTimeDate,jdbcType=TIMESTAMP}");
+        }
+        
         return sql.toString();
     }
 
@@ -112,6 +116,7 @@ public class WeekBugDetailPOSqlProvider {
         sql.SELECT("bug_link");
         sql.SELECT("start_date");
         sql.SELECT("end_date");
+        sql.SELECT("created_time_date");
         sql.FROM("week_bug_detail");
         applyWhere(sql, example, false);
         
@@ -189,6 +194,10 @@ public class WeekBugDetailPOSqlProvider {
             sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
         }
         
+        if (record.getCreatedTimeDate() != null) {
+            sql.SET("created_time_date = #{record.createdTimeDate,jdbcType=TIMESTAMP}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -212,6 +221,7 @@ public class WeekBugDetailPOSqlProvider {
         sql.SET("bug_link = #{record.bugLink,jdbcType=VARCHAR}");
         sql.SET("start_date = #{record.startDate,jdbcType=VARCHAR}");
         sql.SET("end_date = #{record.endDate,jdbcType=VARCHAR}");
+        sql.SET("created_time_date = #{record.createdTimeDate,jdbcType=TIMESTAMP}");
         
         WeekBugDetailPOExample example = (WeekBugDetailPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -276,6 +286,10 @@ public class WeekBugDetailPOSqlProvider {
         
         if (record.getEndDate() != null) {
             sql.SET("end_date = #{endDate,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreatedTimeDate() != null) {
+            sql.SET("created_time_date = #{createdTimeDate,jdbcType=TIMESTAMP}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class WeekBugDetailPOExample {
@@ -1131,6 +1132,66 @@ public class WeekBugDetailPOExample {
 
         public Criteria andEndDateNotBetween(String value1, String value2) {
             addCriterion("end_date not between", value1, value2, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateIsNull() {
+            addCriterion("created_time_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateIsNotNull() {
+            addCriterion("created_time_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateEqualTo(Date value) {
+            addCriterion("created_time_date =", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateNotEqualTo(Date value) {
+            addCriterion("created_time_date <>", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateGreaterThan(Date value) {
+            addCriterion("created_time_date >", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("created_time_date >=", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateLessThan(Date value) {
+            addCriterion("created_time_date <", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateLessThanOrEqualTo(Date value) {
+            addCriterion("created_time_date <=", value, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateIn(List<Date> values) {
+            addCriterion("created_time_date in", values, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateNotIn(List<Date> values) {
+            addCriterion("created_time_date not in", values, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateBetween(Date value1, Date value2) {
+            addCriterion("created_time_date between", value1, value2, "createdTimeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeDateNotBetween(Date value1, Date value2) {
+            addCriterion("created_time_date not between", value1, value2, "createdTimeDate");
             return (Criteria) this;
         }
     }
