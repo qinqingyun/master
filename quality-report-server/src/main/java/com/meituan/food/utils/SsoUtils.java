@@ -32,7 +32,7 @@ public final class SsoUtils {
                 Collections.emptyMap());
         return tokenRes.getString("access_token");*/
 
-      /* //线上sso_host
+       //线上sso_host
         String sso_host="https://sso.vip.sankuai.com/sson";
         //线下sso_host
        // String sso_host="http://ssosv.it.beta.sankuai.com/sson";
@@ -67,9 +67,7 @@ public final class SsoUtils {
                clientId,appSecret);
 
        String ssoId=ssoRes.getJSONObject("data").getString("accessToken");
-       return ssoId;*/
-
-       return "eAHjYBRYM69O4WBf05_VukbsvqklRZnJxVYKSanmSSbmJsbmBmlJJsZGZpZpFolaxgaJxgYpRiYWSRZO";
+       return ssoId;
        }
 
     private SsoUtils() {
