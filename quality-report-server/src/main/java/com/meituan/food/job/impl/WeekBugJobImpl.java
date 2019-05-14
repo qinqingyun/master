@@ -18,22 +18,12 @@ public class WeekBugJobImpl implements IWeekBugJob {
 
     @Override
     public void sync() {
-       /* LocalDate firstDate = LocalDate.now().minusDays(4);
-        LocalDate lastDate = LocalDate.now().minusDays(4);
+        LocalDate firstDate = LocalDate.now().minusDays(1);
+        LocalDate lastDate = LocalDate.now().minusDays(1);
 
         List<CompletableFuture<Void>> extractFutures = weekBugDataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Week(firstDate,lastDate)))
                 .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);*/
-
-        for (int i = 12; i > 0; i--) {
-            LocalDate firstDate = LocalDate.now().minusDays(i);
-            LocalDate lastDate = LocalDate.now().minusDays(i);
-
-            List<CompletableFuture<Void>> extractFutures = weekBugDataExtracts.stream()
-                    .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Week(firstDate, lastDate)))
-                    .collect(Collectors.toList());
-            extractFutures.forEach(CompletableFuture::join);
-        }
+        extractFutures.forEach(CompletableFuture::join);
     }
 }
