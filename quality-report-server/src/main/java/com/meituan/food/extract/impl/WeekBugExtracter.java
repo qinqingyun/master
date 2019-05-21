@@ -79,7 +79,7 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                     String bugLevel=((JSONArray) (partResult.get(j))).getString(1);
                     String all=((JSONArray) (partResult.get(j))).getString(0);
                     String createdTimeStr=((JSONArray) (partResult.get(j))).getString(6);
-                    weekBugDetailPO.setAllTitle(all);
+                    weekBugDetailPO.setAllTitle("");
                     weekBugDetailPO.setBugLevel(bugLevel);
                     weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
                     weekBugDetailPO.setCreator(((JSONArray) (partResult.get(j))).getString(3));

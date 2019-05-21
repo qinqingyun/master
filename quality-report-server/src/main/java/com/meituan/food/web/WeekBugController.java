@@ -25,9 +25,21 @@ public class WeekBugController {
         return "OK!";
     }
 
+    @GetMapping("/count/delete2")
+    public String deleteWeekBugDataById(@RequestParam("id") int id){
+        weekBugTotalCountPOMapper.deleteByPrimaryKey(id);
+        return "OK!";
+    }
+
     @GetMapping("/detail/delete")
     public String deleteWeekBugDetailData(@RequestParam("id") int id){
         weekBugDetailPOMapper.deleteLessByPrimaryKey(id);
+        return "OK!";
+    }
+
+    @GetMapping("/detail/delete2")
+    public String deleteWeekBugDetailDataById(@RequestParam("id") int id){
+        weekBugDetailPOMapper.deleteByPrimaryKey(id);
         return "OK!";
     }
 }
