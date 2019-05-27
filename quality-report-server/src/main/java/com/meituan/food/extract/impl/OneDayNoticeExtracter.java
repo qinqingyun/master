@@ -16,7 +16,7 @@ public class OneDayNoticeExtracter implements IOneDayNoticeExtract{
         //推给个人
         //DaXiangUtils.pushToPerson("@所有人 本周项目review地址："+importantProjectReviewPO.getKmLink()+" 尽快填写哦~","guomengyao");
         //推给组群
-        DaXiangUtils.pushToRoom("@所有人 记得写周报：https://km.sankuai.com/page/159820418",64014028439L);
+        DaXiangUtils.pushToRoom("@所有人 大家填下今日进度，九点半开始汇总。日报地址：https://km.sankuai.com/page/159820418",64013885857L);
     }
 
     public static void main(String[] args) {
