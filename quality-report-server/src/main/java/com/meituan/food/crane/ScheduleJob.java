@@ -68,6 +68,9 @@ public class ScheduleJob {
     @Resource
     private IWeekBugJob weekBugJob;
 
+    @Resource
+    private IOneDayNoticeJob iOneDayNoticeJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -174,4 +177,7 @@ public class ScheduleJob {
     public void syncWeekBug(){
         weekBugJob.sync();
     }
+
+    @Crane("one.day.night.eight.job")
+    public void onedaynighteight(){ iOneDayNoticeJob.extractData4Day(); }
 }
