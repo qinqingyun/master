@@ -15,11 +15,6 @@ public class OneDayNoticeJob implements IOneDayNoticeJob{
     @Resource
     private IOneDayNoticeExtract iOneDayNoticeExtract;
 
-//    @Override
-//    public void sync() {
-//        iOneDayNoticeExtract.extractData4Day();
-//    }
-
     @Override
     public void extractData4Day() {
         iOneDayNoticeExtract.extractData4Day();
