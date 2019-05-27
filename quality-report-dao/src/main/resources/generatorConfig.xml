@@ -90,7 +90,9 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="week_bug_detail" domainObjectName="WeekBugDetailPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="week_bug_total_count" domainObjectName="WeekBugTotalCountPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="week_bug_total_count" domainObjectName="WeekBugTotalCountPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="appkey_list_table" domainObjectName="AppkeyListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 
     </context>
