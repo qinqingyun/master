@@ -94,6 +94,9 @@
                enableUpdateByExample="true"/>-->
         <table tableName="appkey_list_table" domainObjectName="AppkeyListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+        <table tableName="cargo_data" domainObjectName="CargoDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+
 
     </context>
 
