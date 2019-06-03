@@ -199,18 +199,16 @@ public class CargoExtracterTest {
                 ""
         };
         int i=4;
+        String availble_uri_new = "/stack?type=stack_monitor&stack_uuid=5ac864c0-d0e0-40cb-8585-1b09783ab08a&recent_days=3&interval=1d&monitor_type=service_available_check";
 
-        for (int ii=0;ii<i;ii++)
-        {
-            CargoExtracterTest.getStableData(stabledata[ii]);
+        JSONObject availble_json = HttpUtils.doGetWithAuth(URI.create(cargo_host+availble_uri_new), JSONObject.class,APPKEY,APPSECRET);
+        String stable_uri_new="/stack?type=stack_monitor&stack_uuid=5ac864c0-d0e0-40cb-8585-1b09783ab08a&recent_days=3&interval=1d";
+        JSONObject stable_json = HttpUtils.doGetWithAuth(URI.create(cargo_host+stable_uri_new), JSONObject.class,APPKEY,APPSECRET);
 
-            CargoExtracterTest.getAvailbleData(avadata[ii]);
+        getStableData(stable_json.toJSONString());
+        getAvailbleData(availble_json.toJSONString());
 
-            CargoExtracterTest.saveCargoDataPO();
-            CargoExtracterTest.cargoDataPO_list.clear();
-        }
         stackuuid.forEach((k,v)->{
-
 
         });
 
@@ -251,7 +249,7 @@ public class CargoExtracterTest {
 
             String success = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".success"));
             String error = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".error"));
-            String stableTagPercentage = String.valueOf(JSONPath.read(stable_json,"$.data.tag."+tag+"[0]"));
+            String stableTagPercentage = String.valueOf(JSONPath.read(stable_json,"$.data.tag."+tag+"["+iter+"]"));
             update(cp, "stableTagPercentage", stableTagPercentage);
             update(cp, "stableSuccess", success);
             update(cp, "stableTotal", error, success);
@@ -298,7 +296,7 @@ public class CargoExtracterTest {
 //            successsum+=Integer.valueOf(success.equals("null")?"0":success);
 //            errorsum+=Integer.valueOf(error.equals("null")?"0":error);
 
-            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json,"$.data.tag."+tag+"[0]"));
+            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json,"$.data.tag."+tag+"["+iter+"]"));
             update(cp, "avalibleTagPercentage", availble_total_percentage);
 
         }
