@@ -104,6 +104,9 @@
                enableUpdateByExample="true"/>-->
         <table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+        <table tableName="cargo_data" domainObjectName="CargoDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+
 
 
     </context>
