@@ -74,6 +74,9 @@ public class ScheduleJob {
     @Resource
     private IGetApiCoverageJob apiCoverageJob;
 
+    @Resource
+    private IOneDayCargoJob oneDayCargoJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -188,4 +191,9 @@ public class ScheduleJob {
     public void getApiCoverage(){
         apiCoverageJob.sync();
     }
+    @Crane("cargo.data.job")
+    public void syncCargoAva() {
+        oneDayCargoJob.sync();
+    }
+
 }
