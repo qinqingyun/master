@@ -1,43 +1,43 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.ApiCoveragePO;
-import com.meituan.food.po.ApiCoveragePOExample.Criteria;
-import com.meituan.food.po.ApiCoveragePOExample.Criterion;
-import com.meituan.food.po.ApiCoveragePOExample;
+import com.meituan.food.po.DepartmentApiCoveragePO;
+import com.meituan.food.po.DepartmentApiCoveragePOExample.Criteria;
+import com.meituan.food.po.DepartmentApiCoveragePOExample.Criterion;
+import com.meituan.food.po.DepartmentApiCoveragePOExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class ApiCoveragePOSqlProvider {
+public class DepartmentApiCoveragePOSqlProvider {
 
-    public String countByExample(ApiCoveragePOExample example) {
+    public String countByExample(DepartmentApiCoveragePOExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("api_coverage");
+        sql.SELECT("count(*)").FROM("department_api_coverage");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(ApiCoveragePOExample example) {
+    public String deleteByExample(DepartmentApiCoveragePOExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("api_coverage");
+        sql.DELETE_FROM("department_api_coverage");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(ApiCoveragePO record) {
+    public String insertSelective(DepartmentApiCoveragePO record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("api_coverage");
+        sql.INSERT_INTO("department_api_coverage");
         
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getAppkey() != null) {
-            sql.VALUES("appkey", "#{appkey,jdbcType=VARCHAR}");
+        if (record.getDepartmentId() != null) {
+            sql.VALUES("department_id", "#{departmentId,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.VALUES("department", "#{department,jdbcType=VARCHAR}");
+        if (record.getDepartmentName() != null) {
+            sql.VALUES("department_name", "#{departmentName,jdbcType=VARCHAR}");
         }
         
         if (record.getAllApiNum() != null) {
@@ -52,10 +52,6 @@ public class ApiCoveragePOSqlProvider {
             sql.VALUES("api_coverage", "#{apiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId() != null) {
-            sql.VALUES("department_id", "#{departmentId,jdbcType=INTEGER}");
-        }
-        
         if (record.getAllCoreApiNum() != null) {
             sql.VALUES("all_core_api_num", "#{allCoreApiNum,jdbcType=INTEGER}");
         }
@@ -64,50 +60,39 @@ public class ApiCoveragePOSqlProvider {
             sql.VALUES("cover_core_api_num", "#{coverCoreApiNum,jdbcType=INTEGER}");
         }
         
-        if (record.getCoverageDate() != null) {
-            sql.VALUES("coverage_date", "#{coverageDate,jdbcType=DATE}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.VALUES("created_time", "#{createdTime,jdbcType=TIMESTAMP}");
-        }
-        
         if (record.getCoreApiCoverage() != null) {
             sql.VALUES("core_api_coverage", "#{coreApiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId2() != null) {
-            sql.VALUES("department_id_2", "#{departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.VALUES("coverage_date", "#{coverageDate,jdbcType=DATE}");
         }
         
-        if (record.getDepartment2() != null) {
-            sql.VALUES("department2", "#{department2,jdbcType=VARCHAR}");
+        if (record.getStatus() != null) {
+            sql.VALUES("status", "#{status,jdbcType=INTEGER}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExample(ApiCoveragePOExample example) {
+    public String selectByExample(DepartmentApiCoveragePOExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("appkey");
-        sql.SELECT("department");
+        sql.SELECT("department_id");
+        sql.SELECT("department_name");
         sql.SELECT("all_api_num");
         sql.SELECT("cover_api_num");
         sql.SELECT("api_coverage");
-        sql.SELECT("department_id");
         sql.SELECT("all_core_api_num");
         sql.SELECT("cover_core_api_num");
-        sql.SELECT("coverage_date");
-        sql.SELECT("created_time");
         sql.SELECT("core_api_coverage");
-        sql.SELECT("department_id_2");
-        sql.SELECT("department2");
-        sql.FROM("api_coverage");
+        sql.SELECT("coverage_date");
+        sql.SELECT("status");
+        sql.FROM("department_api_coverage");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -118,22 +103,22 @@ public class ApiCoveragePOSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        ApiCoveragePO record = (ApiCoveragePO) parameter.get("record");
-        ApiCoveragePOExample example = (ApiCoveragePOExample) parameter.get("example");
+        DepartmentApiCoveragePO record = (DepartmentApiCoveragePO) parameter.get("record");
+        DepartmentApiCoveragePOExample example = (DepartmentApiCoveragePOExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("api_coverage");
+        sql.UPDATE("department_api_coverage");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getAppkey() != null) {
-            sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
+        if (record.getDepartmentId() != null) {
+            sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.SET("department = #{record.department,jdbcType=VARCHAR}");
+        if (record.getDepartmentName() != null) {
+            sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
         }
         
         if (record.getAllApiNum() != null) {
@@ -148,10 +133,6 @@ public class ApiCoveragePOSqlProvider {
             sql.SET("api_coverage = #{record.apiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId() != null) {
-            sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
-        }
-        
         if (record.getAllCoreApiNum() != null) {
             sql.SET("all_core_api_num = #{record.allCoreApiNum,jdbcType=INTEGER}");
         }
@@ -160,24 +141,16 @@ public class ApiCoveragePOSqlProvider {
             sql.SET("cover_core_api_num = #{record.coverCoreApiNum,jdbcType=INTEGER}");
         }
         
-        if (record.getCoverageDate() != null) {
-            sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
-        }
-        
         if (record.getCoreApiCoverage() != null) {
             sql.SET("core_api_coverage = #{record.coreApiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId2() != null) {
-            sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
         }
         
-        if (record.getDepartment2() != null) {
-            sql.SET("department2 = #{record.department2,jdbcType=VARCHAR}");
+        if (record.getStatus() != null) {
+            sql.SET("status = #{record.status,jdbcType=INTEGER}");
         }
         
         applyWhere(sql, example, true);
@@ -186,38 +159,35 @@ public class ApiCoveragePOSqlProvider {
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("api_coverage");
+        sql.UPDATE("department_api_coverage");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
-        sql.SET("department = #{record.department,jdbcType=VARCHAR}");
+        sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
+        sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
         sql.SET("all_api_num = #{record.allApiNum,jdbcType=INTEGER}");
         sql.SET("cover_api_num = #{record.coverApiNum,jdbcType=INTEGER}");
         sql.SET("api_coverage = #{record.apiCoverage,jdbcType=DECIMAL}");
-        sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
         sql.SET("all_core_api_num = #{record.allCoreApiNum,jdbcType=INTEGER}");
         sql.SET("cover_core_api_num = #{record.coverCoreApiNum,jdbcType=INTEGER}");
-        sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
-        sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         sql.SET("core_api_coverage = #{record.coreApiCoverage,jdbcType=DECIMAL}");
-        sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
-        sql.SET("department2 = #{record.department2,jdbcType=VARCHAR}");
+        sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
+        sql.SET("status = #{record.status,jdbcType=INTEGER}");
         
-        ApiCoveragePOExample example = (ApiCoveragePOExample) parameter.get("example");
+        DepartmentApiCoveragePOExample example = (DepartmentApiCoveragePOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(ApiCoveragePO record) {
+    public String updateByPrimaryKeySelective(DepartmentApiCoveragePO record) {
         SQL sql = new SQL();
-        sql.UPDATE("api_coverage");
+        sql.UPDATE("department_api_coverage");
         
-        if (record.getAppkey() != null) {
-            sql.SET("appkey = #{appkey,jdbcType=VARCHAR}");
+        if (record.getDepartmentId() != null) {
+            sql.SET("department_id = #{departmentId,jdbcType=INTEGER}");
         }
         
-        if (record.getDepartment() != null) {
-            sql.SET("department = #{department,jdbcType=VARCHAR}");
+        if (record.getDepartmentName() != null) {
+            sql.SET("department_name = #{departmentName,jdbcType=VARCHAR}");
         }
         
         if (record.getAllApiNum() != null) {
@@ -232,10 +202,6 @@ public class ApiCoveragePOSqlProvider {
             sql.SET("api_coverage = #{apiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId() != null) {
-            sql.SET("department_id = #{departmentId,jdbcType=INTEGER}");
-        }
-        
         if (record.getAllCoreApiNum() != null) {
             sql.SET("all_core_api_num = #{allCoreApiNum,jdbcType=INTEGER}");
         }
@@ -244,24 +210,16 @@ public class ApiCoveragePOSqlProvider {
             sql.SET("cover_core_api_num = #{coverCoreApiNum,jdbcType=INTEGER}");
         }
         
-        if (record.getCoverageDate() != null) {
-            sql.SET("coverage_date = #{coverageDate,jdbcType=DATE}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.SET("created_time = #{createdTime,jdbcType=TIMESTAMP}");
-        }
-        
         if (record.getCoreApiCoverage() != null) {
             sql.SET("core_api_coverage = #{coreApiCoverage,jdbcType=DECIMAL}");
         }
         
-        if (record.getDepartmentId2() != null) {
-            sql.SET("department_id_2 = #{departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.SET("coverage_date = #{coverageDate,jdbcType=DATE}");
         }
         
-        if (record.getDepartment2() != null) {
-            sql.SET("department2 = #{department2,jdbcType=VARCHAR}");
+        if (record.getStatus() != null) {
+            sql.SET("status = #{status,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -269,7 +227,7 @@ public class ApiCoveragePOSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, ApiCoveragePOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, DepartmentApiCoveragePOExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

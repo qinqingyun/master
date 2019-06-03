@@ -34,12 +34,12 @@ public interface AppkeyListPOMapper {
         "pdl, srv, appkey, ",
         "department_id, offline, ",
         "created_time, updated_time, ",
-        "rank)",
+        "rank, department_id_2)",
         "values (#{id,jdbcType=INTEGER}, #{owt,jdbcType=VARCHAR}, ",
         "#{pdl,jdbcType=VARCHAR}, #{srv,jdbcType=VARCHAR}, #{appkey,jdbcType=VARCHAR}, ",
         "#{departmentId,jdbcType=INTEGER}, #{offline,jdbcType=INTEGER}, ",
         "#{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, ",
-        "#{rank,jdbcType=INTEGER})"
+        "#{rank,jdbcType=INTEGER}, #{departmentId2,jdbcType=INTEGER})"
     })
     int insert(AppkeyListPO record);
 
@@ -57,14 +57,15 @@ public interface AppkeyListPOMapper {
         @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER)
+        @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
     })
     List<AppkeyListPO> selectByExample(AppkeyListPOExample example);
 
     @Select({
         "select",
         "id, owt, pdl, srv, appkey, department_id, offline, created_time, updated_time, ",
-        "rank",
+        "rank, department_id_2",
         "from appkey_list_table",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -78,17 +79,37 @@ public interface AppkeyListPOMapper {
         @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER)
+        @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
     })
     AppkeyListPO selectByPrimaryKey(Integer id);
 
-
+    @Select({
+            "select",
+            "id, owt, pdl, srv, appkey, department_id, offline, created_time, updated_time, ",
+            "rank, department_id_2",
+            "from appkey_list_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="owt", property="owt", jdbcType=JdbcType.VARCHAR),
+            @Result(column="pdl", property="pdl", jdbcType=JdbcType.VARCHAR),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    AppkeyListPO selectByAppKey(String appkey);
 
     @Select({
             "select appkey from appkey_list_table"
     })
     List<String> selectAllAppkey();
-
 
     @UpdateProvider(type=AppkeyListPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyListPO record, @Param("example") AppkeyListPOExample example);
@@ -109,11 +130,9 @@ public interface AppkeyListPOMapper {
           "offline = #{offline,jdbcType=INTEGER},",
           "created_time = #{createdTime,jdbcType=TIMESTAMP},",
           "updated_time = #{updatedTime,jdbcType=TIMESTAMP},",
-          "rank = #{rank,jdbcType=INTEGER}",
+          "rank = #{rank,jdbcType=INTEGER},",
+          "department_id_2 = #{departmentId2,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(AppkeyListPO record);
-
-
-
 }

@@ -92,12 +92,19 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="week_bug_total_count" domainObjectName="WeekBugTotalCountPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <!--<table tableName="appkey_list_table" domainObjectName="AppkeyListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="appkey_list_table" domainObjectName="AppkeyListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
         <!--<table tableName="api_detail" domainObjectName="ApiDetailPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="api_coverage" domainObjectName="ApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="api_coverage" domainObjectName="ApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <!--<table tableName="department" domainObjectName="DepartmentPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+       <!-- <table tableName="batch_date" domainObjectName="BatchDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+
 
     </context>
 

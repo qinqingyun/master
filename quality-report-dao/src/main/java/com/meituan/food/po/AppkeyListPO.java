@@ -24,6 +24,8 @@ public class AppkeyListPO implements Serializable {
 
     private Integer rank;
 
+    private Integer departmentId2;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -106,6 +108,14 @@ public class AppkeyListPO implements Serializable {
         this.rank = rank;
     }
 
+    public Integer getDepartmentId2() {
+        return departmentId2;
+    }
+
+    public void setDepartmentId2(Integer departmentId2) {
+        this.departmentId2 = departmentId2;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +137,8 @@ public class AppkeyListPO implements Serializable {
             && (this.getOffline() == null ? other.getOffline() == null : this.getOffline().equals(other.getOffline()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
-            && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()));
+            && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()))
+            && (this.getDepartmentId2() == null ? other.getDepartmentId2() == null : this.getDepartmentId2().equals(other.getDepartmentId2()));
     }
 
     @Override
@@ -144,6 +155,7 @@ public class AppkeyListPO implements Serializable {
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         result = prime * result + ((getRank() == null) ? 0 : getRank().hashCode());
+        result = prime * result + ((getDepartmentId2() == null) ? 0 : getDepartmentId2().hashCode());
         return result;
     }
 
@@ -163,6 +175,7 @@ public class AppkeyListPO implements Serializable {
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", rank=").append(rank);
+        sb.append(", departmentId2=").append(departmentId2);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

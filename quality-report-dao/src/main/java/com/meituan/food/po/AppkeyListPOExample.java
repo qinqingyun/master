@@ -744,6 +744,66 @@ public class AppkeyListPOExample {
             addCriterion("rank not between", value1, value2, "rank");
             return (Criteria) this;
         }
+
+        public Criteria andDepartmentId2IsNull() {
+            addCriterion("department_id_2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2IsNotNull() {
+            addCriterion("department_id_2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2EqualTo(Integer value) {
+            addCriterion("department_id_2 =", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotEqualTo(Integer value) {
+            addCriterion("department_id_2 <>", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2GreaterThan(Integer value) {
+            addCriterion("department_id_2 >", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2GreaterThanOrEqualTo(Integer value) {
+            addCriterion("department_id_2 >=", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2LessThan(Integer value) {
+            addCriterion("department_id_2 <", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2LessThanOrEqualTo(Integer value) {
+            addCriterion("department_id_2 <=", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2In(List<Integer> values) {
+            addCriterion("department_id_2 in", values, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotIn(List<Integer> values) {
+            addCriterion("department_id_2 not in", values, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2Between(Integer value1, Integer value2) {
+            addCriterion("department_id_2 between", value1, value2, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotBetween(Integer value1, Integer value2) {
+            addCriterion("department_id_2 not between", value1, value2, "departmentId2");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

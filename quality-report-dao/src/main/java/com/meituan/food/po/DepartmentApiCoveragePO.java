@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ApiCoveragePO implements Serializable {
+public class DepartmentApiCoveragePO implements Serializable {
     private Integer id;
 
-    private String appkey;
+    private Integer departmentId;
 
-    private String department;
+    private String departmentName;
 
     private Integer allApiNum;
 
@@ -17,21 +17,15 @@ public class ApiCoveragePO implements Serializable {
 
     private BigDecimal apiCoverage;
 
-    private Integer departmentId;
-
     private Integer allCoreApiNum;
 
     private Integer coverCoreApiNum;
 
-    private Date coverageDate;
-
-    private Date createdTime;
-
     private BigDecimal coreApiCoverage;
 
-    private Integer departmentId2;
+    private Date coverageDate;
 
-    private String department2;
+    private Integer status;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,20 +37,20 @@ public class ApiCoveragePO implements Serializable {
         this.id = id;
     }
 
-    public String getAppkey() {
-        return appkey;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setAppkey(String appkey) {
-        this.appkey = appkey == null ? null : appkey.trim();
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setDepartment(String department) {
-        this.department = department == null ? null : department.trim();
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName == null ? null : departmentName.trim();
     }
 
     public Integer getAllApiNum() {
@@ -83,14 +77,6 @@ public class ApiCoveragePO implements Serializable {
         this.apiCoverage = apiCoverage;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
-
     public Integer getAllCoreApiNum() {
         return allCoreApiNum;
     }
@@ -107,22 +93,6 @@ public class ApiCoveragePO implements Serializable {
         this.coverCoreApiNum = coverCoreApiNum;
     }
 
-    public Date getCoverageDate() {
-        return coverageDate;
-    }
-
-    public void setCoverageDate(Date coverageDate) {
-        this.coverageDate = coverageDate;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
     public BigDecimal getCoreApiCoverage() {
         return coreApiCoverage;
     }
@@ -131,20 +101,20 @@ public class ApiCoveragePO implements Serializable {
         this.coreApiCoverage = coreApiCoverage;
     }
 
-    public Integer getDepartmentId2() {
-        return departmentId2;
+    public Date getCoverageDate() {
+        return coverageDate;
     }
 
-    public void setDepartmentId2(Integer departmentId2) {
-        this.departmentId2 = departmentId2;
+    public void setCoverageDate(Date coverageDate) {
+        this.coverageDate = coverageDate;
     }
 
-    public String getDepartment2() {
-        return department2;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setDepartment2(String department2) {
-        this.department2 = department2 == null ? null : department2.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -158,21 +128,18 @@ public class ApiCoveragePO implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        ApiCoveragePO other = (ApiCoveragePO) that;
+        DepartmentApiCoveragePO other = (DepartmentApiCoveragePO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getAppkey() == null ? other.getAppkey() == null : this.getAppkey().equals(other.getAppkey()))
-            && (this.getDepartment() == null ? other.getDepartment() == null : this.getDepartment().equals(other.getDepartment()))
+            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()))
+            && (this.getDepartmentName() == null ? other.getDepartmentName() == null : this.getDepartmentName().equals(other.getDepartmentName()))
             && (this.getAllApiNum() == null ? other.getAllApiNum() == null : this.getAllApiNum().equals(other.getAllApiNum()))
             && (this.getCoverApiNum() == null ? other.getCoverApiNum() == null : this.getCoverApiNum().equals(other.getCoverApiNum()))
             && (this.getApiCoverage() == null ? other.getApiCoverage() == null : this.getApiCoverage().equals(other.getApiCoverage()))
-            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()))
             && (this.getAllCoreApiNum() == null ? other.getAllCoreApiNum() == null : this.getAllCoreApiNum().equals(other.getAllCoreApiNum()))
             && (this.getCoverCoreApiNum() == null ? other.getCoverCoreApiNum() == null : this.getCoverCoreApiNum().equals(other.getCoverCoreApiNum()))
-            && (this.getCoverageDate() == null ? other.getCoverageDate() == null : this.getCoverageDate().equals(other.getCoverageDate()))
-            && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getCoreApiCoverage() == null ? other.getCoreApiCoverage() == null : this.getCoreApiCoverage().equals(other.getCoreApiCoverage()))
-            && (this.getDepartmentId2() == null ? other.getDepartmentId2() == null : this.getDepartmentId2().equals(other.getDepartmentId2()))
-            && (this.getDepartment2() == null ? other.getDepartment2() == null : this.getDepartment2().equals(other.getDepartment2()));
+            && (this.getCoverageDate() == null ? other.getCoverageDate() == null : this.getCoverageDate().equals(other.getCoverageDate()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -180,19 +147,16 @@ public class ApiCoveragePO implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getAppkey() == null) ? 0 : getAppkey().hashCode());
-        result = prime * result + ((getDepartment() == null) ? 0 : getDepartment().hashCode());
+        result = prime * result + ((getDepartmentId() == null) ? 0 : getDepartmentId().hashCode());
+        result = prime * result + ((getDepartmentName() == null) ? 0 : getDepartmentName().hashCode());
         result = prime * result + ((getAllApiNum() == null) ? 0 : getAllApiNum().hashCode());
         result = prime * result + ((getCoverApiNum() == null) ? 0 : getCoverApiNum().hashCode());
         result = prime * result + ((getApiCoverage() == null) ? 0 : getApiCoverage().hashCode());
-        result = prime * result + ((getDepartmentId() == null) ? 0 : getDepartmentId().hashCode());
         result = prime * result + ((getAllCoreApiNum() == null) ? 0 : getAllCoreApiNum().hashCode());
         result = prime * result + ((getCoverCoreApiNum() == null) ? 0 : getCoverCoreApiNum().hashCode());
-        result = prime * result + ((getCoverageDate() == null) ? 0 : getCoverageDate().hashCode());
-        result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getCoreApiCoverage() == null) ? 0 : getCoreApiCoverage().hashCode());
-        result = prime * result + ((getDepartmentId2() == null) ? 0 : getDepartmentId2().hashCode());
-        result = prime * result + ((getDepartment2() == null) ? 0 : getDepartment2().hashCode());
+        result = prime * result + ((getCoverageDate() == null) ? 0 : getCoverageDate().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 
@@ -203,19 +167,16 @@ public class ApiCoveragePO implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", appkey=").append(appkey);
-        sb.append(", department=").append(department);
+        sb.append(", departmentId=").append(departmentId);
+        sb.append(", departmentName=").append(departmentName);
         sb.append(", allApiNum=").append(allApiNum);
         sb.append(", coverApiNum=").append(coverApiNum);
         sb.append(", apiCoverage=").append(apiCoverage);
-        sb.append(", departmentId=").append(departmentId);
         sb.append(", allCoreApiNum=").append(allCoreApiNum);
         sb.append(", coverCoreApiNum=").append(coverCoreApiNum);
-        sb.append(", coverageDate=").append(coverageDate);
-        sb.append(", createdTime=").append(createdTime);
         sb.append(", coreApiCoverage=").append(coreApiCoverage);
-        sb.append(", departmentId2=").append(departmentId2);
-        sb.append(", department2=").append(department2);
+        sb.append(", coverageDate=").append(coverageDate);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
