@@ -64,7 +64,7 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
                 po.setApiSpanName(key);
                 po.setAppkey(s);
                 po.setCallCount(apiMap.get(key));
-                po.setIsCore(1);
+                po.setIsCore(0);
                 BigDecimal pro=new BigDecimal((double)apiMap.get(key)*100/allCount);
                 po.setProportion(pro);
                 po.setCreatedTime(now);

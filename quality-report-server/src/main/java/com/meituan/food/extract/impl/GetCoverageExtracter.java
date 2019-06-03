@@ -52,7 +52,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
         batchDatePO.setCoverageDate(currentTime_2);
         batchDatePOMapper.insert(batchDatePO);
 
-       /* for (String s : allAppkey) {
+        for (String s : allAppkey) {
             JSONObject resp = HttpUtils.doGet(url + s, JSONObject.class, ImmutableMap.of());
             int code = resp.getInteger("code");
             ApiCoveragePO po = new ApiCoveragePO();
@@ -116,7 +116,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                 po.setCoreApiCoverage(new BigDecimal(0));
             }
             apiCoveragePOMapper.insert(po);
-        }*/
+        }
 
        for (int i=1;i<=9;i++){
             List<ApiCoveragePO> groupList=apiCoveragePOMapper.selectByDateDepartment2id(currentTime_2,i);
