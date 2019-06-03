@@ -208,6 +208,15 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
 
     }
+    public  String getKey(Map map, Object value){
+        String key = "";
+        for(Object k: map.keySet()){
+            if(map.get(k).equals(value)){
+                key=k.toString();
+            }
+        }
+        return key;
+    }
 
     public  void getStableData(String stable_json) {
         int iter = isDate(stable_json,"$.data._source[*]");
@@ -234,7 +243,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             cp.setUpdatedDate(new Date());
             cp.setDate(date);
             cp.setDirection(direct.get(person_value));
-            cp.setComment("");
+            cp.setComment(getKey(stackuuid,String.valueOf(JSONPath.read(stable_json, "$.data.stack.stackuuid"))));
 
 
             String success = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".success"));

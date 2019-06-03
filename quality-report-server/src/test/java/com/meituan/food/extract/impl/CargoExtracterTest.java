@@ -218,6 +218,8 @@ public class CargoExtracterTest {
     public static void main(String args[]){
         CargoExtracterTest.updateCargoAva(day);
     }
+    c
+
 
     public static void getStableData(String stable_json) {
         int iter = isDate(stable_json,"$.data._source[*]");
@@ -244,7 +246,7 @@ public class CargoExtracterTest {
             cp.setUpdatedDate(new Date());
             cp.setDate(date);
             cp.setDirection(direct.get(person_value));
-            cp.setComment("");
+            cp.setComment(getKey(stackuuid,String.valueOf(JSONPath.read(stable_json, "$.data.stack.stackuuid"))));
 
 
             String success = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".success"));
