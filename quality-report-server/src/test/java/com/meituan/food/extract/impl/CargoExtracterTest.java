@@ -218,7 +218,15 @@ public class CargoExtracterTest {
     public static void main(String args[]){
         CargoExtracterTest.updateCargoAva(day);
     }
-    c
+    public static String getKey(Map map, Object value){
+        String key = "";
+        for(Object k: map.keySet()){
+            if(map.get(k).equals(value)){
+                key=k.toString();
+            }
+        }
+        return key;
+    }
 
 
     public static void getStableData(String stable_json) {
