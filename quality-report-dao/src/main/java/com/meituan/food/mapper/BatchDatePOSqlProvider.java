@@ -1,98 +1,53 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.AppkeyListPO;
-import com.meituan.food.po.AppkeyListPOExample.Criteria;
-import com.meituan.food.po.AppkeyListPOExample.Criterion;
-import com.meituan.food.po.AppkeyListPOExample;
+import com.meituan.food.po.BatchDatePO;
+import com.meituan.food.po.BatchDatePOExample.Criteria;
+import com.meituan.food.po.BatchDatePOExample.Criterion;
+import com.meituan.food.po.BatchDatePOExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class AppkeyListPOSqlProvider {
+public class BatchDatePOSqlProvider {
 
-    public String countByExample(AppkeyListPOExample example) {
+    public String countByExample(BatchDatePOExample example) {
         SQL sql = new SQL();
-        sql.SELECT("count(*)").FROM("appkey_list_table");
+        sql.SELECT("count(*)").FROM("batch_date");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(AppkeyListPOExample example) {
+    public String deleteByExample(BatchDatePOExample example) {
         SQL sql = new SQL();
-        sql.DELETE_FROM("appkey_list_table");
+        sql.DELETE_FROM("batch_date");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(AppkeyListPO record) {
+    public String insertSelective(BatchDatePO record) {
         SQL sql = new SQL();
-        sql.INSERT_INTO("appkey_list_table");
+        sql.INSERT_INTO("batch_date");
         
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getOwt() != null) {
-            sql.VALUES("owt", "#{owt,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPdl() != null) {
-            sql.VALUES("pdl", "#{pdl,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getSrv() != null) {
-            sql.VALUES("srv", "#{srv,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getAppkey() != null) {
-            sql.VALUES("appkey", "#{appkey,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDepartmentId() != null) {
-            sql.VALUES("department_id", "#{departmentId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getOffline() != null) {
-            sql.VALUES("offline", "#{offline,jdbcType=INTEGER}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.VALUES("created_time", "#{createdTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedTime() != null) {
-            sql.VALUES("updated_time", "#{updatedTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getRank() != null) {
-            sql.VALUES("rank", "#{rank,jdbcType=INTEGER}");
-        }
-        
-        if (record.getDepartmentId2() != null) {
-            sql.VALUES("department_id_2", "#{departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.VALUES("coverage_date", "#{coverageDate,jdbcType=DATE}");
         }
         
         return sql.toString();
     }
 
-    public String selectByExample(AppkeyListPOExample example) {
+    public String selectByExample(BatchDatePOExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
         } else {
             sql.SELECT("id");
         }
-        sql.SELECT("owt");
-        sql.SELECT("pdl");
-        sql.SELECT("srv");
-        sql.SELECT("appkey");
-        sql.SELECT("department_id");
-        sql.SELECT("offline");
-        sql.SELECT("created_time");
-        sql.SELECT("updated_time");
-        sql.SELECT("rank");
-        sql.SELECT("department_id_2");
-        sql.FROM("appkey_list_table");
+        sql.SELECT("coverage_date");
+        sql.FROM("batch_date");
         applyWhere(sql, example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -103,54 +58,18 @@ public class AppkeyListPOSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        AppkeyListPO record = (AppkeyListPO) parameter.get("record");
-        AppkeyListPOExample example = (AppkeyListPOExample) parameter.get("example");
+        BatchDatePO record = (BatchDatePO) parameter.get("record");
+        BatchDatePOExample example = (BatchDatePOExample) parameter.get("example");
         
         SQL sql = new SQL();
-        sql.UPDATE("appkey_list_table");
+        sql.UPDATE("batch_date");
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getOwt() != null) {
-            sql.SET("owt = #{record.owt,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPdl() != null) {
-            sql.SET("pdl = #{record.pdl,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getSrv() != null) {
-            sql.SET("srv = #{record.srv,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getAppkey() != null) {
-            sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDepartmentId() != null) {
-            sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getOffline() != null) {
-            sql.SET("offline = #{record.offline,jdbcType=INTEGER}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedTime() != null) {
-            sql.SET("updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getRank() != null) {
-            sql.SET("rank = #{record.rank,jdbcType=INTEGER}");
-        }
-        
-        if (record.getDepartmentId2() != null) {
-            sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
         }
         
         applyWhere(sql, example, true);
@@ -159,67 +78,22 @@ public class AppkeyListPOSqlProvider {
 
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
-        sql.UPDATE("appkey_list_table");
+        sql.UPDATE("batch_date");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
-        sql.SET("owt = #{record.owt,jdbcType=VARCHAR}");
-        sql.SET("pdl = #{record.pdl,jdbcType=VARCHAR}");
-        sql.SET("srv = #{record.srv,jdbcType=VARCHAR}");
-        sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
-        sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
-        sql.SET("offline = #{record.offline,jdbcType=INTEGER}");
-        sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
-        sql.SET("updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}");
-        sql.SET("rank = #{record.rank,jdbcType=INTEGER}");
-        sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
+        sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
         
-        AppkeyListPOExample example = (AppkeyListPOExample) parameter.get("example");
+        BatchDatePOExample example = (BatchDatePOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(AppkeyListPO record) {
+    public String updateByPrimaryKeySelective(BatchDatePO record) {
         SQL sql = new SQL();
-        sql.UPDATE("appkey_list_table");
+        sql.UPDATE("batch_date");
         
-        if (record.getOwt() != null) {
-            sql.SET("owt = #{owt,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getPdl() != null) {
-            sql.SET("pdl = #{pdl,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getSrv() != null) {
-            sql.SET("srv = #{srv,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getAppkey() != null) {
-            sql.SET("appkey = #{appkey,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDepartmentId() != null) {
-            sql.SET("department_id = #{departmentId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getOffline() != null) {
-            sql.SET("offline = #{offline,jdbcType=INTEGER}");
-        }
-        
-        if (record.getCreatedTime() != null) {
-            sql.SET("created_time = #{createdTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdatedTime() != null) {
-            sql.SET("updated_time = #{updatedTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getRank() != null) {
-            sql.SET("rank = #{rank,jdbcType=INTEGER}");
-        }
-        
-        if (record.getDepartmentId2() != null) {
-            sql.SET("department_id_2 = #{departmentId2,jdbcType=INTEGER}");
+        if (record.getCoverageDate() != null) {
+            sql.SET("coverage_date = #{coverageDate,jdbcType=DATE}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
@@ -227,7 +101,7 @@ public class AppkeyListPOSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, AppkeyListPOExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, BatchDatePOExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

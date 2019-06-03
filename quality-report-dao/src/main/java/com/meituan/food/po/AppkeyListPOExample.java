@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AppkeyListPOExample {
@@ -501,6 +502,306 @@ public class AppkeyListPOExample {
 
         public Criteria andDepartmentIdNotBetween(Integer value1, Integer value2) {
             addCriterion("department_id not between", value1, value2, "departmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIsNull() {
+            addCriterion("offline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIsNotNull() {
+            addCriterion("offline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineEqualTo(Integer value) {
+            addCriterion("offline =", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotEqualTo(Integer value) {
+            addCriterion("offline <>", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineGreaterThan(Integer value) {
+            addCriterion("offline >", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineGreaterThanOrEqualTo(Integer value) {
+            addCriterion("offline >=", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineLessThan(Integer value) {
+            addCriterion("offline <", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineLessThanOrEqualTo(Integer value) {
+            addCriterion("offline <=", value, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineIn(List<Integer> values) {
+            addCriterion("offline in", values, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotIn(List<Integer> values) {
+            addCriterion("offline not in", values, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineBetween(Integer value1, Integer value2) {
+            addCriterion("offline between", value1, value2, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfflineNotBetween(Integer value1, Integer value2) {
+            addCriterion("offline not between", value1, value2, "offline");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeIsNull() {
+            addCriterion("created_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeIsNotNull() {
+            addCriterion("created_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeEqualTo(Date value) {
+            addCriterion("created_time =", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeNotEqualTo(Date value) {
+            addCriterion("created_time <>", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeGreaterThan(Date value) {
+            addCriterion("created_time >", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("created_time >=", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeLessThan(Date value) {
+            addCriterion("created_time <", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeLessThanOrEqualTo(Date value) {
+            addCriterion("created_time <=", value, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeIn(List<Date> values) {
+            addCriterion("created_time in", values, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeNotIn(List<Date> values) {
+            addCriterion("created_time not in", values, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeBetween(Date value1, Date value2) {
+            addCriterion("created_time between", value1, value2, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatedTimeNotBetween(Date value1, Date value2) {
+            addCriterion("created_time not between", value1, value2, "createdTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeIsNull() {
+            addCriterion("updated_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeIsNotNull() {
+            addCriterion("updated_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeEqualTo(Date value) {
+            addCriterion("updated_time =", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotEqualTo(Date value) {
+            addCriterion("updated_time <>", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeGreaterThan(Date value) {
+            addCriterion("updated_time >", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("updated_time >=", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeLessThan(Date value) {
+            addCriterion("updated_time <", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeLessThanOrEqualTo(Date value) {
+            addCriterion("updated_time <=", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeIn(List<Date> values) {
+            addCriterion("updated_time in", values, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotIn(List<Date> values) {
+            addCriterion("updated_time not in", values, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeBetween(Date value1, Date value2) {
+            addCriterion("updated_time between", value1, value2, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotBetween(Date value1, Date value2) {
+            addCriterion("updated_time not between", value1, value2, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankIsNull() {
+            addCriterion("rank is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankIsNotNull() {
+            addCriterion("rank is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankEqualTo(Integer value) {
+            addCriterion("rank =", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotEqualTo(Integer value) {
+            addCriterion("rank <>", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankGreaterThan(Integer value) {
+            addCriterion("rank >", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankGreaterThanOrEqualTo(Integer value) {
+            addCriterion("rank >=", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankLessThan(Integer value) {
+            addCriterion("rank <", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankLessThanOrEqualTo(Integer value) {
+            addCriterion("rank <=", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankIn(List<Integer> values) {
+            addCriterion("rank in", values, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotIn(List<Integer> values) {
+            addCriterion("rank not in", values, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankBetween(Integer value1, Integer value2) {
+            addCriterion("rank between", value1, value2, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotBetween(Integer value1, Integer value2) {
+            addCriterion("rank not between", value1, value2, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2IsNull() {
+            addCriterion("department_id_2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2IsNotNull() {
+            addCriterion("department_id_2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2EqualTo(Integer value) {
+            addCriterion("department_id_2 =", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotEqualTo(Integer value) {
+            addCriterion("department_id_2 <>", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2GreaterThan(Integer value) {
+            addCriterion("department_id_2 >", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2GreaterThanOrEqualTo(Integer value) {
+            addCriterion("department_id_2 >=", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2LessThan(Integer value) {
+            addCriterion("department_id_2 <", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2LessThanOrEqualTo(Integer value) {
+            addCriterion("department_id_2 <=", value, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2In(List<Integer> values) {
+            addCriterion("department_id_2 in", values, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotIn(List<Integer> values) {
+            addCriterion("department_id_2 not in", values, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2Between(Integer value1, Integer value2) {
+            addCriterion("department_id_2 between", value1, value2, "departmentId2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentId2NotBetween(Integer value1, Integer value2) {
+            addCriterion("department_id_2 not between", value1, value2, "departmentId2");
             return (Criteria) this;
         }
     }

@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AppkeyListPO implements Serializable {
     private Integer id;
@@ -14,6 +15,16 @@ public class AppkeyListPO implements Serializable {
     private String appkey;
 
     private Integer departmentId;
+
+    private Integer offline;
+
+    private Date createdTime;
+
+    private Date updatedTime;
+
+    private Integer rank;
+
+    private Integer departmentId2;
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +76,46 @@ public class AppkeyListPO implements Serializable {
         this.departmentId = departmentId;
     }
 
+    public Integer getOffline() {
+        return offline;
+    }
+
+    public void setOffline(Integer offline) {
+        this.offline = offline;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public Integer getDepartmentId2() {
+        return departmentId2;
+    }
+
+    public void setDepartmentId2(Integer departmentId2) {
+        this.departmentId2 = departmentId2;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -82,7 +133,12 @@ public class AppkeyListPO implements Serializable {
             && (this.getPdl() == null ? other.getPdl() == null : this.getPdl().equals(other.getPdl()))
             && (this.getSrv() == null ? other.getSrv() == null : this.getSrv().equals(other.getSrv()))
             && (this.getAppkey() == null ? other.getAppkey() == null : this.getAppkey().equals(other.getAppkey()))
-            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()));
+            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()))
+            && (this.getOffline() == null ? other.getOffline() == null : this.getOffline().equals(other.getOffline()))
+            && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
+            && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
+            && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()))
+            && (this.getDepartmentId2() == null ? other.getDepartmentId2() == null : this.getDepartmentId2().equals(other.getDepartmentId2()));
     }
 
     @Override
@@ -95,6 +151,11 @@ public class AppkeyListPO implements Serializable {
         result = prime * result + ((getSrv() == null) ? 0 : getSrv().hashCode());
         result = prime * result + ((getAppkey() == null) ? 0 : getAppkey().hashCode());
         result = prime * result + ((getDepartmentId() == null) ? 0 : getDepartmentId().hashCode());
+        result = prime * result + ((getOffline() == null) ? 0 : getOffline().hashCode());
+        result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
+        result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
+        result = prime * result + ((getRank() == null) ? 0 : getRank().hashCode());
+        result = prime * result + ((getDepartmentId2() == null) ? 0 : getDepartmentId2().hashCode());
         return result;
     }
 
@@ -110,6 +171,11 @@ public class AppkeyListPO implements Serializable {
         sb.append(", srv=").append(srv);
         sb.append(", appkey=").append(appkey);
         sb.append(", departmentId=").append(departmentId);
+        sb.append(", offline=").append(offline);
+        sb.append(", createdTime=").append(createdTime);
+        sb.append(", updatedTime=").append(updatedTime);
+        sb.append(", rank=").append(rank);
+        sb.append(", departmentId2=").append(departmentId2);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

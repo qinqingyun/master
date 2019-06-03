@@ -76,7 +76,7 @@ public interface ImportantProjectReviewPOMapper {
     @Select({
             "select",
             "id, content_id, km_link, start_date, end_date, created_at, updated_at",
-            "from important_project_review order by end_date desc limit 1"
+            "from important_project_review order by created_at desc limit 1"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),

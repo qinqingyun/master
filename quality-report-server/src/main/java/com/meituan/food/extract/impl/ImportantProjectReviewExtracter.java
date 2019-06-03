@@ -150,9 +150,9 @@ public class ImportantProjectReviewExtracter implements IOneWeekEightDataExtract
         params2.put("title", kmTitle);
         params2.put("body", body);
         //Q2目录
-        params2.put("parentId","155610286");
+       // params2.put("parentId","155610286");
         //大组Q1目录
-       // params2.put("parentId", "122541012");
+        params2.put("parentId", "122541012");
         // 测试地址
        // params2.put("parentId", "119029743");
         params2.put("bodyText", "测试内容" + contentId);

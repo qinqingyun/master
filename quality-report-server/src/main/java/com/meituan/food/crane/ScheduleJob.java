@@ -72,7 +72,7 @@ public class ScheduleJob {
     private IOneDayNoticeJob iOneDayNoticeJob;
 
     @Resource
-    private IOneDayCargoJob oneDayCargoJob;
+    private IGetApiCoverageJob apiCoverageJob;
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -184,8 +184,8 @@ public class ScheduleJob {
     @Crane("one.day.night.eight.job")
     public void onedaynighteight(){ iOneDayNoticeJob.extractData4Day(); }
 
-    @Crane("cargo.data.job")
-    public void syncCargoAva(){
-        oneDayCargoJob.sync();
+    @Crane("api.coverage.job")
+    public void getApiCoverage(){
+        apiCoverageJob.sync();
     }
 }
