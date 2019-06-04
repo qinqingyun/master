@@ -33,8 +33,8 @@ public class CargoExtracter implements IOneDayCargoExtract {
     private static final String APPSECRET = "XYEo0r3ZQ0i3RBtkLFgS_gBF4hevp0SBeNiKRF1EHPWw";
 
     private static String cargo_host="http://api.cargo.sankuai.com";
-    private static String availble_uri="/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=1&interval=1d&monitor_type=service_available_check";
-    private static String stable_uri="/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=1&interval=1d";
+    private static String availble_uri="/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d&monitor_type=service_available_check";
+    private static String stable_uri="/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d";
 
     @Resource
     private  CargoDataPOMapper cargoDataPOMapper;
@@ -208,6 +208,15 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
 
     }
+    public  String getKey(Map map, Object value){
+        String key = "";
+        for(Object k: map.keySet()){
+            if(map.get(k).equals(value)){
+                key=k.toString();
+            }
+        }
+        return key;
+    }
 
     public  void getStableData(String stable_json) {
         int iter = isDate(stable_json,"$.data._source[*]");
@@ -234,12 +243,12 @@ public class CargoExtracter implements IOneDayCargoExtract {
             cp.setUpdatedDate(new Date());
             cp.setDate(date);
             cp.setDirection(direct.get(person_value));
-            cp.setComment("");
+            cp.setComment(getKey(stackuuid,String.valueOf(JSONPath.read(stable_json, "$.data.stack.stackuuid"))));
 
 
             String success = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".success"));
             String error = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".error"));
-            String stableTagPercentage = String.valueOf(JSONPath.read(stable_json,"$.data.tag."+tag+"[0]"));
+            String stableTagPercentage = String.valueOf(JSONPath.read(stable_json,"$.data.tag."+tag+"["+iter+"]"));
             update(cp, "stableTagPercentage", stableTagPercentage);
             update(cp, "stableSuccess", success);
             update(cp, "stableTotal", error, success);
@@ -285,7 +294,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             update(cp,"avalibleSuccess",success);
             update(cp, "avalibleTotal",error,success );
 
-            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json,"$.data.tag."+tag+"[0]"));
+            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json,"$.data.tag."+tag+"["+iter+"]"));
             update(cp, "avalibleTagPercentage", availble_total_percentage);
 
         }
