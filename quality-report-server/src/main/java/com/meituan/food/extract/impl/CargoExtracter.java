@@ -241,11 +241,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
                 cp.setPerson(person_value);
             }
             cp.setUpdatedDate(new Date());
-
-            log.error("Date:"+date);
-            log.error("UpdatedDate:"+new Date());
-            log.error("day:"+day);
-
             cp.setDate(date);
             cp.setDirection(direct.get(person_value));
             cp.setComment(getKey(stackuuid,String.valueOf(JSONPath.read(stable_json, "$.data.stack.stackuuid"))));
