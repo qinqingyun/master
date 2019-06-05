@@ -40,7 +40,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
     private  CargoDataPOMapper cargoDataPOMapper;
 
     private  static List<CargoDataPO> cargoDataPO_list = new ArrayList<>()  ;
-    private  static LocalDate day=LocalDate.now().minusDays(1);
+    private  static LocalDate day=LocalDate.now();
     private static Map<String,String> person=new HashMap<String,String>();
     private static Map<String,String> direct=new HashMap<String,String>();
     private static Map<String,String> stackuuid=new HashMap<String,String>();
