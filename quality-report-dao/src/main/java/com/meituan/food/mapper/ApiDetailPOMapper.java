@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.ApiDetailPOExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -120,4 +122,24 @@ public interface ApiDetailPOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ApiDetailPO record);
+
+    @Update({
+            "update api_detail",
+            "set is_core = 1,",
+            "updated_at = #{updatedAt,jdbcType=TIMESTAMP}",
+            "where api_span_name = #{name,jdbcType=VARCHAR}",
+            "and appkey = #{appkey,jdbcType=VARCHAR}"
+})
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_full_name", property="apiFullName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="call_count", property="callCount", jdbcType=JdbcType.BIGINT),
+            @Result(column="api_span_name", property="apiSpanName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="proportion", property="proportion", jdbcType=JdbcType.DECIMAL),
+            @Result(column="is_core", property="isCore", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+    })
+    int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
 }
