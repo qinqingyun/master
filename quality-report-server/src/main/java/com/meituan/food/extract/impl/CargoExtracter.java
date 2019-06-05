@@ -40,7 +40,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
     private  CargoDataPOMapper cargoDataPOMapper;
 
     private  static List<CargoDataPO> cargoDataPO_list = new ArrayList<>()  ;
-    private  static LocalDate day=LocalDate.now();
+    private  static LocalDate day=LocalDate.now().minusDays(1);
     private static Map<String,String> person=new HashMap<String,String>();
     private static Map<String,String> direct=new HashMap<String,String>();
     private static Map<String,String> stackuuid=new HashMap<String,String>();
@@ -241,6 +241,11 @@ public class CargoExtracter implements IOneDayCargoExtract {
                 cp.setPerson(person_value);
             }
             cp.setUpdatedDate(new Date());
+
+            log.error("Date:"+date);
+            log.error("UpdatedDate:"+new Date());
+            log.error("day:"+day);
+
             cp.setDate(date);
             cp.setDirection(direct.get(person_value));
             cp.setComment(getKey(stackuuid,String.valueOf(JSONPath.read(stable_json, "$.data.stack.stackuuid"))));
