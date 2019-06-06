@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.po.AppkeyListPOExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -107,7 +109,7 @@ public interface AppkeyListPOMapper {
     AppkeyListPO selectByAppKey(String appkey);
 
     @Select({
-            "select appkey from appkey_list_table"
+            "select appkey from appkey_list_table where offline = 0"
     })
     List<String> selectAllAppkey();
 
@@ -135,4 +137,45 @@ public interface AppkeyListPOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(AppkeyListPO record);
+
+    @Update({
+            "update appkey_list_table set offline = 1,",
+            "updated_time = #{updatedTime,jdbcType=TIMESTAMP} ",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="owt", property="owt", jdbcType=JdbcType.VARCHAR),
+            @Result(column="pdl", property="pdl", jdbcType=JdbcType.VARCHAR),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    int updateToOffByAppkey(@Param("appkey") String appkey, @Param("updatedTime") Date updatedTime);
+
+    @Update({
+            "update appkey_list_table",
+            "set offline = 0,",
+            "updated_time = #{updatedTime,jdbcType=TIMESTAMP} ",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="owt", property="owt", jdbcType=JdbcType.VARCHAR),
+            @Result(column="pdl", property="pdl", jdbcType=JdbcType.VARCHAR),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    int updateToOnByAppkey(@Param("appkey") String appkey, @Param("updatedTime") Date updatedTime);
 }

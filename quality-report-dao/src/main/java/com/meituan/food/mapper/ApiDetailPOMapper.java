@@ -83,6 +83,26 @@ public interface ApiDetailPOMapper {
     ApiDetailPO selectByPrimaryKey(Integer id);
 
 
+    @Select({
+            "select",
+            "id, appkey, api_full_name, call_count, api_span_name, proportion, is_core, created_time, ",
+            "updated_at",
+            "from api_detail"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_full_name", property="apiFullName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="call_count", property="callCount", jdbcType=JdbcType.BIGINT),
+            @Result(column="api_span_name", property="apiSpanName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="proportion", property="proportion", jdbcType=JdbcType.DECIMAL),
+            @Result(column="is_core", property="isCore", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<ApiDetailPO> selectAllApi();
+
+
     @Select(
             "select * from api_detail where api_span_name = #{name} "+
                     "and appkey = #{appkey}")
