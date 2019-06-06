@@ -32,4 +32,10 @@ public class ApiDetailController {
         apiDetailPOMapper.updateByAppkeyAndApi(api,appkey,now);
         return "OK!";
     }
+
+    @GetMapping("/update/status")
+    public String updateStatus(){
+        apiDetailExtract.setApiStatus();
+        return "OK!";
+    }
 }

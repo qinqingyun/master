@@ -1,5 +1,7 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.druid.support.json.JSONParser;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -29,6 +31,8 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
     private ApiDetailPOMapper apiDetailPOMapper;
 
     private static final String url="http://octo.sankuai.com/api/apps/availabilities?appkeys=";
+
+    private static final String apiurl="http://10.21.169.136:8888/api/detail/getApiDetail?appkey=";
 
 
     @Override
@@ -76,16 +80,27 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
         }
     }
 
-    public static void main(String[] args) {
-       /* IGetApiDetailExtract a=new GetApiDetailExtracter();
-        a.getApiDetail();*/
-
-        Long a = 326232396l;
-        Long b=294l;
-
-        double c=(double) b/a*100;
-        System.out.println(c);
-        BigDecimal bigDecimal=new BigDecimal(c);
-        System.out.println(bigDecimal);
+    @Override
+    public void setApiStatus() {
+        List<ApiDetailPO> apiDetailPOS=apiDetailPOMapper.selectAllApi();
+        Date now=new Date();
+        for (ApiDetailPO apiDetailPO : apiDetailPOS) {
+            Long num=apiDetailPO.getCallCount();
+            if (num>40) {
+                String apiName = apiDetailPO.getApiSpanName();
+                String apiNameStr = apiName.replaceAll("\\{", "%7B").replaceAll("\\}", "%7D");
+                String resp = HttpUtils.doGet(apiurl + apiDetailPO.getAppkey() + "&apiSpanName=" + apiNameStr, String.class, ImmutableMap.of());
+                String respJsonStr = resp.substring(resp.indexOf("_json") + 7, resp.indexOf("</div>"));
+                JSONObject respJson = JSONObject.parseObject(respJsonStr);
+                JSONObject data = respJson.getJSONObject("data");
+                System.out.println(data);
+                if (data != null) {
+                    int isCore = data.getInteger("isCore");
+                    if (isCore == 1) {
+                        apiDetailPOMapper.updateByAppkeyAndApi(apiDetailPO.getApiSpanName(), apiDetailPO.getAppkey(), now);
+                    }
+                }
+            }
+        }
     }
 }
