@@ -96,7 +96,6 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
                 String respJsonStr = resp.substring(resp.indexOf("_json") + 7, resp.indexOf("</div>"));
                 JSONObject respJson = JSONObject.parseObject(respJsonStr);
                 JSONObject data = respJson.getJSONObject("data");
-                log.info(data.toString());
                 if (data != null) {
                     int isCore = data.getInteger("isCore");
                     if (isCore == 1) {
