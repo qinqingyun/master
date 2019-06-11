@@ -5,6 +5,7 @@ import com.meituan.food.mapper.AppkeyListPOMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -38,6 +39,21 @@ public class AppkeyController {
     public String updateToOn(@Param("appkey") String appkey){
         Date now=new Date();
         appkeyListPOMapper.updateToOnByAppkey(appkey,now);
+        return "OK!";
+    }
+
+
+    @GetMapping("/update/noncore")
+    public String updateAppkeyNonRank(@RequestParam("appkey") String appkey){
+        Date now=new Date();
+        appkeyListPOMapper.updateToNonCore(appkey,now);
+        return "OK!";
+    }
+
+    @GetMapping("/update/core")
+    public String updateAppkeyRank(@RequestParam("appkey") String appkey){
+        Date now=new Date();
+        appkeyListPOMapper.updateToCore(appkey,now);
         return "OK!";
     }
 }
