@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class GetCoverageExtracter implements IGetCoverageExtract {
 
-    private static final String url = "http://10.23.8.224:8080/public/getApiCoverageData?appkey=";
+    private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
     @Resource
     public AppkeyListPOMapper appkeyListPOMapper;
