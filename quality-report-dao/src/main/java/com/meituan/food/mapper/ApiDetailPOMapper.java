@@ -144,12 +144,32 @@ public interface ApiDetailPOMapper {
     int updateByPrimaryKey(ApiDetailPO record);
 
     @Update({
+        "update api_detail",
+        "set is_core = 1,",
+        "updated_at = #{updatedAt,jdbcType=TIMESTAMP}",
+        "where api_span_name = #{name,jdbcType=VARCHAR}",
+        "and appkey = #{appkey,jdbcType=VARCHAR}"
+})
+@Results({
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+        @Result(column="api_full_name", property="apiFullName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="call_count", property="callCount", jdbcType=JdbcType.BIGINT),
+        @Result(column="api_span_name", property="apiSpanName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="proportion", property="proportion", jdbcType=JdbcType.DECIMAL),
+        @Result(column="is_core", property="isCore", jdbcType=JdbcType.INTEGER),
+        @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+})
+int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
+
+    @Update({
             "update api_detail",
-            "set is_core = 1,",
+            "set is_core = 0,",
             "updated_at = #{updatedAt,jdbcType=TIMESTAMP}",
             "where api_span_name = #{name,jdbcType=VARCHAR}",
             "and appkey = #{appkey,jdbcType=VARCHAR}"
-})
+    })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
@@ -161,5 +181,5 @@ public interface ApiDetailPOMapper {
             @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
     })
-    int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
+    int updateToNoncoreByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
 }
