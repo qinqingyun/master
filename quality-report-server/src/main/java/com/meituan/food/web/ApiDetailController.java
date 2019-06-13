@@ -33,6 +33,13 @@ public class ApiDetailController {
         return "OK!";
     }
 
+    @GetMapping("/update/noncore")
+    public String updateApiStatusToNoncore(@Param("appkey") String appkey,@Param("api") String api){
+        Date now=new Date();
+        apiDetailPOMapper.updateToNoncoreByAppkeyAndApi(api,appkey,now);
+        return "OK!";
+    }
+
     @GetMapping("/update/status")
     public String updateStatus(){
         apiDetailExtract.setApiStatus();

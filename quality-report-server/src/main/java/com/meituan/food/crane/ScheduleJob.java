@@ -2,6 +2,7 @@ package com.meituan.food.crane;
 
 import com.cip.crane.client.spring.annotation.Crane;
 import com.meituan.food.Services.MailService;
+import com.meituan.food.extract.IGetApiDetailExtract;
 import com.meituan.food.job.*;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import lombok.extern.slf4j.Slf4j;
@@ -76,6 +77,9 @@ public class ScheduleJob {
 
     @Resource
     private IOneDayCargoJob oneDayCargoJob;
+
+    @Resource
+    private IGetApiDetailExtract getApiDetailExtract;
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -194,6 +198,11 @@ public class ScheduleJob {
     @Crane("cargo.data.job")
     public void syncCargoAva() {
         oneDayCargoJob.sync();
+    }
+
+    @Crane("sync.api.status.job")
+    public void syncApiData(){
+        getApiDetailExtract.setApiStatus();
     }
 
 }
