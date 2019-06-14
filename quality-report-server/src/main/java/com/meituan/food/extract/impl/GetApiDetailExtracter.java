@@ -92,6 +92,7 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
             if (num>40) {
                 String apiName = apiDetailPO.getApiSpanName();
                 String apiNameStr = apiName.replaceAll("\\{", "%7B").replaceAll("\\}", "%7D");
+                System.out.println("appkey="+apiDetailPO.getAppkey()+"apiSpanName="+apiNameStr);
                 JSONObject resp = HttpUtils.doGet(apiurl + apiDetailPO.getAppkey() + "&apiSpanName=" + apiNameStr, JSONObject.class, ImmutableMap.of());
            //     String respJsonStr = resp.substring(resp.indexOf("_json") + 7, resp.indexOf("</div>"));
              //   JSONObject respJson = JSONObject.parseObject(respJsonStr);

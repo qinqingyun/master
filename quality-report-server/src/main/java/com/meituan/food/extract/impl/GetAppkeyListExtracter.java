@@ -172,6 +172,12 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
             AppkeyListPO po1 = appkeyListPOMapper.selectByAppKey(appkeyListPO.getAppkey());
             if (po1==null){
                 appkeyListPOMapper.insert(appkeyListPO);
+            }else {
+                if (po1.getRank()==1&&appkeyListPO.getRank()==2){
+                    appkeyListPOMapper.updateToNonCore(appkeyListPO.getAppkey(),now);
+                }else if (po1.getRank()==2&&appkeyListPO.getRank()==1){
+                    appkeyListPOMapper.updateToCore(appkeyListPO.getAppkey(),now);
+                }
             }
         }
 
