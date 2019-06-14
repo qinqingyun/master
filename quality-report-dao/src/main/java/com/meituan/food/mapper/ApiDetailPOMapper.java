@@ -186,7 +186,7 @@ int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String app
     int updateToNoncoreByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
 
     @Update({
-            "truncate table api_detail"
+            "delete from api_detail"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
