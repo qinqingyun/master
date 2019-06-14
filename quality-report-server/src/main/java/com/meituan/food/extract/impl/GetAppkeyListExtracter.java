@@ -29,6 +29,8 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
     @Override
     public void getAppkeyList() {
+        Date now=new Date();
+        List<AppkeyListPO> appkeyListPOS=new ArrayList<>();
         JSONObject resp=HttpUtils.doGet(url,JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
         JSONArray respArr=resp.getJSONArray("pdls");
         for (Object o : respArr) {
@@ -50,7 +52,6 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 }else {
                     po.setRank(0);
                 }
-                Date now=new Date();
                 po.setCreatedTime(now);
                 po.setUpdatedTime(now);
                 po.setOffline(0);
@@ -60,7 +61,8 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 po.setDepartmentId(1);
                 po.setDepartmentId2(1);
                 System.out.println(po.toString());
-                appkeyListPOMapper.insert(po);
+                appkeyListPOS.add(po);
+              //  appkeyListPOMapper.insert(po);
             }
         }
 
@@ -75,6 +77,8 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.resv","meituan.resv.b","","",7,7));
         pdlList.add(new AppkeyData("meituan.resv","meituan.resv.c","","",7,7));
         pdlList.add(new AppkeyData("meituan.resv","meituan.resv.m","","",7,7));
+
+
 
         List<String> appkeyStrList2=new ArrayList<>();
         appkeyStrList2.add("com.sankuai.meishi.cis.salersagent");
@@ -105,7 +109,6 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 }else {
                     listPO.setRank(0);
                 }
-                Date now=new Date();
                 listPO.setCreatedTime(now);
                 listPO.setUpdatedTime(now);
                 listPO.setOffline(0);
@@ -129,8 +132,46 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                         listPO.setDepartmentId(appkeyData.getDepartmentId());
                         listPO.setDepartmentId2(appkeyData.getDepartmentId2());
                     }
-                    appkeyListPOMapper.insert(listPO);
+                    appkeyListPOS.add(listPO);
                 }
+            }
+        }
+
+        //客户平台和合同平台的appkey
+        List<String> appkeyList=new ArrayList<>();
+        appkeyList.add("meituan.nibcus.inf.nibcus-inf-customer");
+        appkeyList.add("meituan.nibcus.inf.contract-mtcontract");
+
+        for (String s : appkeyList) {
+            AppkeyListPO po=new AppkeyListPO();
+            po.setOwt("meituan.nibcus");
+            po.setPdl("meituan.nibcus.inf");
+            po.setSrv(s);
+            JSONObject appkeyResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/"+s+"/appkeys",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+            if (!appkeyResp.get("appkeys").toString().equals("[]")){
+                System.out.println("appkey="+appkeyResp.get("appkeys").toString());
+                String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
+                po.setAppkey(appkeyName);
+                if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
+                    po.setDepartmentId(10);
+                    po.setDepartmentId2(10);
+                } else {
+                    po.setDepartmentId(11);
+                    po.setDepartmentId2(11);
+                }
+                po.setOffline(0);
+                po.setRank(1);
+                po.setCreatedTime(now);
+                po.setUpdatedTime(now);
+                appkeyListPOS.add(po);
+            }
+        }
+
+        for (AppkeyListPO appkeyListPO : appkeyListPOS) {
+            System.out.println(appkeyListPO.toString());
+            AppkeyListPO po1 = appkeyListPOMapper.selectByAppKey(appkeyListPO.getAppkey());
+            if (po1==null){
+                appkeyListPOMapper.insert(appkeyListPO);
             }
         }
 
@@ -138,10 +179,8 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
     }
 
     public static void main(String[] args) {
-       String a= StringEscapeUtils.unescapeJava("\\u975e\\u6838\\u5fc3\\u670d\\u52a1");
-        System.out.println(a);
+     JSONObject re=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/meituan.meishi.scp/srvs",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+     System.out.println(re.toString());
 
-        DateTime now=new DateTime();
-        System.out.println(now.toString());
     }
 }

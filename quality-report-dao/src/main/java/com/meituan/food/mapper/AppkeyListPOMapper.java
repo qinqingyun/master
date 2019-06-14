@@ -109,6 +109,17 @@ public interface AppkeyListPOMapper {
     AppkeyListPO selectByAppKey(String appkey);
 
     @Select({
+            "select",
+            "count(*) ",
+            "from appkey_list_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR)
+    })
+    int selectCountByAppKey(@Param("appkey") String appkey);
+
+    @Select({
             "select appkey from appkey_list_table where offline = 0"
     })
     List<String> selectAllAppkey();
@@ -221,4 +232,23 @@ public interface AppkeyListPOMapper {
             @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
     })
     int updateToCore(@Param("appkey") String appkey, @Param("updatedTime") Date updatedTime);
+
+
+    @Update({
+            "truncate table appkey_list_table"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="owt", property="owt", jdbcType=JdbcType.VARCHAR),
+            @Result(column="pdl", property="pdl", jdbcType=JdbcType.VARCHAR),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    int deleteAllData();
 }

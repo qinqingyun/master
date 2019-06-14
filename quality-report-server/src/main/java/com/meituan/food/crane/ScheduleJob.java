@@ -81,6 +81,12 @@ public class ScheduleJob {
     @Resource
     private IGetApiDetailExtract getApiDetailExtract;
 
+    @Resource
+    private IUpdateApiJob updateApiJob;
+
+    @Resource
+    private IUpdateAppkeyListJob updateAppkeyListJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -203,6 +209,16 @@ public class ScheduleJob {
     @Crane("sync.api.status.job")
     public void syncApiData(){
         getApiDetailExtract.setApiStatus();
+    }
+
+    @Crane("update.all.api.job")
+    public void updateApiDate(){
+        updateApiJob.sync();
+    }
+
+    @Crane("update.all.appkey.job")
+    public void updateAllAppkey(){
+        updateAppkeyListJob.sync();
     }
 
 }

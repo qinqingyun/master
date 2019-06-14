@@ -1,31 +1,23 @@
 package com.meituan.food.extract.impl;
 
-import com.alibaba.druid.support.json.JSONParser;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
-import com.meituan.food.extract.IGetApiDetailExtract;
+import com.meituan.food.extract.IUpdateApiExtract;
 import com.meituan.food.mapper.ApiDetailPOMapper;
 import com.meituan.food.mapper.AppkeyListPOMapper;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.utils.HttpUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@Slf4j
 @Component
-public class GetApiDetailExtracter implements IGetApiDetailExtract {
+public class UpdateApiExtracter implements IUpdateApiExtract {
 
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
@@ -35,13 +27,10 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
 
     private static final String url="http://octo.sankuai.com/api/apps/availabilities?appkeys=";
 
-    private static final String apiurl="http://finance.plat.meishi.test.sankuai.com/api/detail/getApiDetail?appkey=";
-
-
     @Override
-    public void getApiDetail() {
-
+    public void updateApi() {
         List<String> allAppkey = appkeyListPOMapper.selectAllAppkey();
+        List<ApiDetailPO> apiDetailPOList=new ArrayList<>();
         Date now=new Date();
         for (String s : allAppkey) {
             Map<String,Long> apiMap=new HashMap<>();
@@ -61,7 +50,7 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
                             apiMap.put(spanName,apiMap.get(spanName)+count);
                         }
                     }else {
-                       allCount = allCount+ count;
+                        allCount = allCount+ count;
                     }
                 }
             }
@@ -71,38 +60,26 @@ public class GetApiDetailExtracter implements IGetApiDetailExtract {
                 po.setApiSpanName(key);
                 po.setAppkey(s);
                 po.setCallCount(apiMap.get(key));
-                po.setIsCore(0);
+                System.out.println("appkey="+s+"  api="+key);
+                ApiDetailPO po1 = apiDetailPOMapper.selectBySpanName(key, s);
+                if (po1!=null){
+                    po.setIsCore(po1.getIsCore());
+                }else {
+                    po.setIsCore(0);
+                }
                 BigDecimal pro=new BigDecimal((double)apiMap.get(key)*100/allCount);
                 po.setProportion(pro);
                 po.setCreatedTime(now);
                 po.setUpdatedAt(now);
-
-                apiDetailPOMapper.insert(po);
-            }
-
-        }
-    }
-
-    @Override
-    public void setApiStatus() {
-        List<ApiDetailPO> apiDetailPOS=apiDetailPOMapper.selectAllApi();
-        Date now=new Date();
-        for (ApiDetailPO apiDetailPO : apiDetailPOS) {
-            Long num=apiDetailPO.getCallCount();
-            if (num>40) {
-                String apiName = apiDetailPO.getApiSpanName();
-                String apiNameStr = apiName.replaceAll("\\{", "%7B").replaceAll("\\}", "%7D");
-                JSONObject resp = HttpUtils.doGet(apiurl + apiDetailPO.getAppkey() + "&apiSpanName=" + apiNameStr, JSONObject.class, ImmutableMap.of());
-           //     String respJsonStr = resp.substring(resp.indexOf("_json") + 7, resp.indexOf("</div>"));
-             //   JSONObject respJson = JSONObject.parseObject(respJsonStr);
-                JSONObject data = resp.getJSONObject("data");
-                if (data != null) {
-                    int isCore = data.getInteger("isCore");
-                    if (isCore == 1) {
-                        apiDetailPOMapper.updateByAppkeyAndApi(apiDetailPO.getApiSpanName(), apiDetailPO.getAppkey(), now);
-                    }
+                apiDetailPOList.add(po);
                 }
-            }
+
         }
+
+        apiDetailPOMapper.deleteAllData();
+        for (ApiDetailPO apiDetailPO : apiDetailPOList) {
+            apiDetailPOMapper.insert(apiDetailPO);
+        }
+      //  apiDetailPOMapper.batchInsert(apiDetailPOList);
     }
 }

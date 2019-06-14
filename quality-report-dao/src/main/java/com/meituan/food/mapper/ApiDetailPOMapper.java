@@ -5,6 +5,8 @@ import com.meituan.food.po.ApiDetailPOExample;
 
 import java.util.Date;
 import java.util.List;
+
+import com.meituan.food.po.CrashRatePO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -104,7 +106,7 @@ public interface ApiDetailPOMapper {
 
 
     @Select(
-            "select * from api_detail where api_span_name = #{name} "+
+            "select * from api_detail where binary api_span_name = #{name} "+
                     "and appkey = #{appkey}")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -182,4 +184,40 @@ int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String app
             @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
     })
     int updateToNoncoreByAppkeyAndApi(@Param("name") String name, @Param("appkey") String appkey, @Param("updatedAt") Date updatedAt);
+
+    @Update({
+            "truncate table api_detail"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_full_name", property="apiFullName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="call_count", property="callCount", jdbcType=JdbcType.BIGINT),
+            @Result(column="api_span_name", property="apiSpanName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="proportion", property="proportion", jdbcType=JdbcType.DECIMAL),
+            @Result(column="is_core", property="isCore", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+    })
+    int deleteAllData();
+
+
+    @Insert({
+            "<script>",
+            "insert into api_detail (id,appkey, ",
+            "api_full_name, call_count, ",
+            "api_span_name, proportion, ",
+            "is_core, created_time, ",
+            "updated_at)",
+            "values ",
+            "<foreach collection='list' item='item' index='index' separator=','>",
+            "(#{id,jdbcType=INTEGER},#{appkey,jdbcType=VARCHAR}, ",
+            "#{apiFullName,jdbcType=VARCHAR}, #{callCount,jdbcType=BIGINT}, ",
+            "#{apiSpanName,jdbcType=VARCHAR}, #{proportion,jdbcType=DECIMAL}, ",
+            "#{isCore,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, ",
+            "#{updatedAt,jdbcType=TIMESTAMP})",
+            "</foreach>",
+            "</script>"
+    })
+    int batchInsert(List<ApiDetailPO> records);
 }
