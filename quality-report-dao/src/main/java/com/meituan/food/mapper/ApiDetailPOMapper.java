@@ -33,6 +33,13 @@ public interface ApiDetailPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from api_detail",
+            "where id >= #{first,jdbcType=INTEGER} ",
+            "and id <= #{second,jdbcType=INTEGER}"
+    })
+    int deleteByTwoId(@Param("first") Integer first,@Param("second") Integer second);
+
     @Insert({
         "insert into api_detail (id, appkey, ",
         "api_full_name, call_count, ",
