@@ -19,7 +19,7 @@ public class DepartmentController {
     @GetMapping("/insert")
     public String insertDepartment(){
         DepartmentPO po=new DepartmentPO();
-        po.setDepartment("C端服务端");
+        /*po.setDepartment("C端服务端");
         po.setDepartment2("C端服务端");
         departmentPOMapper.insert(po);
 
@@ -61,7 +61,17 @@ public class DepartmentController {
         DepartmentPO po9=new DepartmentPO();
         po9.setDepartment("商家平台");
         po9.setDepartment2("商家增值平台");
-        departmentPOMapper.insert(po9);
+        departmentPOMapper.insert(po9);*/
+
+        DepartmentPO po10=new DepartmentPO();
+        po10.setDepartment("客户平台");
+        po10.setDepartment2("客户平台");
+        departmentPOMapper.insert(po10);
+
+        DepartmentPO po11=new DepartmentPO();
+        po11.setDepartment("合同平台");
+        po11.setDepartment2("合同平台");
+        departmentPOMapper.insert(po11);
 
         return "OK!";
     }

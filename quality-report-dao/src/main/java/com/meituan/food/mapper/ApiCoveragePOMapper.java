@@ -33,6 +33,13 @@ public interface ApiCoveragePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from api_coverage",
+            "where id >= #{first,jdbcType=INTEGER} ",
+            "and id <= #{second,jdbcType=INTEGER} "
+    })
+    int deleteByTwoKey(@Param("first") Integer first,@Param("second") Integer second);
+
     @Insert({
         "insert into api_coverage (id, appkey, ",
         "department, all_api_num, ",

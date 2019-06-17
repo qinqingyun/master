@@ -29,6 +29,13 @@ public interface DepartmentApiCoveragePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from department_api_coverage",
+            "where id >= #{first,jdbcType=INTEGER} ",
+            "and id <= #{second,jdbcType=INTEGER} "
+    })
+    int deleteByTwoKey(@Param("first") Integer first,@Param("second") Integer second);
+
     @Insert({
         "insert into department_api_coverage (id, department_id, ",
         "department_name, all_api_num, ",

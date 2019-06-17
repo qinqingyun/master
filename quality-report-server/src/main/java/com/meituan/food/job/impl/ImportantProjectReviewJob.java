@@ -31,7 +31,7 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
         LocalDate firstDay=LocalDate.now().minusDays(7);
         LocalDate lastDay=LocalDate.now().minusDays(1);
 
-        List<CompletableFuture<Void>> extractFutures = iOneWeekEightDataExtracts.stream()
+       /* List<CompletableFuture<Void>> extractFutures = iOneWeekEightDataExtracts.stream()
                 .map(dataExtract -> CompletableFuture.runAsync(() -> {
                     try {
                         dataExtract.extractData4Week(firstDay,lastDay);
@@ -40,7 +40,7 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
                     }
                 }))
                 .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);
+        extractFutures.forEach(CompletableFuture::join);*/
 
         List<CompletableFuture<Void>> crashExtractFutures = oneWeekCrashExtracts.stream()
                 .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.extractData4Week(firstDay,lastDay)))
