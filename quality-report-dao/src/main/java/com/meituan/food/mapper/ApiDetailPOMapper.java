@@ -128,6 +128,21 @@ public interface ApiDetailPOMapper {
     })
     ApiDetailPO selectBySpanName(@Param("name") String name,@Param("appkey") String appkey);
 
+    @Select(
+            "select * from api_detail where  appkey = #{appkey}")
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_full_name", property="apiFullName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="call_count", property="callCount", jdbcType=JdbcType.BIGINT),
+            @Result(column="api_span_name", property="apiSpanName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="proportion", property="proportion", jdbcType=JdbcType.DECIMAL),
+            @Result(column="is_core", property="isCore", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_at", property="updatedAt", jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<ApiDetailPO> selectByAppkey(@Param("appkey") String appkey);
+
 
     @UpdateProvider(type=ApiDetailPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ApiDetailPO record, @Param("example") ApiDetailPOExample example);
