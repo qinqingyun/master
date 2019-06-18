@@ -70,12 +70,10 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
 
             DaXiangUtils.pushToPerson(nameList+"轮到你们值班了\n"+content,"guomengyao");
             DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
+            DaXiangUtils.pushToRoom("本周值班人员："+nameList,64013968876L);
         }
     }
 
     public static void main(String[] args) {
-        LocalDate now=LocalDate.now().plusDays(2);
-        IOneDayDutyDataExtract a=new DutyDataExtracter();
-        a.extractData4Day(now);
     }
 }
