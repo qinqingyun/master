@@ -351,8 +351,8 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
         for (CargoDataPO cargoDataPO:cargoDataPO_list)
        {
-           int result = cargoDataPOMapper.insert(cargoDataPO);
-           log.info("The cargo save result is :{}",cargoDataPO.toString()+result);
+//           int result = cargoDataPOMapper.insert(cargoDataPO);
+//           log.info("The cargo save result is :{}",cargoDataPO.toString()+result);
 
        }
     }
