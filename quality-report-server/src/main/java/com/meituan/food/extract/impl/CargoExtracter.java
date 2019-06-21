@@ -230,7 +230,10 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
         ZoneId zone = ZoneId.systemDefault();
         Instant instant = day.atStartOfDay().atZone(zone).toInstant();
+        log.info("day is:"+day);
+
         java.util.Date date = Date.from(instant);
+        log.info("date is:"+date);
         for (String tag:tag_json.keySet()) {
             cp = new CargoDataPO();
             cp.init();
@@ -348,8 +351,8 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
         for (CargoDataPO cargoDataPO:cargoDataPO_list)
        {
-           int result = cargoDataPOMapper.insert(cargoDataPO);
-           log.info("The cargo save result is :{}",cargoDataPO.toString()+result);
+//           int result = cargoDataPOMapper.insert(cargoDataPO);
+//           log.info("The cargo save result is :{}",cargoDataPO.toString()+result);
 
        }
     }
