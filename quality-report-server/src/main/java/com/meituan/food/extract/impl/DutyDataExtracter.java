@@ -24,12 +24,9 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     public static final String url="http://api.goseek.cn/Tools/holiday?date=";
 
     public static final String content="周末值班QA须知\n" +
-            "1、客服商服反馈群，有问题反馈，半小时之内进行响应，拉取相关PM+RD+QA入群，解决问题\n" +
-            "2、问题处理后，对该问题进行记录存档，编写人：负责RD，QA负责督促RD完成问题记录。\n" +
-            "记录位置：https://km.sankuai.com/page/57675978\n" +
-            "3、群里问题反馈时间，基本早9点到晚11点之间，辛苦值班同学在该时间段紧密关注\n" +
-            "4、本周值班人，需要对下周值班人做爱心提示和值班须知讲解\n" +
-            "5、https://km.sankuai.com/page/56420384 这里有相关的对接人 可以根据这个wiki找一下";
+            "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
+            "2、若提报问题自动匹配错误，需值班同学手动拉相关人进群。若提报问题未自动匹配，则需要值班同学手动拉群处理，并将问题编号记录，同步给buyuqi同学\n" +
+            "4、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。";
 
     @Resource
     private DutyTablePOMapper dutyTablePOMapper;
