@@ -68,10 +68,12 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
             List<ApiDetailPO> allApiList=apiDetailPOMapper.selectByAppkey(s);
             int allApiNum=allApiList.size();
             po.setAllApiNum(allApiNum);
+            List<ApiDetailPO> coreApiList= apiDetailPOMapper.selectCoreApiByAppkey(s);
+            int allCoreNum=coreApiList.size();
+            po.setAllCoreApiNum(allCoreNum);
             if (code == 0) {
                 JSONObject respData = resp.getJSONObject("data");
                 int coverApiNum = respData.getJSONObject("totalApiCoverage").getInteger("apiCovered");
-                int allCoreApiNum = 0;
                 int coverCoreApiNum = 0;
                 po.setCoverApiNum(coverApiNum);
                 if (allApiNum!=0){
@@ -91,26 +93,25 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                     if (apiPo != null) {
                         int isCore=apiPo.getIsCore();
                         if (isCore == 1) {
-                            allCoreApiNum++;
                             if (cover == true) {
                                 coverCoreApiNum++;
                             }
                         }
                     }
                 }
-                if (allCoreApiNum != 0) {
-                    double coreCoverage = (double) coverCoreApiNum *100/ allCoreApiNum;
+                if (allCoreNum != 0) {
+                    double coreCoverage = (double) coverCoreApiNum *100/ allCoreNum;
                     BigDecimal coverageDecimal = new BigDecimal(coreCoverage);
                     po.setCoreApiCoverage(coverageDecimal);
                 } else {
                     BigDecimal coverageDecimal = new BigDecimal(0);
                     po.setCoreApiCoverage(coverageDecimal);
                 }
-                po.setAllCoreApiNum(allCoreApiNum);
+              //  po.setAllCoreApiNum(allCoreApiNum);
                 po.setCoverCoreApiNum(coverCoreApiNum);
             } else {
                 po.setCoverCoreApiNum(0);
-                po.setAllCoreApiNum(0);
+           //     po.setAllCoreApiNum(0);
           //      po.setAllApiNum(0);
                 po.setCoverApiNum(0);
                 po.setApiCoverage(new BigDecimal(0));
