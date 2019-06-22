@@ -3,33 +3,19 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import com.dianping.squirrel.common.json.JsonArray;
 import com.meituan.food.extract.IOneDayCargoExtract;
 import com.meituan.food.mapper.CargoDataPOMapper;
-import com.meituan.food.mapper.CargoDataPOSqlProvider;
 import com.meituan.food.po.CargoDataPO;
-import com.meituan.food.po.CargoDataPOExample;
 import com.meituan.food.utils.HttpUtils;
-import com.sun.tools.corba.se.idl.constExpr.Times;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.net.URI;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Slf4j
 @Component
