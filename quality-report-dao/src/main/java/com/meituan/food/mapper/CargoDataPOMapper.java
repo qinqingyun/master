@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.CargoDataPO;
 import com.meituan.food.po.CargoDataPOExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -95,6 +97,34 @@ public interface CargoDataPOMapper {
     })
     CargoDataPO selectByPrimaryKey(Integer id);
 
+
+    @Select({
+            "select",
+            "id, stackuuid, stable_success, stable_total, avalible_success, avalible_total, ",
+            "tag, person, direction, stable_tag_percentage, avalible_tag_percentage, date, ",
+            "comment, updated_date",
+            "from cargo_data",
+            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date, jdbcType=TIMESTAMP}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="stackuuid", property="stackuuid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="stable_success", property="stableSuccess", jdbcType=JdbcType.INTEGER),
+            @Result(column="stable_total", property="stableTotal", jdbcType=JdbcType.INTEGER),
+            @Result(column="avalible_success", property="avalibleSuccess", jdbcType=JdbcType.INTEGER),
+            @Result(column="avalible_total", property="avalibleTotal", jdbcType=JdbcType.INTEGER),
+            @Result(column="tag", property="tag", jdbcType=JdbcType.VARCHAR),
+            @Result(column="person", property="person", jdbcType=JdbcType.VARCHAR),
+            @Result(column="direction", property="direction", jdbcType=JdbcType.VARCHAR),
+            @Result(column="stable_tag_percentage", property="stableTagPercentage", jdbcType=JdbcType.VARCHAR),
+            @Result(column="avalible_tag_percentage", property="avalibleTagPercentage", jdbcType=JdbcType.VARCHAR),
+            @Result(column="date", property="date", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
+            @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<CargoDataPO> selectByTagAndCreatedate(String tag, Date date);
+
+
     @UpdateProvider(type=CargoDataPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CargoDataPO record, @Param("example") CargoDataPOExample example);
 
@@ -122,4 +152,24 @@ public interface CargoDataPOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CargoDataPO record);
+
+    @Update({
+            "update cargo_data",
+            "set stackuuid = #{stackuuid,jdbcType=VARCHAR},",
+            "stable_success = #{stableSuccess,jdbcType=INTEGER},",
+            "stable_total = #{stableTotal,jdbcType=INTEGER},",
+            "avalible_success = #{avalibleSuccess,jdbcType=INTEGER},",
+            "avalible_total = #{avalibleTotal,jdbcType=INTEGER},",
+            "tag = #{tag,jdbcType=VARCHAR},",
+            "person = #{person,jdbcType=VARCHAR},",
+            "direction = #{direction,jdbcType=VARCHAR},",
+            "stable_tag_percentage = #{stableTagPercentage,jdbcType=VARCHAR},",
+            "avalible_tag_percentage = #{avalibleTagPercentage,jdbcType=VARCHAR},",
+            "date = #{date,jdbcType=TIMESTAMP},",
+            "comment = #{comment,jdbcType=VARCHAR},",
+            "updated_date = #{updatedDate,jdbcType=TIMESTAMP}",
+            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date,jdbcType=TIMESTAMP}"
+    })
+    int updateByTagAndDate(CargoDataPO record);
+
 }
