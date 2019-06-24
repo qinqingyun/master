@@ -100,19 +100,4 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
             DaXiangUtils.pushToRoom(bAvalibleList,64013874686l);
         }
     }
-
-    public static void main(String[] args) throws ParseException {
-       /* Calendar yesterday = Calendar.getInstance();
-        yesterday.add(Calendar.DATE, -2);
-        yesterday.set(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH), yesterday.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-        String yesterdayStr = new SimpleDateFormat("yyyy-MM-dd ").format(yesterday.getTime());
-        Date yesterdayDate = yesterday.getTime();
-        System.out.println(yesterdayDate);*/
-
-        String time = "2017-10-19";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//yyyy-mm-dd, 会出现时间不对, 因为小写的mm是代表: 秒
-        Date utilDate = sdf.parse(time);
-        System.out.println(utilDate);//查看utilDate的值
-
-    }
 }
