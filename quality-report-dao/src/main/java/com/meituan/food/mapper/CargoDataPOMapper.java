@@ -125,6 +125,33 @@ public interface CargoDataPOMapper {
     List<CargoDataPO> selectByTagAndCreatedate(String tag, Date date);
 
 
+    @Select({
+            "select",
+            "id, stackuuid, stable_success, stable_total, avalible_success, avalible_total, ",
+            "tag, person, direction, stable_tag_percentage, avalible_tag_percentage, date, ",
+            "comment, updated_date",
+            "from cargo_data",
+            "where  date = #{date, jdbcType=TIMESTAMP}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="stackuuid", property="stackuuid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="stable_success", property="stableSuccess", jdbcType=JdbcType.INTEGER),
+            @Result(column="stable_total", property="stableTotal", jdbcType=JdbcType.INTEGER),
+            @Result(column="avalible_success", property="avalibleSuccess", jdbcType=JdbcType.INTEGER),
+            @Result(column="avalible_total", property="avalibleTotal", jdbcType=JdbcType.INTEGER),
+            @Result(column="tag", property="tag", jdbcType=JdbcType.VARCHAR),
+            @Result(column="person", property="person", jdbcType=JdbcType.VARCHAR),
+            @Result(column="direction", property="direction", jdbcType=JdbcType.VARCHAR),
+            @Result(column="stable_tag_percentage", property="stableTagPercentage", jdbcType=JdbcType.VARCHAR),
+            @Result(column="avalible_tag_percentage", property="avalibleTagPercentage", jdbcType=JdbcType.VARCHAR),
+            @Result(column="date", property="date", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
+            @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<CargoDataPO> selectByDate(@Param("date") Date date);
+
+
     @UpdateProvider(type=CargoDataPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CargoDataPO record, @Param("example") CargoDataPOExample example);
 

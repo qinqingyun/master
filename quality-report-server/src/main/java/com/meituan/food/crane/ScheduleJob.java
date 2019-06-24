@@ -87,6 +87,9 @@ public class ScheduleJob {
     @Resource
     private IUpdateAppkeyListJob updateAppkeyListJob;
 
+    @Resource
+    private ICargoDataPushJob cargoDataPushJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -219,6 +222,11 @@ public class ScheduleJob {
     @Crane("update.all.appkey.job")
     public void updateAllAppkey(){
         updateAppkeyListJob.sync();
+    }
+
+    @Crane("cargo.data.push.job")
+    public void cargoDataPush(){
+        cargoDataPushJob.sync();
     }
 
 }
