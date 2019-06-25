@@ -42,6 +42,8 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         nameMap.put("liuxiangyi", "刘香怡");
         nameMap.put("zhouke", "周克");
         nameMap.put("feilichao", "费立超");
+        nameMap.put("honghui.huang","黄红辉");
+        nameMap.put("huanghonghui","黄红辉");
 
         Calendar yesterday = Calendar.getInstance();
         yesterday.add(Calendar.DATE, -1);
