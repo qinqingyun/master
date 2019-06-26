@@ -42,8 +42,8 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         nameMap.put("liuxiangyi", "刘香怡");
         nameMap.put("zhouke", "周克");
         nameMap.put("feilichao", "费立超");
-        nameMap.put("honghui.huang","黄红辉");
-        nameMap.put("huanghonghui","黄红辉");
+        nameMap.put("honghui.huang", "黄红辉");
+        nameMap.put("huanghonghui", "黄红辉");
 
         Calendar yesterday = Calendar.getInstance();
         yesterday.add(Calendar.DATE, -1);
@@ -55,51 +55,49 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
 
 
         String stableList = yesterdayStr + "稳定性数据\n";
-        int flag=0;
+        int flag = 0;
         String bStableList = yesterdayStr + "稳定性数据\n";
-        int flag_1=0;
+        int flag_1 = 0;
 
         String avalibleList = yesterdayStr + "可用性数据\n";
-        int flag_2=0;
+        int flag_2 = 0;
         String bAvalibleList = yesterdayStr + "可用性数据\n";
-        int flag_3=0;
+        int flag_3 = 0;
         List<CargoDataPO> cargoDataPOS = cargoDataPOMapper.selectByDate(mYesterday);
 
         for (CargoDataPO cargoDataPO : cargoDataPOS) {
-            if (!cargoDataPO.getStableTagPercentage().equals("100.0")) {
-                stableList = stableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + " @" + nameMap.get(cargoDataPO.getPerson()) + "\n";
-                flag++;
-                if (cargoDataPO.getDirection().equals("B端_北京") || cargoDataPO.getDirection().equals("B端_上海")) {
-                    bStableList = bStableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + " @" + nameMap.get(cargoDataPO.getPerson()) + "\n";
-                    flag_1++;
-                }
+            stableList = stableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + "\n";
+            flag++;
+            if (cargoDataPO.getDirection().equals("B端_北京") || cargoDataPO.getDirection().equals("B端_上海")) {
+                bStableList = bStableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + "\n";
+                flag_1++;
             }
 
-            if ((!cargoDataPO.getAvalibleTagPercentage().equals("100.0")) && cargoDataPO.getAvalibleTotal() != 0) {
-                avalibleList = avalibleList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + " @" + nameMap.get(cargoDataPO.getPerson()) + "\n";
+            if (cargoDataPO.getAvalibleTotal() != 0) {
+                avalibleList = avalibleList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + "\n";
                 flag_2++;
                 if (cargoDataPO.getDirection().equals("B端_北京") || cargoDataPO.getDirection().equals("B端_上海")) {
-                    bAvalibleList=bAvalibleList+cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + " @" + nameMap.get(cargoDataPO.getPerson()) + "\n";
+                    bAvalibleList = bAvalibleList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + "\n";
                     flag_3++;
                 }
             }
         }
 
-        if (flag!=0){
-            DaXiangUtils.pushToPerson(stableList,"guomengyao");
-            DaXiangUtils.pushToRoom(stableList,64013787000l);
+        if (flag != 0) {
+            DaXiangUtils.pushToPerson(stableList, "guomengyao");
+            DaXiangUtils.pushToRoom(stableList, 64013787000l);
         }
-        if (flag_1!=0){
-            DaXiangUtils.pushToPerson(bStableList,"guomengyao");
-            DaXiangUtils.pushToRoom(bStableList,64013874686l);
+        if (flag_1 != 0) {
+            DaXiangUtils.pushToPerson(bStableList, "guomengyao");
+            DaXiangUtils.pushToRoom(bStableList, 64013874686l);
         }
-        if (flag_2!=0){
-            DaXiangUtils.pushToPerson(avalibleList,"guomengyao");
-            DaXiangUtils.pushToRoom(avalibleList,64013787000l);
+        if (flag_2 != 0) {
+            DaXiangUtils.pushToPerson(avalibleList, "guomengyao");
+            DaXiangUtils.pushToRoom(avalibleList, 64013787000l);
         }
-        if (flag_3!=0){
-            DaXiangUtils.pushToPerson(bAvalibleList,"guomengyao");
-            DaXiangUtils.pushToRoom(bAvalibleList,64013874686l);
+        if (flag_3 != 0) {
+            DaXiangUtils.pushToPerson(bAvalibleList, "guomengyao");
+            DaXiangUtils.pushToRoom(bAvalibleList, 64013874686l);
         }
     }
 }
