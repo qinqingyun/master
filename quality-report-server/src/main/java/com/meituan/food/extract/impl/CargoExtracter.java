@@ -141,11 +141,11 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("商家平台") + ".商家基础平台", "zhangyancui");
 
             person.put(stackuuid.get("到综商家") + "._others", "wenwen");
-            person.put(stackuuid.get("到综商家") + ".到综研发组", "chenyunyun");
-            person.put(stackuuid.get("到综商家") + ".商家运营组", "chenyunyun");
+            person.put(stackuuid.get("到综商家") + ".到综研发组", "honghui.huang");
+            person.put(stackuuid.get("到综商家") + ".商家运营组", "honghui.huang");
             person.put(stackuuid.get("到综商家") + ".业务应用技术组", "bei.guo");
             person.put(stackuuid.get("到综商家") + ".公共能力研发组", "summer.sun");
-            person.put(stackuuid.get("到综商家") + ".基础平台研发组", "chenyunyun");
+            person.put(stackuuid.get("到综商家") + ".基础平台研发组", "honghui.huang");
 
             person.put(stackuuid.get("客户平台") + "._others", "xiongyiping");
             person.put(stackuuid.get("到综客户") + "._others", "zhouying");
