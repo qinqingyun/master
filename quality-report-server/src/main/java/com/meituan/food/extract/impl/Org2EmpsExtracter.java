@@ -38,7 +38,6 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
     @Override
     public void updateEmpsData(LocalDate day) {
         try{
-
             List <String> list =new ArrayList<String>();
 
             OrgItems orgItems = orgService.queryBySuperior("104638",2,null,new Paging());
@@ -50,8 +49,9 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
             log.info("org list {}"+list);
 //            Emp emp1 = empService.queryByMis("wuhaibo",null);
 //            EmpItems empItems = empService.queryByOrgHead("60523",1,null,new Paging());
-
-            EmpItems empItems = empService.queryByOrgIds(list,null,new Paging(),Date.from(day.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+            Paging p= new Paging();
+            p.setSize(100);
+            EmpItems empItems = empService.queryByOrgIds(list,null,p,Date.from(day.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
             log.info("empItems: "+empItems);
             log.info("empItems: size "+empItems.getCount());
 
