@@ -90,6 +90,12 @@ public class ScheduleJob {
     @Resource
     private ICargoDataPushJob cargoDataPushJob;
 
+    @Resource
+    private IOneWeekOrg2EmpJob updateEmpJob;
+
+
+
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -228,5 +234,8 @@ public class ScheduleJob {
     public void cargoDataPush(){
         cargoDataPushJob.sync();
     }
-
+    @Crane("com.sankuai.meishi.qa.meishireport.org2.emp.data.job")
+    public void updateEmpJob(){
+        updateEmpJob.sync();
+    }
 }
