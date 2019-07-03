@@ -70,6 +70,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.infra","","",6,6));
         pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.mbo","","",6,8));
         pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.mva","","",6,9));
+        pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.dzbp","","",12,12));
         pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.crm","","",2,2));
         pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.merchant","","",3,3));
         pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.scp","","",4,4));

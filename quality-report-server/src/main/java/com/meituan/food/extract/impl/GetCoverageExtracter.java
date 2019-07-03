@@ -120,7 +120,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
             apiCoveragePOMapper.insert(po);
         }
 
-       for (int i=1;i<=11;i++){
+       for (int i=1;i<=12;i++){
             List<ApiCoveragePO> groupList=apiCoveragePOMapper.selectByDateDepartment2id(currentTime_2,i);
             int allAPiCount=0;
             int coverApiCount=0;
@@ -160,7 +160,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
             departmentApiCoveragePOMapper.insert(departmentApiCoveragePO);
         }
 
-        for (int i=1;i<=11;i++){
+        for (int i=1;i<=12;i++){
             if (i!=8&&i!=9){
                 List<ApiCoveragePO> groupList = apiCoveragePOMapper.selectByDateDepartmentId(currentTime_2, i);
                 DepartmentApiCoveragePO departmentApiCoveragePO = new DepartmentApiCoveragePO();
