@@ -57,27 +57,16 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 list.add(org.getOrgId());
             } ));
             log.info("org list {}"+list);
-            Emp emp1 = empService.queryByMis("wuhaibo",null);
+//            Emp emp1 = empService.queryByMis("wuhaibo",null);
 //            EmpItems empItems = empService.queryByOrgHead("60523",1,null,new Paging());
 
             EmpItems empItems = empService.queryByOrgIds(list,null,new Paging(),Date.from(day.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-            EmpCond empCond = new EmpCond();
-            empCond.jobStatusIdET(1);
-//            EmpItems empItems =empService.queryByOrgIds(list,null,new Paging(), null);
-            log.info("empItems: "+emp1+"========="+empItems);
+            log.info("empItems: "+empItems);
             log.info("empItems: size "+empItems.getCount());
 
-            empItems.getItems().forEach((emp) ->{
-                String sn="";
-                sn = sn+emp.getName();
-                log.info("empItems: names "+sn);
-
-            });
 
 
             empItems.getItems().forEach((emp) ->{
-                log.info("empItems: name "+emp.getName());
-
 
                 Org2EmpDataPO po = new Org2EmpDataPO();
                 po.setName(emp.getName());
@@ -93,7 +82,7 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 Org2EmpDataPOExample.Criteria  criteria = org2EmpDataPOExample.createCriteria();
                 criteria.andMisEqualTo(po.getMis());
                 List<Org2EmpDataPO> org2EmpDataPOList = org2EmpDataPOMapper.selectByExample(org2EmpDataPOExample);
-                /*if (org2EmpDataPOList.size()==0||org2EmpDataPOList==null)
+                if (org2EmpDataPOList.size()==0||org2EmpDataPOList==null)
                 {
                     int insertresult = org2EmpDataPOMapper.insert(po);
                     log.info("org2empdata insertresult:"+insertresult);
@@ -101,7 +90,7 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 }else {
                     int updateresult = org2EmpDataPOMapper.updateByExampleSelective(po,org2EmpDataPOExample);
                     log.info("org2empdata updateresult:"+updateresult);
-                }*/
+                }
 
             });
 

@@ -234,7 +234,7 @@ public class ScheduleJob {
     public void cargoDataPush(){
         cargoDataPushJob.sync();
     }
-    @Crane("org2.emp.data.job")
+    @Crane("com.sankuai.meishi.qa.meishireport.org2.emp.data.job")
     public void updateEmpJob(){
         updateEmpJob.sync();
     }
