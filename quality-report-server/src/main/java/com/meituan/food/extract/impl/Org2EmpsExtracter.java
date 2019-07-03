@@ -1,33 +1,24 @@
 package com.meituan.food.extract.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import com.meituan.food.extract.IOneWeekOrg2EmpExtract;
-import com.meituan.food.mapper.CargoDataPOMapper;
 import com.meituan.food.mapper.Org2EmpDataPOMapper;
 import com.meituan.food.po.Org2EmpDataPO;
 import com.meituan.food.po.Org2EmpDataPOExample;
-import com.sankuai.meituan.org.openapi.model.EmpCond;
-import com.sankuai.meituan.org.openapi.model.Hierarchy;
-import com.sankuai.meituan.org.opensdk.model.domain.Emp;
-import com.sankuai.meituan.org.opensdk.model.domain.EmpPos;
 import com.sankuai.meituan.org.opensdk.model.domain.Org;
 import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
-import com.sankuai.meituan.org.opensdk.model.domain.items.EmpPosItems;
 import com.sankuai.meituan.org.opensdk.model.domain.items.OrgItems;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
 import com.sankuai.meituan.org.opensdk.service.OrgService;
 import com.sankuai.meituan.org.queryservice.domain.base.Paging;
-import com.sankuai.meituan.org.treeservice.domain.param.OrgHierarchyCond;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import sun.plugin.javascript.navig.AnchorArray;
 
 import javax.annotation.Resource;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -63,7 +54,6 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
             EmpItems empItems = empService.queryByOrgIds(list,null,new Paging(),Date.from(day.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
             log.info("empItems: "+empItems);
             log.info("empItems: size "+empItems.getCount());
-
 
 
             empItems.getItems().forEach((emp) ->{
