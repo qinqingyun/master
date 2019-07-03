@@ -63,7 +63,7 @@ public class DepartmentController {
         po9.setDepartment2("商家增值平台");
         departmentPOMapper.insert(po9);*/
 
-        DepartmentPO po10=new DepartmentPO();
+       /* DepartmentPO po10=new DepartmentPO();
         po10.setDepartment("客户平台");
         po10.setDepartment2("客户平台");
         departmentPOMapper.insert(po10);
@@ -71,6 +71,12 @@ public class DepartmentController {
         DepartmentPO po11=new DepartmentPO();
         po11.setDepartment("合同平台");
         po11.setDepartment2("合同平台");
+        departmentPOMapper.insert(po11);*/
+
+
+        DepartmentPO po11=new DepartmentPO();
+        po11.setDepartment("商家平台-到综研发组");
+        po11.setDepartment2("到综研发组");
         departmentPOMapper.insert(po11);
 
         return "OK!";
