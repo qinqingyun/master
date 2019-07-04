@@ -51,7 +51,7 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         String yesterdayStr = new SimpleDateFormat("yyyy-MM-dd").format(yesterday.getTime());
         Date yesterdayDate = yesterday.getTime();
 
-        Date mYesterday = Date.from(LocalDate.now().minusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date mYesterday = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate=new java.sql.Date(mYesterday.getTime());
 
 
