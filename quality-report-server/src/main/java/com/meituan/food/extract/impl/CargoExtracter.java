@@ -177,7 +177,9 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("wenwen", "B端_上海");
             direct.put("feilichao", "M端");
             direct.put("summer.sun", "B端_上海");
+            direct.put("honghui.huang", "B端_上海");
             direct.put("huangguilin", "B端_北京");
+
 
         }
         stackuuid.forEach((k, v) -> {
