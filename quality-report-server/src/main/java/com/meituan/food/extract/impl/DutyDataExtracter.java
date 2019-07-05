@@ -26,7 +26,7 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     public static final String content="周末值班QA须知\n" +
             "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
             "2、若提报问题自动匹配错误，需值班同学手动拉相关人进群。若提报问题未自动匹配，则需要值班同学手动拉群处理，并将问题编号记录，同步给buyuqi同学\n" +
-            "4、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。";
+            "3、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。";
 
     @Resource
     private DutyTablePOMapper dutyTablePOMapper;
