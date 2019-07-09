@@ -21,11 +21,11 @@ public class ApiDetailController {
     private ApiDetailPOMapper apiDetailPOMapper;
 
 
-    @GetMapping("/insert")
+   /* @GetMapping("/insert")
     public String insertApi(){
         apiDetailExtract.getApiDetail();
         return "OK!";
-    }
+    }*/
 
     @GetMapping("/update")
     public String updateApiStatus(@Param("appkey") String appkey,@Param("api") String api){
@@ -41,9 +41,9 @@ public class ApiDetailController {
         return "OK!";
     }
 
-    @GetMapping("/update/status")
+  /*  @GetMapping("/update/status")
     public String updateStatus(){
         apiDetailExtract.setApiStatus();
         return "OK!";
-    }
+    }*/
 }

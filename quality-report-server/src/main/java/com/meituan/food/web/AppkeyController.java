@@ -22,11 +22,11 @@ public class AppkeyController {
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
 
-    @GetMapping("/insert")
+   /* @GetMapping("/insert")
     public String insertAppkey(){
         appkeyList.getAppkeyList();
         return "OK!";
-    }
+    }*/
 
     @GetMapping("/update/off")
     public String updateToOff(@Param("appkey") String appkey){
