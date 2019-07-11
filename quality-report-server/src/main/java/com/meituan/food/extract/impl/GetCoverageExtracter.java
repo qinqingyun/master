@@ -13,8 +13,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class GetCoverageExtracter implements IGetCoverageExtract {
@@ -73,7 +72,21 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
             po.setAllCoreApiNum(allCoreNum);
             if (code == 0) {
                 JSONObject respData = resp.getJSONObject("data");
-                int coverApiNum = respData.getJSONObject("totalApiCoverage").getInteger("apiCovered");
+                //:该部分计算有问题，更改为结果去重
+                JSONArray apiDetail = respData.getJSONObject("totalApiCoverage").getJSONArray("apiDetail");
+                List<String> apiSpanNameList = new ArrayList<>();
+                for(Object apidetalJson:apiDetail){
+                    JSONObject apidetailJsonObject = (JSONObject)apidetalJson;
+                    String apiSpanName = apidetailJsonObject.getString("apiSpanName");
+                    if (apidetailJsonObject.getBoolean("cover")==true){
+                        apiSpanNameList.add(apiSpanName);
+                    }
+                }
+                //list去重
+                Set hashSet = new HashSet(apiSpanNameList);
+                apiSpanNameList.clear();
+                apiSpanNameList.addAll(hashSet);
+                int coverApiNum = apiSpanNameList.size();
                 int coverCoreApiNum = 0;
                 po.setCoverApiNum(coverApiNum);
                 if (allApiNum!=0){
@@ -84,7 +97,9 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                     BigDecimal coverage = new BigDecimal(0);
                     po.setApiCoverage(coverage);
                 }
+                //此处计算有问题（现有的逻辑，如果返回的结果中有核心接口，则加1），更改为：去重
                 JSONArray apiDetailArray = respData.getJSONObject("totalApiCoverage").getJSONArray("apiDetail");
+                ArrayList<String> apiNameList = new ArrayList<>();
                 for (Object o : apiDetailArray) {
                     String spanName = ((JSONObject) o).getString("apiSpanName");
                     boolean cover = ((JSONObject) o).getBoolean("cover");
@@ -94,11 +109,17 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                         int isCore=apiPo.getIsCore();
                         if (isCore == 1) {
                             if (cover == true) {
-                                coverCoreApiNum++;
+//                                coverCoreApiNum++;
+                                apiNameList.add(spanName);
                             }
                         }
                     }
                 }
+                //去重
+                Set hashSet1 = new HashSet(apiNameList);
+                apiSpanNameList.clear();
+                apiSpanNameList.addAll(hashSet1);
+                coverCoreApiNum=apiSpanNameList.size();
                 if (allCoreNum != 0) {
                     double coreCoverage = (double) coverCoreApiNum *100/ allCoreNum;
                     BigDecimal coverageDecimal = new BigDecimal(coreCoverage);
