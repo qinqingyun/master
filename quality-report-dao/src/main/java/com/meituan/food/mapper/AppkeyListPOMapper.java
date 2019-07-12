@@ -124,6 +124,12 @@ public interface AppkeyListPOMapper {
     })
     List<String> selectAllAppkey();
 
+
+    @Select({
+            "select srv from appkey_list_table where offline = 0"
+    })
+    List<String> selectAllSrv();
+
     @UpdateProvider(type=AppkeyListPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyListPO record, @Param("example") AppkeyListPOExample example);
 
