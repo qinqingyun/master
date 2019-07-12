@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.ApplicationLoader;
 import com.meituan.food.extract.impl.CrashRateExtracter;
+import com.meituan.food.extract.impl.GetCoverageExtracter;
+import com.meituan.food.job.IGetApiCoverageJob;
 import com.meituan.food.po.RestaurantDau;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -20,6 +22,12 @@ public class RestaurantDauMapperTest {
     @Resource
     private RestaurantDauMapper restaurantDauMapper;
 
+    @Resource
+    public AppkeyListPOMapper appkeyListPOMapper;
+
+    @Resource
+    private IGetApiCoverageJob apiCoverageJob;
+
     @Test
     public void getDauListByOsPartitionAppAndPartitionDateRang() {
         List<RestaurantDau> lists = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang(
@@ -29,4 +37,10 @@ public class RestaurantDauMapperTest {
                 "2018-07-18");
         log.error("lists: {}", lists);
     }
+
+    @Test
+    public void getCoverageTest(){
+        apiCoverageJob.sync();
+    }
+
 }
