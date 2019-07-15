@@ -29,6 +29,12 @@ public interface ReleaseNamePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from release_name_table",
+            "where srv = #{srv,jdbcType=VARCHAR}"
+    })
+    int deleteBySrv(String srv);
+
     @Insert({
         "insert into release_name_table (id, srv, ",
         "release_name, created_time, ",

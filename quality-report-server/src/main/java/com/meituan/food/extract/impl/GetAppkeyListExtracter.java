@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonNull;
 import com.meituan.food.extract.IGetAppkeyList;
+import com.meituan.food.extract.IReleaseNameExtract;
 import com.meituan.food.job.vo.AppkeyData;
 import com.meituan.food.mapper.AppkeyListPOMapper;
 import com.meituan.food.po.AppkeyListPO;
@@ -26,6 +27,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
     @Resource
     public AppkeyListPOMapper appkeyListPOMapper;
+
+    @Resource
+    public IReleaseNameExtract releaseNameExtract;
 
     @Override
     public void getAppkeyList() {
@@ -174,15 +178,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
             AppkeyListPO po1 = appkeyListPOMapper.selectByAppKey(appkeyListPO.getAppkey());
             if (po1==null){
                 appkeyListPOMapper.insert(appkeyListPO);
+                String srv=appkeyListPO.getSrv();
+                releaseNameExtract.insertReleaseName(srv);
             }
         }
 
-
-    }
-
-    public static void main(String[] args) {
-     JSONObject re=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/meituan.meishi.scp/srvs",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-     System.out.println(re.toString());
 
     }
 }

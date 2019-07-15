@@ -29,14 +29,19 @@ public class GetReleaseNameExtracter implements IReleaseNameExtract {
     @Override
     public void sync() {
         List<String> allSrv = appkeyListPOMapper.selectAllSrv();
-        Date now=new Date();
         for (String srv : allSrv) {
-            ReleaseNamePO po=new ReleaseNamePO();
-            JSONObject resp=HttpUtils.doGet(url+srv+partUrl,JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-            JSONArray plus = resp.getJSONArray("plus");
-            if (plus==null||plus.size()==0) {
-                continue;
-            }else {
+           insertReleaseName(srv);
+        }
+    }
+
+    @Override
+    public void insertReleaseName(String srv){
+        ReleaseNamePO po=new ReleaseNamePO();
+        Date now=new Date();
+        JSONObject resp=HttpUtils.doGet(url+srv+partUrl,JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+        JSONArray plus = resp.getJSONArray("plus");
+        if (plus!=null) {
+            if (plus.size()!=0){
                 String releaseName = plus.get(0).toString();
                 po.setReleaseName(releaseName);
                 po.setSrv(srv);
@@ -44,16 +49,6 @@ public class GetReleaseNameExtracter implements IReleaseNameExtract {
                 po.setUpdatedTime(now);
                 releaseNamePOMapper.insert(po);
             }
-
         }
-    }
-
-    public static void main(String[] args) {
-        JSONObject resp=HttpUtils.doGet(url+"meituan.web.meishic.fooddebug"+partUrl,JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-        JSONArray plus = resp.getJSONArray("plus");
-        if (plus==null){
-            System.out.println("这条数据为空");
-        }
-        System.out.println(resp.toString());
     }
 }
