@@ -50,7 +50,7 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                 } else {
                     po.setCoreLineCoverage(null);
                 }
-                //核心接口行覆盖率（接口获取，string）
+                //核心接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
                 String coreLineCoverageInterface = resp.getJSONObject("data").getJSONObject("coreData").getString("lineCoverage");
                 //全部接口覆盖行数
                 int totalLineC = resp.getJSONObject("data").getJSONObject("totalData").getInteger("lineC");
@@ -66,7 +66,7 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                 } else {
                     po.setTotalLineCoverage(null);
                 }
-                //全部接口行覆盖率（接口获取，string）
+                //全部接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
                 String totalLineCoverageInterface = resp.getJSONObject("data").getJSONObject("totalData").getString("lineCoverage");
 
                 po.setReleaseName(releaseName);
