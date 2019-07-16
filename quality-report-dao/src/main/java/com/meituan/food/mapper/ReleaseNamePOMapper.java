@@ -67,6 +67,11 @@ public interface ReleaseNamePOMapper {
     })
     ReleaseNamePO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select release_name from release_name_table"
+    })
+    List<String> selectAllReleaseName();
+
     @UpdateProvider(type=ReleaseNamePOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ReleaseNamePO record, @Param("example") ReleaseNamePOExample example);
 

@@ -93,8 +93,8 @@ public class ScheduleJob {
     @Resource
     private IOneWeekOrg2EmpJob updateEmpJob;
 
-
-
+    @Resource
+    private IGetLineCoverageJob getLineCoverageJob;
 
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -234,8 +234,14 @@ public class ScheduleJob {
     public void cargoDataPush(){
         cargoDataPushJob.sync();
     }
+
     @Crane("com.sankuai.meishi.qa.meishireport.org2.emp.data.job")
     public void updateEmpJob(){
         updateEmpJob.sync();
+    }
+
+    @Crane("line.coverage.sync.job")
+    public void syncGetLineCoverage() {
+        getLineCoverageJob.sync();
     }
 }
