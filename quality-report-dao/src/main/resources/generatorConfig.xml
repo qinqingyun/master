@@ -6,7 +6,9 @@
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>    <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
+    <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
+    <classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
+    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -108,7 +110,11 @@
 
 <!--        <table tableName="appkey_admin" domainObjectName="AppkeyAdminPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
 <!--               enableUpdateByExample="true"/>-->
-        <table tableName="org2_emp_data" domainObjectName="Org2EmpDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="org2_emp_data" domainObjectName="Org2EmpDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <!--<table tableName="release_name_table" domainObjectName="ReleaseNamePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+        <table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
     </context>
 

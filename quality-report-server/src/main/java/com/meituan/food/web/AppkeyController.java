@@ -1,7 +1,11 @@
 package com.meituan.food.web;
 
 import com.meituan.food.extract.IGetAppkeyList;
+import com.meituan.food.extract.IReleaseNameExtract;
 import com.meituan.food.mapper.AppkeyListPOMapper;
+import com.meituan.food.mapper.ReleaseNamePOMapper;
+import com.meituan.food.po.AppkeyListPO;
+import com.meituan.food.po.ReleaseNamePO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +26,12 @@ public class AppkeyController {
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
 
+    @Resource
+    private ReleaseNamePOMapper releaseNamePOMapper;
+
+    @Resource
+    private IReleaseNameExtract releaseNameExtract;
+
    /* @GetMapping("/insert")
     public String insertAppkey(){
         appkeyList.getAppkeyList();
@@ -32,6 +42,8 @@ public class AppkeyController {
     public String updateToOff(@Param("appkey") String appkey){
         Date now=new Date();
         appkeyListPOMapper.updateToOffByAppkey(appkey,now);
+        AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+        releaseNamePOMapper.deleteBySrv(appkeyListPO.getSrv());
         return "OK!";
     }
 
@@ -39,6 +51,8 @@ public class AppkeyController {
     public String updateToOn(@Param("appkey") String appkey){
         Date now=new Date();
         appkeyListPOMapper.updateToOnByAppkey(appkey,now);
+        AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+        releaseNameExtract.insertReleaseName(appkeyListPO.getSrv());
         return "OK!";
     }
 
