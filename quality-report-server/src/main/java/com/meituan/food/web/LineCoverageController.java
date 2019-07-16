@@ -15,7 +15,7 @@ public class LineCoverageController {
     private IGetLineCoverageExtract lineCoverageExtract;
 
     @GetMapping("/insert")
-    public String insertLineCoverage() {
+    public String insertLineCoverage() throws InterruptedException {
         lineCoverageExtract.getLineCoverage();
         return "OK!";
     }

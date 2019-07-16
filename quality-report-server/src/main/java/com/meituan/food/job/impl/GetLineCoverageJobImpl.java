@@ -13,7 +13,7 @@ public class GetLineCoverageJobImpl implements IGetLineCoverageJob {
     IGetLineCoverageExtract iGetLineCoverageExtract;
 
     @Override
-    public void sync() {
+    public void sync() throws InterruptedException {
         iGetLineCoverageExtract.getLineCoverage();
     }
 }

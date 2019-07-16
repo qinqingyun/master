@@ -1,5 +1,5 @@
 package com.meituan.food.job;
 
 public interface IGetLineCoverageJob {
-    void sync();
+    void sync() throws InterruptedException;
 }

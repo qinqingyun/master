@@ -241,7 +241,7 @@ public class ScheduleJob {
     }
 
     @Crane("line.coverage.sync.job")
-    public void syncGetLineCoverage() {
+    public void syncGetLineCoverage() throws InterruptedException {
         getLineCoverageJob.sync();
     }
 }

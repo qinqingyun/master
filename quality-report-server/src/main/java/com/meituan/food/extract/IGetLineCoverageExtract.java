@@ -1,5 +1,5 @@
 package com.meituan.food.extract;
 
 public interface IGetLineCoverageExtract {
-    void getLineCoverage();
+    void getLineCoverage() throws InterruptedException;
 }

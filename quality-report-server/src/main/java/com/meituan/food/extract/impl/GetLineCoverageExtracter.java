@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
@@ -25,12 +26,13 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
     public static final String url = "http://jacocolive.meishi.test.sankuai.com/api/asyn/stopCoverageAndGetDataAsyn?ipOrCargoSwimlane=mainbranch&startTimeInSecond=3&releaseName=";
 
     @Override
-    public void getLineCoverage() {
+    public void getLineCoverage() throws InterruptedException {
         List<String> allReleaseName = releaseNamePOMapper.selectAllReleaseName();
         Date now = new Date();
         for (String releaseName : allReleaseName) {
             LineCoverageP0 po = new LineCoverageP0();
             JSONObject resp = HttpUtils.doGet(url+releaseName,JSONObject.class, ImmutableMap.of());
+            TimeUnit.MILLISECONDS.sleep(700);
             int code = resp.getInteger("code");
 
             if (code == 0) {
