@@ -29,11 +29,6 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
         List<String> allReleaseName = releaseNamePOMapper.selectAllReleaseName();
         Date now = new Date();
         for (String releaseName : allReleaseName) {
-            System.out.println("***********************************");
-            System.out.println("***********************************");
-            System.out.println(releaseName);
-            System.out.println("***********************************");
-            System.out.println("***********************************");
             LineCoverageP0 po = new LineCoverageP0();
             JSONObject resp = HttpUtils.doGet(url+releaseName,JSONObject.class, ImmutableMap.of());
             int code = resp.getInteger("code");
