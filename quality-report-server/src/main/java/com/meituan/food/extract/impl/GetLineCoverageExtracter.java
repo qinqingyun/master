@@ -3,9 +3,12 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IGetLineCoverageExtract;
+import com.meituan.food.mapper.AppkeyListPOMapper;
+import com.meituan.food.mapper.DepartmentPOMapper;
 import com.meituan.food.mapper.LineCoverageP0Mapper;
 import com.meituan.food.mapper.ReleaseNamePOMapper;
 import com.meituan.food.po.LineCoverageP0;
+import com.meituan.food.po.ReleaseNamePO;
 import com.meituan.food.utils.HttpUtils;
 import org.springframework.stereotype.Component;
 
@@ -23,15 +26,25 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
     @Resource
     private LineCoverageP0Mapper lineCoverageP0Mapper;
 
+    @Resource
+    private AppkeyListPOMapper appkeyListPOMapper;
+
+    @Resource
+    private DepartmentPOMapper departmentPOMapper;
+
     public static final String url = "http://jacocolive.meishi.test.sankuai.com/api/asyn/stopCoverageAndGetDataAsyn?ipOrCargoSwimlane=mainbranch&startTimeInSecond=3&releaseName=";
+    private int departmentId;
+    private int departmentId2;
 
     @Override
     public void getLineCoverage() throws InterruptedException {
-        List<String> allReleaseName = releaseNamePOMapper.selectAllReleaseName();
+        List<ReleaseNamePO> allReleaseNameSrv = releaseNamePOMapper.selectReleaseNameSrv();
         Date now = new Date();
-        for (String releaseName : allReleaseName) {
+
+        for (ReleaseNamePO releaseNameSrv : allReleaseNameSrv) {
             LineCoverageP0 po = new LineCoverageP0();
-            JSONObject resp = HttpUtils.doGet(url+releaseName,JSONObject.class, ImmutableMap.of());
+            JSONObject resp = HttpUtils.doGet(url+releaseNameSrv.getReleaseName(),JSONObject.class, ImmutableMap.of());
+            // TODO: 2019/7/17 上传代码前取消延时注释 
             TimeUnit.MILLISECONDS.sleep(700);
             int code = resp.getInteger("code");
 
@@ -69,7 +82,11 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                 //全部接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
                 String totalLineCoverageInterface = resp.getJSONObject("data").getJSONObject("totalData").getString("lineCoverage");
 
-                po.setReleaseName(releaseName);
+                departmentId = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId();
+                departmentId2 = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId2();
+
+                po.setReleaseName(releaseNameSrv.getReleaseName());
+                po.setSrv(releaseNameSrv.getSrv());
                 po.setCoreLineC(coreLineC);
                 po.setCoreLineM(coreLineM);
                 po.setCoreLineTotal(coreLineTotal);
@@ -82,11 +99,19 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                 //po.setTotalLineCoverage放在if判断中
                 //po.setTotalLineCoverage(totalLineCoverage);
                 po.setTotalLineCInterface(totalLineCoverageInterface);
+                po.setDepartmentId(departmentId);
+                po.setDepartmentName(departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment());
+                po.setDepartmentId2(departmentId2);
+                po.setDepartmentName2(departmentPOMapper.selectByPrimaryKey(departmentId2).getDepartment2());
                 po.setCreatedTime(now);
                 po.setUpdateTime(now);
 
             } else {
-                po.setReleaseName(releaseName);
+                departmentId = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId();
+                departmentId2 = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId2();
+
+                po.setReleaseName(releaseNameSrv.getReleaseName());
+                po.setSrv(releaseNameSrv.getSrv());
                 po.setCoreLineC(null);
                 po.setCoreLineM(null);
                 po.setCoreLineTotal(null);
@@ -97,6 +122,10 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                 po.setTotalLineTotal(null);
                 po.setTotalLineCoverage(null);
                 po.setTotalLineCInterface(null);
+                po.setDepartmentId(departmentId);
+                po.setDepartmentName(departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment());
+                po.setDepartmentId2(departmentId2);
+                po.setDepartmentName2(departmentPOMapper.selectByPrimaryKey(departmentId2).getDepartment2());
                 po.setCreatedTime(now);
                 po.setUpdateTime(now);
             }

@@ -30,20 +30,26 @@ public interface LineCoverageP0Mapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into line_coverage_table (id, release_name, ",
-        "core_line_c, core_line_m, ",
-        "core_line_total, core_line_coverage, ",
-        "core_line_c_interface, total_line_c, ",
-        "total_line_m, total_line_total, ",
-        "total_line_coverage, total_line_c_interface, ",
-        "created_time, update_time)",
-        "values (#{id,jdbcType=INTEGER}, #{releaseName,jdbcType=VARCHAR}, ",
-        "#{coreLineC,jdbcType=INTEGER}, #{coreLineM,jdbcType=INTEGER}, ",
-        "#{coreLineTotal,jdbcType=INTEGER}, #{coreLineCoverage,jdbcType=DECIMAL}, ",
-        "#{coreLineCInterface,jdbcType=VARCHAR}, #{totalLineC,jdbcType=INTEGER}, ",
-        "#{totalLineM,jdbcType=INTEGER}, #{totalLineTotal,jdbcType=INTEGER}, ",
-        "#{totalLineCoverage,jdbcType=DECIMAL}, #{totalLineCInterface,jdbcType=VARCHAR}, ",
-        "#{createdTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})"
+        "insert into line_coverage_table (id, srv, ",
+        "release_name, core_line_c, ",
+        "core_line_m, core_line_total, ",
+        "core_line_coverage, core_line_c_interface, ",
+        "total_line_c, total_line_m, ",
+        "total_line_total, total_line_coverage, ",
+        "total_line_c_interface, department_id, ",
+        "department_name, department_id_2, ",
+        "department_name_2, created_time, ",
+        "update_time)",
+        "values (#{id,jdbcType=INTEGER}, #{srv,jdbcType=VARCHAR}, ",
+        "#{releaseName,jdbcType=VARCHAR}, #{coreLineC,jdbcType=INTEGER}, ",
+        "#{coreLineM,jdbcType=INTEGER}, #{coreLineTotal,jdbcType=INTEGER}, ",
+        "#{coreLineCoverage,jdbcType=DECIMAL}, #{coreLineCInterface,jdbcType=VARCHAR}, ",
+        "#{totalLineC,jdbcType=INTEGER}, #{totalLineM,jdbcType=INTEGER}, ",
+        "#{totalLineTotal,jdbcType=INTEGER}, #{totalLineCoverage,jdbcType=DECIMAL}, ",
+        "#{totalLineCInterface,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, ",
+        "#{departmentName,jdbcType=VARCHAR}, #{departmentId2,jdbcType=INTEGER}, ",
+        "#{departmentName2,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, ",
+        "#{updateTime,jdbcType=TIMESTAMP})"
     })
     int insert(LineCoverageP0 record);
 
@@ -53,6 +59,7 @@ public interface LineCoverageP0Mapper {
     @SelectProvider(type=LineCoverageP0SqlProvider.class, method="selectByExample")
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
         @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR),
         @Result(column="core_line_c", property="coreLineC", jdbcType=JdbcType.INTEGER),
         @Result(column="core_line_m", property="coreLineM", jdbcType=JdbcType.INTEGER),
@@ -64,6 +71,10 @@ public interface LineCoverageP0Mapper {
         @Result(column="total_line_total", property="totalLineTotal", jdbcType=JdbcType.INTEGER),
         @Result(column="total_line_coverage", property="totalLineCoverage", jdbcType=JdbcType.DECIMAL),
         @Result(column="total_line_c_interface", property="totalLineCInterface", jdbcType=JdbcType.VARCHAR),
+        @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_name", property="departmentName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_name_2", property="departmentName2", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
     })
@@ -71,14 +82,16 @@ public interface LineCoverageP0Mapper {
 
     @Select({
         "select",
-        "id, release_name, core_line_c, core_line_m, core_line_total, core_line_coverage, ",
+        "id, srv, release_name, core_line_c, core_line_m, core_line_total, core_line_coverage, ",
         "core_line_c_interface, total_line_c, total_line_m, total_line_total, total_line_coverage, ",
-        "total_line_c_interface, created_time, update_time",
+        "total_line_c_interface, department_id, department_name, department_id_2, department_name_2, ",
+        "created_time, update_time",
         "from line_coverage_table",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
         @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR),
         @Result(column="core_line_c", property="coreLineC", jdbcType=JdbcType.INTEGER),
         @Result(column="core_line_m", property="coreLineM", jdbcType=JdbcType.INTEGER),
@@ -90,6 +103,10 @@ public interface LineCoverageP0Mapper {
         @Result(column="total_line_total", property="totalLineTotal", jdbcType=JdbcType.INTEGER),
         @Result(column="total_line_coverage", property="totalLineCoverage", jdbcType=JdbcType.DECIMAL),
         @Result(column="total_line_c_interface", property="totalLineCInterface", jdbcType=JdbcType.VARCHAR),
+        @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_name", property="departmentName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER),
+        @Result(column="department_name_2", property="departmentName2", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
     })
@@ -106,7 +123,8 @@ public interface LineCoverageP0Mapper {
 
     @Update({
         "update line_coverage_table",
-        "set release_name = #{releaseName,jdbcType=VARCHAR},",
+        "set srv = #{srv,jdbcType=VARCHAR},",
+          "release_name = #{releaseName,jdbcType=VARCHAR},",
           "core_line_c = #{coreLineC,jdbcType=INTEGER},",
           "core_line_m = #{coreLineM,jdbcType=INTEGER},",
           "core_line_total = #{coreLineTotal,jdbcType=INTEGER},",
@@ -117,6 +135,10 @@ public interface LineCoverageP0Mapper {
           "total_line_total = #{totalLineTotal,jdbcType=INTEGER},",
           "total_line_coverage = #{totalLineCoverage,jdbcType=DECIMAL},",
           "total_line_c_interface = #{totalLineCInterface,jdbcType=VARCHAR},",
+          "department_id = #{departmentId,jdbcType=INTEGER},",
+          "department_name = #{departmentName,jdbcType=VARCHAR},",
+          "department_id_2 = #{departmentId2,jdbcType=INTEGER},",
+          "department_name_2 = #{departmentName2,jdbcType=VARCHAR},",
           "created_time = #{createdTime,jdbcType=TIMESTAMP},",
           "update_time = #{updateTime,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"

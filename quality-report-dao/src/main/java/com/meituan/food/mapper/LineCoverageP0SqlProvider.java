@@ -32,6 +32,10 @@ public class LineCoverageP0SqlProvider {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
+        if (record.getSrv() != null) {
+            sql.VALUES("srv", "#{srv,jdbcType=VARCHAR}");
+        }
+        
         if (record.getReleaseName() != null) {
             sql.VALUES("release_name", "#{releaseName,jdbcType=VARCHAR}");
         }
@@ -76,6 +80,22 @@ public class LineCoverageP0SqlProvider {
             sql.VALUES("total_line_c_interface", "#{totalLineCInterface,jdbcType=VARCHAR}");
         }
         
+        if (record.getDepartmentId() != null) {
+            sql.VALUES("department_id", "#{departmentId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName() != null) {
+            sql.VALUES("department_name", "#{departmentName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDepartmentId2() != null) {
+            sql.VALUES("department_id_2", "#{departmentId2,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName2() != null) {
+            sql.VALUES("department_name_2", "#{departmentName2,jdbcType=VARCHAR}");
+        }
+        
         if (record.getCreatedTime() != null) {
             sql.VALUES("created_time", "#{createdTime,jdbcType=TIMESTAMP}");
         }
@@ -94,6 +114,7 @@ public class LineCoverageP0SqlProvider {
         } else {
             sql.SELECT("id");
         }
+        sql.SELECT("srv");
         sql.SELECT("release_name");
         sql.SELECT("core_line_c");
         sql.SELECT("core_line_m");
@@ -105,6 +126,10 @@ public class LineCoverageP0SqlProvider {
         sql.SELECT("total_line_total");
         sql.SELECT("total_line_coverage");
         sql.SELECT("total_line_c_interface");
+        sql.SELECT("department_id");
+        sql.SELECT("department_name");
+        sql.SELECT("department_id_2");
+        sql.SELECT("department_name_2");
         sql.SELECT("created_time");
         sql.SELECT("update_time");
         sql.FROM("line_coverage_table");
@@ -126,6 +151,10 @@ public class LineCoverageP0SqlProvider {
         
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        }
+        
+        if (record.getSrv() != null) {
+            sql.SET("srv = #{record.srv,jdbcType=VARCHAR}");
         }
         
         if (record.getReleaseName() != null) {
@@ -172,6 +201,22 @@ public class LineCoverageP0SqlProvider {
             sql.SET("total_line_c_interface = #{record.totalLineCInterface,jdbcType=VARCHAR}");
         }
         
+        if (record.getDepartmentId() != null) {
+            sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName() != null) {
+            sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDepartmentId2() != null) {
+            sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName2() != null) {
+            sql.SET("department_name_2 = #{record.departmentName2,jdbcType=VARCHAR}");
+        }
+        
         if (record.getCreatedTime() != null) {
             sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         }
@@ -189,6 +234,7 @@ public class LineCoverageP0SqlProvider {
         sql.UPDATE("line_coverage_table");
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("srv = #{record.srv,jdbcType=VARCHAR}");
         sql.SET("release_name = #{record.releaseName,jdbcType=VARCHAR}");
         sql.SET("core_line_c = #{record.coreLineC,jdbcType=INTEGER}");
         sql.SET("core_line_m = #{record.coreLineM,jdbcType=INTEGER}");
@@ -200,6 +246,10 @@ public class LineCoverageP0SqlProvider {
         sql.SET("total_line_total = #{record.totalLineTotal,jdbcType=INTEGER}");
         sql.SET("total_line_coverage = #{record.totalLineCoverage,jdbcType=DECIMAL}");
         sql.SET("total_line_c_interface = #{record.totalLineCInterface,jdbcType=VARCHAR}");
+        sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
+        sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
+        sql.SET("department_id_2 = #{record.departmentId2,jdbcType=INTEGER}");
+        sql.SET("department_name_2 = #{record.departmentName2,jdbcType=VARCHAR}");
         sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         
@@ -211,6 +261,10 @@ public class LineCoverageP0SqlProvider {
     public String updateByPrimaryKeySelective(LineCoverageP0 record) {
         SQL sql = new SQL();
         sql.UPDATE("line_coverage_table");
+        
+        if (record.getSrv() != null) {
+            sql.SET("srv = #{srv,jdbcType=VARCHAR}");
+        }
         
         if (record.getReleaseName() != null) {
             sql.SET("release_name = #{releaseName,jdbcType=VARCHAR}");
@@ -254,6 +308,22 @@ public class LineCoverageP0SqlProvider {
         
         if (record.getTotalLineCInterface() != null) {
             sql.SET("total_line_c_interface = #{totalLineCInterface,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDepartmentId() != null) {
+            sql.SET("department_id = #{departmentId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName() != null) {
+            sql.SET("department_name = #{departmentName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDepartmentId2() != null) {
+            sql.SET("department_id_2 = #{departmentId2,jdbcType=INTEGER}");
+        }
+        
+        if (record.getDepartmentName2() != null) {
+            sql.SET("department_name_2 = #{departmentName2,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {

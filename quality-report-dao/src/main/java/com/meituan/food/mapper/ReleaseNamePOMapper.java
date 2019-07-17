@@ -2,18 +2,12 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.ReleaseNamePO;
 import com.meituan.food.po.ReleaseNamePOExample;
+
+import java.util.HashMap;
 import java.util.List;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ReleaseNamePOMapper {
@@ -73,10 +67,16 @@ public interface ReleaseNamePOMapper {
     })
     ReleaseNamePO selectByPrimaryKey(Integer id);
 
+
     @Select({
-            "select release_name from release_name_table"
+            "select",
+            "srv, release_name",
+            "from release_name_table"
+    })@Results({
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR),
     })
-    List<String> selectAllReleaseName();
+    List<ReleaseNamePO> selectReleaseNameSrv();
 
     @UpdateProvider(type=ReleaseNamePOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ReleaseNamePO record, @Param("example") ReleaseNamePOExample example);
