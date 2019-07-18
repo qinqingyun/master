@@ -31,23 +31,53 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
     @Resource
     private DepartmentPOMapper departmentPOMapper;
 
+    private Date now;
     public static final String url = "http://jacocolive.meishi.test.sankuai.com/api/asyn/stopCoverageAndGetDataAsyn?ipOrCargoSwimlane=mainbranch&startTimeInSecond=3&releaseName=";
-    public JSONObject resp;
+    private JSONObject resp;
+    private String srv;
+    private String releaseName;
+    private int departmentId;
+    private int departmentId2;
+    private String departmentName;
+    private String departmentName2;
+
+    // 数据库默认值
+    // 不包含error_message
+    public void insterPO( LineCoverageP0 po) {
+        po.setReleaseName(releaseName);
+        po.setSrv(srv);
+        po.setCoreLineC(0);
+        po.setCoreLineM(0);
+        po.setCoreLineTotal(0);
+        po.setCoreLineCoverage(BigDecimal.valueOf(0));
+        po.setCoreLineCInterface(null);
+        po.setTotalLineC(0);
+        po.setTotalLineM(0);
+        po.setTotalLineTotal(0);
+        po.setTotalLineCoverage(BigDecimal.valueOf(0));
+        po.setTotalLineCInterface(null);
+        po.setDepartmentId(departmentId);
+        po.setDepartmentName(departmentName);
+        po.setDepartmentId2(departmentId2);
+        po.setDepartmentName2(departmentName2);
+        po.setCreatedTime(now);
+        po.setUpdateTime(now);
+    }
 
     @Override
     public void getLineCoverage() {
         List<ReleaseNamePO> allReleaseNameSrv = releaseNamePOMapper.selectReleaseNameSrv();
-        Date now = new Date();
+        now = new Date();
 
         for (ReleaseNamePO releaseNameSrv : allReleaseNameSrv) {
             LineCoverageP0 po = new LineCoverageP0();
 
-            String srv = releaseNameSrv.getSrv();
-            String releaseName = releaseNameSrv.getReleaseName();
-            int departmentId = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId();
-            int departmentId2 = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId2();
-            String departmentName = departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment();
-            String departmentName2 = departmentPOMapper.selectByPrimaryKey(departmentId2).getDepartment2();
+            srv = releaseNameSrv.getSrv();
+            releaseName = releaseNameSrv.getReleaseName();
+            departmentId = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId();
+            departmentId2 = appkeyListPOMapper.selectBySrv(releaseNameSrv.getSrv()).getDepartmentId2();
+            departmentName = departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment();
+            departmentName2 = departmentPOMapper.selectByPrimaryKey(departmentId2).getDepartment2();
 
             String urlF = url+releaseName;
             resp = HttpUtils.doGet(urlF,JSONObject.class, ImmutableMap.of());
@@ -62,7 +92,7 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
             //                 preparationStatus 其他值 错误退出
             //                 preparationStatus 不存在：判断resultStatus 0正常 1异常
             if (code == 0) {
-                //内侧状态码preparationStatus存在：2继续轮序 其他值退出
+                // 内侧状态码preparationStatus存在：2继续轮序 其他值退出
                 while (resp.getJSONObject("data").containsKey("preparationStatus")) {
                     preparationStatus = resp.getJSONObject("data").getInteger("preparationStatus");
                     po.setErrorMessage("preparationStatus="+preparationStatus);
@@ -70,40 +100,23 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                     if (preparationStatus == 2) {
                         resp = HttpUtils.doGet(urlF,JSONObject.class, ImmutableMap.of());
                     } else {
-                        po.setReleaseName(releaseName);
-                        po.setSrv(srv);
-                        po.setCoreLineC(0);
-                        po.setCoreLineM(0);
-                        po.setCoreLineTotal(0);
-                        po.setCoreLineCoverage(BigDecimal.valueOf(0));
-                        po.setCoreLineCInterface(null);
-                        po.setTotalLineC(0);
-                        po.setTotalLineM(0);
-                        po.setTotalLineTotal(0);
-                        po.setTotalLineCoverage(BigDecimal.valueOf(0));
-                        po.setTotalLineCInterface(null);
-                        po.setDepartmentId(departmentId);
-                        po.setDepartmentName(departmentName);
-                        po.setDepartmentId2(departmentId2);
-                        po.setDepartmentName2(departmentName2);
-                        po.setCreatedTime(now);
-                        po.setUpdateTime(now);
+                        insterPO(po);
                         break;
                     }
                 }
-                //内侧状态码preparationStatus不存在：判断resultStatus 0正常 1异常
-                //preparationStatus和resultStatus应该不会同时存在吧？暂时没做处理，默认只存在一个
+                // 内侧状态码preparationStatus不存在：判断resultStatus 0正常 1异常
+                // preparationStatus和resultStatus应该不会同时存在吧？暂时没做处理，默认只存在一个
                 if (resp.getJSONObject("data").containsKey("resultStatus")) {
                     resultStatus = resp.getJSONObject("data").getInteger("resultStatus");
 
                     if (resultStatus == 0) {
-                        //核心接口覆盖行数
+                        // 核心接口覆盖行数
                         int coreLineC = resp.getJSONObject("data").getJSONObject("coreData").getInteger("lineC");
-                        //核心接口未覆盖行数
+                        // 核心接口未覆盖行数
                         int coreLineM = resp.getJSONObject("data").getJSONObject("coreData").getInteger("lineM");
-                        //核心接口总行数
+                        // 核心接口总行数
                         int coreLineTotal = coreLineC + coreLineM;
-                        //计算核心接口行覆盖率（四舍五入BigDecimal.ROUND_HALF_U）
+                        // 计算核心接口行覆盖率（四舍五入BigDecimal.ROUND_HALF_U）
                         if (coreLineTotal != 0) {
                             BigDecimal coreLineCoverage = (new BigDecimal(coreLineC)).divide (new BigDecimal(coreLineTotal),4,BigDecimal.ROUND_HALF_UP);
                             coreLineCoverage = coreLineCoverage.movePointRight(2);
@@ -111,15 +124,15 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                         } else {
                             po.setCoreLineCoverage(BigDecimal.valueOf(0));
                         }
-                        //核心接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
+                        // 核心接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
                         String coreLineCoverageInterface = resp.getJSONObject("data").getJSONObject("coreData").getString("lineCoverage");
-                        //全部接口覆盖行数
+                        // 全部接口覆盖行数
                         int totalLineC = resp.getJSONObject("data").getJSONObject("totalData").getInteger("lineC");
-                        //全部接口未覆盖行数
+                        // 全部接口未覆盖行数
                         int totalLineM = resp.getJSONObject("data").getJSONObject("totalData").getInteger("lineM");
-                        //全部接口总行数
+                        // 全部接口总行数
                         int totalLineTotal = totalLineC + totalLineM;
-                        //计算全部接口行覆盖率（四舍五入BigDecimal.ROUND_HALF_U）
+                        // 计算全部接口行覆盖率（四舍五入BigDecimal.ROUND_HALF_U）
                         if (totalLineTotal != 0) {
                             BigDecimal totalLineCoverage = (new BigDecimal(totalLineC)).divide (new BigDecimal(totalLineTotal),4,BigDecimal.ROUND_HALF_UP);
                             totalLineCoverage = totalLineCoverage.movePointRight(2);
@@ -127,7 +140,7 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                         } else {
                             po.setTotalLineCoverage(BigDecimal.valueOf(0));
                         }
-                        //全部接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
+                        // 全部接口行覆盖率（接口获取，string，直接丢弃未四舍五入）
                         String totalLineCoverageInterface = resp.getJSONObject("data").getJSONObject("totalData").getString("lineCoverage");
 
                         po.setReleaseName(releaseName);
@@ -135,12 +148,12 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                         po.setCoreLineC(coreLineC);
                         po.setCoreLineM(coreLineM);
                         po.setCoreLineTotal(coreLineTotal);
-                        //po.setTotalLineCoverage(totalLineCoverage);放在if判断中
+                        // po.setTotalLineCoverage(totalLineCoverage);放在if判断中
                         po.setCoreLineCInterface(coreLineCoverageInterface);
                         po.setTotalLineC(totalLineC);
                         po.setTotalLineM(totalLineM);
                         po.setTotalLineTotal(totalLineTotal);
-                        //po.setTotalLineCoverage(totalLineCoverage);放在if判断中
+                        // po.setTotalLineCoverage(totalLineCoverage);放在if判断中
                         po.setTotalLineCInterface(totalLineCoverageInterface);
                         po.setDepartmentId(departmentId);
                         po.setDepartmentName(departmentName);
@@ -149,66 +162,15 @@ public class GetLineCoverageExtracter implements IGetLineCoverageExtract {
                         po.setCreatedTime(now);
                         po.setUpdateTime(now);
                     } else {
-                        po.setReleaseName(releaseName);
-                        po.setSrv(srv);
-                        po.setCoreLineC(0);
-                        po.setCoreLineM(0);
-                        po.setCoreLineTotal(0);
-                        po.setCoreLineCoverage(BigDecimal.valueOf(0));
-                        po.setCoreLineCInterface(null);
-                        po.setTotalLineC(0);
-                        po.setTotalLineM(0);
-                        po.setTotalLineTotal(0);
-                        po.setTotalLineCoverage(BigDecimal.valueOf(0));
-                        po.setTotalLineCInterface(null);
-                        po.setDepartmentId(departmentId);
-                        po.setDepartmentName(departmentName);
-                        po.setDepartmentId2(departmentId2);
-                        po.setDepartmentName2(departmentName2);
-                        po.setCreatedTime(now);
-                        po.setUpdateTime(now);
+                        insterPO(po);
                         po.setErrorMessage("resultStatus="+resultStatus);
                     }
                 } else {
-                    po.setReleaseName(releaseName);
-                    po.setSrv(srv);
-                    po.setCoreLineC(0);
-                    po.setCoreLineM(0);
-                    po.setCoreLineTotal(0);
-                    po.setCoreLineCoverage(BigDecimal.valueOf(0));
-                    po.setCoreLineCInterface(null);
-                    po.setTotalLineC(0);
-                    po.setTotalLineM(0);
-                    po.setTotalLineTotal(0);
-                    po.setTotalLineCoverage(BigDecimal.valueOf(0));
-                    po.setTotalLineCInterface(null);
-                    po.setDepartmentId(departmentId);
-                    po.setDepartmentName(departmentName);
-                    po.setDepartmentId2(departmentId2);
-                    po.setDepartmentName2(departmentName2);
-                    po.setCreatedTime(now);
-                    po.setUpdateTime(now);
+                    insterPO(po);
                     po.setErrorMessage("preparationStatus不存在；resultStatus不存在");
                 }
             } else {
-                po.setReleaseName(releaseName);
-                po.setSrv(srv);
-                po.setCoreLineC(0);
-                po.setCoreLineM(0);
-                po.setCoreLineTotal(0);
-                po.setCoreLineCoverage(BigDecimal.valueOf(0));
-                po.setCoreLineCInterface(null);
-                po.setTotalLineC(0);
-                po.setTotalLineM(0);
-                po.setTotalLineTotal(0);
-                po.setTotalLineCoverage(BigDecimal.valueOf(0));
-                po.setTotalLineCInterface(null);
-                po.setDepartmentId(departmentId);
-                po.setDepartmentName(departmentName);
-                po.setDepartmentId2(departmentId2);
-                po.setDepartmentName2(departmentName2);
-                po.setCreatedTime(now);
-                po.setUpdateTime(now);
+                insterPO(po);
                 po.setErrorMessage("code="+code);
             }
 
