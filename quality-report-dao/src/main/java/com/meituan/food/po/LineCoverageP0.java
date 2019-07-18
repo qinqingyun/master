@@ -43,6 +43,8 @@ public class LineCoverageP0 implements Serializable {
 
     private Date updateTime;
 
+    private String errorMessage;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -197,6 +199,14 @@ public class LineCoverageP0 implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage == null ? null : errorMessage.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -227,7 +237,8 @@ public class LineCoverageP0 implements Serializable {
             && (this.getDepartmentId2() == null ? other.getDepartmentId2() == null : this.getDepartmentId2().equals(other.getDepartmentId2()))
             && (this.getDepartmentName2() == null ? other.getDepartmentName2() == null : this.getDepartmentName2().equals(other.getDepartmentName2()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getErrorMessage() == null ? other.getErrorMessage() == null : this.getErrorMessage().equals(other.getErrorMessage()));
     }
 
     @Override
@@ -253,6 +264,7 @@ public class LineCoverageP0 implements Serializable {
         result = prime * result + ((getDepartmentName2() == null) ? 0 : getDepartmentName2().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getErrorMessage() == null) ? 0 : getErrorMessage().hashCode());
         return result;
     }
 
@@ -281,6 +293,7 @@ public class LineCoverageP0 implements Serializable {
         sb.append(", departmentName2=").append(departmentName2);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", errorMessage=").append(errorMessage);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

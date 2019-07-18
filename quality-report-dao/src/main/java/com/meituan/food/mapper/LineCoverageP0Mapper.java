@@ -39,7 +39,7 @@ public interface LineCoverageP0Mapper {
         "total_line_c_interface, department_id, ",
         "department_name, department_id_2, ",
         "department_name_2, created_time, ",
-        "update_time)",
+        "update_time, error_message)",
         "values (#{id,jdbcType=INTEGER}, #{srv,jdbcType=VARCHAR}, ",
         "#{releaseName,jdbcType=VARCHAR}, #{coreLineC,jdbcType=INTEGER}, ",
         "#{coreLineM,jdbcType=INTEGER}, #{coreLineTotal,jdbcType=INTEGER}, ",
@@ -49,7 +49,7 @@ public interface LineCoverageP0Mapper {
         "#{totalLineCInterface,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, ",
         "#{departmentName,jdbcType=VARCHAR}, #{departmentId2,jdbcType=INTEGER}, ",
         "#{departmentName2,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, ",
-        "#{updateTime,jdbcType=TIMESTAMP})"
+        "#{updateTime,jdbcType=TIMESTAMP}, #{errorMessage,jdbcType=VARCHAR})"
     })
     int insert(LineCoverageP0 record);
 
@@ -76,7 +76,8 @@ public interface LineCoverageP0Mapper {
         @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER),
         @Result(column="department_name_2", property="departmentName2", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="error_message", property="errorMessage", jdbcType=JdbcType.VARCHAR)
     })
     List<LineCoverageP0> selectByExample(LineCoverageP0Example example);
 
@@ -85,7 +86,7 @@ public interface LineCoverageP0Mapper {
         "id, srv, release_name, core_line_c, core_line_m, core_line_total, core_line_coverage, ",
         "core_line_c_interface, total_line_c, total_line_m, total_line_total, total_line_coverage, ",
         "total_line_c_interface, department_id, department_name, department_id_2, department_name_2, ",
-        "created_time, update_time",
+        "created_time, update_time, error_message",
         "from line_coverage_table",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -108,7 +109,8 @@ public interface LineCoverageP0Mapper {
         @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER),
         @Result(column="department_name_2", property="departmentName2", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="error_message", property="errorMessage", jdbcType=JdbcType.VARCHAR)
     })
     LineCoverageP0 selectByPrimaryKey(Integer id);
 
@@ -140,7 +142,8 @@ public interface LineCoverageP0Mapper {
           "department_id_2 = #{departmentId2,jdbcType=INTEGER},",
           "department_name_2 = #{departmentName2,jdbcType=VARCHAR},",
           "created_time = #{createdTime,jdbcType=TIMESTAMP},",
-          "update_time = #{updateTime,jdbcType=TIMESTAMP}",
+          "update_time = #{updateTime,jdbcType=TIMESTAMP},",
+          "error_message = #{errorMessage,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(LineCoverageP0 record);

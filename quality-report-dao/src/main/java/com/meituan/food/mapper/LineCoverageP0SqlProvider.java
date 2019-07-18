@@ -104,6 +104,10 @@ public class LineCoverageP0SqlProvider {
             sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getErrorMessage() != null) {
+            sql.VALUES("error_message", "#{errorMessage,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -132,6 +136,7 @@ public class LineCoverageP0SqlProvider {
         sql.SELECT("department_name_2");
         sql.SELECT("created_time");
         sql.SELECT("update_time");
+        sql.SELECT("error_message");
         sql.FROM("line_coverage_table");
         applyWhere(sql, example, false);
         
@@ -225,6 +230,10 @@ public class LineCoverageP0SqlProvider {
             sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getErrorMessage() != null) {
+            sql.SET("error_message = #{record.errorMessage,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -252,6 +261,7 @@ public class LineCoverageP0SqlProvider {
         sql.SET("department_name_2 = #{record.departmentName2,jdbcType=VARCHAR}");
         sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
+        sql.SET("error_message = #{record.errorMessage,jdbcType=VARCHAR}");
         
         LineCoverageP0Example example = (LineCoverageP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -332,6 +342,10 @@ public class LineCoverageP0SqlProvider {
         
         if (record.getUpdateTime() != null) {
             sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getErrorMessage() != null) {
+            sql.SET("error_message = #{errorMessage,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
