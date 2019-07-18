@@ -130,6 +130,18 @@ public interface AppkeyListPOMapper {
     })
     List<String> selectAllSrv();
 
+    @Select({
+        "select",
+                "department_id, department_id_2",
+                "from appkey_list_table",
+                "where srv = #{srv,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    AppkeyListPO selectBySrv(String srv);
+
     @UpdateProvider(type=AppkeyListPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyListPO record, @Param("example") AppkeyListPOExample example);
 
