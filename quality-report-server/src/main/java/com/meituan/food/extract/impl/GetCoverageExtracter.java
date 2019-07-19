@@ -142,47 +142,49 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
         }
 
        for (int i=1;i<=12;i++){
-            List<ApiCoveragePO> groupList=apiCoveragePOMapper.selectByDateDepartment2id(currentTime_2,i);
-            int allAPiCount=0;
-            int coverApiCount=0;
-            int allCoreApiCount=0;
-            int coverCoreApiCount=0;
-           DepartmentApiCoveragePO departmentApiCoveragePO=new DepartmentApiCoveragePO();
-           String departmentName=groupList.get(0).getDepartment2();
-            for (ApiCoveragePO apiCoveragePO : groupList) {
-                allAPiCount=allAPiCount+apiCoveragePO.getAllApiNum();
-                coverApiCount=coverApiCount+apiCoveragePO.getCoverApiNum();
-                allCoreApiCount=allCoreApiCount+apiCoveragePO.getAllCoreApiNum();
-                coverCoreApiCount=coverCoreApiCount+apiCoveragePO.getCoverCoreApiNum();
-            }
-            if (allAPiCount!=0){
-                BigDecimal apiCoverage=new BigDecimal((double)coverApiCount*100/allAPiCount);
-                departmentApiCoveragePO.setApiCoverage(apiCoverage);
-            }else {
-                BigDecimal apiCoverage=new BigDecimal(0);
-                departmentApiCoveragePO.setApiCoverage(apiCoverage);
-            }
-            if (allCoreApiCount!=0){
-                BigDecimal coreApiCoverage=new BigDecimal((double)coverCoreApiCount*100/allCoreApiCount);
-                departmentApiCoveragePO.setCoreApiCoverage(coreApiCoverage);
-            }else {
-                BigDecimal coreApiCoverage=new BigDecimal(0);
-                departmentApiCoveragePO.setCoreApiCoverage(coreApiCoverage);
-            }
-            departmentApiCoveragePO.setDepartmentId(i);
-            departmentApiCoveragePO.setDepartmentName(departmentName);
-            departmentApiCoveragePO.setAllApiNum(allAPiCount);
-            departmentApiCoveragePO.setCoverApiNum(coverApiCount);
-            departmentApiCoveragePO.setAllCoreApiNum(allCoreApiCount);
-            departmentApiCoveragePO.setCoverCoreApiNum(coverCoreApiCount);
-            departmentApiCoveragePO.setCoverageDate(currentTime_2);
-            departmentApiCoveragePO.setStatus(1);
+            if (i!=11) {
+                List<ApiCoveragePO> groupList = apiCoveragePOMapper.selectByDateDepartment2id(currentTime_2, i);
+                int allAPiCount = 0;
+                int coverApiCount = 0;
+                int allCoreApiCount = 0;
+                int coverCoreApiCount = 0;
+                DepartmentApiCoveragePO departmentApiCoveragePO = new DepartmentApiCoveragePO();
+                String departmentName = groupList.get(0).getDepartment2();
+                for (ApiCoveragePO apiCoveragePO : groupList) {
+                    allAPiCount = allAPiCount + apiCoveragePO.getAllApiNum();
+                    coverApiCount = coverApiCount + apiCoveragePO.getCoverApiNum();
+                    allCoreApiCount = allCoreApiCount + apiCoveragePO.getAllCoreApiNum();
+                    coverCoreApiCount = coverCoreApiCount + apiCoveragePO.getCoverCoreApiNum();
+                }
+                if (allAPiCount != 0) {
+                    BigDecimal apiCoverage = new BigDecimal((double) coverApiCount * 100 / allAPiCount);
+                    departmentApiCoveragePO.setApiCoverage(apiCoverage);
+                } else {
+                    BigDecimal apiCoverage = new BigDecimal(0);
+                    departmentApiCoveragePO.setApiCoverage(apiCoverage);
+                }
+                if (allCoreApiCount != 0) {
+                    BigDecimal coreApiCoverage = new BigDecimal((double) coverCoreApiCount * 100 / allCoreApiCount);
+                    departmentApiCoveragePO.setCoreApiCoverage(coreApiCoverage);
+                } else {
+                    BigDecimal coreApiCoverage = new BigDecimal(0);
+                    departmentApiCoveragePO.setCoreApiCoverage(coreApiCoverage);
+                }
+                departmentApiCoveragePO.setDepartmentId(i);
+                departmentApiCoveragePO.setDepartmentName(departmentName);
+                departmentApiCoveragePO.setAllApiNum(allAPiCount);
+                departmentApiCoveragePO.setCoverApiNum(coverApiCount);
+                departmentApiCoveragePO.setAllCoreApiNum(allCoreApiCount);
+                departmentApiCoveragePO.setCoverCoreApiNum(coverCoreApiCount);
+                departmentApiCoveragePO.setCoverageDate(currentTime_2);
+                departmentApiCoveragePO.setStatus(1);
 
-            departmentApiCoveragePOMapper.insert(departmentApiCoveragePO);
+                departmentApiCoveragePOMapper.insert(departmentApiCoveragePO);
+            }
         }
 
         for (int i=1;i<=12;i++){
-            if (i!=8&&i!=9){
+            if (i!=8&&i!=9&&i!=11){
                 List<ApiCoveragePO> groupList = apiCoveragePOMapper.selectByDateDepartmentId(currentTime_2, i);
                 DepartmentApiCoveragePO departmentApiCoveragePO = new DepartmentApiCoveragePO();
                 int allAPiCount = 0;
