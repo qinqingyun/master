@@ -70,4 +70,11 @@ public class AppkeyController {
         appkeyListPOMapper.updateToCore(appkey,now);
         return "OK!";
     }
+
+    @GetMapping("/update/department")
+    public String updateAppkeyDepartment(@RequestParam("appkey") String appkey,@RequestParam("departmentid") int departmentid,@RequestParam("departmentid2") int departmentid2){
+        Date now=new Date();
+        appkeyListPOMapper.updateDepartment(appkey,now,departmentid,departmentid2);
+        return "OK!";
+    }
 }
