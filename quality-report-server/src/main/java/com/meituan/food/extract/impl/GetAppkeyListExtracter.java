@@ -158,13 +158,15 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 System.out.println("appkey="+appkeyResp.get("appkeys").toString());
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
-                if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
+               /* if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
                     po.setDepartmentId(10);
                     po.setDepartmentId2(10);
                 } else {
                     po.setDepartmentId(11);
                     po.setDepartmentId2(11);
-                }
+                }*/
+                po.setDepartmentId(10);
+                po.setDepartmentId2(10);
                 po.setOffline(0);
                 po.setRank(1);
                 po.setCreatedTime(now);
