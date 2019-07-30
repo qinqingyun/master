@@ -23,7 +23,8 @@ import java.util.List;
 
 @Component
 public class GetAppkeyListExtracter implements IGetAppkeyList {
-    String url="http://ops.vip.sankuai.com/api/v0.2/owts/meituan.web/pdls";
+    //  String url="http://ops.vip.sankuai.com/api/v0.2/owts/meituan.web/pdls";
+    String url = "http://ops.vip.sankuai.com/api/v0.2/owts/";
 
     @Resource
     public AppkeyListPOMapper appkeyListPOMapper;
@@ -33,94 +34,99 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
     @Override
     public void getAppkeyList() {
-        Date now=new Date();
-        List<AppkeyListPO> appkeyListPOS=new ArrayList<>();
-        JSONObject resp=HttpUtils.doGet(url,JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-        JSONArray respArr=resp.getJSONArray("pdls");
-        for (Object o : respArr) {
-            String pdlName=((JSONObject)o).getString("key");
-            JSONObject srvResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/"+pdlName+"/srvs",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-            JSONArray srvRespArr=srvResp.getJSONArray("srvs");
-            for (Object o1 : srvRespArr) {
-                AppkeyListPO po=new AppkeyListPO();
-                po.setOwt("meituan.web");
-                po.setPdl(pdlName);
-                String srvName=((JSONObject)o1).getString("key");
-                po.setSrv(srvName);
-                String encodedRank=((JSONObject)o1).getString("rank");
-                String rank=StringEscapeUtils.unescapeJava(encodedRank);
-                if(rank.equals("核心服务")){
-                    po.setRank(1);
-                }else if (rank.equals("非核心服务")){
-                    po.setRank(2);
-                }else {
-                    po.setRank(0);
+        List<String> owtList = new ArrayList<>();
+        owtList.add("meituan.web");
+        owtList.add("dianping.dc");
+        List<AppkeyListPO> appkeyListPOS = new ArrayList<>();
+        Date now = new Date();
+        for (String owt : owtList) {
+            JSONObject resp = HttpUtils.doGet(url + owt + "/pdls", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+            JSONArray respArr = resp.getJSONArray("pdls");
+            for (Object o : respArr) {
+                String pdlName = ((JSONObject) o).getString("key");
+                JSONObject srvResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/" + pdlName + "/srvs", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+                JSONArray srvRespArr = srvResp.getJSONArray("srvs");
+                for (Object o1 : srvRespArr) {
+                    AppkeyListPO po = new AppkeyListPO();
+                    po.setOwt(owt);
+                    po.setPdl(pdlName);
+                    String srvName = ((JSONObject) o1).getString("key");
+                    po.setSrv(srvName);
+                    String encodedRank = ((JSONObject) o1).getString("rank");
+                    String rank = StringEscapeUtils.unescapeJava(encodedRank);
+                    if (rank.equals("核心服务")) {
+                        po.setRank(1);
+                    } else if (rank.equals("非核心服务")) {
+                        po.setRank(2);
+                    } else {
+                        po.setRank(0);
+                    }
+                    po.setCreatedTime(now);
+                    po.setUpdatedTime(now);
+                    po.setOffline(0);
+                    JSONObject appkeyResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/" + srvName + "/appkeys", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+                    String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
+                    po.setAppkey(appkeyName);
+                    po.setDepartmentId(1);
+                    po.setDepartmentId2(1);
+                    System.out.println(po.toString());
+                    appkeyListPOS.add(po);
+                    //  appkeyListPOMapper.insert(po);
                 }
-                po.setCreatedTime(now);
-                po.setUpdatedTime(now);
-                po.setOffline(0);
-                JSONObject appkeyResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/"+srvName+"/appkeys",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-                String appkeyName=((JSONArray)(appkeyResp.get("appkeys"))).get(0).toString();
-                po.setAppkey(appkeyName);
-                po.setDepartmentId(1);
-                po.setDepartmentId2(1);
-                System.out.println(po.toString());
-                appkeyListPOS.add(po);
-              //  appkeyListPOMapper.insert(po);
             }
+
         }
 
-        List<AppkeyData> pdlList=new ArrayList<>();
-        pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.infra","","",6,6));
-        pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.mbo","","",6,8));
-        pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.mva","","",6,9));
-        pdlList.add(new AppkeyData("meituan.nibmp","meituan.nibmp.dzbp","","",12,12));
-        pdlList.add(new AppkeyData("dianping.dzs","dianping.dzs.so_merchant_op","","",12,12));
-        pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.crm","","",2,2));
-        pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.merchant","","",3,3));
-        pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.scp","","",4,4));
-        pdlList.add(new AppkeyData("meituan.meishi","meituan.meishi.finance","","",5,5));
-        pdlList.add(new AppkeyData("meituan.resv","meituan.resv.b","","",7,7));
-        pdlList.add(new AppkeyData("meituan.resv","meituan.resv.c","","",7,7));
-        pdlList.add(new AppkeyData("meituan.resv","meituan.resv.m","","",7,7));
+        List<AppkeyData> pdlList = new ArrayList<>();
+        pdlList.add(new AppkeyData("meituan.nibmp", "meituan.nibmp.infra", "", "", 6, 6));
+        pdlList.add(new AppkeyData("meituan.nibmp", "meituan.nibmp.mbo", "", "", 6, 8));
+        pdlList.add(new AppkeyData("meituan.nibmp", "meituan.nibmp.mva", "", "", 6, 9));
+        pdlList.add(new AppkeyData("meituan.nibmp", "meituan.nibmp.dzbp", "", "", 12, 12));
+        pdlList.add(new AppkeyData("dianping.dzs", "dianping.dzs.so_merchant_op", "", "", 12, 12));
+        pdlList.add(new AppkeyData("meituan.meishi", "meituan.meishi.crm", "", "", 2, 2));
+        pdlList.add(new AppkeyData("meituan.meishi", "meituan.meishi.merchant", "", "", 3, 3));
+        pdlList.add(new AppkeyData("meituan.meishi", "meituan.meishi.scp", "", "", 4, 4));
+        pdlList.add(new AppkeyData("meituan.meishi", "meituan.meishi.finance", "", "", 5, 5));
+        pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.b", "", "", 7, 7));
+        pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.c", "", "", 7, 7));
+        pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.m", "", "", 7, 7));
 
 
-
-        List<String> appkeyStrList2=new ArrayList<>();
+        List<String> appkeyStrList2 = new ArrayList<>();
         appkeyStrList2.add("com.sankuai.meishi.cis.salersagent");
         appkeyStrList2.add("com.sankuai.meishi.crm.agentcore");
         appkeyStrList2.add("com.sankuai.meishi.crm.agent.achiever");
         appkeyStrList2.add("com.sankuai.meishi.scp.mtagent");
         appkeyStrList2.add("com.sankuai.meishi.scp.esignplatform");
 
-        List<String> appkeyStrList3=new ArrayList<>();
+        List<String> appkeyStrList3 = new ArrayList<>();
         appkeyStrList3.add("com.sankuai.meishi.scp.mtcharge");
 
         for (AppkeyData appkeyData : pdlList) {
-            String pdlName=appkeyData.getPdlName();
-            JSONObject srvResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/"+pdlName+"/srvs",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-            JSONArray srvRespArr=srvResp.getJSONArray("srvs");
+            String pdlName = appkeyData.getPdlName();
+            JSONObject srvResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/" + pdlName + "/srvs", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+            JSONArray srvRespArr = srvResp.getJSONArray("srvs");
             for (Object o1 : srvRespArr) {
-                AppkeyListPO listPO=new AppkeyListPO();
+                AppkeyListPO listPO = new AppkeyListPO();
                 listPO.setOwt(appkeyData.getOwtName());
                 listPO.setPdl(appkeyData.getPdlName());
-                String srvName=((JSONObject)o1).getString("key");
+                String srvName = ((JSONObject) o1).getString("key");
                 listPO.setSrv(srvName);
-                String encodedRank=((JSONObject)o1).getString("rank");
-                String rank=StringEscapeUtils.unescapeJava(encodedRank);
-                if(rank.equals("核心服务")){
+                String encodedRank = ((JSONObject) o1).getString("rank");
+                String rank = StringEscapeUtils.unescapeJava(encodedRank);
+                if (rank.equals("核心服务")) {
                     listPO.setRank(1);
-                }else if (rank.equals("非核心服务")){
+                } else if (rank.equals("非核心服务")) {
                     listPO.setRank(2);
-                }else {
+                } else {
                     listPO.setRank(0);
                 }
                 listPO.setCreatedTime(now);
                 listPO.setUpdatedTime(now);
                 listPO.setOffline(0);
-                JSONObject appkeyResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/"+srvName+"/appkeys",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-                if (!appkeyResp.get("appkeys").toString().equals("[]")){
-                    System.out.println("appkey="+appkeyResp.get("appkeys").toString());
+                JSONObject appkeyResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/" + srvName + "/appkeys", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+                if (!appkeyResp.get("appkeys").toString().equals("[]")) {
+                    System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
                     String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                     listPO.setAppkey(appkeyName);
                     if (appkeyData.getDepartmentId() == 4) {
@@ -144,18 +150,18 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         }
 
         //客户平台和合同平台的appkey
-        List<String> appkeyList=new ArrayList<>();
+        List<String> appkeyList = new ArrayList<>();
         appkeyList.add("meituan.nibcus.inf.nibcus-inf-customer");
         appkeyList.add("meituan.nibcus.inf.contract-mtcontract");
 
         for (String s : appkeyList) {
-            AppkeyListPO po=new AppkeyListPO();
+            AppkeyListPO po = new AppkeyListPO();
             po.setOwt("meituan.nibcus");
             po.setPdl("meituan.nibcus.inf");
             po.setSrv(s);
-            JSONObject appkeyResp=HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/"+s+"/appkeys",JSONObject.class,ImmutableMap.of("Authorization","Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
-            if (!appkeyResp.get("appkeys").toString().equals("[]")){
-                System.out.println("appkey="+appkeyResp.get("appkeys").toString());
+            JSONObject appkeyResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/" + s + "/appkeys", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+            if (!appkeyResp.get("appkeys").toString().equals("[]")) {
+                System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
                /* if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
@@ -178,9 +184,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         for (AppkeyListPO appkeyListPO : appkeyListPOS) {
             System.out.println(appkeyListPO.toString());
             AppkeyListPO po1 = appkeyListPOMapper.selectByAppKey(appkeyListPO.getAppkey());
-            if (po1==null){
+            if (po1 == null) {
                 appkeyListPOMapper.insert(appkeyListPO);
-                String srv=appkeyListPO.getSrv();
+                String srv = appkeyListPO.getSrv();
                 releaseNameExtract.insertReleaseName(srv);
             }
         }
