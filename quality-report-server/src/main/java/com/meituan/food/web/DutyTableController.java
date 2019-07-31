@@ -28,6 +28,18 @@ public class DutyTableController {
     @GetMapping("/insert")
     public void insertOneGroupData(){
 
+        DutyTablePO f=new DutyTablePO();
+        f.setIsOnDuty(false);
+        f.setDutyMis("konghongwei");
+        f.setDutyName("孔宏伟");
+        dutyTablePOMapper.insert(f);
+
+        DutyTablePO h1=new DutyTablePO();
+        h1.setIsOnDuty(false);
+        h1.setDutyMis("huangguilin");
+        h1.setDutyName("黄桂琳");
+        dutyTablePOMapper.insert(h1);
+
         DutyTablePO h=new DutyTablePO();
         h.setIsOnDuty(false);
         h.setDutyMis("qinqingyun");
@@ -58,18 +70,6 @@ public class DutyTableController {
         l.setDutyMis("wangjiani03");
         dutyTablePOMapper.insert(l);
 
-        DutyTablePO m=new DutyTablePO();
-        m.setIsOnDuty(false);
-        m.setDutyMis("wangyu82");
-        m.setDutyName("王宇");
-        dutyTablePOMapper.insert(m);
-
-        DutyTablePO n=new DutyTablePO();
-        n.setIsOnDuty(false);
-        n.setDutyName("张波");
-        n.setDutyMis("zhangbo64");
-        dutyTablePOMapper.insert(n);
-
         DutyTablePO q=new DutyTablePO();
         q.setIsOnDuty(false);
         q.setDutyMis("zhouke05");
@@ -81,12 +81,6 @@ public class DutyTableController {
         r.setDutyMis("feilichao");
         r.setDutyName("费立超");
         dutyTablePOMapper.insert(r);
-
-        DutyTablePO s=new DutyTablePO();
-        s.setIsOnDuty(false);
-        s.setDutyMis("kongliang");
-        s.setDutyName("孔亮");
-        dutyTablePOMapper.insert(s);
 
         DutyTablePO t=new DutyTablePO();
         t.setIsOnDuty(false);
@@ -160,17 +154,6 @@ public class DutyTableController {
         e.setDutyMis("yangshuai07");
         dutyTablePOMapper.insert(e);
 
-        DutyTablePO f=new DutyTablePO();
-        f.setIsOnDuty(false);
-        f.setDutyMis("konghongwei");
-        f.setDutyName("孔宏伟");
-        dutyTablePOMapper.insert(f);
-
-        DutyTablePO g=new DutyTablePO();
-        g.setIsOnDuty(false);
-        g.setDutyMis("sunyu11");
-        g.setDutyName("孙煜");
-        dutyTablePOMapper.insert(g);
     }
 
 }
