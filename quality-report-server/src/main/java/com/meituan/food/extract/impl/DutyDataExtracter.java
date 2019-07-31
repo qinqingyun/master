@@ -71,6 +71,10 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
         }
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void pushToAdmin(LocalDate today) {
+        String firstDayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        List<String> nameList = dutyTablePOMapper.selectByDate(firstDayStr);
+        DaXiangUtils.pushToPerson("本周值班人员："+nameList.toString(),"buyuqi");
     }
 }

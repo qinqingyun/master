@@ -96,6 +96,9 @@ public class ScheduleJob {
     @Resource
     private IGetLineCoverageJob getLineCoverageJob;
 
+    @Resource
+    private IPushDutyDataToAdminJob pushDutyDataToAdminJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -243,5 +246,10 @@ public class ScheduleJob {
     @Crane("line.coverage.sync.job")
     public void syncGetLineCoverage() throws InterruptedException {
         getLineCoverageJob.sync();
+    }
+
+    @Crane("push.duty.data.to.admin")
+    public void pushDutyToAdmin(){
+        pushDutyDataToAdminJob.pushData();
     }
 }

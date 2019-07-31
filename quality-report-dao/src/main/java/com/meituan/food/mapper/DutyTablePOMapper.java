@@ -101,6 +101,16 @@ public interface DutyTablePOMapper {
     })
     List<DutyTablePO> selectDutyPerson(@Param("count") Integer count);
 
+    @Select({
+            "select duty_name from duty_table",
+            "where duty_date > #{today,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="duty_name", property="dutyName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="duty_date", property="dutyDate", jdbcType=JdbcType.VARCHAR)
+    })
+    List<String> selectByDate(@Param("today") String today);
+
 
     @Update({
             "update duty_table",
