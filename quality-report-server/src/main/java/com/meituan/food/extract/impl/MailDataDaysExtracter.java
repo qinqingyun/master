@@ -50,6 +50,7 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         orgList.add("114614");
         orgList.add("114615");
         orgList.add("104638");
+        orgList.add("110621");
 
         for (String singleOrg : orgList) {
             EmpItems empItems = empService.queryEmp(singleOrg,3,empHierarchyCond,paging);

@@ -67,6 +67,7 @@ public class MailDataExtracter implements IMailDataExtract {
         orgList.add("114614");
         orgList.add("114615");
         orgList.add("104638");
+        orgList.add("110621");
 
         for (String singleOrg : orgList) {
 
