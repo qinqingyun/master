@@ -77,6 +77,16 @@ public interface AppkeyAdminPOMapper {
     })
     AppkeyAdminPO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select appkey from appkey_admin",
+            "where admin_name = #{mis,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR)
+    })
+    List<String> selectByMis(@Param("mis") String mis);
+
     @UpdateProvider(type=AppkeyAdminPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyAdminPO record, @Param("example") AppkeyAdminPOExample example);
 
