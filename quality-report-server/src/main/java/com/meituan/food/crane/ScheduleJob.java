@@ -99,6 +99,9 @@ public class ScheduleJob {
     @Resource
     private IPushDutyDataToAdminJob pushDutyDataToAdminJob;
 
+    @Resource
+    private IHalfYearMailJob halfYearMailJob;
+
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
@@ -251,5 +254,10 @@ public class ScheduleJob {
     @Crane("push.duty.data.to.admin")
     public void pushDutyToAdmin(){
         pushDutyDataToAdminJob.pushData();
+    }
+
+    @Crane("one.half.mail.job")
+    public void halfOfYearJob() throws TException, MDMThriftException {
+        halfYearMailJob.sync();
     }
 }
