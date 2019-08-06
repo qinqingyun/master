@@ -109,7 +109,7 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
             }
         }
 
-      /*  Map<String, List<EfficiencyTotalDateDaysPO>> totalMap = totalDateDaysPOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDateDaysPO::getOrgName));
+        Map<String, List<EfficiencyTotalDateDaysPO>> totalMap = totalDateDaysPOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDateDaysPO::getOrgName));
 
         String mailBody = "<h1>人效数据" + startDate + "~" + endDate + "</h1>";
 
@@ -149,6 +149,6 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         //   mailModel.setAttachments(getAttachments()); //带附件发送
 
         SendMailResultDTO resultModel = mailThriftService.sendMail(mailModel);
-        System.out.println(resultModel);*/
+        System.out.println(resultModel);
     }
 }
