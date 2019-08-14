@@ -2,6 +2,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.mapper.ApiCoverageDetailP0Mapper;
 import com.meituan.food.mapper.ApiDetailPOMapper;
+import com.meituan.food.mapper.AppkeyAdminPOMapper;
 import com.meituan.food.po.ApiCoverageDetailP0;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.web.vo.ApiCoverageForDateVO;
@@ -21,6 +22,9 @@ public class ApiCoverageDateController {
 
     @Resource
     private ApiDetailPOMapper apiDetailPOMapper;
+
+    @Resource
+    private AppkeyAdminPOMapper appkeyAdminPOMapper;
 
     @GetMapping("")
     public CommonResponse<List<ApiCoverageForDateVO>> getTwoDateCoverage(@Param("appkey") String appkey, @Param("firstdate") String firstdate, @Param("seconddate") String seconddate,@RequestParam("diff") String diff) {
@@ -85,5 +89,26 @@ public class ApiCoverageDateController {
             }
         }
 
+    }
+
+    @GetMapping("/person")
+    public CommonResponse<List<ApiCoverageForDateVO>> getDataByMis(@Param("mis") String mis, @Param("firstdate") String firstdate, @Param("seconddate") String seconddate,@RequestParam("diff") String diff){
+        List<String> appkeyList = appkeyAdminPOMapper.selectByMis(mis);
+        if (appkeyList.size()!=0) {
+            List<ApiCoverageForDateVO> apiCoverageForDateVOS = new ArrayList<>();
+            for (String appkey : appkeyList) {
+                CommonResponse<List<ApiCoverageForDateVO>> twoDateCoverage = getTwoDateCoverage(appkey, firstdate, seconddate, diff);
+                if (twoDateCoverage.getCode() == 0) {
+                    apiCoverageForDateVOS.addAll(twoDateCoverage.getData());
+                }
+            }
+            if (diff.equals("true")) {
+                if (apiCoverageForDateVOS.size() == 0) {
+                    return CommonResponse.errorRes("两天数据相同");
+                }
+            }
+            return CommonResponse.successRes("成功", apiCoverageForDateVOS);
+        }
+        return CommonResponse.errorRes("Mis:"+mis+" 无关联的服务！");
     }
 }
