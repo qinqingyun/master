@@ -7,7 +7,6 @@ import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.web.vo.ApiCoverageForDateVO;
 import com.meituan.food.web.vo.CommonResponse;
 import org.apache.ibatis.annotations.Param;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
