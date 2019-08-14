@@ -34,7 +34,7 @@ public interface ApiCoverageDetailP0Mapper {
         "api_name, coverage_date, ",
         "created_time, is_cover)",
         "values (#{id,jdbcType=INTEGER}, #{appkey,jdbcType=VARCHAR}, ",
-        "#{apiName,jdbcType=VARCHAR}, #{coverageDate,jdbcType=DATE}, ",
+        "#{apiName,jdbcType=VARCHAR}, #{coverageDate,jdbcType=VARCHAR}, ",
         "#{createdTime,jdbcType=TIMESTAMP}, #{isCover,jdbcType=BIT})"
     })
     int insert(ApiCoverageDetailP0 record);
@@ -47,7 +47,7 @@ public interface ApiCoverageDetailP0Mapper {
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
         @Result(column="api_name", property="apiName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.DATE),
+        @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="is_cover", property="isCover", jdbcType=JdbcType.BIT)
     })
@@ -63,11 +63,29 @@ public interface ApiCoverageDetailP0Mapper {
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
         @Result(column="api_name", property="apiName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.DATE),
+        @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="is_cover", property="isCover", jdbcType=JdbcType.BIT)
     })
     ApiCoverageDetailP0 selectByPrimaryKey(Integer id);
+
+    @Select({
+            "select",
+            "id, appkey, api_name, coverage_date, created_time, is_cover",
+            "from api_coverage_detail",
+            "where appkey = #{appkey,jdbcType=VARCHAR} ",
+            "and coverage_date=#{coverageDate,jdbcType=VARCHAR} ",
+            "and api_name=#{apiName,jdbcType=VARCHAR} "
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_name", property="apiName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.VARCHAR),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="is_cover", property="isCover", jdbcType=JdbcType.BIT)
+    })
+    ApiCoverageDetailP0 selectByDateAndApi(@Param("coverageDate") String coverageDate,@Param("appkey") String appkey,@Param("apiName") String apiName);
 
     @UpdateProvider(type=ApiCoverageDetailP0SqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ApiCoverageDetailP0 record, @Param("example") ApiCoverageDetailP0Example example);
@@ -82,7 +100,7 @@ public interface ApiCoverageDetailP0Mapper {
         "update api_coverage_detail",
         "set appkey = #{appkey,jdbcType=VARCHAR},",
           "api_name = #{apiName,jdbcType=VARCHAR},",
-          "coverage_date = #{coverageDate,jdbcType=DATE},",
+          "coverage_date = #{coverageDate,jdbcType=VARCHAR},",
           "created_time = #{createdTime,jdbcType=TIMESTAMP},",
           "is_cover = #{isCover,jdbcType=BIT}",
         "where id = #{id,jdbcType=INTEGER}"

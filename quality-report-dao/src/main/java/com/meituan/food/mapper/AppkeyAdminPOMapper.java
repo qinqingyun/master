@@ -87,6 +87,22 @@ public interface AppkeyAdminPOMapper {
     })
     List<String> selectByMis(@Param("mis") String mis);
 
+    @Select({
+            "select * from appkey_admin",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey_id", property="appkeyId", jdbcType=JdbcType.INTEGER),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_id", property="adminId", jdbcType=JdbcType.INTEGER),
+            @Result(column="creator_id", property="creatorId", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+    })
+    AppkeyAdminPO selectByAppkey(@Param("appkey") String appkey);
+
     @UpdateProvider(type=AppkeyAdminPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyAdminPO record, @Param("example") AppkeyAdminPOExample example);
 

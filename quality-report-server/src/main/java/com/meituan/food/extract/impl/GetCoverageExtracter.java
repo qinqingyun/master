@@ -120,7 +120,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                                     apiCoverageDetailP0.setAppkey(s);
                                     apiCoverageDetailP0.setCreatedTime(now);
                                     apiCoverageDetailP0.setIsCover(true);
-                                    apiCoverageDetailP0.setCoverageDate(currentTime_2);
+                                    apiCoverageDetailP0.setCoverageDate(dateString);
                                     apiCoverageDetailP0Mapper.insert(apiCoverageDetailP0);
                                 }
                             }

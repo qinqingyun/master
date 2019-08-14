@@ -10,7 +10,7 @@ public class ApiCoverageDetailP0 implements Serializable {
 
     private String apiName;
 
-    private Date coverageDate;
+    private String coverageDate;
 
     private Date createdTime;
 
@@ -42,12 +42,12 @@ public class ApiCoverageDetailP0 implements Serializable {
         this.apiName = apiName == null ? null : apiName.trim();
     }
 
-    public Date getCoverageDate() {
+    public String getCoverageDate() {
         return coverageDate;
     }
 
-    public void setCoverageDate(Date coverageDate) {
-        this.coverageDate = coverageDate;
+    public void setCoverageDate(String coverageDate) {
+        this.coverageDate = coverageDate == null ? null : coverageDate.trim();
     }
 
     public Date getCreatedTime() {

@@ -41,7 +41,7 @@ public class ApiCoverageDetailP0SqlProvider {
         }
         
         if (record.getCoverageDate() != null) {
-            sql.VALUES("coverage_date", "#{coverageDate,jdbcType=DATE}");
+            sql.VALUES("coverage_date", "#{coverageDate,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {
@@ -97,7 +97,7 @@ public class ApiCoverageDetailP0SqlProvider {
         }
         
         if (record.getCoverageDate() != null) {
-            sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
+            sql.SET("coverage_date = #{record.coverageDate,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {
@@ -119,7 +119,7 @@ public class ApiCoverageDetailP0SqlProvider {
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
         sql.SET("api_name = #{record.apiName,jdbcType=VARCHAR}");
-        sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
+        sql.SET("coverage_date = #{record.coverageDate,jdbcType=VARCHAR}");
         sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         sql.SET("is_cover = #{record.isCover,jdbcType=BIT}");
         
@@ -141,7 +141,7 @@ public class ApiCoverageDetailP0SqlProvider {
         }
         
         if (record.getCoverageDate() != null) {
-            sql.SET("coverage_date = #{coverageDate,jdbcType=DATE}");
+            sql.SET("coverage_date = #{coverageDate,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {
