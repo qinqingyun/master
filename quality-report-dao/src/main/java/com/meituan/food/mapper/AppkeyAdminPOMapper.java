@@ -31,6 +31,17 @@ public interface AppkeyAdminPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from appkey_admin",
+            "where appkey = #{appkey,jdbcType=VARCHAR} ",
+            "and admin_name = #{mis,jdbcType=VARCHAR} "
+    })
+    @Results({
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR)
+    })
+    int deleteByAppkeyAndMis(@Param("appkey") String appkey,@Param("mis") String mis);
+
     @Insert({
         "insert into appkey_admin (id, appkey_id, ",
         "appkey, admin_name, ",
@@ -102,6 +113,23 @@ public interface AppkeyAdminPOMapper {
             @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     AppkeyAdminPO selectByAppkey(@Param("appkey") String appkey);
+
+    @Select({
+            "select count(*) from appkey_admin",
+            "where appkey = #{appkey,jdbcType=VARCHAR} ",
+            "and admin_name = #{mis,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey_id", property="appkeyId", jdbcType=JdbcType.INTEGER),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_id", property="adminId", jdbcType=JdbcType.INTEGER),
+            @Result(column="creator_id", property="creatorId", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+    })
+    Integer selectByAppkeyAndMis(@Param("appkey") String appkey,@Param("mis") String mis);
 
     @UpdateProvider(type=AppkeyAdminPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") AppkeyAdminPO record, @Param("example") AppkeyAdminPOExample example);

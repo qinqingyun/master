@@ -26,6 +26,10 @@ public class AppkeyAdminController {
 
     @GetMapping("/insert")
     public String insertAppkeyAdmin(@RequestParam("appkey") String appkey,@RequestParam("name") String name){
+        AppkeyAdminPO appkeyAdminPO = appkeyAdminPOMapper.selectByAppkey(appkey);
+        if (appkeyAdminPO!=null){
+            return "Appkey="+appkey+"已和"+appkeyAdminPO.getAdminName()+"存在关联关系，如需变更请使用update方法。";
+        }
         AppkeyAdminPO po=new AppkeyAdminPO();
         po.setAdminName(name);
         po.setAppkey(appkey);
@@ -68,5 +72,22 @@ public class AppkeyAdminController {
             }
             return resp;
         }
+    }
+    @GetMapping("/delete")
+    public String deleteAppkeyAdmin(@RequestParam("appkey") String appkey,@RequestParam("name") String name){
+        int status = appkeyAdminPOMapper.deleteByAppkeyAndMis(appkey, name);
+        if (status==1){
+            return "删除成功!";
+        }
+        return "删除失败，请确认Appkey和管理员Mis是否都正确且匹配！";
+    }
+
+    @GetMapping("/delete2")
+    public String deleteById(@RequestParam("id") int id){
+        int status = appkeyAdminPOMapper.deleteByPrimaryKey(id);
+        if (status==1){
+            return "删除成功!";
+        }
+        return "id不存在";
     }
 }
