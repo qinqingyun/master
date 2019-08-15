@@ -17,6 +17,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AppkeyListPOMapper {
     @SelectProvider(type=AppkeyListPOSqlProvider.class, method="countByExample")
@@ -118,7 +119,6 @@ public interface AppkeyListPOMapper {
             @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR)
     })
     int selectCountByAppKey(@Param("appkey") String appkey);
-
     @Select({
             "select appkey from appkey_list_table where offline = 0"
     })
@@ -291,4 +291,54 @@ public interface AppkeyListPOMapper {
             @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
     })
     int deleteAllData();
+
+    @Select({
+            "select",
+            "appkey",
+            "from appkey_list_table",
+            "where department_id_2 = #{department_id_2,jdbcType=INTEGER}"
+    })
+    List<String> selectByDepartment_id_2(@Param("department_id_2") Integer departmentId2);
+
+    @Select({
+            "select",
+            "appkey",
+            "from appkey_list_table",
+            "where department_id_2 = #{department_id_2,jdbcType=INTEGER}",
+            "limit (pageNum - 1) * pageSize + 1, pageSize"
+    })
+    List<String> selectByDepartmentPage(@Param("department_id_2") Integer departmentId2 , @Param("pageNum") Integer pageNum , @Param("pageSize") Integer pageSize);
+
+    @Select({
+            "select",
+            "count(*)",
+            "from appkey_list_table",
+            "where department_id_2 = #{department_id_2,jdbcType=INTEGER}"
+    })
+    Integer selectCountByDepartment(@Param("department_id_2") Integer departmentId2);
+
+    @Select({
+            "select",
+            "distinct",
+            "owt",
+            "from appkey_list_table",
+    })
+    List<String> selectOwt();
+
+    @Select({
+            "select",
+            "distinct",
+            "pdl",
+            "from appkey_list_table",
+            "where owt = #{owt,jdbcType=VARCHAR}"
+    })
+    List<String> selectPdl(@Param("owt") String owt);
+
+    @Select({
+            "select",
+            "appkey",
+            "from appkey_list_table",
+            "where pdl = #{pdl,jdbcType=VARCHAR}"
+    })
+    List<String> selectByPdl(@Param("pdl") String pdl);
 }

@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>线下指标接口</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="bootstrap/css/font-awesome.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="bootstrap/css/ionicons.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="bootstrap/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="bootstrap/css/skins/skin-blue.min.css">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-table.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Main Header -->
+<header class="main-header">
+
+    <!-- Logo -->
+    <a href="#" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>Hi</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Welcome</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+                <!-- Messages: style can be found in dropdown.less-->
+                <li class="dropdown messages-menu">
+                    <!-- Menu toggle button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="label label-success">4</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">You have 4 messages</li>
+                        <li>
+                            <!-- inner menu: contains the messages -->
+                            <ul class="menu">
+                                <li><!-- start message -->
+                                    <a href="add.html" target="_blank">
+                                        <div class="pull-left">
+                                            <!-- User Image -->
+                                        </div>
+                                        <!-- Message title and timestamp -->
+                                        <h4>
+                                            Support Team
+                                        </h4>
+                                        <!-- The message -->
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+
+                                <li><!-- start message -->
+                                    <a href="add.html" target="_blank">
+                                        <div class="pull-left">
+                                            <!-- User Image -->
+                                        </div>
+                                        <!-- Message title and timestamp -->
+                                        <h4>
+                                            Support Team
+                                        </h4>
+                                        <!-- The message -->
+                                        <p>Why not buy a new awesome theme?</p>
+                                    </a>
+                                </li>
+                                <!-- end message -->
+                            </ul>
+                            <!-- /.menu -->
+                        </li>
+                        <li class="footer"><a href="add2.html" target="_blank">See All Messages</a></li>
+                    </ul>
+                </li>
+                <!-- /.messages-menu -->
+
+                <!-- User Account Menu -->
+                <li class="dropdown user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <!-- hidden-xs hides the username on small devices so only the img appears. -->
+                        <span class="hidden-xs">hanye03</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">退出登陆</a>
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </li>
+                    </ul>
+                </li>
+                <!-- /.user-account-menu -->
+
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <!-- Optionally, you can add icons to the links -->
+        </ul>
+        <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            服务列表
+            <small>appkey统计</small>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">AppKey</th>
+                <th scope="col">负责人</th>
+            </tr>
+            </thead>
+            <tbody class="table-app">
+            </tbody>
+        </table>
+        <div id="paginator"></div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- jQuery 3 -->
+<script src="bootstrap/js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="bootstrap/js/adminlte.min.js"></script>
+
+<script type="text/javascript" src="js/bootstrap-paginator.js"></script>
+
+<script>
+    var pageSize = 10;
+
+$(function () {
+    var carId = 1;
+    $.ajax({
+      url: "/OA/Setting/GetDate",
+      datatype: 'json',
+      type: "Post",
+      data: "id=" + carId,
+      success: function (data) {
+        if (data != null) {
+          $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
+            $("#list").append('<table id="data_table" class="table table-striped">');
+            $("#list").append('<thead>');
+            $("#list").append('<tr>');
+            $("#list").append('<th>Id</th>');
+            $("#list").append('<th>部门名称</th>');
+            $("#list").append('<th>备注</th>');
+            $("#list").append('<th> </th>');
+            $("#list").append('</tr>');
+            $("#list").append('</thead>');
+            $("#list").append('<tbody>');
+            $("#list").append('<tr>');
+            $("#list").append('<td>' + item.Id + '</td>');
+            $("#list").append('<td>' + item.Name + '</td>');
+            $("#list").append('<td>备注</td>');
+            $("#list").append('<td>');
+            $("#list").append('<button class="btn btn-warning" onclick="Edit(' + item.Id + ' );">修改</button>');
+            $("#list").append('<button class="btn btn-warning" onclick="Edit(' + item.Id + ' );">删除</button>');
+            $("#list").append('</td>');
+            $("#list").append('</tr>');
+            $("#list").append('</tbody>');
+
+            $("#list").append('<tr>');
+            $("#list").append('<td>内容</td>');
+            $("#list").append('<td>' + item.Message + '</td>');
+            $("#list").append('</tr>');
+            $("#list").append('</table>');
+          });
+          var pageCount = eval("(" + data + ")").pageCount; //取到pageCount的值(把返回数据转成object类型)
+          var currentPage = eval("(" + data + ")").CurrentPage; //得到urrentPage
+          var options = {
+            bootstrapMajorVersion: 2, //版本
+            currentPage: currentPage, //当前页数
+            totalPages: pageCount, //总页数
+            itemTexts: function (type, page, current) {
+              switch (type) {
+                case "first":
+                  return "首页";
+                case "prev":
+                  return "上一页";
+                case "next":
+                  return "下一页";
+                case "last":
+                  return "末页";
+                case "page":
+                  return page;
+              }
+            },//点击事件，用于通过Ajax来刷新整个list列表
+            onPageClicked: function (event, originalEvent, type, page) {
+              $.ajax({
+                url: "/OA/Setting/GetDate?id=" + page,
+                type: "Post",
+                data: "page=" + page,
+                success: function (data1) {
+                  if (data1 != null) {
+                    $.each(eval("(" + data + ")").list, function (index, item) { //遍历返回的json
+                      $("#list").append('<table id="data_table" class="table table-striped">');
+                      $("#list").append('<thead>');
+                      $("#list").append('<tr>');
+                      $("#list").append('<th>Id</th>');
+                      $("#list").append('<th>部门名称</th>');
+                      $("#list").append('<th>备注</th>');
+                      $("#list").append('<th> </th>');
+                      $("#list").append('</tr>');
+                      $("#list").append('</thead>');
+                      $("#list").append('<tbody>');
+                      $("#list").append('<tr>');
+                      $("#list").append('<td>' + item.Id + '</td>');
+                      $("#list").append('<td>' + item.Name + '</td>');
+                      $("#list").append('<td>备注</td>');
+                      $("#list").append('<td>');
+                      $("#list").append('<button class="btn btn-warning" onclick="Edit(' + item.Id + ' );">修改</button>');
+                      $("#list").append('<button class="btn btn-warning" onclick="Edit(' + item.Id + ' );">删除</button>');
+                      $("#list").append('</td>');
+                      $("#list").append('</tr>');
+                      $("#list").append('</tbody>');
+
+                      $("#list").append('<tr>');
+                      $("#list").append('<td>内容</td>');
+                      $("#list").append('<td>' + item.Message + '</td>');
+                      $("#list").append('</tr>');
+                      $("#list").append('</table>');
+                    });
+                  }
+                }
+              });
+            }
+          };
+          $('#paginator').bootstrapPaginator(options);
+        }
+      }
+    });
+  })
+
+    function paintTable(departmentId2, pageNum){
+        $.get("/appkey/selectByDepartmentPage",{"departmentId2":departmentId2,"pageNum":pageNum,"pageSize":pageSize},
+            function(data){
+            $("tbody").empty();
+            for(var j = 1;j <= data.length;j++){
+                $("tbody.table-app").append("<tr><th scope=\"row\">" + j + "</th><td>" + dataLIst[j - 1] + "</td><td>test</td></tr>");
+            }
+        });
+    }
+
+    function initTable(departmentId2){
+        $.get("/appkey/countOfAppkey",{"departmentId2":departmentId2},
+            function(totalCount){
+                var pageCount = (totalCount%pageSize==0)?(totalCount/pageSize):(totalCount/pageSize+1);
+                function paintTable(departmentId2, 1){
+            });
+    }
+
+    $(document).ready(function(){
+           $.get("/department/selectALL",
+               function(data){
+                   for(var i = 0;i < data.length;i++){
+                       if(i == 0){
+                           $("ul.sidebar-menu").append("<li class=\"active\"><a href=\"#\"><span>" + data[i] + "</span></a></li>");
+                           initTable(1);
+                       }
+                       else{
+                           $("ul.sidebar-menu").append("<li><a href=\"#\"><span>" + data[i] + "</span></a></li>");
+                       }
+                   }
+            });
+           $('ul.sidebar-menu').delegate('li', 'click', function(){
+                var li = $('ul.sidebar-menu li.active');
+                li.removeClass('active');
+                $(this).addClass('active');
+                $.get("/department/selectByDepartment",{"department2":$(this).text()},
+                function(departmentId){
+                    initTable(departmentId);
+                });
+           });
+	});
+
+</script>
+</body>
+</html>
