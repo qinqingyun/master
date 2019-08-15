@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
+import org.codehaus.groovy.tools.shell.completion.VariableSyntaxCompletor;
 
 public interface Org2EmpDataPOMapper {
     @SelectProvider(type=Org2EmpDataPOSqlProvider.class, method="countByExample")
@@ -87,6 +88,30 @@ public interface Org2EmpDataPOMapper {
         @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.VARCHAR)
     })
     Org2EmpDataPO selectByPrimaryKey(Integer id);
+
+
+    @Select({
+            "select",
+            "id, empId, name, mis, reportEmpId, reportEmpName, orgId, orgName, virtualreportEmpId, ",
+            "virtualreportEmpName, comment, updated_date",
+            "from org2_emp_data",
+            "where mis = #{mis,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="empId", property="empid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="mis", property="mis", jdbcType=JdbcType.VARCHAR),
+            @Result(column="reportEmpId", property="reportempid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="reportEmpName", property="reportempname", jdbcType=JdbcType.VARCHAR),
+            @Result(column="orgId", property="orgid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="orgName", property="orgname", jdbcType=JdbcType.VARCHAR),
+            @Result(column="virtualreportEmpId", property="virtualreportempid", jdbcType=JdbcType.VARCHAR),
+            @Result(column="virtualreportEmpName", property="virtualreportempname", jdbcType=JdbcType.VARCHAR),
+            @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
+            @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.VARCHAR)
+    })
+    Org2EmpDataPO selectByMis(String mis);
 
     @UpdateProvider(type=Org2EmpDataPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") Org2EmpDataPO record, @Param("example") Org2EmpDataPOExample example);
