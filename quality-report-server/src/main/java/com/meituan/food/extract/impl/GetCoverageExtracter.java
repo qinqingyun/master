@@ -38,6 +38,9 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
     @Resource
     public DepartmentApiCoveragePOMapper departmentApiCoveragePOMapper;
 
+    @Resource
+    public ApiCoverageDetailP0Mapper apiCoverageDetailP0Mapper;
+
     @Override
     public void getCoverage() {
         List<String> allAppkey = appkeyListPOMapper.selectAllAppkey();
@@ -109,17 +112,26 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                         int isCore=apiPo.getIsCore();
                         if (isCore == 1) {
                             if (cover == true) {
-//                                coverCoreApiNum++;
-                                apiNameList.add(spanName);
+                                if (!apiNameList.contains(spanName)){
+                                    coverCoreApiNum++;
+                                    apiNameList.add(spanName);
+                                    ApiCoverageDetailP0 apiCoverageDetailP0=new ApiCoverageDetailP0();
+                                    apiCoverageDetailP0.setApiName(spanName);
+                                    apiCoverageDetailP0.setAppkey(s);
+                                    apiCoverageDetailP0.setCreatedTime(now);
+                                    apiCoverageDetailP0.setIsCover(true);
+                                    apiCoverageDetailP0.setCoverageDate(dateString);
+                                    apiCoverageDetailP0Mapper.insert(apiCoverageDetailP0);
+                                }
                             }
                         }
                     }
                 }
                 //去重
-                Set hashSet1 = new HashSet(apiNameList);
+        /*        Set hashSet1 = new HashSet(apiNameList);
                 apiSpanNameList.clear();
                 apiSpanNameList.addAll(hashSet1);
-                coverCoreApiNum=apiSpanNameList.size();
+                coverCoreApiNum=apiSpanNameList.size();*/
                 if (allCoreNum != 0) {
                     double coreCoverage = (double) coverCoreApiNum *100/ allCoreNum;
                     BigDecimal coverageDecimal = new BigDecimal(coreCoverage);
