@@ -26,7 +26,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
     private static String cargo_host = "http://api.cargo.sankuai.com";
     private static String availble_uri = "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d&monitor_type=service_available_check";
-    private static String stable_uri =   "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d";
+    private static String stable_uri = "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d";
 
     @Resource
     private CargoDataPOMapper cargoDataPOMapper;
@@ -194,7 +194,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             log.info("The cargo availble_json is :{}", availble_json);
 
 
-            mYesterday = Date.from(LocalDate.now().minusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            mYesterday = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             List<CargoDataPO> yesStableData = getYesterdayStableData(mYesterday, stable_json.toJSONString());
 
