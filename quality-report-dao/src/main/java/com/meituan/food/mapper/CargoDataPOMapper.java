@@ -122,7 +122,7 @@ public interface CargoDataPOMapper {
             @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
             @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.TIMESTAMP)
     })
-    List<CargoDataPO> selectByTagAndCreatedate(String tag, Date date);
+    List<CargoDataPO> selectByTagAndCreatedate(@Param("tag") String tag, @Param("date") Date date);
 
 
     @Select({
