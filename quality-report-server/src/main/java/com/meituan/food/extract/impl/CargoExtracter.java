@@ -26,7 +26,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
     private static String cargo_host = "http://api.cargo.sankuai.com";
     private static String availble_uri = "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d&monitor_type=service_available_check";
-    private static String stable_uri = "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d";
+    private static String stable_uri =   "/stack?type=stack_monitor&stack_uuid={stack_uuid}&recent_days=3&interval=1d";
 
     @Resource
     private CargoDataPOMapper cargoDataPOMapper;
@@ -194,7 +194,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             log.info("The cargo availble_json is :{}", availble_json);
 
 
-            mYesterday = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            mYesterday = Date.from(LocalDate.now().minusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             List<CargoDataPO> yesStableData = getYesterdayStableData(mYesterday, stable_json.toJSONString());
 
@@ -218,6 +218,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
     private List<CargoDataPO> getYesterdayStableData(Date yesterday, String stable_json) {
         int iter = getIndexByDay(yesterday, stable_json, "$.data._source[*]");
+        log.info(stable_json);
         if (iter == -1) {
             return null;
         }
@@ -284,16 +285,20 @@ public class CargoExtracter implements IOneDayCargoExtract {
         if (iter == -1) {
             return yesStableData;
         }
-        for (CargoDataPO cp : yesStableData) {
-            String tag = cp.getTag();
-            String success = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".success"));
-            String error = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".error"));
-            update(cp, "avalibleSuccess", success);
-            update(cp, "avalibleTotal", error, success);
+        if (yesStableData !=null) {
 
-            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
-            update(cp, "avalibleTagPercentage", availble_total_percentage);
+            for (CargoDataPO cp : yesStableData) {
 
+                String tag = cp.getTag();
+                String success = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".success"));
+                String error = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".error"));
+                update(cp, "avalibleSuccess", success);
+                update(cp, "avalibleTotal", error, success);
+
+                String availble_total_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
+                update(cp, "avalibleTagPercentage", availble_total_percentage);
+
+            }
         }
 
         return yesStableData;
@@ -342,6 +347,8 @@ public class CargoExtracter implements IOneDayCargoExtract {
     }
 
     public void saveCargoDataPO(List<CargoDataPO> data) {
+
+    if(data !=null) {
         for (CargoDataPO cargoDataPO : data) {
             List<CargoDataPO> oldData = cargoDataPOMapper.selectByTagAndCreatedate(cargoDataPO.getTag(), cargoDataPO.getDate());
 
@@ -355,5 +362,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
             log.info("The cargo save result is :{}", cargoDataPO.toString() + result);
 
         }
+    }
     }
 }
