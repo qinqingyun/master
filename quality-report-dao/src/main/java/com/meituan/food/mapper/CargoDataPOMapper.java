@@ -104,7 +104,7 @@ public interface CargoDataPOMapper {
             "tag, person, direction, stable_tag_percentage, avalible_tag_percentage, date, ",
             "comment, updated_date",
             "from cargo_data",
-            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date, jdbcType=TIMESTAMP}"
+            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date, jdbcType=TIMESTAMP} and comment= #{comment,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -122,7 +122,7 @@ public interface CargoDataPOMapper {
             @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
             @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.TIMESTAMP)
     })
-    List<CargoDataPO> selectByTagAndCreatedate(@Param("tag") String tag, @Param("date") Date date);
+    List<CargoDataPO> selectByTagAndCreatedateAndComment(@Param("tag") String tag, @Param("date") Date date,@Param("comment") String comment);
 
 
     @Select({
@@ -195,7 +195,7 @@ public interface CargoDataPOMapper {
             "date = #{date,jdbcType=TIMESTAMP},",
             "comment = #{comment,jdbcType=VARCHAR},",
             "updated_date = #{updatedDate,jdbcType=TIMESTAMP}",
-            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date,jdbcType=TIMESTAMP}"
+            "where tag = #{tag,jdbcType=VARCHAR} and date = #{date,jdbcType=TIMESTAMP} and comment= #{comment,jdbcType=VARCHAR}"
     })
     int updateByTagAndDate(CargoDataPO record);
 
