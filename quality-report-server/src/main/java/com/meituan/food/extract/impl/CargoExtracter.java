@@ -194,7 +194,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             log.info("The cargo availble_json is :{}", availble_json);
 
 
-            mYesterday = Date.from(LocalDate.now().minusDays(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            mYesterday = Date.from(LocalDate.now().minusDays(3).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             List<CargoDataPO> yesStableData = getYesterdayStableData(mYesterday, stable_json.toJSONString());
 
