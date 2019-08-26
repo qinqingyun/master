@@ -32,6 +32,8 @@ public class AppkeyControllerTest {
     @Test
     public void getApiList() {
         List<String> appkeyList=new ArrayList<>();
+        appkeyList.add("com.sankuai.web.activity.alcedo");
+        appkeyList.add("123");
         CommonResponse<List<ApiVO>> apiList = appkeyController.getApiList(appkeyList);
         System.out.println(apiList.toString());
 

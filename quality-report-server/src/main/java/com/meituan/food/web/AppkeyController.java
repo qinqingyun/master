@@ -135,15 +135,22 @@ public class AppkeyController {
         List<ApiVO> apiVOList=new ArrayList<>();
         for (String appkey : appkeyList) {
             List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
+            ApiVO apiVO=new ApiVO();
+            apiVO.setAppkey(appkey);
+            String apiName=null;
             if (apiDetailPOS.size()!=0){
                 for (ApiDetailPO apiDetailPO : apiDetailPOS) {
-                    ApiVO apiVO=new ApiVO();
-                    apiVO.setAppkey(appkey);
-                    apiVO.setApiName(apiDetailPO.getApiSpanName());
-                    apiVO.setUpdatedTime(apiDetailPO.getUpdatedAt());
-                    apiVOList.add(apiVO);
+                    if (apiName!=null) {
+                        apiName = apiName + "," + apiDetailPO.getApiSpanName();
+                        apiVO.setApiName(apiDetailPO.getApiSpanName());
+                    }else {
+                        apiName=apiDetailPO.getApiSpanName();
+                        apiVO.setUpdatedTime(apiDetailPO.getUpdatedAt());
+                    }
                 }
+                apiVO.setApiName(apiName);
             }
+            apiVOList.add(apiVO);
         }
         if (apiVOList.size()==0){
             return CommonResponse.errorRes("无数据");
