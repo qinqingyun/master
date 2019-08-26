@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class ApiVO {
+    private String appkey;
     private String apiName;
     private int isCore; //核心:1；非核心:0
     private long callCount; //接口调用量

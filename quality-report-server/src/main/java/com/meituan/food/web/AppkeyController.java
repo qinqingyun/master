@@ -9,6 +9,7 @@ import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.po.ReleaseNamePO;
 import com.meituan.food.web.vo.ApiVO;
 import com.meituan.food.web.vo.AppkeyVO;
+import com.meituan.food.web.vo.CommonResponse;
 import jdk.nashorn.internal.objects.NativeRangeError;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,6 +105,12 @@ public class AppkeyController {
             appkeyVO.setAdminMis(appkeyAdminPO.getAdminName());
             appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
         }
+        AppkeyListPO appkeyPO = appkeyListPOMapper.selectByAppKey(appkey);
+        if (appkeyPO.getRank()==1){
+            appkeyVO.setCoreSrv(true);
+        }else {
+            appkeyVO.setCoreSrv(false);
+        }
         List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
         if (apiDetailPOS.size()==0){
             return appkeyVO;
@@ -121,5 +128,26 @@ public class AppkeyController {
             appkeyVO.setApiVOList(apiVOList);
             return appkeyVO;
         }
+    }
+
+    @GetMapping("/getApiList")
+    public CommonResponse<List<ApiVO>> getApiList(@RequestParam("appkeyList") List<String> appkeyList){
+        List<ApiVO> apiVOList=new ArrayList<>();
+        for (String appkey : appkeyList) {
+            List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
+            if (apiDetailPOS.size()!=0){
+                for (ApiDetailPO apiDetailPO : apiDetailPOS) {
+                    ApiVO apiVO=new ApiVO();
+                    apiVO.setAppkey(appkey);
+                    apiVO.setApiName(apiDetailPO.getApiSpanName());
+                    apiVO.setUpdatedTime(apiDetailPO.getUpdatedAt());
+                    apiVOList.add(apiVO);
+                }
+            }
+        }
+        if (apiVOList.size()==0){
+            return CommonResponse.errorRes("无数据");
+        }
+        return CommonResponse.successRes("成功",apiVOList);
     }
 }
