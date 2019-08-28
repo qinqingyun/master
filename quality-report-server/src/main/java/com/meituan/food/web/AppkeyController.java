@@ -141,6 +141,7 @@ public class AppkeyController {
                     apiVO.setAppkey(appkey);
                     apiVO.setApiName(apiDetailPO.getApiSpanName());
                     apiVO.setUpdatedTime(apiDetailPO.getUpdatedAt());
+                    apiVO.setCallCount(apiDetailPO.getCallCount());
                     apiVOList.add(apiVO);
                 }
             }
