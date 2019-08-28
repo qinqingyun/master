@@ -10,6 +10,7 @@ import com.meituan.food.po.AppkeyListPOExample;
 import com.meituan.food.po.ReleaseNamePO;
 import com.meituan.food.web.vo.ApiVO;
 import com.meituan.food.web.vo.AppkeyVO;
+import com.meituan.food.web.vo.treeNodeVO;
 import jdk.nashorn.internal.objects.NativeRangeError;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.meituan.food.web.vo.Node;
 import com.alibaba.fastjson.*;
 
 
@@ -123,24 +123,54 @@ public class AppkeyController {
     @GetMapping("/getPdl")
     public String getPdl() {
         List<String> allOwt = appkeyListPOMapper.selectOwt();
-        List<Node> nodes = new ArrayList<Node>();
+        List<treeNodeVO> nodes = new ArrayList<treeNodeVO>();
         for(int i = 0; i < allOwt.size();i++){
             List<String> pdl = appkeyListPOMapper.selectPdl(allOwt.get(i));
-            List<Node> nodeI = new ArrayList<Node>();
-            for(int j = 0; j < pdl.size(); j++){
-                nodeI.add(new Node(pdl.get(j), null));
+            treeNodeVO node = new treeNodeVO();
+            List<treeNodeVO> children = new ArrayList<treeNodeVO>();
+            int pdlSize = pdl.size();
+            for(int j = 0; j < pdlSize; j++){
+                treeNodeVO leaf = new treeNodeVO();
+                leaf.setId(j + pdlSize * i);
+                leaf.setLabel(pdl.get(j));
+                leaf.setChildren(null);
+                children.add(leaf);
             }
-            nodes.add(new Node(allOwt.get(i), nodeI));
+            node.setId(i);
+            node.setLabel(allOwt.get(i));
+            node.setChildren(children);
+            nodes.add(node);
         }
         return JSON.toJSONString(nodes);
     }
+
     @GetMapping("/selectByPdl")
-    public List<String> selectByPdl(@RequestParam("pdl") String pdl) {
+    public List<AppkeyVO> selectByPdl(@RequestParam("pdl") String pdl) {
         List<String> allAppkey = appkeyListPOMapper.selectByPdl(pdl);
-        return allAppkey;
+        List<AppkeyVO> result = new ArrayList<AppkeyVO>();
+        AppkeyController a = new AppkeyController();
+        for(int i = 0; i < allAppkey.size();i++) {
+            result.add(getAppkeyAdmin(allAppkey.get(i)));
+        }
+            return result;
     }
 
-    public AppkeyVO getAppkeyDetail(String appkey){
+    public AppkeyVO getAppkeyAdmin(String appkey) {
+        AppkeyVO appkeyVO = new AppkeyVO();
+        AppkeyAdminPO appkeyAdminPO = appkeyAdminPOMapper.selectByAppkey(appkey);
+        appkeyVO.setAppkey(appkey);
+        if (appkeyAdminPO == null) {
+            appkeyVO.setAdminMis("");
+            appkeyVO.setAdminName("暂无负责人");
+        } else {
+            appkeyVO.setAdminMis(appkeyAdminPO.getAdminName());
+            appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
+        }
+        return appkeyVO;
+    }
+
+    @GetMapping("/getAppkeyDetail")
+    public AppkeyVO getAppkeyDetail(@RequestParam("appkey") String appkey){
         AppkeyVO appkeyVO=new AppkeyVO();
         AppkeyAdminPO appkeyAdminPO = appkeyAdminPOMapper.selectByAppkey(appkey);
         appkeyVO.setAppkey(appkey);
