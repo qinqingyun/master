@@ -71,7 +71,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
             stackuuid.put("商家平台", "f5784acb-d30a-4a83-8046-de1212944317");
 
-
             stackuuid.put("到综商家", "51bbfff9-cff3-4a41-9fab-3a769de8fd69");
 
 
@@ -112,9 +111,10 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
 
             person.put(stackuuid.get("到餐数据") + "._others", "zhouke");
+
             person.put(stackuuid.get("到餐策略") + "._others", "wangyang60");
             person.put(stackuuid.get("到餐策略") + ".C端依赖", "wangyang60");
-
+//
             person.put(stackuuid.get("到餐SCP") + "._others", "wangjiani");
             person.put(stackuuid.get("到餐SCP") + ".客户", "feilichao");
             person.put(stackuuid.get("到餐SCP") + ".上单", "wangjiani");
@@ -139,6 +139,8 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("商家平台") + ".商家增值平台", "fengchen");
             person.put(stackuuid.get("商家平台") + ".商家运营平台", "huangguilin");
             person.put(stackuuid.get("商家平台") + ".商家基础平台", "zhangyancui");
+            person.put(stackuuid.get("商家平台") + ".触达平台", "zhangyancui");
+
 
             person.put(stackuuid.get("到综商家") + "._others", "wenwen");
             person.put(stackuuid.get("到综商家") + ".到综研发组", "honghui.huang");
@@ -218,6 +220,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
     private List<CargoDataPO> getYesterdayStableData(Date yesterday, String stable_json) {
         int iter = getIndexByDay(yesterday, stable_json, "$.data._source[*]");
+        log.info(stable_json);
         if (iter == -1) {
             return null;
         }
@@ -284,16 +287,20 @@ public class CargoExtracter implements IOneDayCargoExtract {
         if (iter == -1) {
             return yesStableData;
         }
-        for (CargoDataPO cp : yesStableData) {
-            String tag = cp.getTag();
-            String success = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".success"));
-            String error = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".error"));
-            update(cp, "avalibleSuccess", success);
-            update(cp, "avalibleTotal", error, success);
+        if (yesStableData !=null) {
 
-            String availble_total_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
-            update(cp, "avalibleTagPercentage", availble_total_percentage);
+            for (CargoDataPO cp : yesStableData) {
 
+                String tag = cp.getTag();
+                String success = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".success"));
+                String error = String.valueOf(JSONPath.read(availble_json, "$.data._source[" + iter + "]." + tag + ".error"));
+                update(cp, "avalibleSuccess", success);
+                update(cp, "avalibleTotal", error, success);
+
+                String availble_total_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
+                update(cp, "avalibleTagPercentage", availble_total_percentage);
+
+            }
         }
 
         return yesStableData;
@@ -342,9 +349,10 @@ public class CargoExtracter implements IOneDayCargoExtract {
     }
 
     public void saveCargoDataPO(List<CargoDataPO> data) {
-        for (CargoDataPO cargoDataPO : data) {
-            List<CargoDataPO> oldData = cargoDataPOMapper.selectByTagAndCreatedate(cargoDataPO.getTag(), cargoDataPO.getDate());
 
+    if(data !=null) {
+        for (CargoDataPO cargoDataPO : data) {
+            List<CargoDataPO> oldData = cargoDataPOMapper.selectByTagAndCreatedateAndComment(cargoDataPO.getTag(), cargoDataPO.getDate(),cargoDataPO.getComment());
             int result = -1;
             if (oldData == null || oldData.size() == 0) {
                 result = cargoDataPOMapper.insert(cargoDataPO);
@@ -355,5 +363,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
             log.info("The cargo save result is :{}", cargoDataPO.toString() + result);
 
         }
+    }
     }
 }
