@@ -8,6 +8,7 @@ import com.meituan.food.mapper.ApiDetailPOMapper;
 import com.meituan.food.mapper.AppkeyListPOMapper;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.utils.HttpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
+@Slf4j
 public class UpdateApiExtracter implements IUpdateApiExtract {
 
     @Resource
@@ -61,6 +63,7 @@ public class UpdateApiExtracter implements IUpdateApiExtract {
                 po.setAppkey(s);
                 po.setCallCount(apiMap.get(key));
                 System.out.println("appkey="+s+"  api="+key);
+                log.info("appkey="+s+"  api="+key);
                 ApiDetailPO po1 = apiDetailPOMapper.selectBySpanName(key, s);
                 if (po1!=null){
                     po.setIsCore(po1.getIsCore());
