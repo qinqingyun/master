@@ -1,7 +1,6 @@
 package com.meituan.food.web.vo;
 
 import java.util.List;
-import com.alibaba.fastjson.annotation.JSONField;
 
 public class Node {
     public Node() { }
