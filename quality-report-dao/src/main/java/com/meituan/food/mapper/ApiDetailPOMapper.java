@@ -114,7 +114,7 @@ public interface ApiDetailPOMapper {
 
     @Select(
             "select * from api_detail where binary api_span_name = #{name} "+
-                    "and appkey = #{appkey}")
+                    "and appkey = #{appkey} limit 1")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),

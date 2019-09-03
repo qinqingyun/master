@@ -27,6 +27,8 @@ public class DepartmentApiCoveragePO implements Serializable {
 
     private Integer status;
 
+    private Integer coreSrvApiNum;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -117,6 +119,14 @@ public class DepartmentApiCoveragePO implements Serializable {
         this.status = status;
     }
 
+    public Integer getCoreSrvApiNum() {
+        return coreSrvApiNum;
+    }
+
+    public void setCoreSrvApiNum(Integer coreSrvApiNum) {
+        this.coreSrvApiNum = coreSrvApiNum;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -139,7 +149,8 @@ public class DepartmentApiCoveragePO implements Serializable {
             && (this.getCoverCoreApiNum() == null ? other.getCoverCoreApiNum() == null : this.getCoverCoreApiNum().equals(other.getCoverCoreApiNum()))
             && (this.getCoreApiCoverage() == null ? other.getCoreApiCoverage() == null : this.getCoreApiCoverage().equals(other.getCoreApiCoverage()))
             && (this.getCoverageDate() == null ? other.getCoverageDate() == null : this.getCoverageDate().equals(other.getCoverageDate()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getCoreSrvApiNum() == null ? other.getCoreSrvApiNum() == null : this.getCoreSrvApiNum().equals(other.getCoreSrvApiNum()));
     }
 
     @Override
@@ -157,6 +168,7 @@ public class DepartmentApiCoveragePO implements Serializable {
         result = prime * result + ((getCoreApiCoverage() == null) ? 0 : getCoreApiCoverage().hashCode());
         result = prime * result + ((getCoverageDate() == null) ? 0 : getCoverageDate().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getCoreSrvApiNum() == null) ? 0 : getCoreSrvApiNum().hashCode());
         return result;
     }
 
@@ -177,6 +189,7 @@ public class DepartmentApiCoveragePO implements Serializable {
         sb.append(", coreApiCoverage=").append(coreApiCoverage);
         sb.append(", coverageDate=").append(coverageDate);
         sb.append(", status=").append(status);
+        sb.append(", coreSrvApiNum=").append(coreSrvApiNum);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

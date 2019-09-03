@@ -29,26 +29,19 @@ public interface DepartmentApiCoveragePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
-    @Delete({
-            "delete from department_api_coverage",
-            "where id >= #{first,jdbcType=INTEGER} ",
-            "and id <= #{second,jdbcType=INTEGER} "
-    })
-    int deleteByTwoKey(@Param("first") Integer first,@Param("second") Integer second);
-
     @Insert({
         "insert into department_api_coverage (id, department_id, ",
         "department_name, all_api_num, ",
         "cover_api_num, api_coverage, ",
         "all_core_api_num, cover_core_api_num, ",
         "core_api_coverage, coverage_date, ",
-        "status)",
+        "status, core_srv_api_num)",
         "values (#{id,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}, ",
         "#{departmentName,jdbcType=VARCHAR}, #{allApiNum,jdbcType=INTEGER}, ",
         "#{coverApiNum,jdbcType=INTEGER}, #{apiCoverage,jdbcType=DECIMAL}, ",
         "#{allCoreApiNum,jdbcType=INTEGER}, #{coverCoreApiNum,jdbcType=INTEGER}, ",
         "#{coreApiCoverage,jdbcType=DECIMAL}, #{coverageDate,jdbcType=DATE}, ",
-        "#{status,jdbcType=INTEGER})"
+        "#{status,jdbcType=INTEGER}, #{coreSrvApiNum,jdbcType=INTEGER})"
     })
     int insert(DepartmentApiCoveragePO record);
 
@@ -67,14 +60,16 @@ public interface DepartmentApiCoveragePOMapper {
         @Result(column="cover_core_api_num", property="coverCoreApiNum", jdbcType=JdbcType.INTEGER),
         @Result(column="core_api_coverage", property="coreApiCoverage", jdbcType=JdbcType.DECIMAL),
         @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.DATE),
-        @Result(column="status", property="status", jdbcType=JdbcType.INTEGER)
+        @Result(column="status", property="status", jdbcType=JdbcType.INTEGER),
+        @Result(column="core_srv_api_num", property="coreSrvApiNum", jdbcType=JdbcType.INTEGER)
     })
     List<DepartmentApiCoveragePO> selectByExample(DepartmentApiCoveragePOExample example);
 
     @Select({
         "select",
         "id, department_id, department_name, all_api_num, cover_api_num, api_coverage, ",
-        "all_core_api_num, cover_core_api_num, core_api_coverage, coverage_date, status",
+        "all_core_api_num, cover_core_api_num, core_api_coverage, coverage_date, status, ",
+        "core_srv_api_num",
         "from department_api_coverage",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -89,7 +84,8 @@ public interface DepartmentApiCoveragePOMapper {
         @Result(column="cover_core_api_num", property="coverCoreApiNum", jdbcType=JdbcType.INTEGER),
         @Result(column="core_api_coverage", property="coreApiCoverage", jdbcType=JdbcType.DECIMAL),
         @Result(column="coverage_date", property="coverageDate", jdbcType=JdbcType.DATE),
-        @Result(column="status", property="status", jdbcType=JdbcType.INTEGER)
+        @Result(column="status", property="status", jdbcType=JdbcType.INTEGER),
+        @Result(column="core_srv_api_num", property="coreSrvApiNum", jdbcType=JdbcType.INTEGER)
     })
     DepartmentApiCoveragePO selectByPrimaryKey(Integer id);
 
@@ -113,8 +109,17 @@ public interface DepartmentApiCoveragePOMapper {
           "cover_core_api_num = #{coverCoreApiNum,jdbcType=INTEGER},",
           "core_api_coverage = #{coreApiCoverage,jdbcType=DECIMAL},",
           "coverage_date = #{coverageDate,jdbcType=DATE},",
-          "status = #{status,jdbcType=INTEGER}",
+          "status = #{status,jdbcType=INTEGER},",
+          "core_srv_api_num = #{coreSrvApiNum,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(DepartmentApiCoveragePO record);
+
+
+    @Delete({
+            "delete from department_api_coverage",
+            "where id >= #{first,jdbcType=INTEGER} ",
+            "and id <= #{second,jdbcType=INTEGER} "
+    })
+    int deleteByTwoKey(@Param("first") Integer first,@Param("second") Integer second);
 }

@@ -9,7 +9,6 @@ public class AppkeyVO {
     private String appkey;
     private String adminName;
     private String adminMis;
-//    private boolean isCoreSrv;
-    private boolean coreSrv;
+    private int rank;
     private List<ApiVO> apiVOList;
 }

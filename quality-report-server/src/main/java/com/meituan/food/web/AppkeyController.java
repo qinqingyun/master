@@ -154,11 +154,7 @@ public class AppkeyController {
             appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
         }
         AppkeyListPO appkeyPO = appkeyListPOMapper.selectByAppKey(appkey);
-        if (appkeyPO.getRank()==1){
-            appkeyVO.setCoreSrv(true);
-        }else {
-            appkeyVO.setCoreSrv(false);
-        }
+        appkeyVO.setRank(appkeyPO.getRank());
         return appkeyVO;
     }
 
@@ -175,11 +171,7 @@ public class AppkeyController {
             appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
         }
         AppkeyListPO appkeyPO = appkeyListPOMapper.selectByAppKey(appkey);
-        if (appkeyPO.getRank()==1){
-            appkeyVO.setCoreSrv(true);
-        }else {
-            appkeyVO.setCoreSrv(false);
-        }
+        appkeyVO.setRank(appkeyPO.getRank());
         List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
         if (apiDetailPOS.size()==0){
             return appkeyVO;
@@ -225,11 +217,18 @@ public class AppkeyController {
     public String updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
         Date now=new Date();
         for(int i = 0 ;i < data.size(); i++) {
-            if(data.get(i).isCoreSrv()){
+            switch (data.get(i).getRank()){
+                case 1:
                 appkeyListPOMapper.updateToCore(data.get(i).getAppkey(), now);
-            }else{
-                appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
-
+                break;
+                case 2:
+                    appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
+                    break;
+                case 3:
+                    appkeyListPOMapper.updateToP2Core(data.get(i).getAppkey(), now);
+                    break;
+                default:
+                    appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
             }
         }
 
