@@ -8,16 +8,10 @@ import com.meituan.food.po.AppkeyAdminPO;
 import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.po.AppkeyListPOExample;
 import com.meituan.food.po.ReleaseNamePO;
-import com.meituan.food.web.vo.ApiVO;
-import com.meituan.food.web.vo.AppkeyVO;
-import com.meituan.food.web.vo.treeNodeVO;
-import com.meituan.food.web.vo.CommonResponse;
+import com.meituan.food.web.vo.*;
 import jdk.nashorn.internal.objects.NativeRangeError;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -122,27 +116,19 @@ public class AppkeyController {
     }
 
     @GetMapping("/getPdl")
-    public String getPdl() {
+    public List<Node> getPdl() {
         List<String> allOwt = appkeyListPOMapper.selectOwt();
-        List<treeNodeVO> nodes = new ArrayList<treeNodeVO>();
-        for(int i = 0; i < allOwt.size();i++){
+        List<Node> nodes = new ArrayList<Node>();
+        for(int i = 0; i < allOwt.size(); i++){
             List<String> pdl = appkeyListPOMapper.selectPdl(allOwt.get(i));
-            treeNodeVO node = new treeNodeVO();
-            List<treeNodeVO> children = new ArrayList<treeNodeVO>();
+            List<Node> children = new ArrayList<Node>();
             int pdlSize = pdl.size();
             for(int j = 0; j < pdlSize; j++){
-                treeNodeVO leaf = new treeNodeVO();
-                leaf.setId(j + pdlSize * i);
-                leaf.setLabel(pdl.get(j));
-                leaf.setChildren(null);
-                children.add(leaf);
+                children.add(new Node(pdl.get(j),null));
             }
-            node.setId(i);
-            node.setLabel(allOwt.get(i));
-            node.setChildren(children);
-            nodes.add(node);
+            nodes.add(new Node(allOwt.get(i),children));
         }
-        return JSON.toJSONString(nodes);
+        return nodes;
     }
 
     @GetMapping("/selectByPdl")
@@ -166,6 +152,12 @@ public class AppkeyController {
         } else {
             appkeyVO.setAdminMis(appkeyAdminPO.getAdminName());
             appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
+        }
+        AppkeyListPO appkeyPO = appkeyListPOMapper.selectByAppKey(appkey);
+        if (appkeyPO.getRank()==1){
+            appkeyVO.setCoreSrv(true);
+        }else {
+            appkeyVO.setCoreSrv(false);
         }
         return appkeyVO;
     }
@@ -227,5 +219,20 @@ public class AppkeyController {
             return CommonResponse.errorRes("无数据");
         }
         return CommonResponse.successRes("成功",apiVOList);
+    }
+
+    @PostMapping(value = "/updateAppkeyCoreMark")
+    public String updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
+        Date now=new Date();
+        for(int i = 0 ;i < data.size(); i++) {
+            if(data.get(i).isCoreSrv()){
+                appkeyListPOMapper.updateToCore(data.get(i).getAppkey(), now);
+            }else{
+                appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
+
+            }
+        }
+
+        return "保存成功";
     }
 }

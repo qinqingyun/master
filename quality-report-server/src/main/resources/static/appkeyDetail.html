@@ -36,7 +36,8 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div id="container"  style="margin-bottom:20;">
         <div class="col middle-column">
-            <h3 style="margin:20px"></h3>
+            <h3 style="style='margin:10px 10px'"></h3>
+            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:10px 0px'>保存</button>
         </div>
     </div>
 
@@ -67,37 +68,32 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="bootstrap/js/adminlte.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-paginator.js"></script>
-
-<script type="text/javascript" src="bootstrap/js/bootstrap-treeview.js"></script>
 
 <script>
     $(document).ready(function(){
         var appkey =  GetRequest().appkey;
-        // $('#container').append("<h3 style='margin:20px'>Appkey:" + appkey + "</h3>");
-        $('h3').append("APPKey : " + appkey);
+        $('h3').append(appkey);
         $.get("/appkey/getAppkeyDetail",{"appkey": appkey},
             function(data){
                 if(data.result == 1){
                     alert("系统出错！！！！");
                 }else{
                     var title = "<tr><th scope='col'>#</th>";
-                    title += "<th scope='col'>接口</th>";
+                    title += "<th scope='col'>接口名称</th>";
                     title += "<th scope='col'>调用量</th>";
                     title += "<th scope='col'>是否核心</th>";
                     $("thead.table-title").append(title);
                     var apiVOList=data.apiVOList;
                     for(var i = 1;i <= apiVOList.length; i++){
                         var row = "<tr><th scope='row'>" + i + "</th>";
-                        row += "<td>" + apiVOList[i-1].apiName + "</td>";
-                        row += "<td>" + apiVOList[i-1].callCount + "</td>";
+                        row += "<td id='apiName'>" + apiVOList[i-1].apiName + "</td>";
+                        row += "<td id='callCount'>" + apiVOList[i-1].callCount + "</td>";
                         var checked = (apiVOList[i-1].isCore=='1')?"checked":"";
-                        row += "<td><input type= 'checkbox'" + checked + "></td>"; 
+                        row += "<td id='isCore'><input type= 'checkbox'" + checked + "></input></td>";
                         $("tbody.table-api").append(row);
                     }
                 }
             });
-            // $('#p1').pagination({totalData:80, showData:5});
     });
 
     function GetRequest() {
@@ -112,6 +108,38 @@
         }
         return theRequest;
     }
+
+     function dataSubmit() {
+
+        var data = [];
+        $('.table-api tr').each(function(i){
+            var appkey = $('h3').text();
+
+            var apiname = $(this).children('td').eq(0).text();
+
+            var iscore = $(this).find('input').prop("checked")==true?'1':'0';
+
+            data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore})
+
+        });
+
+        var datajson = JSON.stringify(data);
+
+        $.ajax({
+            type: 'post',
+            data: datajson,
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            url:'/api/updateApiCoreMark',
+            timeout:240000,
+            success: function(jsonResult){
+                alert(jsonResult);
+            },
+            error: function () {
+                alert("保存失败");
+            }
+        });
+    };
 </script>
 </body>
 </html>

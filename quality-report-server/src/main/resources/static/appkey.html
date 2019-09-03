@@ -39,7 +39,9 @@
     <!-- <section class="content-header"> -->
         <h3 style="margin:20px">
             线下指标接口
+            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:10px 0px'>保存</button>
         </h3>
+
     <!-- </section> -->
 </div>
 
@@ -78,6 +80,8 @@
                 title += "<th scope='col'>AppKey</th>";
                 title += "<th scope='col'>负责人</th>";
                 title += "<th scope='col'>Mis</th>";
+                title += "<th scope='col'>优先级</th>";
+
                 $("thead.table-title").append(title);
                 for(var j = 1;j <= data.length; j++){
                     var row = "<tr><th scope='row'>" + j + "</th>";
@@ -87,10 +91,55 @@
                     row += data[j-1].appkey + "</td>"; 
                     row += "<td>" + data[j-1].adminName + "</td>";
                     row += "<td>" + data[j-1].adminMis + "</td>";
+                    switch(data[j-1].coreSrv)
+                    {
+                      case true:
+                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>非核心</option></select></td>";
+                          break;
+                      case false:
+                          row +="<td><select><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>非核心</option></select></td>";
+                          break;
+                      <!--case :-->
+                          <!--row +="<td><select><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>非核心</option></select></td>";-->
+                          <!--break;-->
+                      default:
+                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>非核心</option></select></td>";
+                    }
                     $("tbody.table-api").append(row);
                 }
             });
     }
+
+    function dataSubmit() {
+
+        var data = [];
+        $('.table-api tr').each(function(i){
+            var appkey = $(this).children('td').eq(0).text();
+            <!--var coreSrv = $(this).find('option:selected').val();-->
+                        var coreSrv = $(this).find('option:selected').val()==1?true:false;
+
+            data.push({"appkey":appkey,"coreSrv":coreSrv})
+
+        });
+
+        var datajson = JSON.stringify(data);
+        if(data.length>0){
+        $.ajax({
+            type: 'post',
+            data: datajson,
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            url:'/appkey/updateAppkeyCoreMark',
+            timeout:240000,
+            success: function(jsonResult){
+                alert(jsonResult);
+            },
+            error: function () {
+                alert("保存失败");
+            }
+        });
+        }
+    };
     $(document).ready(function(){
         $.ajax({
         type: "Get",
@@ -117,9 +166,6 @@
         }
         });
 	});
-    // $('tbody.table-api').delegate('#appkey', 'click', function(){
-    //         // window.location.href=;
-    //     });
 
 </script>
 </body>
