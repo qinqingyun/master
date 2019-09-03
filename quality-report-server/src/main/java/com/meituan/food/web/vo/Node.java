@@ -12,9 +12,9 @@ public class Node {
         nodes = node;
     }
 
-    @JSONField(name = "text")
+//    @JSONField(name = "text")
     public String text;
 
-    @JSONField(name = "nodes")
+//    @JSONField(name = "nodes")
     public List<Node> nodes;
 }
