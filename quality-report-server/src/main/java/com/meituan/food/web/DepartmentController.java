@@ -2,12 +2,16 @@ package com.meituan.food.web;
 
 import com.meituan.food.extract.IGetAppkeyList;
 import com.meituan.food.mapper.DepartmentPOMapper;
+import com.meituan.food.mapper.DepartmentPOSqlProvider;
 import com.meituan.food.po.DepartmentPO;
+import com.meituan.food.po.DepartmentPOExample;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/department")
@@ -80,5 +84,27 @@ public class DepartmentController {
         departmentPOMapper.insert(po11);*/
 
         return "OK!";
+    }
+
+    @GetMapping("/select")
+    public String select(@RequestParam("id") int id){
+        DepartmentPO departmentPO = departmentPOMapper.selectByPrimaryKey(id);
+        return departmentPO.getDepartment2();
+    }
+
+    @GetMapping("/selectALL")
+    public ArrayList<String> select(){
+        ArrayList<String> res = new ArrayList<String>();
+        DepartmentPOExample po=new DepartmentPOExample();
+        int count = (int)departmentPOMapper.countByExample(po);
+        for(int i = 1;i <= count;i++){
+            res.add(departmentPOMapper.selectByPrimaryKey(i).getDepartment2());
+        }
+        return res;
+    }
+
+    @GetMapping("/selectByDepartment")
+    public Integer selectByDepartment(@RequestParam("department2") String department2){
+        return departmentPOMapper.selectByDepartment(department2);
     }
 }

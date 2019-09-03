@@ -257,4 +257,5 @@ int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String app
             "</script>"
     })
     int batchInsert(List<ApiDetailPO> records);
+
 }

@@ -1,15 +1,19 @@
 package com.meituan.food.web;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.JsonObject;
 import com.meituan.food.extract.IGetApiDetailExtract;
 import com.meituan.food.mapper.ApiDetailPOMapper;
+import com.meituan.food.web.vo.ApiVO;
+import io.swagger.util.Json;
 import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -41,9 +45,18 @@ public class ApiDetailController {
         return "OK!";
     }
 
-  /*  @GetMapping("/update/status")
-    public String updateStatus(){
-        apiDetailExtract.setApiStatus();
-        return "OK!";
-    }*/
+    @PostMapping(value = "/updateApiCoreMark")
+    public String updateApiCoreMark(@RequestBody ArrayList<ApiVO> data) {
+        Date now=new Date();
+        for(int i = 0 ;i < data.size(); i++) {
+            if(data.get(i).getIsCore() == 1){
+                apiDetailPOMapper.updateByAppkeyAndApi(data.get(i).getApiName(), data.get(i).getAppkey(), now);
+            }else{
+                apiDetailPOMapper.updateToNoncoreByAppkeyAndApi(data.get(i).getApiName(), data.get(i).getAppkey(), now);
+
+            }
+        }
+
+        return "保存成功";
+    }
 }

@@ -77,4 +77,12 @@ public interface DepartmentPOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(DepartmentPO record);
+
+    @Select({
+            "select",
+            "id",
+            "from department",
+            "where department2 = #{department2,jdbcType=VARCHAR}"
+    })
+    Integer selectByDepartment(String department2);
 }

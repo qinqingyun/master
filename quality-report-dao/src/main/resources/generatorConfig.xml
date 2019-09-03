@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        "http://mybatis./dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
 
@@ -114,10 +114,20 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="release_name_table" domainObjectName="ReleaseNamePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
+<<<<<<< HEAD
+        <!--<table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+=======
        <!-- <table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
+<<<<<<< HEAD
+        <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+>>>>>>> feature/addQueryAppkeyDate
+=======
        <!-- <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
+>>>>>>> master
     </context>
 
 </generatorConfiguration>
