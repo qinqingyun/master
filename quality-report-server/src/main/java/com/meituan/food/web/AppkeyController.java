@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.alibaba.fastjson.*;
-
-
 @RestController
 @RequestMapping("/appkey")
 public class AppkeyController {
@@ -110,9 +107,9 @@ public class AppkeyController {
     }
 
     @GetMapping("/getOwt")
-    public String getOwt() {
+    public List<String> getOwt() {
         List<String> allOwt = appkeyListPOMapper.selectOwt();
-        return JSON.toJSONString(allOwt);
+        return allOwt;
     }
 
     @GetMapping("/getPdl")
