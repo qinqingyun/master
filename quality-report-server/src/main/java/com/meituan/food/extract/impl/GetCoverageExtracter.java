@@ -160,6 +160,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                 int coverApiCount = 0;
                 int allCoreApiCount = 0;
                 int coverCoreApiCount = 0;
+                int coreSrvApiCount=0;
                 DepartmentApiCoveragePO departmentApiCoveragePO = new DepartmentApiCoveragePO();
                 String departmentName = groupList.get(0).getDepartment2();
                 for (ApiCoveragePO apiCoveragePO : groupList) {
@@ -167,6 +168,11 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                     coverApiCount = coverApiCount + apiCoveragePO.getCoverApiNum();
                     allCoreApiCount = allCoreApiCount + apiCoveragePO.getAllCoreApiNum();
                     coverCoreApiCount = coverCoreApiCount + apiCoveragePO.getCoverCoreApiNum();
+                    String appkey = apiCoveragePO.getAppkey();
+                    AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+                    if (appkeyListPO.getRank()==1){
+                        coreSrvApiCount=coreSrvApiCount+apiCoveragePO.getAllApiNum();
+                    }
                 }
                 if (allAPiCount != 0) {
                     BigDecimal apiCoverage = new BigDecimal((double) coverApiCount * 100 / allAPiCount);
@@ -190,6 +196,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                 departmentApiCoveragePO.setCoverCoreApiNum(coverCoreApiCount);
                 departmentApiCoveragePO.setCoverageDate(currentTime_2);
                 departmentApiCoveragePO.setStatus(1);
+                departmentApiCoveragePO.setCoreSrvApiNum(coreSrvApiCount);
 
                 departmentApiCoveragePOMapper.insert(departmentApiCoveragePO);
             }
@@ -203,12 +210,18 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                 int coverApiCount = 0;
                 int allCoreApiCount = 0;
                 int coverCoreApiCount = 0;
+                int coreSrvApiCount=0;
                 String departmentName = groupList.get(0).getDepartment();
                 for (ApiCoveragePO po : groupList) {
                     allAPiCount = allAPiCount + po.getAllApiNum();
                     coverApiCount = coverApiCount + po.getCoverApiNum();
                     allCoreApiCount = allCoreApiCount + po.getAllCoreApiNum();
                     coverCoreApiCount = coverCoreApiCount + po.getCoverCoreApiNum();
+                    String appkey = po.getAppkey();
+                    AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+                    if (appkeyListPO.getRank()==1){
+                        coreSrvApiCount=coreSrvApiCount+po.getAllApiNum();
+                    }
                 }
                 if (allAPiCount != 0) {
                     BigDecimal apiCoverage = new BigDecimal((double) coverApiCount * 100 / allAPiCount);
@@ -232,6 +245,7 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                 departmentApiCoveragePO.setCoverCoreApiNum(coverCoreApiCount);
                 departmentApiCoveragePO.setCoverageDate(currentTime_2);
                 departmentApiCoveragePO.setStatus(0);
+                departmentApiCoveragePO.setCoreSrvApiNum(coreSrvApiCount);
 
                 departmentApiCoveragePOMapper.insert(departmentApiCoveragePO);
             }

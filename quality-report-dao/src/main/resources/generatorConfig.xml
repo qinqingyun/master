@@ -103,8 +103,8 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="batch_date" domainObjectName="BatchDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-       <!-- <table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>-->
+        <table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--<table tableName="cargo_data" domainObjectName="CargoDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
@@ -116,8 +116,8 @@
                <!--enableUpdateByExample="true"/>-->
        <!-- <table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+       <!-- <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
     </context>
 
 </generatorConfiguration>

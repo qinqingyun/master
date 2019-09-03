@@ -72,6 +72,10 @@ public class DepartmentApiCoveragePOSqlProvider {
             sql.VALUES("status", "#{status,jdbcType=INTEGER}");
         }
         
+        if (record.getCoreSrvApiNum() != null) {
+            sql.VALUES("core_srv_api_num", "#{coreSrvApiNum,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -92,6 +96,7 @@ public class DepartmentApiCoveragePOSqlProvider {
         sql.SELECT("core_api_coverage");
         sql.SELECT("coverage_date");
         sql.SELECT("status");
+        sql.SELECT("core_srv_api_num");
         sql.FROM("department_api_coverage");
         applyWhere(sql, example, false);
         
@@ -153,6 +158,10 @@ public class DepartmentApiCoveragePOSqlProvider {
             sql.SET("status = #{record.status,jdbcType=INTEGER}");
         }
         
+        if (record.getCoreSrvApiNum() != null) {
+            sql.SET("core_srv_api_num = #{record.coreSrvApiNum,jdbcType=INTEGER}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -172,6 +181,7 @@ public class DepartmentApiCoveragePOSqlProvider {
         sql.SET("core_api_coverage = #{record.coreApiCoverage,jdbcType=DECIMAL}");
         sql.SET("coverage_date = #{record.coverageDate,jdbcType=DATE}");
         sql.SET("status = #{record.status,jdbcType=INTEGER}");
+        sql.SET("core_srv_api_num = #{record.coreSrvApiNum,jdbcType=INTEGER}");
         
         DepartmentApiCoveragePOExample example = (DepartmentApiCoveragePOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -220,6 +230,10 @@ public class DepartmentApiCoveragePOSqlProvider {
         
         if (record.getStatus() != null) {
             sql.SET("status = #{status,jdbcType=INTEGER}");
+        }
+        
+        if (record.getCoreSrvApiNum() != null) {
+            sql.SET("core_srv_api_num = #{coreSrvApiNum,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

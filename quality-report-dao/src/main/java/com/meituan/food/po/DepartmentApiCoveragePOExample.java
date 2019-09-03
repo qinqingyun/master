@@ -802,6 +802,66 @@ public class DepartmentApiCoveragePOExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andCoreSrvApiNumIsNull() {
+            addCriterion("core_srv_api_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumIsNotNull() {
+            addCriterion("core_srv_api_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumEqualTo(Integer value) {
+            addCriterion("core_srv_api_num =", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumNotEqualTo(Integer value) {
+            addCriterion("core_srv_api_num <>", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumGreaterThan(Integer value) {
+            addCriterion("core_srv_api_num >", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("core_srv_api_num >=", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumLessThan(Integer value) {
+            addCriterion("core_srv_api_num <", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumLessThanOrEqualTo(Integer value) {
+            addCriterion("core_srv_api_num <=", value, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumIn(List<Integer> values) {
+            addCriterion("core_srv_api_num in", values, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumNotIn(List<Integer> values) {
+            addCriterion("core_srv_api_num not in", values, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumBetween(Integer value1, Integer value2) {
+            addCriterion("core_srv_api_num between", value1, value2, "coreSrvApiNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoreSrvApiNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("core_srv_api_num not between", value1, value2, "coreSrvApiNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -2,6 +2,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.ApplicationLoader;
 import com.meituan.food.web.vo.ApiVO;
+import com.meituan.food.web.vo.AppkeyVO;
 import com.meituan.food.web.vo.CommonResponse;
 import groovy.util.logging.Slf4j;
 import org.junit.Test;
@@ -26,7 +27,8 @@ public class AppkeyControllerTest {
 
     @Test
     public void getAppkeyDetail() {
-        appkeyController.getAppkeyDetail("com.sankuai.web.campaign.api");
+        AppkeyVO appkeyDetail = appkeyController.getAppkeyDetail("com.sankuai.web.campaign.api");
+        System.out.println(appkeyDetail.toString());
     }
 
     @Test
