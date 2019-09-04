@@ -129,7 +129,7 @@ public interface ApiDetailPOMapper {
     ApiDetailPO selectBySpanName(@Param("name") String name,@Param("appkey") String appkey);
 
     @Select(
-            "select * from api_detail where  appkey = #{appkey}")
+            "select * from api_detail where  appkey = #{appkey} order by call_count desc")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),

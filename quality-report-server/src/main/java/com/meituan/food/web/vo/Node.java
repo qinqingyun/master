@@ -11,9 +11,7 @@ public class Node {
         nodes = node;
     }
 
-//    @JSONField(name = "text")
     public String text;
 
-//    @JSONField(name = "nodes")
     public List<Node> nodes;
 }
