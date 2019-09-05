@@ -90,7 +90,7 @@
                     row += "index2.html?appkey="+data[j-1].appkey +">";
                     row += data[j-1].appkey + "</td>"; 
                     row += "<td>" + data[j-1].adminName + "</td>";
-                    row += "<td>" + data[j-1].adminMis + "</td>";
+                    row += "<td><input type='text' name='adminMis' value =" + data[j-1].adminMis + "></input></td>";
                     switch(data[j-1].rank)
                     {
                       case 1:
@@ -116,8 +116,9 @@
         $('.table-api tr').each(function(i){
             var appkey = $(this).children('td').eq(0).text();
             var rank = $(this).find('option:selected').val();
+            var adminMis = $(this).find('input').val();
 
-            data.push({"appkey":appkey,"rank":rank})
+            data.push({"appkey":appkey,"rank":rank,"adminMis":adminMis})
 
         });
 
@@ -132,6 +133,9 @@
             timeout:240000,
             success: function(jsonResult){
                 alert(jsonResult);
+                $("thead").empty();
+                $("tbody").empty();
+                showAppkey($('#tree').treeview('getSelected')[0].text);
             },
             error: function () {
                 alert("保存失败");
@@ -139,6 +143,7 @@
         });
         }
     };
+
     $(document).ready(function(){
         $.ajax({
         type: "Get",
