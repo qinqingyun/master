@@ -8,7 +8,8 @@
     <!-- !!!! Driver Class Path !!!! -->
     <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
     <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
-    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
+    <classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -103,8 +104,8 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="batch_date" domainObjectName="BatchDatePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+        <!--<table tableName="department_api_coverage" domainObjectName="DepartmentApiCoveragePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="cargo_data" domainObjectName="CargoDataPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
@@ -114,20 +115,13 @@
                enableUpdateByExample="true"/>-->
         <!--<table tableName="release_name_table" domainObjectName="ReleaseNamePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
-<<<<<<< HEAD
-        <!--<table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-=======
        <!-- <table tableName="line_coverage_table" domainObjectName="LineCoverageP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-<<<<<<< HEAD
-        <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
->>>>>>> feature/addQueryAppkeyDate
-=======
-       <!-- <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>-->
->>>>>>> master
+        <!--<table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+       <!--<table tableName="job_admin" domainObjectName="JobAdminP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+
     </context>
 
 </generatorConfiguration>

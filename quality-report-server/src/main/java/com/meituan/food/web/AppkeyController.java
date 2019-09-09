@@ -213,7 +213,10 @@ public class AppkeyController {
     @PostMapping(value = "/updateAppkeyCoreMark")
     public String updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
         Date now=new Date();
+
         for(int i = 0 ;i < data.size(); i++) {
+            appkeyAdminPOMapper.updateByAppkey(data.get(i).getAppkey(),data.get(i).getAdminMis(),now);
+
             switch (data.get(i).getRank()){
                 case 1:
                 appkeyListPOMapper.updateToCore(data.get(i).getAppkey(), now);

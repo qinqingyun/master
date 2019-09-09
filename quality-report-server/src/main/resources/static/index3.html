@@ -65,8 +65,8 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="index.html" class="myLeftMenu"><span>线下指标接口</span></a></li>
-            <li><a href="index3.html" class="myLeftMenu"><span>job归属</span></a></li>
+            <li ><a href="index.html" class="myLeftMenu"><span>线下指标接口</span></a></li>
+            <li class="active"><a href="javascript:void(0)" class="myLeftMenu" data="job.html" data-id="1"><span>job归属</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
     </section>
@@ -108,25 +108,12 @@
             // var sId = $(this).data("id"); //获取data-id的值
             // window.location.hash = sId; //设置锚点 
             $('#container').load(url);
-        });
-        var appkey = GetRequest().appkey;
-        var url  = "appkeyDetail.html?appkey=" + appkey;
+        });        
+        var url = $('ul.sidebar-menu li.active a').attr('data');
+        // window.location.hash = $('ul.sidebar-menu li.active a').data("id");
         $('#container').load(url);
         
     })
-    function GetRequest() {
-        var url = location.search; //获取url中"?"符后的字串
-        var theRequest = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-            }
-        }
-        return theRequest;
-        
-    }
 </script>
 </body>
 </html>

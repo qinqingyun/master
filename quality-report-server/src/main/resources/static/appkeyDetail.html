@@ -37,7 +37,8 @@
     <div id="container"  style="margin-bottom:20;">
         <div class="col middle-column">
             <h3 style="style='margin:10px 10px'"></h3>
-            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:10px 0px'>保存</button>
+            <p id="tips"></p>
+            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:0px 20px'>保存</button>
         </div>
     </div>
 
@@ -70,6 +71,7 @@
 <script src="bootstrap/js/adminlte.min.js"></script>
 
 <script>
+    var isCoreAppkey = false;
     $(document).ready(function(){
         var appkey =  GetRequest().appkey;
         $('h3').append(appkey);
@@ -78,6 +80,11 @@
                 if(data.result == 1){
                     alert("系统出错！！！！");
                 }else{
+                    $('#tips').append("非核心服务不能修改核心接口标记");
+                    if(data.rank=='1'||data.rank=='3'){
+                        isCoreAppkey = true;
+                    }
+                    var disabled = isCoreAppkey?"":" onclick = 'return false;'";
                     var title = "<tr><th scope='col'>#</th>";
                     title += "<th scope='col'>接口名称</th>";
                     title += "<th scope='col'>调用量</th>";
@@ -89,7 +96,7 @@
                         row += "<td id='apiName'>" + apiVOList[i-1].apiName + "</td>";
                         row += "<td id='callCount'>" + apiVOList[i-1].callCount + "</td>";
                         var checked = (apiVOList[i-1].isCore=='1')?"checked":"";
-                        row += "<td id='isCore'><input type= 'checkbox'" + checked + "></input></td>";
+                        row += "<td id='isCore'><input type= 'checkbox' " + checked + disabled +"></input></td>";
                         $("tbody.table-api").append(row);
                     }
                 }
@@ -110,7 +117,10 @@
     }
 
      function dataSubmit() {
-
+        if(isCoreAppkey==false){
+            alert("当前服务为非核心服务，不能修改核心接口标记");
+            return;
+        }
         var data = [];
         $('.table-api tr').each(function(i){
             var appkey = $('h3').text();
