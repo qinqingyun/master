@@ -211,9 +211,14 @@ public class AppkeyController {
     }
 
     @PostMapping(value = "/updateAppkeyCoreMark")
-    public String updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
+    public CommonResponse updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
         Date now=new Date();
-
+        for(int i = 0;i < data.size();i++) {
+            if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminMis()) == null){
+                String errInfo = "mis号(" + data.get(i).getAdminMis() + ")有误，请检查后再提交！";
+                return CommonResponse.errorRes(errInfo);
+            }
+        }
         for(int i = 0 ;i < data.size(); i++) {
             appkeyAdminPOMapper.updateByAppkey(data.get(i).getAppkey(),data.get(i).getAdminMis(),now);
 
@@ -232,6 +237,6 @@ public class AppkeyController {
             }
         }
 
-        return "保存成功";
+        return CommonResponse.successRes("保存成功","");
     }
 }

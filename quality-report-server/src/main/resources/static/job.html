@@ -72,7 +72,33 @@
 <script type="text/javascript" src="bootstrap/js/bootstrap-treeview.js"></script>
 
 <script>
+    function showdata() {
+        $.ajax({
+        type: "Get",
+        url: "/job/selectAllJobInfo",
+        dataType: "json",
+        success: function (jsonResult) {
+        var title = "<tr><th scope='col'>#</th>";
+        title += "<th scope='col'>部门</th>";
+        title += "<th scope='col'>Job</th>";
+        title += "<th scope='col'>Mis</th>";
 
+        $("thead.table-title").append(title);
+        for(var j = 1;j <= jsonResult.data.length; j++){
+            var row = "<tr><th scope='row'>" + j + "</th>";
+            row += "<td>" + jsonResult.data[j-1].departmentName + "</td>";
+            row += "<td>" + jsonResult.data[j-1].jobName + "</td>";
+            row += "<td><input type='text' name='adminName' value =" + jsonResult.data[j-1].adminName + "></input></td>";
+
+            $("tbody.table-api").append(row);
+            }
+
+        },
+        error: function () {
+            alert("获取job数据失败")
+        }
+        });
+    }
     function dataSubmit() {
 
         var data = [];
@@ -94,7 +120,13 @@
             url:'/job/updateJobAdmin',
             timeout:240000,
             success: function(jsonResult){
-                alert(jsonResult);
+                var jsonObj = eval('(' +jsonResult + ')');
+                if(jsonObj.code == 0){
+                    $("thead").empty();
+                    $("tbody").empty();
+                    showdata();
+                }
+                alert(jsonObj.msg);
             },
             error: function () {
                 alert("保存失败");
@@ -104,31 +136,7 @@
     };
 
     $(document).ready(function(){
-        $.ajax({
-        type: "Get",
-        url: "/job/selectAllJobInfo",
-        dataType: "json",
-        success: function (data) {
-        var title = "<tr><th scope='col'>#</th>";
-        title += "<th scope='col'>部门</th>";
-        title += "<th scope='col'>Job</th>";
-        title += "<th scope='col'>Mis</th>";
-
-        $("thead.table-title").append(title);
-        for(var j = 1;j <= data.length; j++){
-            var row = "<tr><th scope='row'>" + j + "</th>";
-            row += "<td>" + data[j-1].departmentName + "</td>";
-            row += "<td>" + data[j-1].jobName + "</td>";
-            row += "<td><input type='text' name='adminName' value =" + data[j-1].adminName + "></input></td>";
-
-            $("tbody.table-api").append(row);
-            }
-
-        },
-        error: function () {
-            alert("获取job数据失败")
-        }
-        });
+        showdata();
 	});
 
 </script>

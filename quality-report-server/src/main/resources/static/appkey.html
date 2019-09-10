@@ -132,10 +132,13 @@
             url:'/appkey/updateAppkeyCoreMark',
             timeout:240000,
             success: function(jsonResult){
-                alert(jsonResult);
-                $("thead").empty();
-                $("tbody").empty();
-                showAppkey($('#tree').treeview('getSelected')[0].text);
+                var jsonObj = eval('(' +jsonResult + ')');
+                if(jsonObj.code == 0){
+                    $("thead").empty();
+                    $("tbody").empty();
+                    showAppkey($('#tree').treeview('getSelected')[0].text);
+                 }
+                alert(jsonObj.msg);
             },
             error: function () {
                 alert("保存失败");
