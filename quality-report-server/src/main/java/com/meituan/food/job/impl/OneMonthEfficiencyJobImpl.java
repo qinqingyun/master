@@ -1,5 +1,6 @@
 package com.meituan.food.job.impl;
 
+import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.extract.IMailDataDaysExtract;
 import com.meituan.food.job.IOneMonthEfficiencyJob;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
@@ -18,6 +19,9 @@ public class OneMonthEfficiencyJobImpl implements IOneMonthEfficiencyJob {
     private static String startDate;
     private static String endDate;
 
+    @Resource
+    private ICOEDataExtract coeDataExtract;
+
     @Override
     public void sync() throws MDMThriftException, TException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -30,5 +34,7 @@ public class OneMonthEfficiencyJobImpl implements IOneMonthEfficiencyJob {
         cale.set(Calendar.DAY_OF_MONTH, 0);
         endDate = format.format(cale.getTime());
         dataDaysExtract.extractEfficiencyData4Days(startDate,endDate);
+
+        coeDataExtract.getCOEData(startDate,endDate);
     }
 }
