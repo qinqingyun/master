@@ -3,6 +3,7 @@ package com.meituan.food.web;
 import com.meituan.food.extract.IGetApiDetailExtract;
 import com.meituan.food.mapper.ApiDetailPOMapper;
 import com.meituan.food.web.vo.ApiVO;
+import com.meituan.food.web.vo.CommonResponse;
 import io.swagger.util.Json;
 import org.apache.ibatis.annotations.Param;
 import org.joda.time.DateTime;
@@ -44,7 +45,7 @@ public class ApiDetailController {
     }
 
     @PostMapping(value = "/updateApiCoreMark")
-    public String updateApiCoreMark(@RequestBody ArrayList<ApiVO> data) {
+    public CommonResponse updateApiCoreMark(@RequestBody ArrayList<ApiVO> data) {
         Date now=new Date();
         for(int i = 0 ;i < data.size(); i++) {
             if(data.get(i).getIsCore() == 1){
@@ -55,6 +56,6 @@ public class ApiDetailController {
             }
         }
 
-        return "保存成功";
+        return CommonResponse.successRes("保存成功","");
     }
 }

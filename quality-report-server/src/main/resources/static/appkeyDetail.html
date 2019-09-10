@@ -72,9 +72,8 @@
 
 <script>
     var isCoreAppkey = false;
-    $(document).ready(function(){
-        var appkey =  GetRequest().appkey;
-        $('h3').append(appkey);
+    var appkey =  GetRequest().appkey;
+    function showdata(){
         $.get("/appkey/getAppkeyDetail",{"appkey": appkey},
             function(data){
                 if(data.result == 1){
@@ -101,6 +100,10 @@
                     }
                 }
             });
+    }
+    $(document).ready(function(){
+        $('h3').append(appkey);
+        showdata();
     });
 
     function GetRequest() {
@@ -143,7 +146,13 @@
             url:'/api/updateApiCoreMark',
             timeout:240000,
             success: function(jsonResult){
-                alert(jsonResult);
+                var jsonObj = eval('(' +jsonResult + ')');
+                if(jsonObj.code == 0){
+                    $("thead").empty();
+                    $("tbody").empty();
+                    showdata();
+                }
+                alert(jsonObj.msg);
             },
             error: function () {
                 alert("保存失败");

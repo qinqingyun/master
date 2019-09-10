@@ -59,7 +59,7 @@ public interface JobAdminP0Mapper {
     int updateJobAdmin(@Param("jobName") String jobName, @Param("adminName") String adminName, @Param("updatedAt") Date updatedAt);
 
     @Select(
-            "select * from job_admin order by department_id")
+            "select * from job_admin order by department_id, admin_name")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
             @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
