@@ -26,13 +26,14 @@ public class JobAdminController {
     public CommonResponse updateJobAdmin(@RequestBody ArrayList<JobAdminVO> data){
         Date now = new Date();
         for(int i = 0;i < data.size();i++) {
-            if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminName()) == null){
-                String errInfo = "mis号(" + data.get(i).getAdminName() + ")有误，请检查后再提交！";
+            if(data.get(i).getAdminMis()== "") continue;
+            if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminMis()) == null){
+                String errInfo = "mis号(" + data.get(i).getAdminMis() + ")有误，请检查后再提交！";
                 return CommonResponse.errorRes(errInfo);
             }
         }
         for(int i = 0;i < data.size();i++) {
-            jobAdminP0Mapper.updateJobAdmin(data.get(i).getJobName(), data.get(i).getAdminName(), now);
+            jobAdminP0Mapper.updateJobAdmin(data.get(i).getJobName(), data.get(i).getAdminMis(), now);
         }
         return CommonResponse.successRes("成功","");
     }
@@ -43,7 +44,7 @@ public class JobAdminController {
         List<JobAdminVO> jobAdminVO = new ArrayList<JobAdminVO>();
         for(int i = 0;i < jobAdminP0.size();i++){
             JobAdminVO vo = new JobAdminVO();
-            vo.setAdminName(jobAdminP0.get(i).getAdminName());
+            vo.setAdminMis(jobAdminP0.get(i).getAdminName());
             vo.setDepartmentName(jobAdminP0.get(i).getDepartmentName());
             vo.setJobName(jobAdminP0.get(i).getJobName());
             vo.setUpdatedTime(jobAdminP0.get(i).getUpdatedTime());

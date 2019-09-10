@@ -8,7 +8,7 @@ import java.util.Date;
 public class JobAdminVO {
     private String jobName;
 
-    private String adminName;
+    private String adminMis;
 
     private Integer departmentId;
 

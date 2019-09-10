@@ -88,7 +88,7 @@
             var row = "<tr><th scope='row'>" + j + "</th>";
             row += "<td>" + jsonResult.data[j-1].departmentName + "</td>";
             row += "<td>" + jsonResult.data[j-1].jobName + "</td>";
-            row += "<td><input type='text' name='adminName' value =" + jsonResult.data[j-1].adminName + "></input></td>";
+            row += "<td><input type='text' name='adminMis' value =" + jsonResult.data[j-1].adminMis + "></input></td>";
 
             $("tbody.table-api").append(row);
             }
@@ -104,9 +104,9 @@
         var data = [];
         $('.table-api tr').each(function(i){
             var jobName = $(this).children('td').eq(1).text();
-            var adminName = $(this).find('input').val();
+            var adminMis = $(this).find('input').val();
 
-            data.push({"jobName":jobName,"adminName":adminName})
+            data.push({"jobName":jobName,"adminMis":adminMis})
 
         });
 
