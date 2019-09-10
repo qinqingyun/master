@@ -19,6 +19,8 @@ public class COEDataExtracter implements ICOEDataExtract {
 
     private static final String url="http://coe.sankuai.com/api/v1.0/query/incidents";
 
+    private static final String coeUrl="https://coe.mws.sankuai.com/detail/";
+
     @Resource
     private CoeListP0Mapper coeListP0Mapper;
 
@@ -60,6 +62,8 @@ public class COEDataExtracter implements ICOEDataExtract {
                     coeP0.setSminushTime(((JSONObject)o).getInteger("lminusf_time"));
                     coeP0.setSolvedTime(((JSONObject)o).getDate("solved_time"));
                     coeP0.setWiki(((JSONObject)o).getString("wiki"));
+                    coeP0.setCoeLink(coeUrl+((JSONObject)o).getInteger("_id"));
+                    coeP0.setCategory(((JSONObject)o).getString("category"));
                     if (ownerStr!=null){
                         String ownerMis=ownerStr.substring(0,ownerStr.indexOf("/"));
                         String ownerName=ownerStr.substring(ownerStr.indexOf("/")+1);

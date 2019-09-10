@@ -1,6 +1,7 @@
 package com.meituan.food.po;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CoeListP0 implements Serializable {
@@ -39,6 +40,16 @@ public class CoeListP0 implements Serializable {
     private String qaName;
 
     private String qaMis;
+
+    private String coeLink;
+
+    private String category;
+
+    private BigDecimal rdShare;
+
+    private BigDecimal qaShare;
+
+    private Boolean joinStatus;
 
     private static final long serialVersionUID = 1L;
 
@@ -186,6 +197,46 @@ public class CoeListP0 implements Serializable {
         this.qaMis = qaMis == null ? null : qaMis.trim();
     }
 
+    public String getCoeLink() {
+        return coeLink;
+    }
+
+    public void setCoeLink(String coeLink) {
+        this.coeLink = coeLink == null ? null : coeLink.trim();
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
+    }
+
+    public BigDecimal getRdShare() {
+        return rdShare;
+    }
+
+    public void setRdShare(BigDecimal rdShare) {
+        this.rdShare = rdShare;
+    }
+
+    public BigDecimal getQaShare() {
+        return qaShare;
+    }
+
+    public void setQaShare(BigDecimal qaShare) {
+        this.qaShare = qaShare;
+    }
+
+    public Boolean getJoinStatus() {
+        return joinStatus;
+    }
+
+    public void setJoinStatus(Boolean joinStatus) {
+        this.joinStatus = joinStatus;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -215,7 +266,12 @@ public class CoeListP0 implements Serializable {
             && (this.getOwnerName() == null ? other.getOwnerName() == null : this.getOwnerName().equals(other.getOwnerName()))
             && (this.getOwnerMis() == null ? other.getOwnerMis() == null : this.getOwnerMis().equals(other.getOwnerMis()))
             && (this.getQaName() == null ? other.getQaName() == null : this.getQaName().equals(other.getQaName()))
-            && (this.getQaMis() == null ? other.getQaMis() == null : this.getQaMis().equals(other.getQaMis()));
+            && (this.getQaMis() == null ? other.getQaMis() == null : this.getQaMis().equals(other.getQaMis()))
+            && (this.getCoeLink() == null ? other.getCoeLink() == null : this.getCoeLink().equals(other.getCoeLink()))
+            && (this.getCategory() == null ? other.getCategory() == null : this.getCategory().equals(other.getCategory()))
+            && (this.getRdShare() == null ? other.getRdShare() == null : this.getRdShare().equals(other.getRdShare()))
+            && (this.getQaShare() == null ? other.getQaShare() == null : this.getQaShare().equals(other.getQaShare()))
+            && (this.getJoinStatus() == null ? other.getJoinStatus() == null : this.getJoinStatus().equals(other.getJoinStatus()));
     }
 
     @Override
@@ -240,6 +296,11 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getOwnerMis() == null) ? 0 : getOwnerMis().hashCode());
         result = prime * result + ((getQaName() == null) ? 0 : getQaName().hashCode());
         result = prime * result + ((getQaMis() == null) ? 0 : getQaMis().hashCode());
+        result = prime * result + ((getCoeLink() == null) ? 0 : getCoeLink().hashCode());
+        result = prime * result + ((getCategory() == null) ? 0 : getCategory().hashCode());
+        result = prime * result + ((getRdShare() == null) ? 0 : getRdShare().hashCode());
+        result = prime * result + ((getQaShare() == null) ? 0 : getQaShare().hashCode());
+        result = prime * result + ((getJoinStatus() == null) ? 0 : getJoinStatus().hashCode());
         return result;
     }
 
@@ -267,6 +328,11 @@ public class CoeListP0 implements Serializable {
         sb.append(", ownerMis=").append(ownerMis);
         sb.append(", qaName=").append(qaName);
         sb.append(", qaMis=").append(qaMis);
+        sb.append(", coeLink=").append(coeLink);
+        sb.append(", category=").append(category);
+        sb.append(", rdShare=").append(rdShare);
+        sb.append(", qaShare=").append(qaShare);
+        sb.append(", joinStatus=").append(joinStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

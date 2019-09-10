@@ -1,5 +1,6 @@
 package com.meituan.food.po;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -1279,6 +1280,326 @@ public class CoeListP0Example {
 
         public Criteria andQaMisNotBetween(String value1, String value2) {
             addCriterion("qa_mis not between", value1, value2, "qaMis");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkIsNull() {
+            addCriterion("coe_link is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkIsNotNull() {
+            addCriterion("coe_link is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkEqualTo(String value) {
+            addCriterion("coe_link =", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkNotEqualTo(String value) {
+            addCriterion("coe_link <>", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkGreaterThan(String value) {
+            addCriterion("coe_link >", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkGreaterThanOrEqualTo(String value) {
+            addCriterion("coe_link >=", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkLessThan(String value) {
+            addCriterion("coe_link <", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkLessThanOrEqualTo(String value) {
+            addCriterion("coe_link <=", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkLike(String value) {
+            addCriterion("coe_link like", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkNotLike(String value) {
+            addCriterion("coe_link not like", value, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkIn(List<String> values) {
+            addCriterion("coe_link in", values, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkNotIn(List<String> values) {
+            addCriterion("coe_link not in", values, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkBetween(String value1, String value2) {
+            addCriterion("coe_link between", value1, value2, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoeLinkNotBetween(String value1, String value2) {
+            addCriterion("coe_link not between", value1, value2, "coeLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNull() {
+            addCriterion("category is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIsNotNull() {
+            addCriterion("category is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryEqualTo(String value) {
+            addCriterion("category =", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotEqualTo(String value) {
+            addCriterion("category <>", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThan(String value) {
+            addCriterion("category >", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryGreaterThanOrEqualTo(String value) {
+            addCriterion("category >=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThan(String value) {
+            addCriterion("category <", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLessThanOrEqualTo(String value) {
+            addCriterion("category <=", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryLike(String value) {
+            addCriterion("category like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotLike(String value) {
+            addCriterion("category not like", value, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryIn(List<String> values) {
+            addCriterion("category in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotIn(List<String> values) {
+            addCriterion("category not in", values, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryBetween(String value1, String value2) {
+            addCriterion("category between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andCategoryNotBetween(String value1, String value2) {
+            addCriterion("category not between", value1, value2, "category");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareIsNull() {
+            addCriterion("rd_share is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareIsNotNull() {
+            addCriterion("rd_share is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareEqualTo(BigDecimal value) {
+            addCriterion("rd_share =", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareNotEqualTo(BigDecimal value) {
+            addCriterion("rd_share <>", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareGreaterThan(BigDecimal value) {
+            addCriterion("rd_share >", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("rd_share >=", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareLessThan(BigDecimal value) {
+            addCriterion("rd_share <", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("rd_share <=", value, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareIn(List<BigDecimal> values) {
+            addCriterion("rd_share in", values, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareNotIn(List<BigDecimal> values) {
+            addCriterion("rd_share not in", values, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("rd_share between", value1, value2, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andRdShareNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("rd_share not between", value1, value2, "rdShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareIsNull() {
+            addCriterion("qa_share is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareIsNotNull() {
+            addCriterion("qa_share is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareEqualTo(BigDecimal value) {
+            addCriterion("qa_share =", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareNotEqualTo(BigDecimal value) {
+            addCriterion("qa_share <>", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareGreaterThan(BigDecimal value) {
+            addCriterion("qa_share >", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("qa_share >=", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareLessThan(BigDecimal value) {
+            addCriterion("qa_share <", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("qa_share <=", value, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareIn(List<BigDecimal> values) {
+            addCriterion("qa_share in", values, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareNotIn(List<BigDecimal> values) {
+            addCriterion("qa_share not in", values, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("qa_share between", value1, value2, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andQaShareNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("qa_share not between", value1, value2, "qaShare");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusIsNull() {
+            addCriterion("join_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusIsNotNull() {
+            addCriterion("join_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusEqualTo(Boolean value) {
+            addCriterion("join_status =", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusNotEqualTo(Boolean value) {
+            addCriterion("join_status <>", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusGreaterThan(Boolean value) {
+            addCriterion("join_status >", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("join_status >=", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusLessThan(Boolean value) {
+            addCriterion("join_status <", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusLessThanOrEqualTo(Boolean value) {
+            addCriterion("join_status <=", value, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusIn(List<Boolean> values) {
+            addCriterion("join_status in", values, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusNotIn(List<Boolean> values) {
+            addCriterion("join_status not in", values, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusBetween(Boolean value1, Boolean value2) {
+            addCriterion("join_status between", value1, value2, "joinStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andJoinStatusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("join_status not between", value1, value2, "joinStatus");
             return (Criteria) this;
         }
     }

@@ -100,6 +100,26 @@ public class CoeListP0SqlProvider {
             sql.VALUES("qa_mis", "#{qaMis,jdbcType=VARCHAR}");
         }
         
+        if (record.getCoeLink() != null) {
+            sql.VALUES("coe_link", "#{coeLink,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCategory() != null) {
+            sql.VALUES("category", "#{category,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getRdShare() != null) {
+            sql.VALUES("rd_share", "#{rdShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getQaShare() != null) {
+            sql.VALUES("qa_share", "#{qaShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getJoinStatus() != null) {
+            sql.VALUES("join_status", "#{joinStatus,jdbcType=BIT}");
+        }
+        
         return sql.toString();
     }
 
@@ -127,6 +147,11 @@ public class CoeListP0SqlProvider {
         sql.SELECT("owner_mis");
         sql.SELECT("qa_name");
         sql.SELECT("qa_mis");
+        sql.SELECT("coe_link");
+        sql.SELECT("category");
+        sql.SELECT("rd_share");
+        sql.SELECT("qa_share");
+        sql.SELECT("join_status");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -216,6 +241,26 @@ public class CoeListP0SqlProvider {
             sql.SET("qa_mis = #{record.qaMis,jdbcType=VARCHAR}");
         }
         
+        if (record.getCoeLink() != null) {
+            sql.SET("coe_link = #{record.coeLink,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCategory() != null) {
+            sql.SET("category = #{record.category,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getRdShare() != null) {
+            sql.SET("rd_share = #{record.rdShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getQaShare() != null) {
+            sql.SET("qa_share = #{record.qaShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getJoinStatus() != null) {
+            sql.SET("join_status = #{record.joinStatus,jdbcType=BIT}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -242,6 +287,11 @@ public class CoeListP0SqlProvider {
         sql.SET("owner_mis = #{record.ownerMis,jdbcType=VARCHAR}");
         sql.SET("qa_name = #{record.qaName,jdbcType=VARCHAR}");
         sql.SET("qa_mis = #{record.qaMis,jdbcType=VARCHAR}");
+        sql.SET("coe_link = #{record.coeLink,jdbcType=VARCHAR}");
+        sql.SET("category = #{record.category,jdbcType=VARCHAR}");
+        sql.SET("rd_share = #{record.rdShare,jdbcType=DECIMAL}");
+        sql.SET("qa_share = #{record.qaShare,jdbcType=DECIMAL}");
+        sql.SET("join_status = #{record.joinStatus,jdbcType=BIT}");
         
         CoeListP0Example example = (CoeListP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -318,6 +368,26 @@ public class CoeListP0SqlProvider {
         
         if (record.getQaMis() != null) {
             sql.SET("qa_mis = #{qaMis,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCoeLink() != null) {
+            sql.SET("coe_link = #{coeLink,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCategory() != null) {
+            sql.SET("category = #{category,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getRdShare() != null) {
+            sql.SET("rd_share = #{rdShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getQaShare() != null) {
+            sql.SET("qa_share = #{qaShare,jdbcType=DECIMAL}");
+        }
+        
+        if (record.getJoinStatus() != null) {
+            sql.SET("join_status = #{joinStatus,jdbcType=BIT}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
