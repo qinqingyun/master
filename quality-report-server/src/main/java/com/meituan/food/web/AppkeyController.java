@@ -214,6 +214,7 @@ public class AppkeyController {
     public CommonResponse updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
         Date now=new Date();
         for(int i = 0;i < data.size();i++) {
+            if(data.get(i).getAdminMis() == "") continue;
             if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminMis()) == null){
                 String errInfo = "mis号(" + data.get(i).getAdminMis() + ")有误，请检查后再提交！";
                 return CommonResponse.errorRes(errInfo);
