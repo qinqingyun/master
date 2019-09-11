@@ -71,5 +71,4 @@ public interface JobAdminP0Mapper {
     })
     List<JobAdminP0> selectAllJobInfo();
 
-
 }

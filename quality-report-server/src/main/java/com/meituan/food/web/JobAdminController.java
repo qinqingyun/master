@@ -1,5 +1,6 @@
 package com.meituan.food.web;
 
+import com.meituan.food.mapper.DepartmentPOMapper;
 import com.meituan.food.mapper.JobAdminP0Mapper;
 import com.meituan.food.mapper.Org2EmpDataPOMapper;
 import com.meituan.food.po.JobAdminP0;
@@ -19,8 +20,12 @@ public class JobAdminController {
 
     @Resource
     private JobAdminP0Mapper jobAdminP0Mapper;
+
     @Resource
     private Org2EmpDataPOMapper org2EmpDataPOMapper;
+
+    @Resource
+    private DepartmentPOMapper departmentPOMapper;
 
     @PostMapping("/updateJobAdmin")
     public CommonResponse updateJobAdmin(@RequestBody ArrayList<JobAdminVO> data){
@@ -54,4 +59,20 @@ public class JobAdminController {
         return CommonResponse.successRes("成功",jobAdminVO);
     }
 
+    @GetMapping("/insertOneJobInfo")
+    public CommonResponse insertOneJobInfo(@RequestParam String jobName, @RequestParam String adminName, @RequestParam int departmentId){
+        Date now=new Date();
+        JobAdminP0 record = new JobAdminP0();
+        record.setJobName(jobName);
+        record.setAdminName(adminName);
+        record.setDepartmentId(departmentId);
+        if(departmentPOMapper.selectByPrimaryKey(departmentId) == null || departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment()==""){
+            return CommonResponse.errorRes("departmentId没有查询到对应的组织");
+        }
+        record.setDepartmentName(departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment());
+        record.setCreatedTime(now);
+        record.setUpdatedTime(now);
+        jobAdminP0Mapper.insert(record);
+        return CommonResponse.successRes("成功",record);
+    }
 }
