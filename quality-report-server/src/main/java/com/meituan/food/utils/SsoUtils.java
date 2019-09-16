@@ -49,8 +49,9 @@ public final class SsoUtils {
 
         JSONObject authParams=new JSONObject();
         authParams.put("loginName","test_meishi_qa");
-       authParams.put("password","meishi_qa234");
-      // authParams.put("password","Ceshi123");
+   //    authParams.put("password","meishi_qa234");
+        authParams.put("password","meishi_qa123");
+        // authParams.put("password","Ceshi123");
        authParams.put("isSingleDevice",false);
 
        JSONObject authRes=HttpUtils.doPostWithAuth(URI.create(sso_host+"/api/auth"),
