@@ -8,11 +8,7 @@ public class JobAdminP0 implements Serializable {
 
     private String jobName;
 
-    private String adminName;
-
-    private Integer departmentId;
-
-    private String departmentName;
+    private String adminMis;
 
     private Date createdTime;
 
@@ -36,28 +32,12 @@ public class JobAdminP0 implements Serializable {
         this.jobName = jobName == null ? null : jobName.trim();
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getAdminMis() {
+        return adminMis;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName == null ? null : adminName.trim();
-    }
-
-    public Integer getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName == null ? null : departmentName.trim();
+    public void setAdminMis(String adminMis) {
+        this.adminMis = adminMis == null ? null : adminMis.trim();
     }
 
     public Date getCreatedTime() {
@@ -90,9 +70,7 @@ public class JobAdminP0 implements Serializable {
         JobAdminP0 other = (JobAdminP0) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getJobName() == null ? other.getJobName() == null : this.getJobName().equals(other.getJobName()))
-            && (this.getAdminName() == null ? other.getAdminName() == null : this.getAdminName().equals(other.getAdminName()))
-            && (this.getDepartmentId() == null ? other.getDepartmentId() == null : this.getDepartmentId().equals(other.getDepartmentId()))
-            && (this.getDepartmentName() == null ? other.getDepartmentName() == null : this.getDepartmentName().equals(other.getDepartmentName()))
+            && (this.getAdminMis() == null ? other.getAdminMis() == null : this.getAdminMis().equals(other.getAdminMis()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()));
     }
@@ -103,9 +81,7 @@ public class JobAdminP0 implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getJobName() == null) ? 0 : getJobName().hashCode());
-        result = prime * result + ((getAdminName() == null) ? 0 : getAdminName().hashCode());
-        result = prime * result + ((getDepartmentId() == null) ? 0 : getDepartmentId().hashCode());
-        result = prime * result + ((getDepartmentName() == null) ? 0 : getDepartmentName().hashCode());
+        result = prime * result + ((getAdminMis() == null) ? 0 : getAdminMis().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         return result;
@@ -119,9 +95,7 @@ public class JobAdminP0 implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", jobName=").append(jobName);
-        sb.append(", adminName=").append(adminName);
-        sb.append(", departmentId=").append(departmentId);
-        sb.append(", departmentName=").append(departmentName);
+        sb.append(", adminMis=").append(adminMis);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
