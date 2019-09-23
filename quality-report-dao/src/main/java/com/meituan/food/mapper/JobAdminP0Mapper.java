@@ -1,13 +1,21 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.JobAdminP0;
 import com.meituan.food.po.JobAdminP0Example;
 
 import java.util.Date;
 import java.util.List;
-
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
 public interface JobAdminP0Mapper {
@@ -17,14 +25,18 @@ public interface JobAdminP0Mapper {
     @DeleteProvider(type=JobAdminP0SqlProvider.class, method="deleteByExample")
     int deleteByExample(JobAdminP0Example example);
 
+    @Delete({
+        "delete from job_admin",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+    int deleteByPrimaryKey(Integer id);
+
     @Insert({
         "insert into job_admin (id, job_name, ",
-        "admin_name, department_id, ",
-        "department_name, created_time, ",
+        "admin_mis, created_time, ",
         "updated_time)",
         "values (#{id,jdbcType=INTEGER}, #{jobName,jdbcType=VARCHAR}, ",
-        "#{adminName,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, ",
-        "#{departmentName,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, ",
+        "#{adminMis,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, ",
         "#{updatedTime,jdbcType=TIMESTAMP})"
     })
     int insert(JobAdminP0 record);
@@ -34,15 +46,28 @@ public interface JobAdminP0Mapper {
 
     @SelectProvider(type=JobAdminP0SqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
-        @Result(column="department_name", property="departmentName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<JobAdminP0> selectByExample(JobAdminP0Example example);
+
+    @Select({
+            "select",
+            "id, job_name, admin_mis, created_time, updated_time",
+            "from job_admin",
+            "where id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+    })
+    JobAdminP0 selectByPrimaryKey(Integer id);
 
     @UpdateProvider(type=JobAdminP0SqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") JobAdminP0 record, @Param("example") JobAdminP0Example example);
@@ -50,25 +75,35 @@ public interface JobAdminP0Mapper {
     @UpdateProvider(type=JobAdminP0SqlProvider.class, method="updateByExample")
     int updateByExample(@Param("record") JobAdminP0 record, @Param("example") JobAdminP0Example example);
 
+    @UpdateProvider(type=JobAdminP0SqlProvider.class, method="updateByPrimaryKeySelective")
+    int updateByPrimaryKeySelective(JobAdminP0 record);
+
+    @Update({
+        "update job_admin",
+        "set job_name = #{jobName,jdbcType=VARCHAR},",
+          "admin_mis = #{adminMis,jdbcType=VARCHAR},",
+          "created_time = #{createdTime,jdbcType=TIMESTAMP},",
+          "updated_time = #{updatedTime,jdbcType=TIMESTAMP}",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+    int updateByPrimaryKey(JobAdminP0 record);
+
     @Update({
             "update job_admin",
-            "set admin_name = #{adminName,jdbcType=VARCHAR},",
+            "set admin_mis = #{adminMis,jdbcType=VARCHAR},",
             "updated_time = #{updatedAt,jdbcType=TIMESTAMP}",
             "where job_name = #{jobName,jdbcType=VARCHAR}",
     })
-    int updateJobAdmin(@Param("jobName") String jobName, @Param("adminName") String adminName, @Param("updatedAt") Date updatedAt);
+    int updateJobAdmin(@Param("jobName") String jobName, @Param("adminMis") String adminMis, @Param("updatedAt") Date updatedAt);
 
     @Select(
-            "select * from job_admin order by department_id, admin_name")
+            "select * from job_admin order by admin_mis")
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
             @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="admin_name", property="adminName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
-            @Result(column="department_name", property="departmentName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
             @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<JobAdminP0> selectAllJobInfo();
-
 }

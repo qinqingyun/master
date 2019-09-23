@@ -4,8 +4,10 @@ import com.meituan.food.mapper.DepartmentPOMapper;
 import com.meituan.food.mapper.JobAdminP0Mapper;
 import com.meituan.food.mapper.Org2EmpDataPOMapper;
 import com.meituan.food.po.JobAdminP0;
+import com.meituan.food.po.Org2EmpDataPO;
 import com.meituan.food.web.vo.CommonResponse;
 import com.meituan.food.web.vo.JobAdminVO;
+import com.sankuai.meituan.org.opensdk.model.domain.Emp;
 import org.springframework.web.bind.annotation.*;
 import scala.xml.Null;
 
@@ -49,27 +51,26 @@ public class JobAdminController {
         List<JobAdminVO> jobAdminVO = new ArrayList<JobAdminVO>();
         for(int i = 0;i < jobAdminP0.size();i++){
             JobAdminVO vo = new JobAdminVO();
-            vo.setAdminMis(jobAdminP0.get(i).getAdminName());
-            vo.setDepartmentName(jobAdminP0.get(i).getDepartmentName());
             vo.setJobName(jobAdminP0.get(i).getJobName());
+            vo.setAdminMis(jobAdminP0.get(i).getAdminMis());
+            if(org2EmpDataPOMapper.selectByMis(jobAdminP0.get(i).getAdminMis()) !=null) {
+                vo.setDepartmentName(org2EmpDataPOMapper.selectByMis(jobAdminP0.get(i).getAdminMis()).getOrgname());
+            }
             vo.setUpdatedTime(jobAdminP0.get(i).getUpdatedTime());
-            vo.setDepartmentId(jobAdminP0.get(i).getDepartmentId());
             jobAdminVO.add(vo);
         }
         return CommonResponse.successRes("成功",jobAdminVO);
     }
 
     @GetMapping("/insertOneJobInfo")
-    public CommonResponse insertOneJobInfo(@RequestParam String jobName, @RequestParam String adminName, @RequestParam int departmentId){
-        Date now=new Date();
+    public CommonResponse insertOneJobInfo(@RequestParam String jobName, @RequestParam String adminMis){
+        Date now = new Date();
         JobAdminP0 record = new JobAdminP0();
-        record.setJobName(jobName);
-        record.setAdminName(adminName);
-        record.setDepartmentId(departmentId);
-        if(departmentPOMapper.selectByPrimaryKey(departmentId) == null || departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment()==""){
-            return CommonResponse.errorRes("departmentId没有查询到对应的组织");
+        if(org2EmpDataPOMapper.selectByMis(adminMis) != null){
+            record.setAdminMis(adminMis);
+
         }
-        record.setDepartmentName(departmentPOMapper.selectByPrimaryKey(departmentId).getDepartment());
+        record.setJobName(jobName);
         record.setCreatedTime(now);
         record.setUpdatedTime(now);
         jobAdminP0Mapper.insert(record);

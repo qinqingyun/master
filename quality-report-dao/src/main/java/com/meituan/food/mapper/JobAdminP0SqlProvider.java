@@ -36,16 +36,8 @@ public class JobAdminP0SqlProvider {
             sql.VALUES("job_name", "#{jobName,jdbcType=VARCHAR}");
         }
         
-        if (record.getAdminName() != null) {
-            sql.VALUES("admin_name", "#{adminName,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDepartmentId() != null) {
-            sql.VALUES("department_id", "#{departmentId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getDepartmentName() != null) {
-            sql.VALUES("department_name", "#{departmentName,jdbcType=VARCHAR}");
+        if (record.getAdminMis() != null) {
+            sql.VALUES("admin_mis", "#{adminMis,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {
@@ -67,9 +59,7 @@ public class JobAdminP0SqlProvider {
             sql.SELECT("id");
         }
         sql.SELECT("job_name");
-        sql.SELECT("admin_name");
-        sql.SELECT("department_id");
-        sql.SELECT("department_name");
+        sql.SELECT("admin_mis");
         sql.SELECT("created_time");
         sql.SELECT("updated_time");
         sql.FROM("job_admin");
@@ -97,16 +87,8 @@ public class JobAdminP0SqlProvider {
             sql.SET("job_name = #{record.jobName,jdbcType=VARCHAR}");
         }
         
-        if (record.getAdminName() != null) {
-            sql.SET("admin_name = #{record.adminName,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDepartmentId() != null) {
-            sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getDepartmentName() != null) {
-            sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
+        if (record.getAdminMis() != null) {
+            sql.SET("admin_mis = #{record.adminMis,jdbcType=VARCHAR}");
         }
         
         if (record.getCreatedTime() != null) {
@@ -127,14 +109,37 @@ public class JobAdminP0SqlProvider {
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("job_name = #{record.jobName,jdbcType=VARCHAR}");
-        sql.SET("admin_name = #{record.adminName,jdbcType=VARCHAR}");
-        sql.SET("department_id = #{record.departmentId,jdbcType=INTEGER}");
-        sql.SET("department_name = #{record.departmentName,jdbcType=VARCHAR}");
+        sql.SET("admin_mis = #{record.adminMis,jdbcType=VARCHAR}");
         sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         sql.SET("updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}");
         
         JobAdminP0Example example = (JobAdminP0Example) parameter.get("example");
         applyWhere(sql, example, true);
+        return sql.toString();
+    }
+
+    public String updateByPrimaryKeySelective(JobAdminP0 record) {
+        SQL sql = new SQL();
+        sql.UPDATE("job_admin");
+        
+        if (record.getJobName() != null) {
+            sql.SET("job_name = #{jobName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAdminMis() != null) {
+            sql.SET("admin_mis = #{adminMis,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreatedTime() != null) {
+            sql.SET("created_time = #{createdTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdatedTime() != null) {
+            sql.SET("updated_time = #{updatedTime,jdbcType=TIMESTAMP}");
+        }
+        
+        sql.WHERE("id = #{id,jdbcType=INTEGER}");
+        
         return sql.toString();
     }
 
