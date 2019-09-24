@@ -2,16 +2,19 @@ package com.meituan.food.extract.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IWeekBugDataExtract;
 import com.meituan.food.mapper.WeekBugDetailPOMapper;
 import com.meituan.food.mapper.WeekBugTotalCountPOMapper;
 import com.meituan.food.po.WeekBugDetailPO;
 import com.meituan.food.po.WeekBugTotalCountPO;
-import com.meituan.food.utils.HttpUtils;
-import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
+import com.meituan.food.utils.YunTuBa;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.text.ParsePosition;
@@ -19,14 +22,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class WeekBugExtracter implements IWeekBugDataExtract {
 
-    private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data?params=";
+    private static final String URL="https://yuntu.sankuai.com/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page";
 
     @Resource
     private WeekBugDetailPOMapper weekBugDetailPOMapper;
@@ -39,8 +40,9 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String mSsoid = SsoUtils.getSsoId();
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = YunTuBa.getAuthHeader("/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page", "POST");
 
         Map<String, String> orgMap = new HashMap<>();
         orgMap.put("106452", "服务端测试组");
@@ -55,7 +57,9 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             param.put("startDate", firstDayStr);
             param.put("endDate", lastDayStr);
             param.put("dateDim", "DAY_DATE");
-            String encodedParam = UrlUtils.encode(param.toJSONString());
+            param.put("env","prod");
+
+            String encodedParam1 = UrlUtils.encode(param.toJSONString());
 
             WeekBugTotalCountPO po=new WeekBugTotalCountPO();
             int totalCount=0;
@@ -66,12 +70,29 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             int trivialCount=0;
             String blockerLink="";
 
-            JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
-            int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
 
+
+            MultiValueMap<String, Object> urlVariables = new LinkedMultiValueMap();
+            urlVariables.add("widgetId","widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+            urlVariables.add("index",1);
+            urlVariables.add("params",param);
+            urlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
+            HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity(urlVariables, headers);
+             JSONObject response = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
+            System.out.println(response.toString());
+
+
+            int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
             for (int i = 1; i <= index; i++) {
-                String url = URL + encodedParam + "&index=" + i + "&useCache=true";
-                JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
+
+
+
+                MultiValueMap<String, Object> partUrlVariables = new LinkedMultiValueMap();
+                partUrlVariables.add("widgetId","widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+                partUrlVariables.add("index",i);
+                partUrlVariables.add("params",param);
+                partUrlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
+                JSONObject partResponse = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
 
                 JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 for (int j = 1; j < partResult.size(); j++) {
@@ -140,13 +161,9 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
     }
 
-
     public static void main(String[] args) {
-        String strDate="2019-05-02";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        ParsePosition pos = new ParsePosition(0);
-        Date strtodate = formatter.parse(strDate, pos);
-
-            System.out.println(strtodate);
+        LocalDate day=LocalDate.now().minusDays(4);
+        IWeekBugDataExtract a=new WeekBugExtracter();
+        a.extractData4Week(day,day);
     }
 }

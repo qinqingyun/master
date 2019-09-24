@@ -2,6 +2,7 @@ package com.meituan.food.utils;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -12,15 +13,15 @@ import java.util.*;
 
 public final class YunTuBa {
 
-    public static Map<String, String> getAuthHeader(String path, String method) {
-        Map<String, String>  headers = new HashMap<>();
+    public static HttpHeaders getAuthHeader(String path, String method) {
+        HttpHeaders  headers = new HttpHeaders();
         DateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         String date = df.format(new Date()) + " GMT";
         String encryptStr = String.format("%s %s\n%s", method, path, date);
         String sign = hmacSHA1("yuntu&daodian123", encryptStr);
-        headers.put("Date", date);
-        headers.put("Authorization", String.format("MWS %s:%s", "yuntu_daodian", sign));
+        headers.add("Date", date);
+        headers.add("Authorization", String.format("MWS %s:%s", "yuntu_daodian", sign));
         return headers;
 
     }
