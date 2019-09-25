@@ -7,7 +7,6 @@ import com.meituan.food.mapper.WeekBugDetailPOMapper;
 import com.meituan.food.mapper.WeekBugTotalCountPOMapper;
 import com.meituan.food.po.WeekBugDetailPO;
 import com.meituan.food.po.WeekBugTotalCountPO;
-import com.meituan.food.utils.UrlUtils;
 import com.meituan.food.utils.YunTuBa;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +26,7 @@ import java.util.*;
 @Component
 public class WeekBugExtracter implements IWeekBugDataExtract {
 
-    private static final String URL="https://yuntu.sankuai.com/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page";
+    private static final String URL = "https://yuntu.sankuai.com/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page";
 
     @Resource
     private WeekBugDetailPOMapper weekBugDetailPOMapper;
@@ -57,49 +56,42 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             param.put("startDate", firstDayStr);
             param.put("endDate", lastDayStr);
             param.put("dateDim", "DAY_DATE");
-            param.put("env","prod");
+            param.put("env", "prod");
 
-            String encodedParam1 = UrlUtils.encode(param.toJSONString());
-
-            WeekBugTotalCountPO po=new WeekBugTotalCountPO();
-            int totalCount=0;
-            int blockerCount=0;
-            int majorCount=0;
-            int minorCount=0;
-            int criticalCount=0;
-            int trivialCount=0;
-            String blockerLink="";
-
+            WeekBugTotalCountPO po = new WeekBugTotalCountPO();
+            int totalCount = 0;
+            int blockerCount = 0;
+            int majorCount = 0;
+            int minorCount = 0;
+            int criticalCount = 0;
+            int trivialCount = 0;
+            String blockerLink = "";
 
 
             MultiValueMap<String, Object> urlVariables = new LinkedMultiValueMap();
-            urlVariables.add("widgetId","widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
-            urlVariables.add("index",1);
-            urlVariables.add("params",param);
+            urlVariables.add("widgetId", "widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+            urlVariables.add("index", 1);
+            urlVariables.add("params", param);
             urlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
             HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity(urlVariables, headers);
-             JSONObject response = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
-            System.out.println(response.toString());
-
+            JSONObject response = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
 
             int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
             for (int i = 1; i <= index; i++) {
 
-
-
                 MultiValueMap<String, Object> partUrlVariables = new LinkedMultiValueMap();
-                partUrlVariables.add("widgetId","widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
-                partUrlVariables.add("index",i);
-                partUrlVariables.add("params",param);
+                partUrlVariables.add("widgetId", "widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+                partUrlVariables.add("index", i);
+                partUrlVariables.add("params", param);
                 partUrlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
                 JSONObject partResponse = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
 
                 JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 for (int j = 1; j < partResult.size(); j++) {
-                    WeekBugDetailPO weekBugDetailPO=new WeekBugDetailPO();
-                    String bugLevel=((JSONArray) (partResult.get(j))).getString(1);
-                    String all=((JSONArray) (partResult.get(j))).getString(0);
-                    String createdTimeStr=((JSONArray) (partResult.get(j))).getString(6);
+                    WeekBugDetailPO weekBugDetailPO = new WeekBugDetailPO();
+                    String bugLevel = ((JSONArray) (partResult.get(j))).getString(1);
+                    String all = ((JSONArray) (partResult.get(j))).getString(0);
+                    String createdTimeStr = ((JSONArray) (partResult.get(j))).getString(6);
                     weekBugDetailPO.setAllTitle("");
                     weekBugDetailPO.setBugLevel(bugLevel);
                     weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
@@ -116,7 +108,7 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
                     weekBugDetailPO.setBugLink(link);
 
-                    String bugDetail=all.substring(all.indexOf(">")+1,all.indexOf("</a>"));
+                    String bugDetail = all.substring(all.indexOf(">") + 1, all.indexOf("</a>"));
                     weekBugDetailPO.setTitle(bugDetail);
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     ParsePosition pos = new ParsePosition(0);
@@ -125,16 +117,16 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
 
                     weekBugDetailPOMapper.insert(weekBugDetailPO);
 
-                    if (bugLevel.equals("Blocker")){
+                    if (bugLevel.equals("Blocker")) {
                         blockerCount++;
-                        blockerLink=blockerLink+link+"、";
-                    }else if (bugLevel.equals("Major")){
+                        blockerLink = blockerLink + link + "、";
+                    } else if (bugLevel.equals("Major")) {
                         majorCount++;
-                    }else if (bugLevel.equals("Critical")){
+                    } else if (bugLevel.equals("Critical")) {
                         criticalCount++;
-                    }else if (bugLevel.equals("Minor")||bugLevel.equals("Normal")){
+                    } else if (bugLevel.equals("Minor") || bugLevel.equals("Normal")) {
                         minorCount++;
-                    }else if (bugLevel.equals("Trivial")){
+                    } else if (bugLevel.equals("Trivial")) {
                         trivialCount++;
                     }
                     totalCount++;
@@ -159,11 +151,5 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
             weekBugTotalCountPOMapper.insert(po);
         }
 
-    }
-
-    public static void main(String[] args) {
-        LocalDate day=LocalDate.now().minusDays(4);
-        IWeekBugDataExtract a=new WeekBugExtracter();
-        a.extractData4Week(day,day);
     }
 }
