@@ -99,6 +99,14 @@ public interface JobAdminP0Mapper {
     })
     int updateJobAdmin(@Param("jobName") String jobName, @Param("adminMis") String adminMis, @Param("updatedAt") Date updatedAt);
 
+    @Update({
+            "update job_admin",
+            "set ci_url = #{ciUrl,jdbcType=VARCHAR},",
+            "updated_time = #{updatedAt,jdbcType=TIMESTAMP}",
+            "where job_name = #{jobName,jdbcType=VARCHAR}",
+    })
+    int updateCiUrl(@Param("jobName") String jobName, @Param("ciUrl") String ciUrl, @Param("updatedAt") Date updatedAt);
+
     @Select(
             "select * from job_admin order by admin_mis")
     @Results({

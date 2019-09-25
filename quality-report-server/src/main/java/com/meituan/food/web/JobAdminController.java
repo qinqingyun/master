@@ -78,4 +78,11 @@ public class JobAdminController {
         jobAdminP0Mapper.insert(record);
         return CommonResponse.successRes("成功",record);
     }
+
+    @GetMapping("/updateCiUrl")
+    public CommonResponse updateCiUrl(@RequestParam String jobName, @RequestParam String ciUrl){
+        Date now = new Date();
+        jobAdminP0Mapper.updateCiUrl(jobName,ciUrl,now);
+        return CommonResponse.successRes("成功",null);
+    }
 }
