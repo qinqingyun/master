@@ -94,16 +94,16 @@
                     switch(data[j-1].rank)
                     {
                       case 1:
-                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>非核心</option></select></td>";
+                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       case 2:
-                          row +="<td><select><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>非核心</option></select></td>";
+                          row +="<td><select><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                           break;
                       case 3:
-                          row +="<td><select><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>非核心</option></select></td>";
+                          row +="<td><select><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       default:
-                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>非核心</option></select></td>";
+                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                     }
                     $("tbody.table-api").append(row);
                 }

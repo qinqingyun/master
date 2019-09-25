@@ -53,6 +53,7 @@ public class JobAdminController {
             JobAdminVO vo = new JobAdminVO();
             vo.setJobName(jobAdminP0.get(i).getJobName());
             vo.setAdminMis(jobAdminP0.get(i).getAdminMis());
+            vo.setCiUrl(jobAdminP0.get(i).getCiUrl());
             if(org2EmpDataPOMapper.selectByMis(jobAdminP0.get(i).getAdminMis()) !=null) {
                 vo.setDepartmentName(org2EmpDataPOMapper.selectByMis(jobAdminP0.get(i).getAdminMis()).getOrgname());
             }
@@ -63,7 +64,7 @@ public class JobAdminController {
     }
 
     @GetMapping("/insertOneJobInfo")
-    public CommonResponse insertOneJobInfo(@RequestParam String jobName, @RequestParam String adminMis){
+    public CommonResponse insertOneJobInfo(@RequestParam String jobName, @RequestParam String adminMis, @RequestParam String ciUrl){
         Date now = new Date();
         JobAdminP0 record = new JobAdminP0();
         if(org2EmpDataPOMapper.selectByMis(adminMis) != null){
@@ -73,6 +74,7 @@ public class JobAdminController {
         record.setJobName(jobName);
         record.setCreatedTime(now);
         record.setUpdatedTime(now);
+        record.setCiUrl(ciUrl);
         jobAdminP0Mapper.insert(record);
         return CommonResponse.successRes("成功",record);
     }

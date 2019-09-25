@@ -5,7 +5,6 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-
 public class JobAdminVO {
     private String jobName;
 
@@ -14,4 +13,7 @@ public class JobAdminVO {
     private String departmentName;
 
     private Date updatedTime;
+
+    private String ciUrl;
+
 }

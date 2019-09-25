@@ -365,6 +365,76 @@ public class JobAdminP0Example {
             return (Criteria) this;
         }
 
+        public Criteria andCiUrlIsNull() {
+            addCriterion("ci_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlIsNotNull() {
+            addCriterion("ci_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlEqualTo(String value) {
+            addCriterion("ci_url =", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlNotEqualTo(String value) {
+            addCriterion("ci_url <>", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlGreaterThan(String value) {
+            addCriterion("ci_url >", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("ci_url >=", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlLessThan(String value) {
+            addCriterion("ci_url <", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlLessThanOrEqualTo(String value) {
+            addCriterion("ci_url <=", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlLike(String value) {
+            addCriterion("ci_url like", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlNotLike(String value) {
+            addCriterion("ci_url not like", value, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlIn(List<String> values) {
+            addCriterion("ci_url in", values, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlNotIn(List<String> values) {
+            addCriterion("ci_url not in", values, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlBetween(String value1, String value2) {
+            addCriterion("ci_url between", value1, value2, "ciUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCiUrlNotBetween(String value1, String value2) {
+            addCriterion("ci_url not between", value1, value2, "ciUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andUpdatedTimeIsNull() {
             addCriterion("updated_time is null");
             return (Criteria) this;
