@@ -2,8 +2,6 @@ package com.meituan.food.utils;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.client.RestTemplate;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.text.DateFormat;

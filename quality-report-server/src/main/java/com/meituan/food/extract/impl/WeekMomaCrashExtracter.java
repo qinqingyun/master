@@ -2,15 +2,9 @@ package com.meituan.food.extract.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneWeekCrashExtract;
-import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.mapper.WeekMomaCrashPOMapper;
-import com.meituan.food.po.MomaCrashRatePO;
 import com.meituan.food.po.WeekMomaCrashPO;
-import com.meituan.food.utils.HttpUtils;
-import com.meituan.food.utils.SsoUtils;
-import com.meituan.food.utils.UrlUtils;
 import com.meituan.food.utils.YunTuBa;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +14,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
