@@ -11,8 +11,14 @@ import com.meituan.food.po.EfficiencyBugNumPO;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
+import com.meituan.food.utils.YunTuBa;
 import lombok.Data;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -26,37 +32,44 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
     private EfficiencyBugNumPOMapper efficiencyBugNumPOMapper;
 
     //  private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-f4949af3-3bbc-4d46-9a85-30768be352c8/data?params=";
-    private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data?params=";
+    private static final String URL = "https://yuntu.sankuai.com/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page";
 
 
     @Override
     public void extractData4EffDay(LocalDate day) {
 
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        //测试中心orgid
         String orgId = "114606";
         JSONObject param = new JSONObject();
         param.put("orgId", orgId);
         param.put("startDate", firstDayStr);
         param.put("endDate", firstDayStr);
         param.put("dateDim", "DAY_DATE");
+        param.put("env", "prod");
 
-        String encodedParam = UrlUtils.encode(param.toJSONString());
-        String mSsoid=SsoUtils.getSsoId();
-
-
-        JSONObject response = HttpUtils.doGet(URL + encodedParam + "&index=1&useCache=true", JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" +mSsoid));
-        JSONArray result = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = YunTuBa.getAuthHeader("/api/open/v1/widget/widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad/data/page", "POST");
+        MultiValueMap<String, Object> urlVariables = new LinkedMultiValueMap();
+        urlVariables.add("widgetId", "widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+        urlVariables.add("index", 1);
+        urlVariables.add("params", param);
+        urlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity(urlVariables, headers);
+        JSONObject response = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
 
         int index = response.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
-        System.out.println("index=" + index);
 
         Map<String, BugCount> bugCountMap = Maps.newHashMap();
 
-
         for (int i = 1; i <= index; i++) {
-            String url = URL + encodedParam + "&index=" + i + "&useCache=true";
-            JSONObject partResponse = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
-
+            MultiValueMap<String, Object> partUrlVariables = new LinkedMultiValueMap();
+            partUrlVariables.add("widgetId", "widget-2d28ed8c-6d83-4c6b-92cf-8562760aa0ad");
+            partUrlVariables.add("index", i);
+            partUrlVariables.add("params", param);
+            partUrlVariables.add("dashKey", "dashboard-01311578-119a-4b41-a7cb-38b4b03cf538");
+            HttpEntity<MultiValueMap<String, Object>> partHttpEntity = new HttpEntity(partUrlVariables, headers);
+            JSONObject partResponse = restTemplate.postForEntity(URL, partHttpEntity, JSONObject.class).getBody();
             JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
             for (int j = 1; j < partResult.size(); j++) {
                 String createAllName = ((JSONArray) (partResult.get(j))).getString(3);
@@ -102,14 +115,6 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
             efficiencyBugNumPOMapper.insert(efficiencyBugNumPO);
         }
 
-
-    }
-
-    public static void main(String[] args) {
-       /* LocalDate day = LocalDate.now().minusDays(2);
-        IOneDayDataExtract a = new EfficiencyBugExtracter();
-        a.extractData4Day(day);
-       */
 
     }
 

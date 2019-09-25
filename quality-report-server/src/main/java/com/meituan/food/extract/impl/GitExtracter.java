@@ -9,8 +9,14 @@ import com.meituan.food.po.GitPO;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
+import com.meituan.food.utils.YunTuBa;
 import com.sun.prism.shader.Solid_ImagePattern_Loader;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.xml.crypto.Data;
@@ -22,7 +28,7 @@ import java.util.List;
 @Component
 public class GitExtracter implements IOneDayForEfficiencyDataExtract {
 
-    private static final String URL = "https://yuntu.sankuai.com/api/widget/widget-eebdd812-3817-4672-9421-1d59bb1f8164/data?";
+    private static final String URL = "https://yuntu.sankuai.com/api/open/v1/widget/widget-eebdd812-3817-4672-9421-1d59bb1f8164/data/page";
 
     @Resource
     private GitPOMapper gitPOMapper;
@@ -31,8 +37,6 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
     public void extractEfficiencyData4Day(LocalDate day) {
 
         String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        String mSsoid=SsoUtils.getSsoId();
 
 //        List<String> orgList = new ArrayList<>();
 //        orgList.add("100047");
@@ -47,23 +51,28 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
         param.put("dateDim", "DAY_DATE");
         param.put("orgId",orgId );
         param.put("startDate", dayStr);
-        String encodeParam = UrlUtils.encode(param.toJSONString());
+        param.put("env", "prod");
 
-        //先发一个请求，取出页数
-        String urlForPageNum = URL + "params=" + encodeParam + "&index=1&useCache=true";
-
-        JSONObject jsonObjectForPageNum = HttpUtils.doGet(urlForPageNum, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" +mSsoid));
-
-//        System.out.print(jsonObject.toString());    //调试看输出是否正确
-
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = YunTuBa.getAuthHeader("/api/open/v1/widget/widget-eebdd812-3817-4672-9421-1d59bb1f8164/data/page", "POST");
+        MultiValueMap<String, Object> urlVariables = new LinkedMultiValueMap();
+        urlVariables.add("widgetId", "widget-eebdd812-3817-4672-9421-1d59bb1f8164");
+        urlVariables.add("index", 1);
+        urlVariables.add("params", param);
+        urlVariables.add("dashKey", "dashboard-08c7942f-3d6c-44ed-8d76-3d5c047531f5");
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity(urlVariables, headers);
+        JSONObject jsonObjectForPageNum = restTemplate.postForEntity(URL, httpEntity, JSONObject.class).getBody();
         int pageNum = jsonObjectForPageNum.getJSONObject("data").getJSONObject("resData").getInteger("indexCounts");
-//        System.out.print(pageNum);
 
         for (int pageIndex = 1; pageIndex <= pageNum; pageIndex++) {
-            String url = URL + "params=" + encodeParam + "&index=" + pageIndex + "&useCache=true";
-            JSONObject jsonObject = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("Cookie", "Metrics_ssoid=" + mSsoid));
+            MultiValueMap<String, Object> partUrlVariables = new LinkedMultiValueMap();
+            partUrlVariables.add("widgetId", "widget-eebdd812-3817-4672-9421-1d59bb1f8164");
+            partUrlVariables.add("index", pageIndex);
+            partUrlVariables.add("params", param);
+            partUrlVariables.add("dashKey", "dashboard-08c7942f-3d6c-44ed-8d76-3d5c047531f5");
+            HttpEntity<MultiValueMap<String, Object>> partHttpEntity = new HttpEntity(partUrlVariables, headers);
+            JSONObject jsonObject = restTemplate.postForEntity(URL, partHttpEntity, JSONObject.class).getBody();
             JSONArray gitResult = jsonObject.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
-//            System.out.print(gitResult.toString());
 
             for (int i = 1; i < gitResult.size(); i++) {
                 GitPO gitPO = new GitPO();
@@ -85,11 +94,5 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
                 gitPOMapper.insert(gitPO);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        LocalDate localDate = LocalDate.now().minusDays(2);
-        IOneDayForEfficiencyDataExtract m = new GitExtracter();
-        m.extractEfficiencyData4Day(localDate);
     }
 }
