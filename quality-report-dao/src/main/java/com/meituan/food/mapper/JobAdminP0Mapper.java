@@ -34,10 +34,10 @@ public interface JobAdminP0Mapper {
     @Insert({
         "insert into job_admin (id, job_name, ",
         "admin_mis, created_time, ",
-        "updated_time)",
+        "ci_url, updated_time)",
         "values (#{id,jdbcType=INTEGER}, #{jobName,jdbcType=VARCHAR}, ",
         "#{adminMis,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, ",
-        "#{updatedTime,jdbcType=TIMESTAMP})"
+        "#{ciUrl,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})"
     })
     int insert(JobAdminP0 record);
 
@@ -50,22 +50,24 @@ public interface JobAdminP0Mapper {
         @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
         @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="ci_url", property="ciUrl", jdbcType=JdbcType.VARCHAR),
         @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<JobAdminP0> selectByExample(JobAdminP0Example example);
 
     @Select({
-            "select",
-            "id, job_name, admin_mis, created_time, updated_time",
-            "from job_admin",
-            "where id = #{id,jdbcType=INTEGER}"
+        "select",
+        "id, job_name, admin_mis, created_time, ci_url, updated_time",
+        "from job_admin",
+        "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
+        @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="ci_url", property="ciUrl", jdbcType=JdbcType.VARCHAR),
+        @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     JobAdminP0 selectByPrimaryKey(Integer id);
 
@@ -83,6 +85,7 @@ public interface JobAdminP0Mapper {
         "set job_name = #{jobName,jdbcType=VARCHAR},",
           "admin_mis = #{adminMis,jdbcType=VARCHAR},",
           "created_time = #{createdTime,jdbcType=TIMESTAMP},",
+          "ci_url = #{ciUrl,jdbcType=VARCHAR},",
           "updated_time = #{updatedTime,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -99,11 +102,13 @@ public interface JobAdminP0Mapper {
     @Select(
             "select * from job_admin order by admin_mis")
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="job_name", property="jobName", jdbcType=JdbcType.VARCHAR),
             @Result(column="admin_mis", property="adminMis", jdbcType=JdbcType.VARCHAR),
             @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="ci_url", property="ciUrl", jdbcType=JdbcType.VARCHAR),
             @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<JobAdminP0> selectAllJobInfo();
+
 }

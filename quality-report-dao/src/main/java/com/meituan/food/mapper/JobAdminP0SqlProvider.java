@@ -44,6 +44,10 @@ public class JobAdminP0SqlProvider {
             sql.VALUES("created_time", "#{createdTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getCiUrl() != null) {
+            sql.VALUES("ci_url", "#{ciUrl,jdbcType=VARCHAR}");
+        }
+        
         if (record.getUpdatedTime() != null) {
             sql.VALUES("updated_time", "#{updatedTime,jdbcType=TIMESTAMP}");
         }
@@ -61,6 +65,7 @@ public class JobAdminP0SqlProvider {
         sql.SELECT("job_name");
         sql.SELECT("admin_mis");
         sql.SELECT("created_time");
+        sql.SELECT("ci_url");
         sql.SELECT("updated_time");
         sql.FROM("job_admin");
         applyWhere(sql, example, false);
@@ -95,6 +100,10 @@ public class JobAdminP0SqlProvider {
             sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getCiUrl() != null) {
+            sql.SET("ci_url = #{record.ciUrl,jdbcType=VARCHAR}");
+        }
+        
         if (record.getUpdatedTime() != null) {
             sql.SET("updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}");
         }
@@ -111,6 +120,7 @@ public class JobAdminP0SqlProvider {
         sql.SET("job_name = #{record.jobName,jdbcType=VARCHAR}");
         sql.SET("admin_mis = #{record.adminMis,jdbcType=VARCHAR}");
         sql.SET("created_time = #{record.createdTime,jdbcType=TIMESTAMP}");
+        sql.SET("ci_url = #{record.ciUrl,jdbcType=VARCHAR}");
         sql.SET("updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}");
         
         JobAdminP0Example example = (JobAdminP0Example) parameter.get("example");
@@ -132,6 +142,10 @@ public class JobAdminP0SqlProvider {
         
         if (record.getCreatedTime() != null) {
             sql.SET("created_time = #{createdTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getCiUrl() != null) {
+            sql.SET("ci_url = #{ciUrl,jdbcType=VARCHAR}");
         }
         
         if (record.getUpdatedTime() != null) {

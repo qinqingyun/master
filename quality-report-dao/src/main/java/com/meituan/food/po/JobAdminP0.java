@@ -12,6 +12,8 @@ public class JobAdminP0 implements Serializable {
 
     private Date createdTime;
 
+    private String ciUrl;
+
     private Date updatedTime;
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +50,14 @@ public class JobAdminP0 implements Serializable {
         this.createdTime = createdTime;
     }
 
+    public String getCiUrl() {
+        return ciUrl;
+    }
+
+    public void setCiUrl(String ciUrl) {
+        this.ciUrl = ciUrl == null ? null : ciUrl.trim();
+    }
+
     public Date getUpdatedTime() {
         return updatedTime;
     }
@@ -72,6 +82,7 @@ public class JobAdminP0 implements Serializable {
             && (this.getJobName() == null ? other.getJobName() == null : this.getJobName().equals(other.getJobName()))
             && (this.getAdminMis() == null ? other.getAdminMis() == null : this.getAdminMis().equals(other.getAdminMis()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
+            && (this.getCiUrl() == null ? other.getCiUrl() == null : this.getCiUrl().equals(other.getCiUrl()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()));
     }
 
@@ -83,6 +94,7 @@ public class JobAdminP0 implements Serializable {
         result = prime * result + ((getJobName() == null) ? 0 : getJobName().hashCode());
         result = prime * result + ((getAdminMis() == null) ? 0 : getAdminMis().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
+        result = prime * result + ((getCiUrl() == null) ? 0 : getCiUrl().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         return result;
     }
@@ -97,6 +109,7 @@ public class JobAdminP0 implements Serializable {
         sb.append(", jobName=").append(jobName);
         sb.append(", adminMis=").append(adminMis);
         sb.append(", createdTime=").append(createdTime);
+        sb.append(", ciUrl=").append(ciUrl);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

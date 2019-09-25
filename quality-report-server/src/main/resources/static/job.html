@@ -87,7 +87,10 @@
         for(var j = 1;j <= jsonResult.data.length; j++){
             var row = "<tr><th scope='row'>" + j + "</th>";
             row += "<td>" + jsonResult.data[j-1].departmentName + "</td>";
-            row += "<td>" + jsonResult.data[j-1].jobName + "</td>";
+            row += "<td id='jobName'>";
+            row += "<a href=//";
+            row += jsonResult.data[j-1].ciUrl +" target='_blank'>";
+            row += jsonResult.data[j-1].jobName + "</td>";
             row += "<td><input type='text' name='adminMis' value =" + jsonResult.data[j-1].adminMis + "></input></td>";
 
             $("tbody.table-api").append(row);
