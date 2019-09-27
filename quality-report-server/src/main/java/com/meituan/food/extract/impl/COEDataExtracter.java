@@ -7,6 +7,7 @@ import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.mapper.CoeListP0Mapper;
 import com.meituan.food.po.CoeListP0;
 import com.meituan.food.utils.HttpUtils;
+import com.meituan.food.utils.SsoUtils;
 import org.springframework.stereotype.Component;
 import retrofit2.http.PUT;
 
@@ -21,18 +22,20 @@ public class COEDataExtracter implements ICOEDataExtract {
 
     private static final String coeUrl="https://coe.mws.sankuai.com/detail/";
 
+    private static final String availabilityUrl="https://coe.sankuai.com/api/v1.0/trend/availability?start=2019-01-01&end=2019-12-31";
+
     @Resource
     private CoeListP0Mapper coeListP0Mapper;
 
     @Override
     public void getCOEData(String firstDateStr,String secondDateStr) {
 
-        List<Integer> orgList=new ArrayList<>();
+     /*   List<Integer> orgList=new ArrayList<>();
         orgList.add(13181);
         orgList.add(70);
-        List<Integer> coeIdList=coeListP0Mapper.selectCoeIdList();
+        List<Integer> coeIdList=coeListP0Mapper.selectCoeIdList();*/
 
-        for (Integer org : orgList) {
+      /*  for (Integer org : orgList) {
             JSONObject params=new JSONObject();
             params.put("occur_start",firstDateStr);
             params.put("occur_end",secondDateStr);
@@ -80,6 +83,14 @@ public class COEDataExtracter implements ICOEDataExtract {
                     }
                 }
             }
-        }
+        }*/
+
+        JSONObject availabilityResp=HttpUtils.doGet(availabilityUrl,JSONObject.class,ImmutableMap.of("content-type", "application/json","Accept","text/plain, text/html,application/json","Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        System.out.println(availabilityResp.toString());
+    }
+
+    public static void main(String[] args) {
+        ICOEDataExtract a=new COEDataExtracter();
+        a.getCOEData("2019-01-01","2019-12-31");
     }
 }
