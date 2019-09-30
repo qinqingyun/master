@@ -9,6 +9,7 @@ import com.meituan.food.po.CoeListP0;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import org.springframework.stereotype.Component;
+import org.yaml.snakeyaml.events.Event;
 import retrofit2.http.PUT;
 
 import javax.annotation.Resource;
@@ -86,7 +87,20 @@ public class COEDataExtracter implements ICOEDataExtract {
         }*/
 
         JSONObject availabilityResp=HttpUtils.doGet(availabilityUrl,JSONObject.class,ImmutableMap.of("content-type", "application/json","Accept","text/plain, text/html,application/json","Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-        System.out.println(availabilityResp.toString());
+        JSONArray bgAvaiDataArray=availabilityResp.getJSONArray("availabilities");
+        if (bgAvaiDataArray.size()!=0){
+            for (Object bgData : bgAvaiDataArray) {
+                String bgName = ((JSONObject) bgData).getString("bg");
+                if (bgName.equals("到店餐饮研发中心")){
+                    JSONArray issueData=((JSONObject) bgData).getJSONArray("detail");
+                    if (issueData.size()!=0){
+                        for (Object data : issueData) {
+                            String coeId = ((JSONObject) data).getString("_id");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
