@@ -43,7 +43,6 @@ public class COEDataExtracter implements ICOEDataExtract {
         orgList.add(70);
         orgList.add(43330);
         orgList.add(35756);
-        List<Integer> coeIdList=coeListP0Mapper.selectCoeIdList();
 
         for (Integer org : orgList) {
             JSONObject params=new JSONObject();
@@ -55,6 +54,7 @@ public class COEDataExtracter implements ICOEDataExtract {
             params.put("sort","desc");
             params.put("sort_by","create_at");
             params.put("list_type","all");
+            List<Integer> coeIdList=coeListP0Mapper.selectCoeIdList();
 
             JSONObject resp=HttpUtils.doPost(url,params.toJSONString(),JSONObject.class,ImmutableMap.of("content-type", "application/json","Accept","text/plain, text/html,application/json","Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
             JSONArray incidentsArray=resp.getJSONArray("incidents");
