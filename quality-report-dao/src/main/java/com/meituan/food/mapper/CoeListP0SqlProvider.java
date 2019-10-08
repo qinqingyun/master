@@ -120,6 +120,10 @@ public class CoeListP0SqlProvider {
             sql.VALUES("join_status", "#{joinStatus,jdbcType=BIT}");
         }
         
+        if (record.getAppearance() != null) {
+            sql.VALUES("appearance", "#{appearance,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -152,6 +156,7 @@ public class CoeListP0SqlProvider {
         sql.SELECT("rd_share");
         sql.SELECT("qa_share");
         sql.SELECT("join_status");
+        sql.SELECT("appearance");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -261,6 +266,10 @@ public class CoeListP0SqlProvider {
             sql.SET("join_status = #{record.joinStatus,jdbcType=BIT}");
         }
         
+        if (record.getAppearance() != null) {
+            sql.SET("appearance = #{record.appearance,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -292,6 +301,7 @@ public class CoeListP0SqlProvider {
         sql.SET("rd_share = #{record.rdShare,jdbcType=DECIMAL}");
         sql.SET("qa_share = #{record.qaShare,jdbcType=DECIMAL}");
         sql.SET("join_status = #{record.joinStatus,jdbcType=BIT}");
+        sql.SET("appearance = #{record.appearance,jdbcType=VARCHAR}");
         
         CoeListP0Example example = (CoeListP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -388,6 +398,10 @@ public class CoeListP0SqlProvider {
         
         if (record.getJoinStatus() != null) {
             sql.SET("join_status = #{joinStatus,jdbcType=BIT}");
+        }
+        
+        if (record.getAppearance() != null) {
+            sql.SET("appearance = #{appearance,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

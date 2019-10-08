@@ -40,7 +40,8 @@ public interface CoeListP0Mapper {
         "owner_mis, qa_name, ",
         "qa_mis, coe_link, ",
         "category, rd_share, ",
-        "qa_share, join_status)",
+        "qa_share, join_status, ",
+        "appearance)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
         "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
@@ -51,7 +52,8 @@ public interface CoeListP0Mapper {
         "#{ownerMis,jdbcType=VARCHAR}, #{qaName,jdbcType=VARCHAR}, ",
         "#{qaMis,jdbcType=VARCHAR}, #{coeLink,jdbcType=VARCHAR}, ",
         "#{category,jdbcType=VARCHAR}, #{rdShare,jdbcType=DECIMAL}, ",
-        "#{qaShare,jdbcType=DECIMAL}, #{joinStatus,jdbcType=BIT})"
+        "#{qaShare,jdbcType=DECIMAL}, #{joinStatus,jdbcType=BIT}, ",
+        "#{appearance,jdbcType=VARCHAR})"
     })
     int insert(CoeListP0 record);
 
@@ -82,7 +84,8 @@ public interface CoeListP0Mapper {
         @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
         @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-        @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT)
+        @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
+        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeListP0> selectByExample(CoeListP0Example example);
 
@@ -90,7 +93,8 @@ public interface CoeListP0Mapper {
         "select",
         "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
         "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-        "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status",
+        "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
+        "appearance",
         "from coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -117,7 +121,8 @@ public interface CoeListP0Mapper {
         @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
         @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-        @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT)
+        @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
+        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
     })
     CoeListP0 selectByPrimaryKey(Integer id);
 
@@ -125,7 +130,8 @@ public interface CoeListP0Mapper {
             "select",
             "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
             "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status",
+            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
+            "appearance",
             "from coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -152,7 +158,8 @@ public interface CoeListP0Mapper {
             @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
             @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
             @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT)
+            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
+            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
     })
     CoeListP0 selectByCoeId(Integer id);
 
@@ -188,11 +195,11 @@ public interface CoeListP0Mapper {
           "category = #{category,jdbcType=VARCHAR},",
           "rd_share = #{rdShare,jdbcType=DECIMAL},",
           "qa_share = #{qaShare,jdbcType=DECIMAL},",
-          "join_status = #{joinStatus,jdbcType=BIT}",
+          "join_status = #{joinStatus,jdbcType=BIT},",
+          "appearance = #{appearance,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeListP0 record);
-
     @Select({
             "select coe_id from coe_list"
     })

@@ -1602,6 +1602,76 @@ public class CoeListP0Example {
             addCriterion("join_status not between", value1, value2, "joinStatus");
             return (Criteria) this;
         }
+
+        public Criteria andAppearanceIsNull() {
+            addCriterion("appearance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceIsNotNull() {
+            addCriterion("appearance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceEqualTo(String value) {
+            addCriterion("appearance =", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceNotEqualTo(String value) {
+            addCriterion("appearance <>", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceGreaterThan(String value) {
+            addCriterion("appearance >", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceGreaterThanOrEqualTo(String value) {
+            addCriterion("appearance >=", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceLessThan(String value) {
+            addCriterion("appearance <", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceLessThanOrEqualTo(String value) {
+            addCriterion("appearance <=", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceLike(String value) {
+            addCriterion("appearance like", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceNotLike(String value) {
+            addCriterion("appearance not like", value, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceIn(List<String> values) {
+            addCriterion("appearance in", values, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceNotIn(List<String> values) {
+            addCriterion("appearance not in", values, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceBetween(String value1, String value2) {
+            addCriterion("appearance between", value1, value2, "appearance");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppearanceNotBetween(String value1, String value2) {
+            addCriterion("appearance not between", value1, value2, "appearance");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -51,6 +51,8 @@ public class CoeListP0 implements Serializable {
 
     private Boolean joinStatus;
 
+    private String appearance;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -237,6 +239,14 @@ public class CoeListP0 implements Serializable {
         this.joinStatus = joinStatus;
     }
 
+    public String getAppearance() {
+        return appearance;
+    }
+
+    public void setAppearance(String appearance) {
+        this.appearance = appearance == null ? null : appearance.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -271,7 +281,8 @@ public class CoeListP0 implements Serializable {
             && (this.getCategory() == null ? other.getCategory() == null : this.getCategory().equals(other.getCategory()))
             && (this.getRdShare() == null ? other.getRdShare() == null : this.getRdShare().equals(other.getRdShare()))
             && (this.getQaShare() == null ? other.getQaShare() == null : this.getQaShare().equals(other.getQaShare()))
-            && (this.getJoinStatus() == null ? other.getJoinStatus() == null : this.getJoinStatus().equals(other.getJoinStatus()));
+            && (this.getJoinStatus() == null ? other.getJoinStatus() == null : this.getJoinStatus().equals(other.getJoinStatus()))
+            && (this.getAppearance() == null ? other.getAppearance() == null : this.getAppearance().equals(other.getAppearance()));
     }
 
     @Override
@@ -301,6 +312,7 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getRdShare() == null) ? 0 : getRdShare().hashCode());
         result = prime * result + ((getQaShare() == null) ? 0 : getQaShare().hashCode());
         result = prime * result + ((getJoinStatus() == null) ? 0 : getJoinStatus().hashCode());
+        result = prime * result + ((getAppearance() == null) ? 0 : getAppearance().hashCode());
         return result;
     }
 
@@ -333,6 +345,7 @@ public class CoeListP0 implements Serializable {
         sb.append(", rdShare=").append(rdShare);
         sb.append(", qaShare=").append(qaShare);
         sb.append(", joinStatus=").append(joinStatus);
+        sb.append(", appearance=").append(appearance);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
