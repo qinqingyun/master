@@ -119,4 +119,11 @@ public interface JobAdminP0Mapper {
     })
     List<JobAdminP0> selectAllJobInfo();
 
+    @Update({
+            "update job_admin",
+            "set job_name = #{newJobName,jdbcType=VARCHAR},",
+            "updated_time = #{updatedAt,jdbcType=TIMESTAMP}",
+            "where job_name = #{oldJobName,jdbcType=VARCHAR}",
+    })
+    int updateJobName(@Param("oldJobName") String oldJobName, @Param("newJobName") String newJobName, @Param("updatedAt") Date updatedAt);
 }

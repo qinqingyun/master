@@ -85,4 +85,11 @@ public class JobAdminController {
         jobAdminP0Mapper.updateCiUrl(jobName,ciUrl,now);
         return CommonResponse.successRes("成功",null);
     }
+
+    @GetMapping("/updateJobName")
+    public CommonResponse updateJobName(@RequestParam String oldJobName, @RequestParam String newJobName){
+        Date now = new Date();
+        jobAdminP0Mapper.updateJobName(oldJobName,newJobName,now);
+        return CommonResponse.successRes("成功",null);
+    }
 }
