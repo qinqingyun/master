@@ -39,7 +39,6 @@
     <!-- <section class="content-header"> -->
         <h3 style="margin:20px">
             JOB归属
-            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:0px 20px'>保存</button>
         </h3>
 
     <!-- </section> -->
@@ -55,6 +54,7 @@
         <tbody class="table-api">
         </tbody>
     </table>
+
 </div>
 
 </div>
@@ -91,7 +91,7 @@
             row += "<a href=//";
             row += jsonResult.data[j-1].ciUrl +" target='_blank'>";
             row += jsonResult.data[j-1].jobName + "</td>";
-            row += "<td><input type='text' name='adminMis' value =" + jsonResult.data[j-1].adminMis + "></input></td>";
+            row += "<td><input type='text' name='adminMis' onchange='dataSubmit(event)' value =" + jsonResult.data[j-1].adminMis + "></input></td>";
 
             $("tbody.table-api").append(row);
             }
@@ -102,17 +102,14 @@
         }
         });
     }
-    function dataSubmit() {
+
+    function dataSubmit(event) {
 
         var data = [];
-        $('.table-api tr').each(function(i){
-            var jobName = $(this).children('td').eq(1).text();
-            var adminMis = $(this).find('input').val();
 
-            data.push({"jobName":jobName,"adminMis":adminMis})
-
-        });
-
+        var jobName = $(event.target).parent().prev().text();
+            var adminMis = event.target.value;
+            data.push({"jobName":jobName,"adminMis":adminMis});
         var datajson = JSON.stringify(data);
         if(data.length>0){
         $.ajax({

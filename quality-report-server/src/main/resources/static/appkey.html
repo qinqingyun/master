@@ -39,7 +39,6 @@
     <!-- <section class="content-header"> -->
         <h3 style=>
             线下指标接口
-            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:0px 20px'>保存</button>
         </h3>
 
     <!-- </section> -->
@@ -90,37 +89,70 @@
                     row += "index2.html?appkey="+data[j-1].appkey +">";
                     row += data[j-1].appkey + "</td>"; 
                     row += "<td>" + data[j-1].adminName + "</td>";
-                    row += "<td><input type='text' name='adminMis' value =" + data[j-1].adminMis + "></input></td>";
+                    row += "<td><input type='text' name='adminMis' onchange='dataSubmit(event)' value =" + data[j-1].adminMis + "></input></td>";
                     switch(data[j-1].rank)
                     {
                       case 1:
-                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit1(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       case 2:
-                          row +="<td><select><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit1(event)'><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                           break;
                       case 3:
-                          row +="<td><select><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit1(event)'><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       default:
-                          row +="<td><select><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit1(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                     }
                     $("tbody.table-api").append(row);
                 }
             });
     }
 
-    function dataSubmit() {
+    function dataSubmit(event) {
 
         var data = [];
-        $('.table-api tr').each(function(i){
-            var appkey = $(this).children('td').eq(0).text();
-            var rank = $(this).find('option:selected').val();
-            var adminMis = $(this).find('input').val();
 
-            data.push({"appkey":appkey,"rank":rank,"adminMis":adminMis})
+        var appkey = $(event.target).parent().parent().children('td').eq(0).text();
+        var adminMis = event.target.value;
 
+        data.push({"appkey":appkey,"adminMis":adminMis})
+
+        var datajson = JSON.stringify(data);
+        if(data.length>0){
+        $.ajax({
+            type: 'post',
+            data: datajson,
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            url:'/appkey/updateAppkeyCoreMark',
+            timeout:240000,
+            success: function(jsonResult){
+                var jsonObj = eval('(' +jsonResult + ')');
+                if(jsonObj.code == 0){
+                    $("thead").empty();
+                    $("tbody").empty();
+                    showAppkey($('#tree').treeview('getSelected')[0].text);
+                 }
+                alert(jsonObj.msg);
+            },
+            error: function () {
+                alert("保存失败");
+            }
         });
+        }
+    };
+
+    function dataSubmit1(event) {
+
+        var data = [];
+
+        var appkey = $(event.target).parent().parent().children('td').eq(0).text();
+        var adminMis = $(event.target).parent().parent().children('td').eq(2).find('input').val();
+
+        var rank = event.target.value;
+
+        data.push({"appkey":appkey,"rank":rank,"adminMis":adminMis})
 
         var datajson = JSON.stringify(data);
         if(data.length>0){

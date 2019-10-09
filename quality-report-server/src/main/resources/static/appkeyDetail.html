@@ -38,7 +38,6 @@
         <div class="col middle-column">
             <h3 style="style='margin:10px 10px'"></h3>
             <p id="tips"></p>
-            <button class = 'btn btn-default btn-flat' onclick = "dataSubmit()" style='margin:0px 20px'>保存</button>
         </div>
     </div>
 
@@ -95,7 +94,7 @@
                         row += "<td id='apiName'>" + apiVOList[i-1].apiName + "</td>";
                         row += "<td id='callCount'>" + apiVOList[i-1].callCount + "</td>";
                         var checked = (apiVOList[i-1].isCore=='1')?"checked":"";
-                        row += "<td id='isCore'><input type= 'checkbox' " + checked + disabled +"></input></td>";
+                        row += "<td id='isCore'><input type= 'checkbox' onclick='dataSubmit(event)'" + checked + disabled +"></input></td>";
                         $("tbody.table-api").append(row);
                     }
                 }
@@ -119,22 +118,29 @@
         return theRequest;
     }
 
-     function dataSubmit() {
+     function dataSubmit(event) {
         if(isCoreAppkey==false){
             alert("当前服务为非核心服务，不能修改核心接口标记");
+             $("thead").empty();
+             $("tbody").empty();
+             showdata();
             return;
         }
         var data = [];
-        $('.table-api tr').each(function(i){
-            var appkey = $('h3').text();
+        <!--$('.table-api tr').each(function(i){-->
+            <!--var appkey = $('h3').text();-->
 
-            var apiname = $(this).children('td').eq(0).text();
+            <!--var apiname = $(this).children('td').eq(0).text();-->
 
-            var iscore = $(this).find('input').prop("checked")==true?'1':'0';
+            <!--var iscore = $(this).find('input').prop("checked")==true?'1':'0';-->
 
-            data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore})
+            <!--data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore})-->
 
-        });
+        <!--});-->
+        var appkey = $('h3').text();
+        var apiname = $(event.target).parent().parent().children('td').eq(0).text();
+        var iscore = $(event.target).prop("checked")==true?'1':'0';
+        data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore});
 
         var datajson = JSON.stringify(data);
 
