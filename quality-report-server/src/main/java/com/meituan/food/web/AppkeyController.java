@@ -213,13 +213,35 @@ public class AppkeyController {
     @PostMapping(value = "/updateAppkeyCoreMark")
     public CommonResponse updateAppkeyCoreMark(@RequestBody ArrayList<AppkeyVO> data) {
         Date now=new Date();
-        for(int i = 0;i < data.size();i++) {
-            if(data.get(i).getAdminMis() == "") continue;
+//        for(int i = 0;i < data.size();i++) {
+//            if(data.get(i).getAdminMis() == "") continue;
+//
+//            if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminMis()) == null){
+//                String errInfo = "mis号(" + data.get(i).getAdminMis() + ")有误，请检查后再提交！";
+//                return CommonResponse.errorRes(errInfo);
+//            }
+//            if(appkeyAdminPOMapper.selectByAppkey(data.get(i).getAppkey())==null){
+//                AppkeyAdminPO appkeyAdminPO = new AppkeyAdminPO();
+//                appkeyAdminPO.setAdminName(data.get(i).getAdminMis());
+//                appkeyAdminPO.setAppkey(data.get(i).getAppkey());
+//                appkeyAdminPO.setCreatedTime(now);
+//                appkeyAdminPO.setUpdatedTime(now);
+//                int appkeyId = appkeyListPOMapper.selectByAppKey(data.get(i).getAppkey()).getId();
+//                appkeyAdminPO.setAppkeyId(appkeyId);
+//                appkeyAdminPOMapper.insert(appkeyAdminPO);
+//            }
+//        }
+
+        for(int i = 0 ;i < data.size(); i++) {
+            if(data.get(i).getAdminMis() == "") {
+                return CommonResponse.successRes("提交mis号为空，不会进行修改","");
+            }
 
             if(org2EmpDataPOMapper.selectByMis(data.get(i).getAdminMis()) == null){
                 String errInfo = "mis号(" + data.get(i).getAdminMis() + ")有误，请检查后再提交！";
                 return CommonResponse.errorRes(errInfo);
             }
+
             if(appkeyAdminPOMapper.selectByAppkey(data.get(i).getAppkey())==null){
                 AppkeyAdminPO appkeyAdminPO = new AppkeyAdminPO();
                 appkeyAdminPO.setAdminName(data.get(i).getAdminMis());
@@ -230,15 +252,11 @@ public class AppkeyController {
                 appkeyAdminPO.setAppkeyId(appkeyId);
                 appkeyAdminPOMapper.insert(appkeyAdminPO);
             }
-        }
-
-        for(int i = 0 ;i < data.size(); i++) {
-            appkeyAdminPOMapper.updateByAppkey(data.get(i).getAppkey(),data.get(i).getAdminMis(),now);
 
             switch (data.get(i).getRank()){
                 case 1:
-                appkeyListPOMapper.updateToCore(data.get(i).getAppkey(), now);
-                break;
+                    appkeyListPOMapper.updateToCore(data.get(i).getAppkey(), now);
+                    break;
                 case 2:
                     appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
                     break;
@@ -248,6 +266,10 @@ public class AppkeyController {
                 default:
                     appkeyListPOMapper.updateToNonCore(data.get(i).getAppkey(), now);
             }
+
+            appkeyAdminPOMapper.updateByAppkey(data.get(i).getAppkey(),data.get(i).getAdminMis(),now);
+
+
         }
 
         return CommonResponse.successRes("保存成功","");
