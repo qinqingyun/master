@@ -143,7 +143,7 @@ public class AppkeyController {
         AppkeyVO appkeyVO = new AppkeyVO();
         AppkeyAdminPO appkeyAdminPO = appkeyAdminPOMapper.selectByAppkey(appkey);
         appkeyVO.setAppkey(appkey);
-        if (appkeyAdminPO == null) {
+        if (appkeyAdminPO == null||appkeyAdminPO.getAdminName()==""||org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName())==null) {
             appkeyVO.setAdminMis("");
             appkeyVO.setAdminName("暂无负责人");
         } else {
