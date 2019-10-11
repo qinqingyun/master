@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.mapper.*;
 import com.meituan.food.po.ApiDetailPO;
+import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.web.vo.ApiCoverageStatusVO;
 import com.meituan.food.web.vo.CommonResponse;
@@ -36,6 +37,9 @@ public class ApiCoverageController {
 
     @Resource
     private AppkeyAdminPOMapper appkeyAdminPOMapper;
+
+    @Resource
+    private AppkeyListPOMapper appkeyListPOMapper;
 
     private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
@@ -113,26 +117,29 @@ public class ApiCoverageController {
         List<ApiCoverageStatusVO> apiCoverageStatusVOS = new ArrayList<>();
         if (appkeyList.size() != 0) {
             for (String appkey : appkeyList) {
-                List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectCoreApiByAppkey(appkey);
-                JSONObject resp = HttpUtils.doGet(url + appkey, JSONObject.class, ImmutableMap.of());
-                int code = resp.getInteger("code");
-                if (code == 0) {
-                    JSONObject respData = resp.getJSONObject("data");
-                    JSONArray apiDetailArray = respData.getJSONObject("totalApiCoverage").getJSONArray("apiDetail");
-                    for (Object o : apiDetailArray) {
-                        boolean cover = ((JSONObject) o).getBoolean("cover");
-                        if (cover == true) {
-                            coverApiNameList.add(((JSONObject) o).getString("apiSpanName"));
+                AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+                if (appkeyListPO.getOffline()==0){
+                    List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectCoreApiByAppkey(appkey);
+                    JSONObject resp = HttpUtils.doGet(url + appkey, JSONObject.class, ImmutableMap.of());
+                    int code = resp.getInteger("code");
+                    if (code == 0) {
+                        JSONObject respData = resp.getJSONObject("data");
+                        JSONArray apiDetailArray = respData.getJSONObject("totalApiCoverage").getJSONArray("apiDetail");
+                        for (Object o : apiDetailArray) {
+                            boolean cover = ((JSONObject) o).getBoolean("cover");
+                            if (cover == true) {
+                                coverApiNameList.add(((JSONObject) o).getString("apiSpanName"));
+                            }
                         }
-                    }
-                    for (ApiDetailPO apiDetailPO : apiDetailPOS) {
-                        ApiCoverageStatusVO vo = new ApiCoverageStatusVO();
-                        vo.setCore(true);
-                        vo.setApiSpanName(apiDetailPO.getApiSpanName());
-                        vo.setAppkey(appkey);
-                        if (!(coverApiNameList.contains(apiDetailPO.getApiSpanName()))) {
-                            vo.setCover(false);
-                            apiCoverageStatusVOS.add(vo);
+                        for (ApiDetailPO apiDetailPO : apiDetailPOS) {
+                            ApiCoverageStatusVO vo = new ApiCoverageStatusVO();
+                            vo.setCore(true);
+                            vo.setApiSpanName(apiDetailPO.getApiSpanName());
+                            vo.setAppkey(appkey);
+                            if (!(coverApiNameList.contains(apiDetailPO.getApiSpanName()))) {
+                                vo.setCover(false);
+                                apiCoverageStatusVOS.add(vo);
+                            }
                         }
                     }
                 }

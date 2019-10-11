@@ -3,8 +3,10 @@ package com.meituan.food.web;
 import com.meituan.food.mapper.ApiCoverageDetailP0Mapper;
 import com.meituan.food.mapper.ApiDetailPOMapper;
 import com.meituan.food.mapper.AppkeyAdminPOMapper;
+import com.meituan.food.mapper.AppkeyListPOMapper;
 import com.meituan.food.po.ApiCoverageDetailP0;
 import com.meituan.food.po.ApiDetailPO;
+import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.web.vo.ApiCoverageForDateVO;
 import com.meituan.food.web.vo.CommonResponse;
 import org.apache.ibatis.annotations.Param;
@@ -25,6 +27,9 @@ public class ApiCoverageDateController {
 
     @Resource
     private AppkeyAdminPOMapper appkeyAdminPOMapper;
+
+    @Resource
+    private AppkeyListPOMapper appkeyListPOMapper;
 
     @GetMapping("")
     public CommonResponse<List<ApiCoverageForDateVO>> getTwoDateCoverage(@Param("appkey") String appkey, @Param("firstdate") String firstdate, @Param("seconddate") String seconddate,@RequestParam("diff") String diff) {
@@ -97,9 +102,12 @@ public class ApiCoverageDateController {
         if (appkeyList.size()!=0) {
             List<ApiCoverageForDateVO> apiCoverageForDateVOS = new ArrayList<>();
             for (String appkey : appkeyList) {
-                CommonResponse<List<ApiCoverageForDateVO>> twoDateCoverage = getTwoDateCoverage(appkey, firstdate, seconddate, diff);
-                if (twoDateCoverage.getCode() == 0) {
-                    apiCoverageForDateVOS.addAll(twoDateCoverage.getData());
+                AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
+                if (appkeyListPO.getOffline()==0){
+                    CommonResponse<List<ApiCoverageForDateVO>> twoDateCoverage = getTwoDateCoverage(appkey, firstdate, seconddate, diff);
+                    if (twoDateCoverage.getCode() == 0) {
+                        apiCoverageForDateVOS.addAll(twoDateCoverage.getData());
+                    }
                 }
             }
             if (diff.equals("true")) {
