@@ -162,7 +162,7 @@ public class AppkeyController {
         appkeyVO.setAppkey(appkey);
         if (appkeyAdminPO==null){
             appkeyVO.setAdminMis("");
-            appkeyVO.setAdminName("暂无负责人");
+        appkeyVO.setAdminName("暂无负责人");
         }else {
             appkeyVO.setAdminMis(appkeyAdminPO.getAdminName());
             appkeyVO.setAdminName(org2EmpDataPOMapper.selectByMis(appkeyAdminPO.getAdminName()).getName());
