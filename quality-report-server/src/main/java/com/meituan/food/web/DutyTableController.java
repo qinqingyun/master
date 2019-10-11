@@ -25,6 +25,17 @@ public class DutyTableController {
         dutyTablePOMapper.deleteByPrimaryKey(id);
     }
 
+    @GetMapping("update")
+    public void updateDutyById(@RequestParam("id") int id){
+        DutyTablePO po=new DutyTablePO();
+        DutyTablePO dutyTablePO = dutyTablePOMapper.selectByPrimaryKey(id);
+        po.setId(id);
+        po.setIsOnDuty(false);
+        po.setDutyMis(dutyTablePO.getDutyMis());
+        po.setDutyName(dutyTablePO.getDutyName());
+        dutyTablePOMapper.updateByPrimaryKey(po);
+    }
+
     @GetMapping("/insert")
     public void insertOneGroupData(){
 
