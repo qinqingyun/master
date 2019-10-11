@@ -115,8 +115,8 @@
 
         var appkey = $(event.target).parent().parent().children('td').eq(0).text();
         var adminMis = event.target.value;
-
-        data.push({"appkey":appkey,"adminMis":adminMis})
+        var rank = $(event.target).parent().parent().find('select option:selected').val();
+        data.push({"appkey":appkey,"rank":rank,"adminMis":adminMis});
 
         var datajson = JSON.stringify(data);
         if(data.length>0){
