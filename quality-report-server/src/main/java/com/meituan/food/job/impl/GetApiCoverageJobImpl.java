@@ -15,15 +15,11 @@ public class GetApiCoverageJobImpl implements IGetApiCoverageJob {
     @Resource
     private IGetCoverageExtract coverageExtract;
 
-    @Resource
-    private ICOEDataExtract coeDataExtract;
-
     @Override
     public void sync() {
         LocalDate day=LocalDate.now().minusDays(1);
         String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         coverageExtract.getCoverage();
-        coeDataExtract.getCOEData(dayStr,dayStr);
     }
 }

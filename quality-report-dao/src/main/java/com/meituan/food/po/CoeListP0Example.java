@@ -1672,6 +1672,386 @@ public class CoeListP0Example {
             addCriterion("appearance not between", value1, value2, "appearance");
             return (Criteria) this;
         }
+
+        public Criteria andSubCategoryIsNull() {
+            addCriterion("sub_category is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryIsNotNull() {
+            addCriterion("sub_category is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryEqualTo(String value) {
+            addCriterion("sub_category =", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryNotEqualTo(String value) {
+            addCriterion("sub_category <>", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryGreaterThan(String value) {
+            addCriterion("sub_category >", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryGreaterThanOrEqualTo(String value) {
+            addCriterion("sub_category >=", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryLessThan(String value) {
+            addCriterion("sub_category <", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryLessThanOrEqualTo(String value) {
+            addCriterion("sub_category <=", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryLike(String value) {
+            addCriterion("sub_category like", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryNotLike(String value) {
+            addCriterion("sub_category not like", value, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryIn(List<String> values) {
+            addCriterion("sub_category in", values, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryNotIn(List<String> values) {
+            addCriterion("sub_category not in", values, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryBetween(String value1, String value2) {
+            addCriterion("sub_category between", value1, value2, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andSubCategoryNotBetween(String value1, String value2) {
+            addCriterion("sub_category not between", value1, value2, "subCategory");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoIsNull() {
+            addCriterion("all_todo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoIsNotNull() {
+            addCriterion("all_todo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoEqualTo(Integer value) {
+            addCriterion("all_todo =", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoNotEqualTo(Integer value) {
+            addCriterion("all_todo <>", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoGreaterThan(Integer value) {
+            addCriterion("all_todo >", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("all_todo >=", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoLessThan(Integer value) {
+            addCriterion("all_todo <", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoLessThanOrEqualTo(Integer value) {
+            addCriterion("all_todo <=", value, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoIn(List<Integer> values) {
+            addCriterion("all_todo in", values, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoNotIn(List<Integer> values) {
+            addCriterion("all_todo not in", values, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoBetween(Integer value1, Integer value2) {
+            addCriterion("all_todo between", value1, value2, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andAllTodoNotBetween(Integer value1, Integer value2) {
+            addCriterion("all_todo not between", value1, value2, "allTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoIsNull() {
+            addCriterion("not_finish_todo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoIsNotNull() {
+            addCriterion("not_finish_todo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoEqualTo(Integer value) {
+            addCriterion("not_finish_todo =", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoNotEqualTo(Integer value) {
+            addCriterion("not_finish_todo <>", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoGreaterThan(Integer value) {
+            addCriterion("not_finish_todo >", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("not_finish_todo >=", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoLessThan(Integer value) {
+            addCriterion("not_finish_todo <", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoLessThanOrEqualTo(Integer value) {
+            addCriterion("not_finish_todo <=", value, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoIn(List<Integer> values) {
+            addCriterion("not_finish_todo in", values, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoNotIn(List<Integer> values) {
+            addCriterion("not_finish_todo not in", values, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoBetween(Integer value1, Integer value2) {
+            addCriterion("not_finish_todo between", value1, value2, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoNotBetween(Integer value1, Integer value2) {
+            addCriterion("not_finish_todo not between", value1, value2, "notFinishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoIsNull() {
+            addCriterion("finish_todo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoIsNotNull() {
+            addCriterion("finish_todo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoEqualTo(Integer value) {
+            addCriterion("finish_todo =", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoNotEqualTo(Integer value) {
+            addCriterion("finish_todo <>", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoGreaterThan(Integer value) {
+            addCriterion("finish_todo >", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("finish_todo >=", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoLessThan(Integer value) {
+            addCriterion("finish_todo <", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoLessThanOrEqualTo(Integer value) {
+            addCriterion("finish_todo <=", value, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoIn(List<Integer> values) {
+            addCriterion("finish_todo in", values, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoNotIn(List<Integer> values) {
+            addCriterion("finish_todo not in", values, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoBetween(Integer value1, Integer value2) {
+            addCriterion("finish_todo between", value1, value2, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishTodoNotBetween(Integer value1, Integer value2) {
+            addCriterion("finish_todo not between", value1, value2, "finishTodo");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskIsNull() {
+            addCriterion("not_finish_todo_task is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskIsNotNull() {
+            addCriterion("not_finish_todo_task is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskEqualTo(String value) {
+            addCriterion("not_finish_todo_task =", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskNotEqualTo(String value) {
+            addCriterion("not_finish_todo_task <>", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskGreaterThan(String value) {
+            addCriterion("not_finish_todo_task >", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskGreaterThanOrEqualTo(String value) {
+            addCriterion("not_finish_todo_task >=", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskLessThan(String value) {
+            addCriterion("not_finish_todo_task <", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskLessThanOrEqualTo(String value) {
+            addCriterion("not_finish_todo_task <=", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskLike(String value) {
+            addCriterion("not_finish_todo_task like", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskNotLike(String value) {
+            addCriterion("not_finish_todo_task not like", value, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskIn(List<String> values) {
+            addCriterion("not_finish_todo_task in", values, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskNotIn(List<String> values) {
+            addCriterion("not_finish_todo_task not in", values, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskBetween(String value1, String value2) {
+            addCriterion("not_finish_todo_task between", value1, value2, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotFinishTodoTaskNotBetween(String value1, String value2) {
+            addCriterion("not_finish_todo_task not between", value1, value2, "notFinishTodoTask");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableIsNull() {
+            addCriterion("available is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableIsNotNull() {
+            addCriterion("available is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableEqualTo(Boolean value) {
+            addCriterion("available =", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableNotEqualTo(Boolean value) {
+            addCriterion("available <>", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableGreaterThan(Boolean value) {
+            addCriterion("available >", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("available >=", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableLessThan(Boolean value) {
+            addCriterion("available <", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableLessThanOrEqualTo(Boolean value) {
+            addCriterion("available <=", value, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableIn(List<Boolean> values) {
+            addCriterion("available in", values, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableNotIn(List<Boolean> values) {
+            addCriterion("available not in", values, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableBetween(Boolean value1, Boolean value2) {
+            addCriterion("available between", value1, value2, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailableNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("available not between", value1, value2, "available");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

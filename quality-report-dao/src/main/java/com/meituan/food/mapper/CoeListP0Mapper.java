@@ -41,7 +41,10 @@ public interface CoeListP0Mapper {
         "qa_mis, coe_link, ",
         "category, rd_share, ",
         "qa_share, join_status, ",
-        "appearance)",
+        "appearance, sub_category, ",
+        "all_todo, not_finish_todo, ",
+        "finish_todo, not_finish_todo_task, ",
+        "available)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
         "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
@@ -53,7 +56,10 @@ public interface CoeListP0Mapper {
         "#{qaMis,jdbcType=VARCHAR}, #{coeLink,jdbcType=VARCHAR}, ",
         "#{category,jdbcType=VARCHAR}, #{rdShare,jdbcType=DECIMAL}, ",
         "#{qaShare,jdbcType=DECIMAL}, #{joinStatus,jdbcType=BIT}, ",
-        "#{appearance,jdbcType=VARCHAR})"
+        "#{appearance,jdbcType=VARCHAR}, #{subCategory,jdbcType=VARCHAR}, ",
+        "#{allTodo,jdbcType=INTEGER}, #{notFinishTodo,jdbcType=INTEGER}, ",
+        "#{finishTodo,jdbcType=INTEGER}, #{notFinishTodoTask,jdbcType=VARCHAR}, ",
+        "#{available,jdbcType=BIT})"
     })
     int insert(CoeListP0 record);
 
@@ -85,7 +91,13 @@ public interface CoeListP0Mapper {
         @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
+        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
+        @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
+        @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
+        @Result(column="available", property="available", jdbcType=JdbcType.BIT)
     })
     List<CoeListP0> selectByExample(CoeListP0Example example);
 
@@ -94,7 +106,8 @@ public interface CoeListP0Mapper {
         "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
         "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
         "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-        "appearance",
+        "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
+        "available",
         "from coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -122,16 +135,22 @@ public interface CoeListP0Mapper {
         @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
         @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
+        @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
+        @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
+        @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
+        @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
+        @Result(column="available", property="available", jdbcType=JdbcType.BIT)
     })
     CoeListP0 selectByPrimaryKey(Integer id);
-
     @Select({
             "select",
             "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
             "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-            "appearance",
+            "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
+            "available",
             "from coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -159,9 +178,16 @@ public interface CoeListP0Mapper {
             @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
             @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
             @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR)
+            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
+            @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
+            @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
+            @Result(column="available", property="available", jdbcType=JdbcType.BIT)
     })
     CoeListP0 selectByCoeId(Integer id);
+
 
     @UpdateProvider(type=CoeListP0SqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CoeListP0 record, @Param("example") CoeListP0Example example);
@@ -196,10 +222,37 @@ public interface CoeListP0Mapper {
           "rd_share = #{rdShare,jdbcType=DECIMAL},",
           "qa_share = #{qaShare,jdbcType=DECIMAL},",
           "join_status = #{joinStatus,jdbcType=BIT},",
-          "appearance = #{appearance,jdbcType=VARCHAR}",
+          "appearance = #{appearance,jdbcType=VARCHAR},",
+          "sub_category = #{subCategory,jdbcType=VARCHAR},",
+          "all_todo = #{allTodo,jdbcType=INTEGER},",
+          "not_finish_todo = #{notFinishTodo,jdbcType=INTEGER},",
+          "finish_todo = #{finishTodo,jdbcType=INTEGER},",
+          "not_finish_todo_task = #{notFinishTodoTask,jdbcType=VARCHAR},",
+          "available = #{available,jdbcType=BIT}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeListP0 record);
+
+    @Update({
+            "update coe_list",
+            "set available = 0",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int updateCoeToInvalidByCoeId(Integer id);
+
+    @Update({
+            "update coe_list",
+            "set available = 1",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int updateCoeToValidByCoeId(Integer id);
+
     @Select({
             "select coe_id from coe_list"
     })

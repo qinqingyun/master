@@ -53,6 +53,18 @@ public class CoeListP0 implements Serializable {
 
     private String appearance;
 
+    private String subCategory;
+
+    private Integer allTodo;
+
+    private Integer notFinishTodo;
+
+    private Integer finishTodo;
+
+    private String notFinishTodoTask;
+
+    private Boolean available;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -247,6 +259,54 @@ public class CoeListP0 implements Serializable {
         this.appearance = appearance == null ? null : appearance.trim();
     }
 
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory == null ? null : subCategory.trim();
+    }
+
+    public Integer getAllTodo() {
+        return allTodo;
+    }
+
+    public void setAllTodo(Integer allTodo) {
+        this.allTodo = allTodo;
+    }
+
+    public Integer getNotFinishTodo() {
+        return notFinishTodo;
+    }
+
+    public void setNotFinishTodo(Integer notFinishTodo) {
+        this.notFinishTodo = notFinishTodo;
+    }
+
+    public Integer getFinishTodo() {
+        return finishTodo;
+    }
+
+    public void setFinishTodo(Integer finishTodo) {
+        this.finishTodo = finishTodo;
+    }
+
+    public String getNotFinishTodoTask() {
+        return notFinishTodoTask;
+    }
+
+    public void setNotFinishTodoTask(String notFinishTodoTask) {
+        this.notFinishTodoTask = notFinishTodoTask == null ? null : notFinishTodoTask.trim();
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -282,7 +342,13 @@ public class CoeListP0 implements Serializable {
             && (this.getRdShare() == null ? other.getRdShare() == null : this.getRdShare().equals(other.getRdShare()))
             && (this.getQaShare() == null ? other.getQaShare() == null : this.getQaShare().equals(other.getQaShare()))
             && (this.getJoinStatus() == null ? other.getJoinStatus() == null : this.getJoinStatus().equals(other.getJoinStatus()))
-            && (this.getAppearance() == null ? other.getAppearance() == null : this.getAppearance().equals(other.getAppearance()));
+            && (this.getAppearance() == null ? other.getAppearance() == null : this.getAppearance().equals(other.getAppearance()))
+            && (this.getSubCategory() == null ? other.getSubCategory() == null : this.getSubCategory().equals(other.getSubCategory()))
+            && (this.getAllTodo() == null ? other.getAllTodo() == null : this.getAllTodo().equals(other.getAllTodo()))
+            && (this.getNotFinishTodo() == null ? other.getNotFinishTodo() == null : this.getNotFinishTodo().equals(other.getNotFinishTodo()))
+            && (this.getFinishTodo() == null ? other.getFinishTodo() == null : this.getFinishTodo().equals(other.getFinishTodo()))
+            && (this.getNotFinishTodoTask() == null ? other.getNotFinishTodoTask() == null : this.getNotFinishTodoTask().equals(other.getNotFinishTodoTask()))
+            && (this.getAvailable() == null ? other.getAvailable() == null : this.getAvailable().equals(other.getAvailable()));
     }
 
     @Override
@@ -313,6 +379,12 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getQaShare() == null) ? 0 : getQaShare().hashCode());
         result = prime * result + ((getJoinStatus() == null) ? 0 : getJoinStatus().hashCode());
         result = prime * result + ((getAppearance() == null) ? 0 : getAppearance().hashCode());
+        result = prime * result + ((getSubCategory() == null) ? 0 : getSubCategory().hashCode());
+        result = prime * result + ((getAllTodo() == null) ? 0 : getAllTodo().hashCode());
+        result = prime * result + ((getNotFinishTodo() == null) ? 0 : getNotFinishTodo().hashCode());
+        result = prime * result + ((getFinishTodo() == null) ? 0 : getFinishTodo().hashCode());
+        result = prime * result + ((getNotFinishTodoTask() == null) ? 0 : getNotFinishTodoTask().hashCode());
+        result = prime * result + ((getAvailable() == null) ? 0 : getAvailable().hashCode());
         return result;
     }
 
@@ -346,6 +418,12 @@ public class CoeListP0 implements Serializable {
         sb.append(", qaShare=").append(qaShare);
         sb.append(", joinStatus=").append(joinStatus);
         sb.append(", appearance=").append(appearance);
+        sb.append(", subCategory=").append(subCategory);
+        sb.append(", allTodo=").append(allTodo);
+        sb.append(", notFinishTodo=").append(notFinishTodo);
+        sb.append(", finishTodo=").append(finishTodo);
+        sb.append(", notFinishTodoTask=").append(notFinishTodoTask);
+        sb.append(", available=").append(available);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
