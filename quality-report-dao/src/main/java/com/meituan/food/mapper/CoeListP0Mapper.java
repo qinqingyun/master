@@ -233,6 +233,26 @@ public interface CoeListP0Mapper {
     })
     int updateByPrimaryKey(CoeListP0 record);
 
+    @Update({
+            "update coe_list",
+            "set available = 0",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int updateCoeToInvalidByCoeId(Integer id);
+
+    @Update({
+            "update coe_list",
+            "set available = 1",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int updateCoeToValidByCoeId(Integer id);
+
     @Select({
             "select coe_id from coe_list"
     })
