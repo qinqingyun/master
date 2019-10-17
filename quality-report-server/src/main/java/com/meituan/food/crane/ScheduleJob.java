@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -73,7 +76,7 @@ public class ScheduleJob {
     private IOneDayNoticeJob iOneDayNoticeJob;
 
     @Resource
-    private IGetApiCoverageJob apiCoverageJob;
+    private List<IGetApiCoverageJob> apiCoverageJobs;
 
     @Resource
     private IOneDayCargoJob oneDayCargoJob;
@@ -214,7 +217,10 @@ public class ScheduleJob {
 
     @Crane("api.coverage.job")
     public void getApiCoverage(){
-        apiCoverageJob.sync();
+        List<CompletableFuture<Void>> crashExtractFutures = apiCoverageJobs.stream()
+                .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.sync()))
+                .collect(Collectors.toList());
+        crashExtractFutures.forEach(CompletableFuture::join);
     }
     @Crane("cargo.data.job")
     public void syncCargoAva() {

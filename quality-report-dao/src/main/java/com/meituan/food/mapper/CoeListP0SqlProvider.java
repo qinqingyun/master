@@ -124,6 +124,30 @@ public class CoeListP0SqlProvider {
             sql.VALUES("appearance", "#{appearance,jdbcType=VARCHAR}");
         }
         
+        if (record.getSubCategory() != null) {
+            sql.VALUES("sub_category", "#{subCategory,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAllTodo() != null) {
+            sql.VALUES("all_todo", "#{allTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodo() != null) {
+            sql.VALUES("not_finish_todo", "#{notFinishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getFinishTodo() != null) {
+            sql.VALUES("finish_todo", "#{finishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodoTask() != null) {
+            sql.VALUES("not_finish_todo_task", "#{notFinishTodoTask,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAvailable() != null) {
+            sql.VALUES("available", "#{available,jdbcType=BIT}");
+        }
+        
         return sql.toString();
     }
 
@@ -157,6 +181,12 @@ public class CoeListP0SqlProvider {
         sql.SELECT("qa_share");
         sql.SELECT("join_status");
         sql.SELECT("appearance");
+        sql.SELECT("sub_category");
+        sql.SELECT("all_todo");
+        sql.SELECT("not_finish_todo");
+        sql.SELECT("finish_todo");
+        sql.SELECT("not_finish_todo_task");
+        sql.SELECT("available");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -270,6 +300,30 @@ public class CoeListP0SqlProvider {
             sql.SET("appearance = #{record.appearance,jdbcType=VARCHAR}");
         }
         
+        if (record.getSubCategory() != null) {
+            sql.SET("sub_category = #{record.subCategory,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAllTodo() != null) {
+            sql.SET("all_todo = #{record.allTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodo() != null) {
+            sql.SET("not_finish_todo = #{record.notFinishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getFinishTodo() != null) {
+            sql.SET("finish_todo = #{record.finishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodoTask() != null) {
+            sql.SET("not_finish_todo_task = #{record.notFinishTodoTask,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAvailable() != null) {
+            sql.SET("available = #{record.available,jdbcType=BIT}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -302,6 +356,12 @@ public class CoeListP0SqlProvider {
         sql.SET("qa_share = #{record.qaShare,jdbcType=DECIMAL}");
         sql.SET("join_status = #{record.joinStatus,jdbcType=BIT}");
         sql.SET("appearance = #{record.appearance,jdbcType=VARCHAR}");
+        sql.SET("sub_category = #{record.subCategory,jdbcType=VARCHAR}");
+        sql.SET("all_todo = #{record.allTodo,jdbcType=INTEGER}");
+        sql.SET("not_finish_todo = #{record.notFinishTodo,jdbcType=INTEGER}");
+        sql.SET("finish_todo = #{record.finishTodo,jdbcType=INTEGER}");
+        sql.SET("not_finish_todo_task = #{record.notFinishTodoTask,jdbcType=VARCHAR}");
+        sql.SET("available = #{record.available,jdbcType=BIT}");
         
         CoeListP0Example example = (CoeListP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -402,6 +462,30 @@ public class CoeListP0SqlProvider {
         
         if (record.getAppearance() != null) {
             sql.SET("appearance = #{appearance,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getSubCategory() != null) {
+            sql.SET("sub_category = #{subCategory,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAllTodo() != null) {
+            sql.SET("all_todo = #{allTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodo() != null) {
+            sql.SET("not_finish_todo = #{notFinishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getFinishTodo() != null) {
+            sql.SET("finish_todo = #{finishTodo,jdbcType=INTEGER}");
+        }
+        
+        if (record.getNotFinishTodoTask() != null) {
+            sql.SET("not_finish_todo_task = #{notFinishTodoTask,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getAvailable() != null) {
+            sql.SET("available = #{available,jdbcType=BIT}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

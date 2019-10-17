@@ -18,9 +18,6 @@ public class OneWeekJobImpl implements IOneWeekJob {
     @Resource
     public List<IOneWeekDataExtract> oneWeekDataExtracts;
 
-    @Resource
-    private ICOEDataExtract coeDataExtract;
-
     @Override
     public void sync() {
         LocalDate firstDay=LocalDate.now().minusDays(7);
@@ -28,8 +25,6 @@ public class OneWeekJobImpl implements IOneWeekJob {
         LocalDate lastDay=LocalDate.now();
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-
-        coeDataExtract.getCOEData(firstDayStr,lastDayStr);
 
         //专项周报任务
       /*  List<CompletableFuture<Void>> extractFutures = oneWeekDataExtracts.stream()
