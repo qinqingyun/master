@@ -49,6 +49,10 @@ public class COEDataExtracter implements ICOEDataExtract {
         orgList.add(35756);//平台终端研发组/到店餐饮研发组
         orgList.add(53235);//商家平台研发组
         orgList.add(53242);//客户平台研发组
+        orgList.add(42154);//平台业务研发中心 /供应链平台研发组 / 到餐供应链研发组
+        orgList.add(15435);//平台业务研发中心 /销售支持平台研发组 / 到餐销售支持研发组
+        orgList.add(119);//平台业务研发中心 /交易平台研发组 / 餐饮交易技术组
+        orgList.add(126);//平台业务研发中心 /营销平台研发组 / 到餐营销支持组
 
         for (Integer org : orgList) {
             JSONObject params=new JSONObject();
