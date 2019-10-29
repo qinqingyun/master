@@ -90,6 +90,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.b", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.c", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.m", "", "", 7, 7));
+        pdlList.add(new AppkeyData("meituan.nibtp","meituan.nibtp.food","","",1,1));
 
 
         List<String> appkeyStrList2 = new ArrayList<>();
