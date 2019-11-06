@@ -82,7 +82,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                     coeP0.setLminusfTime(((JSONObject)o).getInteger("lminusf_time"));
                     coeP0.setLocationTime(((JSONObject)o).getDate("location_time"));
                     coeP0.setNotifyTime(((JSONObject)o).getDate("notify_time"));
-                    coeP0.setSminushTime(((JSONObject)o).getInteger("lminusf_time"));
+                    coeP0.setSminushTime(((JSONObject)o).getInteger("sminush_time"));
                     coeP0.setSolvedTime(((JSONObject)o).getDate("solved_time"));
                     coeP0.setWiki(((JSONObject)o).getString("wiki"));
                     coeP0.setCoeLink(coeUrl+((JSONObject)o).getInteger("_id"));
