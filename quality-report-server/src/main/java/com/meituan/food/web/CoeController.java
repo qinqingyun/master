@@ -41,4 +41,13 @@ public class CoeController {
         }
         return "更新失败";
     }
+
+    @GetMapping("/delete")
+    public String deleteCoe(@RequestParam("coeId") int coeId){
+        int flag = coeListP0Mapper.deleteByCoeId(coeId);
+        if (flag == 1) {
+            return "删除成功";
+        }
+        return "删除失败";
+    }
 }

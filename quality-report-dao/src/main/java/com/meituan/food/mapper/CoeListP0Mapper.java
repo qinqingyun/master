@@ -29,6 +29,15 @@ public interface CoeListP0Mapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from coe_list",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int deleteByCoeId(Integer id);
+
     @Insert({
         "insert into coe_list (id, coe_id, ",
         "brief, occur_date, notify_time, ",
