@@ -135,7 +135,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("到餐财务") + ".商家后台", "yingzhixun");
             person.put(stackuuid.get("到餐财务") + ".监控平台", "yingzhixun");
 
-            person.put(stackuuid.get("商家平台") + "._others", "fengchen");
+//            person.put(stackuuid.get("商家平台") + "._others", "fengchen");
             person.put(stackuuid.get("商家平台") + ".商家增值平台", "fengchen");
             person.put(stackuuid.get("商家平台") + ".商家运营平台", "huangguilin");
             person.put(stackuuid.get("商家平台") + ".商家基础平台", "zhangyancui");
@@ -150,7 +150,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("到综商家") + ".基础平台研发组", "honghui.huang");
 
             person.put(stackuuid.get("客户平台") + "._others", "xiongyiping");
-            person.put(stackuuid.get("到综客户") + "._others", "zhouying");
+//            person.put(stackuuid.get("到综客户") + "._others", "zhouying");
             person.put(stackuuid.get("到综客户") + ".客户", "zhouying");
 
             person.put(stackuuid.get("酒旅客户") + "._others", "xiongyiping");
@@ -350,19 +350,19 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
     public void saveCargoDataPO(List<CargoDataPO> data) {
 
-    if(data !=null) {
-        for (CargoDataPO cargoDataPO : data) {
-            List<CargoDataPO> oldData = cargoDataPOMapper.selectByTagAndCreatedateAndComment(cargoDataPO.getTag(), cargoDataPO.getDate(),cargoDataPO.getComment());
-            int result = -1;
-            if (oldData == null || oldData.size() == 0) {
-                result = cargoDataPOMapper.insert(cargoDataPO);
-            } else {
-                result = cargoDataPOMapper.updateByTagAndDate(cargoDataPO);
+        if(data !=null) {
+            for (CargoDataPO cargoDataPO : data) {
+                List<CargoDataPO> oldData = cargoDataPOMapper.selectByTagAndCreatedateAndComment(cargoDataPO.getTag(), cargoDataPO.getDate(),cargoDataPO.getComment());
+                int result = -1;
+                if (oldData == null || oldData.size() == 0) {
+                    result = cargoDataPOMapper.insert(cargoDataPO);
+                } else {
+                    result = cargoDataPOMapper.updateByTagAndDate(cargoDataPO);
+                }
+
+                log.info("The cargo save result is :{}", cargoDataPO.toString() + result);
+
             }
-
-            log.info("The cargo save result is :{}", cargoDataPO.toString() + result);
-
         }
-    }
     }
 }
