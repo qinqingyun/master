@@ -23,7 +23,7 @@ public class NewCrashController {
 
     @GetMapping("/update")
     public String updateAllData(){
-        for (int i=130;i>=1;i--){
+        for (int i=131;i>=1;i--){
             System.out.println(LocalDate.now().minusDays(i));
             newCrashExtract.sync(LocalDate.now().minusDays(i));
         }
