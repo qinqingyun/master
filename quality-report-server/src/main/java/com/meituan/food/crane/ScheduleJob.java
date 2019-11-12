@@ -10,6 +10,7 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -118,7 +119,7 @@ public class ScheduleJob {
     }
 
     @Crane("one.month.sync.job")
-    public void syncOneMonth() {
+    public void syncOneMonth() throws ParseException {
         log.info("one month job execute at: {}", new Date());
         oneMonthJob.sync();
     }

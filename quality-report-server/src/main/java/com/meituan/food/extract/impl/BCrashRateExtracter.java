@@ -22,14 +22,13 @@ import java.util.Date;
 @Slf4j
 @Order(3)
 @Component
-public class BCrashRateExtracter implements IOneMonthDataExtract {
+public class BCrashRateExtracter{
 
     private static final String URL="https://yuntu.sankuai.com/api/widget/widget-2ac24095-2853-47a6-b2bf-70088c0f5f22/data?";
 
     @Resource
     private BCrashRatePOMapper bCrashRatePOMapper;
 
-    @Override
     public void extractData4Month(String firstDay, String lastDay) {
         JSONObject param=new JSONObject();
         param.put("orgId","100047");

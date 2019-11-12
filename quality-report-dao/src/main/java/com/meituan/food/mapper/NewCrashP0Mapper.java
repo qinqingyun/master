@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.NewCrashP0;
 import com.meituan.food.po.NewCrashP0Example;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -79,6 +81,29 @@ public interface NewCrashP0Mapper {
         @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR)
     })
     NewCrashP0 selectByPrimaryKey(Integer id);
+
+    @Select({
+            "select",
+            "id, platform, crash, crash_rate, crash_date, created_time, flag, date_range, ",
+            "os",
+            "from new_crash",
+            "where crash_date >= #{start,jdbcType=DATE} ",
+            "and crash_date <=#{end,jdbcType=DATE} ",
+            "and platform=#{platform,jdbcType=VARCHAR} ",
+            "and os=#{os,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="platform", property="platform", jdbcType=JdbcType.VARCHAR),
+            @Result(column="crash", property="crash", jdbcType=JdbcType.INTEGER),
+            @Result(column="crash_rate", property="crashRate", jdbcType=JdbcType.DECIMAL),
+            @Result(column="crash_date", property="crashDate", jdbcType=JdbcType.DATE),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="flag", property="flag", jdbcType=JdbcType.INTEGER),
+            @Result(column="date_range", property="dateRange", jdbcType=JdbcType.VARCHAR),
+            @Result(column="os", property="os", jdbcType=JdbcType.VARCHAR)
+    })
+    List<NewCrashP0> selectByDateAndPlatform(@Param("start") Date start, @Param("end") Date end,@Param("platform") String platform,@Param("os") String os);
 
     @UpdateProvider(type=NewCrashP0SqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") NewCrashP0 record, @Param("example") NewCrashP0Example example);
