@@ -21,7 +21,7 @@ public class NewCrashController {
     DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 
 
-    @GetMapping("/update")
+    /*@GetMapping("/update")
     public String updateAllData(){
         for (int i=122;i>=1;i--){
             System.out.println(LocalDate.now().minusDays(i));
@@ -62,5 +62,5 @@ public class NewCrashController {
         newCrashExtract.syncForDays(format1.parse("2019-10-01"),format1.parse("2019-10-31"));
 
         return "!";
-    }
+    }*/
 }
