@@ -48,6 +48,8 @@ public class NewCrashController {
         newCrashExtract.syncForDays(format1.parse("2019-10-17"),format1.parse("2019-10-23"));
         newCrashExtract.syncForDays(format1.parse("2019-10-24"),format1.parse("2019-10-30"));
         newCrashExtract.syncForDays(format1.parse("2019-10-31"),format1.parse("2019-11-06"));
+        newCrashExtract.syncForDays(format1.parse("2019-11-07"),format1.parse("2019-11-13"));
+
 
         return "OK!";
     }
