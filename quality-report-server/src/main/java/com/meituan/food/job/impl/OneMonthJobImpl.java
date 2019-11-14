@@ -1,10 +1,13 @@
 package com.meituan.food.job.impl;
 
+import com.meituan.food.extract.INewCrashExtract;
 import com.meituan.food.extract.IOneMonthDataExtract;
 import com.meituan.food.job.IOneMonthJob;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -17,17 +20,18 @@ import java.util.stream.Collectors;
 @Component
 public class OneMonthJobImpl implements IOneMonthJob {
 
-    @Resource
+ /*   @Resource
     public List<IOneMonthDataExtract> dataExtracts;
+    */
+    @Resource
+    private INewCrashExtract newCrashExtract;
 
     private static String firstDay;
     private static String lastDay;
 
     @Override
-    public void sync() {
-//        LocalDate day = LocalDate.now().minusMonths(1);
-        /// Calendar lastDay=Calendar.getInstance();
-
+    public void sync() throws ParseException {
+        DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal_1 = Calendar.getInstance();
         cal_1.add(Calendar.MONTH, -1);
@@ -37,7 +41,9 @@ public class OneMonthJobImpl implements IOneMonthJob {
         Calendar cale = Calendar.getInstance();
         cale.set(Calendar.DAY_OF_MONTH, 0);
         lastDay = format.format(cale.getTime());
-        dataExtracts.forEach(dataExtract -> dataExtract.extractData4Month(firstDay, lastDay));
+      //  dataExtracts.forEach(dataExtract -> dataExtract.extractData4Month(firstDay, lastDay));
+
+        newCrashExtract.syncForDays(format1.parse(firstDay),format1.parse(lastDay));
 
 
         /*for(int i=1;i<=12;i++) {

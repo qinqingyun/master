@@ -1,5 +1,6 @@
 package com.meituan.food.job.impl;
 
+import com.meituan.food.extract.INewCrashExtract;
 import com.meituan.food.extract.IOneWeekCrashExtract;
 import com.meituan.food.extract.IOneWeekEightDataExtract;
 import com.meituan.food.job.IImportantProjectReviewJob;
@@ -7,7 +8,11 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -25,6 +30,9 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
 
     @Resource
     public List<IOneWeekCrashExtract> oneWeekCrashExtracts;
+
+    @Resource
+    private INewCrashExtract newCrashExtract;
 
     @Override
     public void sync() {
@@ -46,9 +54,7 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
                 .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.extractData4Week(firstDay,lastDay)))
                 .collect(Collectors.toList());
         crashExtractFutures.forEach(CompletableFuture::join);
-    }
 
-    public static void main(String[] args) {
-        System.out.println(LocalDate.now().minusDays(5));
+        newCrashExtract.syncForDays(Date.from(firstDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()),Date.from(lastDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()));
     }
 }

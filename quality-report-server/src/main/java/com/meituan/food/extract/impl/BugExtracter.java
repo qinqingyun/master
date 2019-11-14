@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @Order(2)
 @Component
-public class BugExtracter implements IOneMonthDataExtract {
+public class BugExtracter{
 
     private static final String URL = "https://yuntu.sankuai.com/api/metrics/bug/reports";
 
@@ -34,7 +34,6 @@ public class BugExtracter implements IOneMonthDataExtract {
     @Resource
     private IssuePOMapper issuePOMapper;
 
-    @Override
     public void extractData4Month(String firstDay, String lastDay) {
 
         String url = URL + "?businessGroupId=100047&statType=statByAssignee&horValue=org_name&verValue=severity_name&timeDimension=created&startDate=" + firstDay + "&endDate=" + lastDay;

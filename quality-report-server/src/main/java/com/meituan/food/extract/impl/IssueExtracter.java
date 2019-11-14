@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Order(1)
 @Component
-public class IssueExtracter implements IOneMonthDataExtract {
+public class IssueExtracter{
 
     private static final String URL = "http://issue.sankuai.com/api/incidents";
 
@@ -39,7 +39,6 @@ public class IssueExtracter implements IOneMonthDataExtract {
     private IssuePOMapper issuePOMapper;
 
     @Transactional
-    @Override
     public void extractData4Month(String firstDay, String lastDay) {
         //   String dayStr = day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String encodedRange;

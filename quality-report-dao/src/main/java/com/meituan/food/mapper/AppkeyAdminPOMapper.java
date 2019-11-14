@@ -100,7 +100,7 @@ public interface AppkeyAdminPOMapper {
 
     @Select({
             "select * from appkey_admin",
-            "where appkey = #{appkey,jdbcType=VARCHAR}"
+            "where offline=0 and appkey = #{appkey,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
