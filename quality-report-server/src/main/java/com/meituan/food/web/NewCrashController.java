@@ -23,7 +23,7 @@ public class NewCrashController {
 
     @GetMapping("/update")
     public String updateAllData(){
-        for (int i=131;i>=1;i--){
+        for (int i=122;i>=1;i--){
             System.out.println(LocalDate.now().minusDays(i));
             newCrashExtract.sync(LocalDate.now().minusDays(i));
         }
@@ -32,8 +32,6 @@ public class NewCrashController {
 
     @GetMapping("/updateweek")
     public String updateAllWeekData()throws ParseException {
-        newCrashExtract.syncForDays(format1.parse("2019-07-04"),format1.parse("2019-07-10"));
-        newCrashExtract.syncForDays(format1.parse("2019-07-11"),format1.parse("2019-07-17"));
         newCrashExtract.syncForDays(format1.parse("2019-07-18"),format1.parse("2019-07-24"));
         newCrashExtract.syncForDays(format1.parse("2019-07-25"),format1.parse("2019-07-31"));
         newCrashExtract.syncForDays(format1.parse("2019-08-01"),format1.parse("2019-08-07"));
@@ -56,7 +54,7 @@ public class NewCrashController {
 
     @GetMapping("/updatemonth")
     public String updateAllMonthData()throws ParseException{
-        newCrashExtract.syncForDays(format1.parse("2019-07-04"),format1.parse("2019-07-31"));
+        newCrashExtract.syncForDays(format1.parse("2019-07-15"),format1.parse("2019-07-31"));
         newCrashExtract.syncForDays(format1.parse("2019-08-01"),format1.parse("2019-08-31"));
         newCrashExtract.syncForDays(format1.parse("2019-09-01"),format1.parse("2019-09-30"));
         newCrashExtract.syncForDays(format1.parse("2019-10-01"),format1.parse("2019-10-31"));
