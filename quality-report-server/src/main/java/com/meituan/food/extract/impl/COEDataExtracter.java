@@ -270,10 +270,4 @@ public class COEDataExtracter implements ICOEDataExtract {
             }
         }
     }
-
-    public static void main(String[] args) {
-        String orgName="集团/到店事业群/平台技术部/到店餐饮研发中心/业务运营研发组/门店平台研发组";
-        String substring = orgName.substring(orgName.indexOf("到店事业群/") + 6);
-        System.out.println(substring);
-    }
 }
