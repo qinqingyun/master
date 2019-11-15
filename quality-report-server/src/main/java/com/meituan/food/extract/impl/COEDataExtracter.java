@@ -133,14 +133,24 @@ public class COEDataExtracter implements ICOEDataExtract {
                     coeP0.setFinishTodo(doneCount);
                     coeP0.setNotFinishTodoTask(taskLink);
 
+                    JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+                    JSONObject incidentDetail=coeDetailResp.getJSONObject("incident");
+                    String orgPath = incidentDetail.getString("org_path");
+                    if (orgPath.contains("平台技术部/"))
+                    {
+                        String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
+                        coeP0.setOrgName(subOrgPath);
+
+                    }else {
+                        String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
+                        coeP0.setOrgName(subOrgPath);
+                    }
+
                     if (coeIdList.contains(coeId)){
                         CoeListP0 coeListP0 = coeListP0Mapper.selectByCoeId(coeId);
                         coeP0.setId(coeListP0.getId());
                         coeListP0Mapper.updateByPrimaryKey(coeP0);
                     }else {
-                        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-                        JSONObject incidentDetail=coeDetailResp.getJSONObject("incident");
-                        String orgPath = incidentDetail.getString("org_path");
                         if (!orgPath.contains("到综研发组")){
                             coeListP0Mapper.insert(coeP0);
                         }
@@ -199,6 +209,15 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 }
                             }
                             String orgPath = incidentDetail.getString("org_path");
+                            if (orgPath.contains("平台技术部/"))
+                            {
+                                String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
+                                coeP0.setOrgName(subOrgPath);
+
+                            }else {
+                                String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
+                                coeP0.setOrgName(subOrgPath);
+                            }
                             if (orgPath.contains("到店餐饮研发中心")||orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组")||orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组")||orgPath.contains("平台终端研发组/到店餐饮研发组")){
                                 coeP0.setCategory(incidentDetail.getString("category"));
 
@@ -250,5 +269,11 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        String orgName="集团/到店事业群/平台技术部/到店餐饮研发中心/业务运营研发组/门店平台研发组";
+        String substring = orgName.substring(orgName.indexOf("到店事业群/") + 6);
+        System.out.println(substring);
     }
 }

@@ -148,6 +148,10 @@ public class CoeListP0SqlProvider {
             sql.VALUES("available", "#{available,jdbcType=BIT}");
         }
         
+        if (record.getOrgName() != null) {
+            sql.VALUES("org_name", "#{orgName,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -187,6 +191,7 @@ public class CoeListP0SqlProvider {
         sql.SELECT("finish_todo");
         sql.SELECT("not_finish_todo_task");
         sql.SELECT("available");
+        sql.SELECT("org_name");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -324,6 +329,10 @@ public class CoeListP0SqlProvider {
             sql.SET("available = #{record.available,jdbcType=BIT}");
         }
         
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -362,6 +371,7 @@ public class CoeListP0SqlProvider {
         sql.SET("finish_todo = #{record.finishTodo,jdbcType=INTEGER}");
         sql.SET("not_finish_todo_task = #{record.notFinishTodoTask,jdbcType=VARCHAR}");
         sql.SET("available = #{record.available,jdbcType=BIT}");
+        sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
         
         CoeListP0Example example = (CoeListP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -486,6 +496,10 @@ public class CoeListP0SqlProvider {
         
         if (record.getAvailable() != null) {
             sql.SET("available = #{available,jdbcType=BIT}");
+        }
+        
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{orgName,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

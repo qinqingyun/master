@@ -53,7 +53,7 @@ public interface CoeListP0Mapper {
         "appearance, sub_category, ",
         "all_todo, not_finish_todo, ",
         "finish_todo, not_finish_todo_task, ",
-        "available)",
+        "available, org_name)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
         "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
@@ -68,7 +68,7 @@ public interface CoeListP0Mapper {
         "#{appearance,jdbcType=VARCHAR}, #{subCategory,jdbcType=VARCHAR}, ",
         "#{allTodo,jdbcType=INTEGER}, #{notFinishTodo,jdbcType=INTEGER}, ",
         "#{finishTodo,jdbcType=INTEGER}, #{notFinishTodoTask,jdbcType=VARCHAR}, ",
-        "#{available,jdbcType=BIT})"
+        "#{available,jdbcType=BIT}, #{orgName,jdbcType=VARCHAR})"
     })
     int insert(CoeListP0 record);
 
@@ -106,7 +106,8 @@ public interface CoeListP0Mapper {
         @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-        @Result(column="available", property="available", jdbcType=JdbcType.BIT)
+        @Result(column="available", property="available", jdbcType=JdbcType.BIT),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeListP0> selectByExample(CoeListP0Example example);
 
@@ -116,7 +117,7 @@ public interface CoeListP0Mapper {
         "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
         "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
         "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-        "available",
+        "available, org_name",
         "from coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -150,16 +151,18 @@ public interface CoeListP0Mapper {
         @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-        @Result(column="available", property="available", jdbcType=JdbcType.BIT)
+        @Result(column="available", property="available", jdbcType=JdbcType.BIT),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
     CoeListP0 selectByPrimaryKey(Integer id);
+
     @Select({
             "select",
             "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
             "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
             "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available",
+            "available, org_name",
             "from coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -193,7 +196,8 @@ public interface CoeListP0Mapper {
             @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
             @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
             @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-            @Result(column="available", property="available", jdbcType=JdbcType.BIT)
+            @Result(column="available", property="available", jdbcType=JdbcType.BIT),
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
     })
     CoeListP0 selectByCoeId(Integer id);
 
@@ -237,7 +241,8 @@ public interface CoeListP0Mapper {
           "not_finish_todo = #{notFinishTodo,jdbcType=INTEGER},",
           "finish_todo = #{finishTodo,jdbcType=INTEGER},",
           "not_finish_todo_task = #{notFinishTodoTask,jdbcType=VARCHAR},",
-          "available = #{available,jdbcType=BIT}",
+          "available = #{available,jdbcType=BIT},",
+          "org_name = #{orgName,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeListP0 record);

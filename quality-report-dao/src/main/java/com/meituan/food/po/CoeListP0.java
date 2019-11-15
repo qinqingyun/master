@@ -65,6 +65,8 @@ public class CoeListP0 implements Serializable {
 
     private Boolean available;
 
+    private String orgName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -307,6 +309,14 @@ public class CoeListP0 implements Serializable {
         this.available = available;
     }
 
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName == null ? null : orgName.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -348,7 +358,8 @@ public class CoeListP0 implements Serializable {
             && (this.getNotFinishTodo() == null ? other.getNotFinishTodo() == null : this.getNotFinishTodo().equals(other.getNotFinishTodo()))
             && (this.getFinishTodo() == null ? other.getFinishTodo() == null : this.getFinishTodo().equals(other.getFinishTodo()))
             && (this.getNotFinishTodoTask() == null ? other.getNotFinishTodoTask() == null : this.getNotFinishTodoTask().equals(other.getNotFinishTodoTask()))
-            && (this.getAvailable() == null ? other.getAvailable() == null : this.getAvailable().equals(other.getAvailable()));
+            && (this.getAvailable() == null ? other.getAvailable() == null : this.getAvailable().equals(other.getAvailable()))
+            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()));
     }
 
     @Override
@@ -385,6 +396,7 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getFinishTodo() == null) ? 0 : getFinishTodo().hashCode());
         result = prime * result + ((getNotFinishTodoTask() == null) ? 0 : getNotFinishTodoTask().hashCode());
         result = prime * result + ((getAvailable() == null) ? 0 : getAvailable().hashCode());
+        result = prime * result + ((getOrgName() == null) ? 0 : getOrgName().hashCode());
         return result;
     }
 
@@ -424,6 +436,7 @@ public class CoeListP0 implements Serializable {
         sb.append(", finishTodo=").append(finishTodo);
         sb.append(", notFinishTodoTask=").append(notFinishTodoTask);
         sb.append(", available=").append(available);
+        sb.append(", orgName=").append(orgName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

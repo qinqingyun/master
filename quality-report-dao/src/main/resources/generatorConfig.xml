@@ -124,10 +124,10 @@
                <!--enableUpdateByExample="true"/>-->
        <!-- <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-      <!--  <table tableName="coe_list" domainObjectName="CoeListP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>-->
-        <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <table tableName="coe_list" domainObjectName="CoeListP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+       <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
 
 
     </context>
