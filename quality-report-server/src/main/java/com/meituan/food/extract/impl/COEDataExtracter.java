@@ -153,6 +153,9 @@ public class COEDataExtracter implements ICOEDataExtract {
                     }else {
                         if (!orgPath.contains("到综研发组")){
                             coeListP0Mapper.insert(coeP0);
+                        }else {
+                            coeP0.setAvailable(false);
+                            coeListP0Mapper.insert(coeP0);
                         }
                     }
                 }
