@@ -285,7 +285,7 @@ public class ScheduleJob {
         getLineCoverageJob.sync();
     }
 
-    //节假日前推送值班人员给管路员
+    //节假日前推送值班人员给管理员
     @Crane("push.duty.data.to.admin")
     public void pushDutyToAdmin(){
         pushDutyDataToAdminJob.pushData();
