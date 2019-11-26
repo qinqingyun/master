@@ -3,6 +3,7 @@ package com.meituan.food.web;
 import com.meituan.food.extract.INewCrashExtract;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/newcrash")
@@ -19,6 +21,13 @@ public class NewCrashController {
     public INewCrashExtract newCrashExtract;
 
     DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+    @GetMapping("/update")
+    public String updateAllData(@RequestParam("crashDate") String crashDate){
+        LocalDate beginDateTime = LocalDate.parse(crashDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        newCrashExtract.sync(beginDateTime);
+        return "OK!";
+    }
 
 
     /*@GetMapping("/update")
