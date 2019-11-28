@@ -7,9 +7,12 @@ import com.meituan.food.web.vo.OrgVO;
 import com.sankuai.it.mail.sdk.service.MailThriftService;
 import com.sankuai.it.mail.sdk.structs.MailStructDTO;
 import com.sankuai.it.mail.sdk.structs.SendMailResultDTO;
+import com.sankuai.meituan.org.openapi.model.Hierarchy;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
+import com.sankuai.meituan.org.opensdk.model.domain.Org;
 import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
+import com.sankuai.meituan.org.opensdk.service.OrgService;
 import com.sankuai.meituan.org.queryservice.domain.base.Paging;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
@@ -25,6 +28,9 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
 
     @Resource
     private EmpService empService;
+
+    @Resource
+    private OrgService orgService;
 
     @Resource
     private EfficiencyTotalDateDaysPOMapper efficiencyTotalDateDaysPOMapper;
@@ -52,11 +58,20 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         orgList.add("104638");
         orgList.add("110621");
 
+        orgList.add("112094");
+        orgList.add("105436");
+        orgList.add("100064");
+        orgList.add("100065");
+        orgList.add("152053");
+
+
         for (String singleOrg : orgList) {
             EmpItems empItems = empService.queryEmp(singleOrg,3,empHierarchyCond,paging);
+
             List<Emp> items = empItems.getItems();
 
             List<OrgVO> orgVOList = new ArrayList<>();
+            Date date = new Date();
 
             for (Emp item : items) {
                 OrgVO orgVO = new OrgVO();
@@ -67,7 +82,10 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
                 orgVO.setOrgName(item.getOrgName());
                 orgVO.setReportMis(item.getReportEmpMis());
                 orgVO.setReportName(item.getReportEmpName());
-
+                Org org= orgService.query(singleOrg,null);
+                String[] tmp = org.getOrgNamePath().split("-");
+                orgVO.setFatherOrgName(tmp[tmp.length - 2] + '-' +tmp[tmp.length - 1]);
+                orgVO.setFatherOrgId(singleOrg);
                 orgVOList.add(orgVO);
             }
 
@@ -78,6 +96,8 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
                 efficiencyTotalDateDaysPO.setOrgName(orgVO.getOrgName());
                 efficiencyTotalDateDaysPO.setStartDate(startDate);
                 efficiencyTotalDateDaysPO.setEndDate(endDate);
+                efficiencyTotalDateDaysPO.setFatherOrgName(orgVO.getFatherOrgName());
+                efficiencyTotalDateDaysPO.setFatherOrgId(orgVO.getFatherOrgId());
                 Date now = new Date();
                 efficiencyTotalDateDaysPO.setCreatedAt(now);
 
@@ -109,15 +129,15 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
             }
         }
 
-        Map<String, List<EfficiencyTotalDateDaysPO>> totalMap = totalDateDaysPOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDateDaysPO::getOrgName));
+        Map<String, List<EfficiencyTotalDateDaysPO>> totalMap = totalDateDaysPOS.stream().collect(Collectors.groupingBy(EfficiencyTotalDateDaysPO::getFatherOrgId));
 
         String mailBody = "<h1>人效数据" + startDate + "~" + endDate + "</h1>";
 
         for (String key : totalMap.keySet()) {
             List<EfficiencyTotalDateDaysPO> listEffData = totalMap.get(key);
-            mailBody = mailBody + "<h3>" + key + "</h3>";
+            mailBody = mailBody + "<h3>" + listEffData.get(0).getFatherOrgName() + "</h3>";
             mailBody = mailBody + "<body><table border=\"1\" cellspacing=\"0\"><tr><th>mis</th><th>姓名</th><th>创建学城数量</th><th>更新学城数量</th><th>Git代码增加量</th><th>Git代码删除量</th><th>Git代码提交量</th><th>Git代码提交次数</th><th>创建bug数量</th><th>接收bug数量</th><th>组织</th></tr>";
-
+            listEffData.sort(Comparator.comparing(EfficiencyTotalDateDaysPO::getOrgName));
             for (EfficiencyTotalDateDaysPO listEffDatum : listEffData) {
                 mailBody = mailBody + "<tr><td>" + listEffDatum.getMis()
                         + "</td><td>" + listEffDatum.getName()
