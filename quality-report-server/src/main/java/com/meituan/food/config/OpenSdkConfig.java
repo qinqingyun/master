@@ -16,7 +16,7 @@ public class OpenSdkConfig {
     //TODO 替换成你的appkey
     //线上环境
     private final static String CLIENT_APP_KEY = "0d6cf99067";
-    //TODO 替换成你的appSecret
+//    //TODO 替换成你的appSecret
     private final static String APP_SECRET = "85762a22382f45e4a3416d9fa48ea4f6";
 
    //线下
@@ -35,8 +35,9 @@ public class OpenSdkConfig {
         dataScope.setSources(Arrays.asList(APP_SOURCE));
         //线上环境
         RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope);
-        //BETA 环境，IP直连方式
+        //BETA 环境，IP直连方式--直连方式已经废弃
 //        RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope, "10.24.58.212:9001,10.24.58.115:9001");      //serverIpPorts（最后一个参数） 配置null或者空字符串 则不ip直连
+//        RemoteServiceClient remoteServiceClient = new RemoteServiceClient(CLIENT_APP_KEY, APP_SECRET, REMOTE_APP_KEY, dataScope);
         return remoteServiceClient;
     }
 

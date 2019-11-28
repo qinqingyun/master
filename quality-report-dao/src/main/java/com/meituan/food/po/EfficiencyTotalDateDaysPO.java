@@ -34,6 +34,26 @@ public class EfficiencyTotalDateDaysPO implements Serializable {
 
     private String orgName;
 
+    private String fatherOrgName;
+
+    public String getFatherOrgName() {
+        return fatherOrgName;
+    }
+
+    public void setFatherOrgName(String fatherOrgName) {
+        this.fatherOrgName = fatherOrgName;
+    }
+
+    public String getFatherOrgId() {
+        return fatherOrgId;
+    }
+
+    public void setFatherOrgId(String fatherOrgId) {
+        this.fatherOrgId = fatherOrgId;
+    }
+
+    private String fatherOrgId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {

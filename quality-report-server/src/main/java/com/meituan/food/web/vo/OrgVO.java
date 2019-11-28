@@ -11,4 +11,6 @@ public class OrgVO {
     private String reportName;
     private String orgName;
     private String orgId;
+    private String fatherOrgName;
+    private String fatherOrgId;
 }
