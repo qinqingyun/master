@@ -146,17 +146,18 @@ public class COEDataExtracter implements ICOEDataExtract {
                         coeP0.setOrgName(subOrgPath);
                     }
 
+                    if (orgPath.contains("到综研发组")){
+                        coeP0.setAvailable(false);
+                    }else {
+                        coeP0.setAvailable(true);
+                    }
+
                     if (coeIdList.contains(coeId)){
                         CoeListP0 coeListP0 = coeListP0Mapper.selectByCoeId(coeId);
                         coeP0.setId(coeListP0.getId());
                         coeListP0Mapper.updateByPrimaryKey(coeP0);
                     }else {
-                        if (!orgPath.contains("到综研发组")){
-                            coeListP0Mapper.insert(coeP0);
-                        }else {
-                            coeP0.setAvailable(false);
-                            coeListP0Mapper.insert(coeP0);
-                        }
+                        coeListP0Mapper.insert(coeP0);
                     }
                 }
             }
@@ -263,6 +264,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                             if (coeIdList2.contains(coeId)){
                                 CoeListP0 coeListP0 = coeListP0Mapper.selectByCoeId(coeId);
                                 coeP0.setId(coeListP0.getId());
+                                coeP0.setAvailable(coeListP0.getAvailable());
                                 coeListP0Mapper.updateByPrimaryKey(coeP0);
                             }else {
                                 coeListP0Mapper.insert(coeP0);
