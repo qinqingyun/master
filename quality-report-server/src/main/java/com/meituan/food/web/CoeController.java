@@ -1,6 +1,7 @@
 package com.meituan.food.web;
 
 import com.meituan.food.extract.ICOEDataExtract;
+import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.mapper.CoeListP0Mapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class CoeController {
 
     @Resource
     private CoeListP0Mapper coeListP0Mapper;
+
+    @Resource(name="COEPush")
+    private ICargoDataPushExtract cargoDataPushExtract;
 
     @GetMapping("/update")
     public String updateHistoryData(@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
@@ -49,5 +53,11 @@ public class CoeController {
             return "删除成功";
         }
         return "删除失败";
+    }
+
+    @GetMapping("/push")
+    public String pushCoe(){
+        cargoDataPushExtract.pushData();
+        return "OK!";
     }
 }

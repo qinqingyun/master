@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.CoeListP0;
 import com.meituan.food.po.CoeListP0Example;
+
+import java.sql.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -201,6 +203,51 @@ public interface CoeListP0Mapper {
     })
     CoeListP0 selectByCoeId(Integer id);
 
+
+    @Select({
+            "select",
+            "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
+            "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
+            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
+            "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
+            "available, org_name",
+            "from coe_list",
+            "where occur_date >= #{occur,jdbcType=DATE}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+            @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+            @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="handle_time", property="handleTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="solved_time", property="solvedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="fminuso_time", property="fminusoTime", jdbcType=JdbcType.INTEGER),
+            @Result(column="lminusf_time", property="lminusfTime", jdbcType=JdbcType.INTEGER),
+            @Result(column="sminush_time", property="sminushTime", jdbcType=JdbcType.INTEGER),
+            @Result(column="wiki", property="wiki", jdbcType=JdbcType.VARCHAR),
+            @Result(column="level", property="level", jdbcType=JdbcType.VARCHAR),
+            @Result(column="owner_name", property="ownerName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="owner_mis", property="ownerMis", jdbcType=JdbcType.VARCHAR),
+            @Result(column="qa_name", property="qaName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="qa_mis", property="qaMis", jdbcType=JdbcType.VARCHAR),
+            @Result(column="coe_link", property="coeLink", jdbcType=JdbcType.VARCHAR),
+            @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
+            @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
+            @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
+            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
+            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
+            @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
+            @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
+            @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
+            @Result(column="available", property="available", jdbcType=JdbcType.BIT),
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
+    })
+    List<CoeListP0> selectByDate(@Param("occur") java.util.Date occur);
 
     @UpdateProvider(type=CoeListP0SqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CoeListP0 record, @Param("example") CoeListP0Example example);

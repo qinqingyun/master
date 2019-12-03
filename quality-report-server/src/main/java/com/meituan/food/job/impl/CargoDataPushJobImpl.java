@@ -5,14 +5,17 @@ import com.meituan.food.job.ICargoDataPushJob;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 public class CargoDataPushJobImpl implements ICargoDataPushJob {
 
     @Resource
-    private ICargoDataPushExtract cargoDataPushExtract;
+    private List<ICargoDataPushExtract> cargoDataPushExtract;
     @Override
     public void sync() {
-        cargoDataPushExtract.pushData();
+        for (ICargoDataPushExtract iCargoDataPushExtract : cargoDataPushExtract) {
+            iCargoDataPushExtract.pushData();
+        }
     }
 }
