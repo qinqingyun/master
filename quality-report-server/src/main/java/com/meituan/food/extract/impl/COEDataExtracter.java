@@ -53,6 +53,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         orgList.add(15435);//平台业务研发中心 /销售支持平台研发组 / 到餐销售支持研发组
         orgList.add(119);//平台业务研发中心 /交易平台研发组 / 餐饮交易技术组
         orgList.add(126);//平台业务研发中心 /营销平台研发组 / 到餐营销支持组
+        orgList.add(75272);//平台业务研发中心/门店信息研发组
 
         JSONObject availabilityResp = HttpUtils.doGet(availabilityUrl, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray bgAvaiDataArray = availabilityResp.getJSONArray("availabilities");

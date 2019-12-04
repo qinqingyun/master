@@ -58,11 +58,11 @@ public class MailDataDaysExtracter implements IMailDataDaysExtract {
         orgList.add("104638");
         orgList.add("110621");
 
-        orgList.add("112094");
+ /*       orgList.add("112094");
         orgList.add("105436");
         orgList.add("100064");
         orgList.add("100065");
-        orgList.add("152053");
+        orgList.add("152053");*/
 
 
         for (String singleOrg : orgList) {
