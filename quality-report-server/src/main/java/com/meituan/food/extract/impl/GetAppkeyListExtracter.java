@@ -39,7 +39,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         owtList.add("dianping.dc");
         List<AppkeyListPO> appkeyListPOS = new ArrayList<>();
         Date now = new Date();
-     /*   for (String owt : owtList) {
+        for (String owt : owtList) {
             JSONObject resp = HttpUtils.doGet(url + owt + "/pdls", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
             JSONArray respArr = resp.getJSONArray("pdls");
             for (Object o : respArr) {
@@ -165,13 +165,13 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
-               *//* if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
+                if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
                     po.setDepartmentId(10);
                     po.setDepartmentId2(10);
                 } else {
                     po.setDepartmentId(11);
                     po.setDepartmentId2(11);
-                }*//*
+                }
                 po.setDepartmentId(10);
                 po.setDepartmentId2(10);
                 po.setOffline(0);
@@ -180,7 +180,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 po.setUpdatedTime(now);
                 appkeyListPOS.add(po);
             }
-        }*/
+        }
 
         List<String> srvListForTDC=new ArrayList<>();
         srvListForTDC.add("meituan.travel.dsg.quark");
