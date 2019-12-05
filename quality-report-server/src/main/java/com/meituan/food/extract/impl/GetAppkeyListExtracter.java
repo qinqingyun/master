@@ -39,7 +39,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         owtList.add("dianping.dc");
         List<AppkeyListPO> appkeyListPOS = new ArrayList<>();
         Date now = new Date();
-        for (String owt : owtList) {
+     /*   for (String owt : owtList) {
             JSONObject resp = HttpUtils.doGet(url + owt + "/pdls", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
             JSONArray respArr = resp.getJSONArray("pdls");
             for (Object o : respArr) {
@@ -165,13 +165,13 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
-               /* if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
+               *//* if (s.equals("meituan.nibcus.inf.nibcus-inf-customer")){
                     po.setDepartmentId(10);
                     po.setDepartmentId2(10);
                 } else {
                     po.setDepartmentId(11);
                     po.setDepartmentId2(11);
-                }*/
+                }*//*
                 po.setDepartmentId(10);
                 po.setDepartmentId2(10);
                 po.setOffline(0);
@@ -180,7 +180,46 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 po.setUpdatedTime(now);
                 appkeyListPOS.add(po);
             }
+        }*/
+
+        List<String> srvListForTDC=new ArrayList<>();
+        srvListForTDC.add("meituan.travel.dsg.quark");
+        srvListForTDC.add("meituan.travel.dsg.tripext");
+        srvListForTDC.add("meituan.travel.dsg.tripextfb");
+        srvListForTDC.add("meituan.travel.dsg.tdcroom");
+        srvListForTDC.add("meituan.travel.dsg.hotelroom-roomforb");
+        srvListForTDC.add("meituan.travel.dsg.gisplus");
+        srvListForTDC.add("meituan.travel.dsg.switch");
+        srvListForTDC.add("meituan.travel.dsg.collector");
+        srvListForTDC.add("meituan.travel.dsg.datafootprint");
+        srvListForTDC.add("meituan.travel.dsg.tdcinside-datamanagement");
+        srvListForTDC.add("meituan.travel.dsg.budapest");
+        srvListForTDC.add("meituan.travel.dsg.tickettype");
+        srvListForTDC.add("meituan.travel.dsg.themis");
+        srvListForTDC.add("meituan.travel.dsg.hubble");
+        srvListForTDC.add("meituan.travel.dsg.portal");
+
+        for (String s : srvListForTDC) {
+            AppkeyListPO po = new AppkeyListPO();
+            po.setOwt("meituan.travel");
+            po.setPdl("meituan.travel.dsg");
+            po.setSrv(s);
+            JSONObject appkeyResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/srvs/" + s + "/appkeys", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
+            if (!appkeyResp.get("appkeys").toString().equals("[]")) {
+                System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
+                String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
+                po.setAppkey(appkeyName);
+                po.setDepartmentId(13);
+                po.setDepartmentId2(13);
+                po.setOffline(0);
+                po.setRank(1);
+                po.setCreatedTime(now);
+                po.setUpdatedTime(now);
+                appkeyListPOS.add(po);
+            }
         }
+
+
 
         for (AppkeyListPO appkeyListPO : appkeyListPOS) {
             System.out.println(appkeyListPO.toString());
