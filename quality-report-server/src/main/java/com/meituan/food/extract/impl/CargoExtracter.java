@@ -77,6 +77,9 @@ public class CargoExtracter implements IOneDayCargoExtract {
             stackuuid.put("客户平台", "b6f29059-baa9-44da-a063-73174e69a471");
             stackuuid.put("到综客户", "cc69efbc-7c5c-4e66-b460-2cb6198aa7c8");
             stackuuid.put("酒旅客户", "1b522725-fee4-4401-97fd-84c65b96e1e6");
+            stackuuid.put("到餐TDC", "c80efd36-7b67-40a8-a53d-ba9ea804e66e");
+
+
 
         }
         {
@@ -114,6 +117,11 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
             person.put(stackuuid.get("到餐策略") + "._others", "wangyang60");
             person.put(stackuuid.get("到餐策略") + ".C端依赖", "wangyang60");
+
+            person.put(stackuuid.get("到餐TDC") + "._others", "wanglan13");
+
+
+
 //
             person.put(stackuuid.get("到餐SCP") + "._others", "wangjiani");
             person.put(stackuuid.get("到餐SCP") + ".客户", "feilichao");
@@ -166,6 +174,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("wangyang60", "C端");
             direct.put("qinqingyun", "C端");
             direct.put("buyuqi", "C端");
+            direct.put("wanglan13","C端");
             direct.put("liuxiangyi", "M端");
             direct.put("zhangyancui", "B端_北京");
             direct.put("zhouke", "M端");
