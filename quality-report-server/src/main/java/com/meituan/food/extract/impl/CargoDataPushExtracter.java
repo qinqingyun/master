@@ -27,6 +27,7 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         nameMap.put("zhouying", "周颖");
         nameMap.put("wenwen", "文闻");
         nameMap.put("wangyang60", "王洋");
+
         nameMap.put("wanglan13", "王兰");
         nameMap.put("liyuhua", "李宇华");
         nameMap.put("qinqingyun", "秦庆贇");
