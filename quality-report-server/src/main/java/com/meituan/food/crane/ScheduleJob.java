@@ -105,7 +105,7 @@ public class ScheduleJob {
     @Resource
     private IHalfYearMailJob halfYearMailJob;
 
-    @Crane("one.week.sync.job")
+    @Crane("one.week.syxnc.job")
     public void syncOneWeek() {
         log.info("one week job execute at: {}", new Date());
         oneWeekJob.sync();
