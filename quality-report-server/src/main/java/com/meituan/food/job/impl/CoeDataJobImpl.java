@@ -16,7 +16,7 @@ public class CoeDataJobImpl implements IGetApiCoverageJob {
 
     @Override
     public void sync() {
-        LocalDate firstDay=LocalDate.now().minusDays(31);
+        LocalDate firstDay=LocalDate.now().minusDays(60);
         LocalDate secondDay=LocalDate.now().minusDays(1);
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
