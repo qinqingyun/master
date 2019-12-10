@@ -204,6 +204,8 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
                 if (s.equals("meituan.nibmkt.dcbp.mpmktmember-api")){
+                    po.setOwt("meituan.nibmkt");
+                    po.setOwt("meituan.nibmkt.dcbp");
                     po.setDepartmentId(1);
                     po.setDepartmentId2(1);
                 }else {
