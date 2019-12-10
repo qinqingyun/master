@@ -191,6 +191,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         srvListForTDC.add("meituan.travel.dsg.themis");
         srvListForTDC.add("meituan.travel.dsg.hubble");
         srvListForTDC.add("meituan.travel.dsg.portal");
+        srvListForTDC.add("meituan.nibmkt.dcbp.mpmktmember-api");
 
         for (String s : srvListForTDC) {
             AppkeyListPO po = new AppkeyListPO();
@@ -202,8 +203,13 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 System.out.println("appkey=" + appkeyResp.get("appkeys").toString());
                 String appkeyName = ((JSONArray) (appkeyResp.get("appkeys"))).get(0).toString();
                 po.setAppkey(appkeyName);
-                po.setDepartmentId(13);
-                po.setDepartmentId2(13);
+                if (s.equals("meituan.nibmkt.dcbp.mpmktmember-api")){
+                    po.setDepartmentId(1);
+                    po.setDepartmentId2(1);
+                }else {
+                    po.setDepartmentId(13);
+                    po.setDepartmentId2(13);
+                }
                 po.setOffline(0);
                 po.setRank(1);
                 po.setCreatedTime(now);
@@ -211,7 +217,6 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 appkeyListPOS.add(po);
             }
         }
-
 
 
         for (AppkeyListPO appkeyListPO : appkeyListPOS) {
