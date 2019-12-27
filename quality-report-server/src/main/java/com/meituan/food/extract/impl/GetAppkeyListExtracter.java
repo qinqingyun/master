@@ -155,6 +155,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         List<String> appkeyList = new ArrayList<>();
         appkeyList.add("meituan.nibcus.inf.nibcus-inf-customer");
         appkeyList.add("meituan.nibcus.inf.contract-mtcontract");
+        appkeyList.add("meituan.nibcus.inf.nibcus-inf-idmapping");
 
         for (String s : appkeyList) {
             AppkeyListPO po = new AppkeyListPO();
