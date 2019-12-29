@@ -74,10 +74,8 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 org2EmpDataPOExample.setDistinct(true);
                 Org2EmpDataPOExample.Criteria  criteria = org2EmpDataPOExample.createCriteria();
                 criteria.andMisEqualTo(po.getMis());
-//                List<Org2EmpDataPO> org2EmpDataPOList = org2EmpDataPOMapper.selectByExample(org2EmpDataPOExample);
-//                if (org2EmpDataPOList.size()==0||org2EmpDataPOList==null)
-//                {
-                //
+
+//                区分商家平台上海和北京侧
                 if (po.getOrgid().equals("106454")){
                     if(po.getMis().equals("bei.guo")||po.getMis().equals("whitney.wen")||po.getMis().equals("summer.sun")||po.getMis().equals("fengchen03")||po.getMis().equals("tangwenchao")){
                         po.setVirtualreportempname("文闻");
@@ -95,10 +93,6 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 int insertresult = org2EmpDataPOMapper.insert(po);
                 log.info("org2empdata insertresult:"+insertresult);
 
-//                }else {
-//                    int updateresult = org2EmpDataPOMapper.updateByExampleSelective(po,org2EmpDataPOExample);
-//                    log.info("org2empdata updateresult:"+updateresult);
-//                }
 
             });
 
