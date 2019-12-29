@@ -36,15 +36,20 @@ public interface Org2EmpDataPOMapper {
         "reportEmpName, orgId, ",
         "orgName, virtualreportEmpId, ",
         "virtualreportEmpName, comment, ",
-        "updated_date)",
+        "updated_date,virtualOrgName)",
         "values (#{id,jdbcType=INTEGER}, #{empid,jdbcType=VARCHAR}, ",
         "#{name,jdbcType=VARCHAR}, #{mis,jdbcType=VARCHAR}, #{reportempid,jdbcType=VARCHAR}, ",
         "#{reportempname,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, ",
         "#{orgname,jdbcType=VARCHAR}, #{virtualreportempid,jdbcType=VARCHAR}, ",
         "#{virtualreportempname,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, ",
-        "#{updatedDate,jdbcType=VARCHAR})"
+        "#{updatedDate,jdbcType=VARCHAR},#{virtualOrgName,jdbcType=VARCHAR})"
     })
     int insert(Org2EmpDataPO record);
+
+    @Delete({
+            "delete from org2_emp_data"
+    })
+    int deleteTable();
 
     @InsertProvider(type=Org2EmpDataPOSqlProvider.class, method="insertSelective")
     int insertSelective(Org2EmpDataPO record);
@@ -109,7 +114,8 @@ public interface Org2EmpDataPOMapper {
             @Result(column="virtualreportEmpId", property="virtualreportempid", jdbcType=JdbcType.VARCHAR),
             @Result(column="virtualreportEmpName", property="virtualreportempname", jdbcType=JdbcType.VARCHAR),
             @Result(column="comment", property="comment", jdbcType=JdbcType.VARCHAR),
-            @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.VARCHAR)
+            @Result(column="updated_date", property="updatedDate", jdbcType=JdbcType.VARCHAR),
+            @Result(column="virtualOrgName", property="virtualOrgName", jdbcType=JdbcType.VARCHAR)
     })
     Org2EmpDataPO selectByMis(String mis);
 

@@ -55,6 +55,9 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
             log.info("empItems: "+empItems);
             log.info("empItems: size "+empItems.getCount());
 
+            //首先清空数据库信息
+            int deleresult = org2EmpDataPOMapper.deleteTable();
+            log.info("org2empdata deleresult:"+deleresult);
 
             empItems.getItems().forEach((emp) ->{
 
@@ -71,16 +74,31 @@ public class Org2EmpsExtracter implements IOneWeekOrg2EmpExtract {
                 org2EmpDataPOExample.setDistinct(true);
                 Org2EmpDataPOExample.Criteria  criteria = org2EmpDataPOExample.createCriteria();
                 criteria.andMisEqualTo(po.getMis());
-                List<Org2EmpDataPO> org2EmpDataPOList = org2EmpDataPOMapper.selectByExample(org2EmpDataPOExample);
-                if (org2EmpDataPOList.size()==0||org2EmpDataPOList==null)
-                {
-                    int insertresult = org2EmpDataPOMapper.insert(po);
-                    log.info("org2empdata insertresult:"+insertresult);
+//                List<Org2EmpDataPO> org2EmpDataPOList = org2EmpDataPOMapper.selectByExample(org2EmpDataPOExample);
+//                if (org2EmpDataPOList.size()==0||org2EmpDataPOList==null)
+//                {
+                //
+                if (po.getOrgid().equals("106454")){
+                    if(po.getMis().equals("bei.guo")||po.getMis().equals("whitney.wen")||po.getMis().equals("summer.sun")||po.getMis().equals("fengchen03")||po.getMis().equals("tangwenchao")){
+                        po.setVirtualreportempname("文闻");
+                        po.setVirtualOrgName("商家平台测试组-上海");
 
+                    }else {
+                        po.setVirtualreportempname(po.getReportempname());
+                        po.setVirtualOrgName("商家平台测试组-北京");
+                    }
                 }else {
-                    int updateresult = org2EmpDataPOMapper.updateByExampleSelective(po,org2EmpDataPOExample);
-                    log.info("org2empdata updateresult:"+updateresult);
+                    po.setVirtualreportempname(po.getReportempname());
+                    po.setVirtualOrgName(po.getOrgname());
                 }
+
+                int insertresult = org2EmpDataPOMapper.insert(po);
+                log.info("org2empdata insertresult:"+insertresult);
+
+//                }else {
+//                    int updateresult = org2EmpDataPOMapper.updateByExampleSelective(po,org2EmpDataPOExample);
+//                    log.info("org2empdata updateresult:"+updateresult);
+//                }
 
             });
 
