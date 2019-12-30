@@ -27,6 +27,8 @@ public class Org2EmpDataPO implements Serializable {
 
     private String updatedDate;
 
+    private String virtualOrgName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -107,6 +109,15 @@ public class Org2EmpDataPO implements Serializable {
 
     public void setVirtualreportempname(String virtualreportempname) {
         this.virtualreportempname = virtualreportempname == null ? null : virtualreportempname.trim();
+    }
+
+
+    public String getVirtualOrgName() {
+        return virtualOrgName;
+    }
+
+    public void setVirtualOrgName(String virtualOrgName) {
+        this.virtualOrgName = virtualOrgName == null ? null : virtualOrgName.trim();
     }
 
     public String getComment() {
