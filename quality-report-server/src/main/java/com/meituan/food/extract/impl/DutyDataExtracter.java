@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 public class DutyDataExtracter implements IOneDayDutyDataExtract {
 
-    public static final String url="http://api.goseek.cn/Tools/holiday?date=";
+    public static final String url="https://tool.bitefu.net/jiari/?d=";
 
     public static final String content="周末值班QA须知\n" +
             "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
