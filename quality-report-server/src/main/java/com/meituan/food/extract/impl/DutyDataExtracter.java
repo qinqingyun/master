@@ -49,8 +49,8 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             for(int i=1;i<=100;i++){
                 LocalDate nextDay=day.plusDays(i);
                 String nextDayStr=nextDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                JSONObject nextResp=HttpUtils.doGet(url+nextDayStr,JSONObject.class,ImmutableMap.of());
-                 int nextDayStatus=nextResp.getInteger("data");
+                String nextResp=HttpUtils.doGet(url+nextDayStr,String.class,ImmutableMap.of());
+                int nextDayStatus=Integer.valueOf(nextResp);
                  if (nextDayStatus!=0){
                      count++;
                  }else {
@@ -67,8 +67,8 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             }
 
             DaXiangUtils.pushToPerson(nameList+"轮到你们值班了\n"+content,"guomengyao");
-            DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
-            DaXiangUtils.pushToRoom("本周值班人员："+nameList,64013968876L);
+        /*    DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
+            DaXiangUtils.pushToRoom("本周值班人员："+nameList,64013968876L);*/
         }
     }
 
