@@ -36,14 +36,14 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     public void extractData4Day(LocalDate day) {
         String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String secondDayStr=day.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        JSONObject response=HttpUtils.doGet(url+firstDayStr,JSONObject.class,ImmutableMap.of());
-        JSONObject nextDateResponse=HttpUtils.doGet(url+secondDayStr,JSONObject.class,ImmutableMap.of());
+        String response=HttpUtils.doGet(url+firstDayStr,String.class,ImmutableMap.of());
+        String nextDateResponse=HttpUtils.doGet(url+secondDayStr,String.class,ImmutableMap.of());
 
         int count=0;
 
         //dayStatus代表某天的状态，0：工作日；1：周末；2：法定节假日
-        int dayStatus=response.getInteger("data");
-        int secondDayStatus=nextDateResponse.getInteger("data");
+        int dayStatus=Integer.valueOf(response);
+        int secondDayStatus=Integer.valueOf(nextDateResponse);
         if (dayStatus!=0 &&  secondDayStatus==0){
             count++;
             for(int i=1;i<=100;i++){
