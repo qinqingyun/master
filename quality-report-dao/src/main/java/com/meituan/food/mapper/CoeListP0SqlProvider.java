@@ -152,6 +152,22 @@ public class CoeListP0SqlProvider {
             sql.VALUES("org_name", "#{orgName,jdbcType=VARCHAR}");
         }
         
+        if (record.getFindDate() != null) {
+            sql.VALUES("find_date", "#{findDate,jdbcType=DATE}");
+        }
+        
+        if (record.getFinder() != null) {
+            sql.VALUES("finder", "#{finder,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getInfluenceTime() != null) {
+            sql.VALUES("influence_time", "#{influenceTime,jdbcType=INTEGER}");
+        }
+        
+        if (record.getClearTime() != null) {
+            sql.VALUES("clear_time", "#{clearTime,jdbcType=TIMESTAMP}");
+        }
+        
         return sql.toString();
     }
 
@@ -192,6 +208,10 @@ public class CoeListP0SqlProvider {
         sql.SELECT("not_finish_todo_task");
         sql.SELECT("available");
         sql.SELECT("org_name");
+        sql.SELECT("find_date");
+        sql.SELECT("finder");
+        sql.SELECT("influence_time");
+        sql.SELECT("clear_time");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -333,6 +353,22 @@ public class CoeListP0SqlProvider {
             sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
         }
         
+        if (record.getFindDate() != null) {
+            sql.SET("find_date = #{record.findDate,jdbcType=DATE}");
+        }
+        
+        if (record.getFinder() != null) {
+            sql.SET("finder = #{record.finder,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getInfluenceTime() != null) {
+            sql.SET("influence_time = #{record.influenceTime,jdbcType=INTEGER}");
+        }
+        
+        if (record.getClearTime() != null) {
+            sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -372,6 +408,10 @@ public class CoeListP0SqlProvider {
         sql.SET("not_finish_todo_task = #{record.notFinishTodoTask,jdbcType=VARCHAR}");
         sql.SET("available = #{record.available,jdbcType=BIT}");
         sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
+        sql.SET("find_date = #{record.findDate,jdbcType=DATE}");
+        sql.SET("finder = #{record.finder,jdbcType=VARCHAR}");
+        sql.SET("influence_time = #{record.influenceTime,jdbcType=INTEGER}");
+        sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
         
         CoeListP0Example example = (CoeListP0Example) parameter.get("example");
         applyWhere(sql, example, true);
@@ -500,6 +540,22 @@ public class CoeListP0SqlProvider {
         
         if (record.getOrgName() != null) {
             sql.SET("org_name = #{orgName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getFindDate() != null) {
+            sql.SET("find_date = #{findDate,jdbcType=DATE}");
+        }
+        
+        if (record.getFinder() != null) {
+            sql.SET("finder = #{finder,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getInfluenceTime() != null) {
+            sql.SET("influence_time = #{influenceTime,jdbcType=INTEGER}");
+        }
+        
+        if (record.getClearTime() != null) {
+            sql.SET("clear_time = #{clearTime,jdbcType=TIMESTAMP}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

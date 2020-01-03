@@ -2122,6 +2122,256 @@ public class CoeListP0Example {
             addCriterion("org_name not between", value1, value2, "orgName");
             return (Criteria) this;
         }
+
+        public Criteria andFindDateIsNull() {
+            addCriterion("find_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateIsNotNull() {
+            addCriterion("find_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateEqualTo(Date value) {
+            addCriterionForJDBCDate("find_date =", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("find_date <>", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("find_date >", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("find_date >=", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateLessThan(Date value) {
+            addCriterionForJDBCDate("find_date <", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("find_date <=", value, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateIn(List<Date> values) {
+            addCriterionForJDBCDate("find_date in", values, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("find_date not in", values, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("find_date between", value1, value2, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFindDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("find_date not between", value1, value2, "findDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderIsNull() {
+            addCriterion("finder is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderIsNotNull() {
+            addCriterion("finder is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderEqualTo(String value) {
+            addCriterion("finder =", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderNotEqualTo(String value) {
+            addCriterion("finder <>", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderGreaterThan(String value) {
+            addCriterion("finder >", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderGreaterThanOrEqualTo(String value) {
+            addCriterion("finder >=", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderLessThan(String value) {
+            addCriterion("finder <", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderLessThanOrEqualTo(String value) {
+            addCriterion("finder <=", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderLike(String value) {
+            addCriterion("finder like", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderNotLike(String value) {
+            addCriterion("finder not like", value, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderIn(List<String> values) {
+            addCriterion("finder in", values, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderNotIn(List<String> values) {
+            addCriterion("finder not in", values, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderBetween(String value1, String value2) {
+            addCriterion("finder between", value1, value2, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinderNotBetween(String value1, String value2) {
+            addCriterion("finder not between", value1, value2, "finder");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeIsNull() {
+            addCriterion("influence_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeIsNotNull() {
+            addCriterion("influence_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeEqualTo(Integer value) {
+            addCriterion("influence_time =", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeNotEqualTo(Integer value) {
+            addCriterion("influence_time <>", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeGreaterThan(Integer value) {
+            addCriterion("influence_time >", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("influence_time >=", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeLessThan(Integer value) {
+            addCriterion("influence_time <", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeLessThanOrEqualTo(Integer value) {
+            addCriterion("influence_time <=", value, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeIn(List<Integer> values) {
+            addCriterion("influence_time in", values, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeNotIn(List<Integer> values) {
+            addCriterion("influence_time not in", values, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeBetween(Integer value1, Integer value2) {
+            addCriterion("influence_time between", value1, value2, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInfluenceTimeNotBetween(Integer value1, Integer value2) {
+            addCriterion("influence_time not between", value1, value2, "influenceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeIsNull() {
+            addCriterion("clear_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeIsNotNull() {
+            addCriterion("clear_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeEqualTo(Date value) {
+            addCriterion("clear_time =", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeNotEqualTo(Date value) {
+            addCriterion("clear_time <>", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeGreaterThan(Date value) {
+            addCriterion("clear_time >", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("clear_time >=", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeLessThan(Date value) {
+            addCriterion("clear_time <", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeLessThanOrEqualTo(Date value) {
+            addCriterion("clear_time <=", value, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeIn(List<Date> values) {
+            addCriterion("clear_time in", values, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeNotIn(List<Date> values) {
+            addCriterion("clear_time not in", values, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeBetween(Date value1, Date value2) {
+            addCriterion("clear_time between", value1, value2, "clearTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andClearTimeNotBetween(Date value1, Date value2) {
+            addCriterion("clear_time not between", value1, value2, "clearTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
