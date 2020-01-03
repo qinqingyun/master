@@ -79,7 +79,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             stackuuid.put("酒旅客户", "1b522725-fee4-4401-97fd-84c65b96e1e6");
             stackuuid.put("到餐TDC", "c80efd36-7b67-40a8-a53d-ba9ea804e66e");
 
-            stackuuid.put("到综团购交易", "c80efd36-7b67-40a8-a53d-ba9ea804e66e");
+            stackuuid.put("到综团购交易", "7f5f395d-9ff9-4481-a292-a3927e466109");
 
 
 
