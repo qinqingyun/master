@@ -334,7 +334,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         }
         if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
-         //   DaXiangUtils.pushToRoom(pushStr,64057026090l);
+            DaXiangUtils.pushToRoom(pushStr,64057026090l);
         }
     }
 }
