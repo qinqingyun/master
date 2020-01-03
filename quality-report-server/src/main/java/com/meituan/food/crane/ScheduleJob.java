@@ -106,6 +106,9 @@ public class ScheduleJob {
     @Resource
     private IHalfYearMailJob halfYearMailJob;
 
+    @Resource
+    private IOneHourJob oneHourJob;
+
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -238,7 +241,13 @@ public class ScheduleJob {
     @Crane("api.coverage.job")
     public void getApiCoverage(){
         List<CompletableFuture<Void>> crashExtractFutures = apiCoverageJobs.stream()
-                .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.sync()))
+                .map(crashDataExtract -> CompletableFuture.runAsync(() -> {
+                    try {
+                        crashDataExtract.sync();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }))
                 .collect(Collectors.toList());
         crashExtractFutures.forEach(CompletableFuture::join);
     }
@@ -295,5 +304,10 @@ public class ScheduleJob {
     @Crane("one.half.mail.job")
     public void halfOfYearJob() throws TException, MDMThriftException {
         halfYearMailJob.sync();
+    }
+
+    @Crane("one.hour.job")
+    public void oneHourJob() throws TException, MDMThriftException, ParseException {
+        oneHourJob.extractData4Hour();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/coe")
@@ -23,7 +24,7 @@ public class CoeController {
     private ICargoDataPushExtract cargoDataPushExtract;
 
     @GetMapping("/update")
-    public String updateHistoryData(@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate){
+    public String updateHistoryData(@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate) throws ParseException {
         coeDataExtract.getCOEData(startDate,endDate);
         return "OK!";
     }

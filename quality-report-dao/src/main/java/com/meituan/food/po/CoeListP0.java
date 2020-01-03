@@ -67,6 +67,14 @@ public class CoeListP0 implements Serializable {
 
     private String orgName;
 
+    private Date findDate;
+
+    private String finder;
+
+    private Integer influenceTime;
+
+    private Date clearTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -317,6 +325,38 @@ public class CoeListP0 implements Serializable {
         this.orgName = orgName == null ? null : orgName.trim();
     }
 
+    public Date getFindDate() {
+        return findDate;
+    }
+
+    public void setFindDate(Date findDate) {
+        this.findDate = findDate;
+    }
+
+    public String getFinder() {
+        return finder;
+    }
+
+    public void setFinder(String finder) {
+        this.finder = finder == null ? null : finder.trim();
+    }
+
+    public Integer getInfluenceTime() {
+        return influenceTime;
+    }
+
+    public void setInfluenceTime(Integer influenceTime) {
+        this.influenceTime = influenceTime;
+    }
+
+    public Date getClearTime() {
+        return clearTime;
+    }
+
+    public void setClearTime(Date clearTime) {
+        this.clearTime = clearTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -359,7 +399,11 @@ public class CoeListP0 implements Serializable {
             && (this.getFinishTodo() == null ? other.getFinishTodo() == null : this.getFinishTodo().equals(other.getFinishTodo()))
             && (this.getNotFinishTodoTask() == null ? other.getNotFinishTodoTask() == null : this.getNotFinishTodoTask().equals(other.getNotFinishTodoTask()))
             && (this.getAvailable() == null ? other.getAvailable() == null : this.getAvailable().equals(other.getAvailable()))
-            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()));
+            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()))
+            && (this.getFindDate() == null ? other.getFindDate() == null : this.getFindDate().equals(other.getFindDate()))
+            && (this.getFinder() == null ? other.getFinder() == null : this.getFinder().equals(other.getFinder()))
+            && (this.getInfluenceTime() == null ? other.getInfluenceTime() == null : this.getInfluenceTime().equals(other.getInfluenceTime()))
+            && (this.getClearTime() == null ? other.getClearTime() == null : this.getClearTime().equals(other.getClearTime()));
     }
 
     @Override
@@ -397,6 +441,10 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getNotFinishTodoTask() == null) ? 0 : getNotFinishTodoTask().hashCode());
         result = prime * result + ((getAvailable() == null) ? 0 : getAvailable().hashCode());
         result = prime * result + ((getOrgName() == null) ? 0 : getOrgName().hashCode());
+        result = prime * result + ((getFindDate() == null) ? 0 : getFindDate().hashCode());
+        result = prime * result + ((getFinder() == null) ? 0 : getFinder().hashCode());
+        result = prime * result + ((getInfluenceTime() == null) ? 0 : getInfluenceTime().hashCode());
+        result = prime * result + ((getClearTime() == null) ? 0 : getClearTime().hashCode());
         return result;
     }
 
@@ -437,6 +485,10 @@ public class CoeListP0 implements Serializable {
         sb.append(", notFinishTodoTask=").append(notFinishTodoTask);
         sb.append(", available=").append(available);
         sb.append(", orgName=").append(orgName);
+        sb.append(", findDate=").append(findDate);
+        sb.append(", finder=").append(finder);
+        sb.append(", influenceTime=").append(influenceTime);
+        sb.append(", clearTime=").append(clearTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
