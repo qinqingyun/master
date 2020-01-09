@@ -181,7 +181,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("wangyang60", "C端");
             direct.put("qinqingyun", "C端");
             direct.put("buyuqi", "C端");
-            direct.put("wanglan13","C端");
+            direct.put("wanglan13","TDC门店信息");
             direct.put("sunnaili","C端");
 
             direct.put("liuxiangyi", "M端");
