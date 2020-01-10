@@ -10,6 +10,7 @@ import com.meituan.food.po.CoeListP0;
 import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
+import org.apache.el.lang.ELArithmetic;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.events.Event;
@@ -319,9 +320,14 @@ public class COEDataExtracter implements ICOEDataExtract {
                         coeListP0Mapper.updateByPrimaryKey(coeP0);
                     }else {
                         if (!coeP0.getOrgName().contains("住宿门票研发组")){
-                            if (coeP0.getOrgName().contains("商家平台研发组")){
+                            if (coeP0.getOrgName().contains("商家平台研发组")||coeP0.getOrgName().contains("商家")){
                                 pushStr=pushStr+"\n\n△【" +"["+ coeP0.getBrief() +"|"+coeP0.getCoeLink()+"]"+ "】";
-                                String minorOrgParh = orgPath.substring(orgPath.indexOf("商家平台研发组/") + 8);
+                                String minorOrgParh;
+                                if (orgPath.contains("商家平台研发组")){
+                                    minorOrgParh= orgPath.substring(orgPath.indexOf("商家平台研发组/") + 8);
+                                } else{
+                                    minorOrgParh = orgPath.substring(orgPath.indexOf("到店餐饮研发组/") + 8);
+                                }
 
                                 pushStr = pushStr + "\n● 组织："+minorOrgParh+"   RD:"+coeP0.getOwnerName()+"("+coeP0.getOwnerMis()+")";
                                 newCoe++;
