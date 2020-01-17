@@ -39,6 +39,24 @@ public class DutyTableController {
     @GetMapping("/insert")
     public void insertOneGroupData(){
 
+        DutyTablePO z=new DutyTablePO();
+        z.setIsOnDuty(false);
+        z.setDutyMis("liuxiangyi");
+        z.setDutyName("刘香怡");
+        dutyTablePOMapper.insert(z);
+
+        DutyTablePO aa=new DutyTablePO();
+        aa.setIsOnDuty(false);
+        aa.setDutyName("佟美娜");
+        aa.setDutyMis("tongmeina");
+        dutyTablePOMapper.insert(aa);
+
+        DutyTablePO ab=new DutyTablePO();
+        ab.setIsOnDuty(false);
+        ab.setDutyMis("chenhui18");
+        ab.setDutyName("陈慧");
+        dutyTablePOMapper.insert(ab);
+
         DutyTablePO k=new DutyTablePO();
         k.setIsOnDuty(false);
         k.setDutyMis("sunnaili");
@@ -140,24 +158,6 @@ public class DutyTableController {
         y.setDutyName("熊一平");
         y.setDutyMis("xiongyiping");
         dutyTablePOMapper.insert(y);
-
-        DutyTablePO z=new DutyTablePO();
-        z.setIsOnDuty(false);
-        z.setDutyMis("liuxiangyi");
-        z.setDutyName("刘香怡");
-        dutyTablePOMapper.insert(z);
-
-        DutyTablePO aa=new DutyTablePO();
-        aa.setIsOnDuty(false);
-        aa.setDutyName("佟美娜");
-        aa.setDutyMis("tongmeina");
-        dutyTablePOMapper.insert(aa);
-
-        DutyTablePO ab=new DutyTablePO();
-        ab.setIsOnDuty(false);
-        ab.setDutyMis("chenhui18");
-        ab.setDutyName("陈慧");
-        dutyTablePOMapper.insert(ab);
 
     }
 
