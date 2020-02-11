@@ -9,8 +9,8 @@
     <!-- !!!! Driver Class Path !!!! -->
     <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
     <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
-    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
-<classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+<!--<classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -124,7 +124,9 @@
                <!--enableUpdateByExample="true"/>-->
        <!-- <table tableName="api_coverage_detail" domainObjectName="ApiCoverageDetailP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="department_org_map" domainObjectName="DepartmentOrgMap" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="department_org_map" domainObjectName="DepartmentOrgMap" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->

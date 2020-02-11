@@ -29,4 +29,10 @@ public class DutyDataExtracterTest {
         System.out.println(today);
         oneDayDutyDataExtract.pushToAdmin(today);
     }
+
+    @Test
+    public void extractData4Day() {
+        LocalDate today=LocalDate.now().minusDays(4);
+        oneDayDutyDataExtract.extractData4Day(today);
+    }
 }

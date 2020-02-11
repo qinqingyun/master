@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.mapper.CoeListP0Mapper;
+import com.meituan.food.mapper.ToDoPoMapper;
 import com.meituan.food.po.CoeListP0;
+import com.meituan.food.po.ToDoPo;
 import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
 import org.springframework.stereotype.Component;
@@ -34,6 +36,9 @@ public class COEDataExtracter implements ICOEDataExtract {
 
     @Resource
     private CoeListP0Mapper coeListP0Mapper;
+
+    @Resource
+    private ToDoPoMapper toDoPoMapper;
 
     @Override
     public void getCOEData(String firstDateStr, String secondDateStr) throws ParseException {
@@ -113,26 +118,9 @@ public class COEDataExtracter implements ICOEDataExtract {
                             }
                             coeP0.setAvailable(true);
                             coeP0.setAppearance(incidentDetail.getString("appearance"));
-                            if (ownerStr!=null){
-                                if (ownerStr.contains("/")) {
-                                    String ownerMis = ownerStr.substring(0, ownerStr.indexOf("/"));
-                                    String ownerName = ownerStr.substring(ownerStr.indexOf("/") + 1);
-                                    coeP0.setOwnerMis(ownerMis);
-                                    coeP0.setOwnerName(ownerName);
-                                } else {
-                                    coeP0.setOwnerMis(ownerStr);
-                                }
-                            }
+                            getOwnerMis(ownerStr,coeP0);
                             String orgPath = incidentDetail.getString("org_path");
-                            if (orgPath.contains("平台技术部/"))
-                            {
-                                String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
-                                coeP0.setOrgName(subOrgPath);
-
-                            }else {
-                                String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
-                                coeP0.setOrgName(subOrgPath);
-                            }
+                            getShortOrgName(orgPath,coeP0);
                             if (orgPath.contains("到店餐饮研发中心")||orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组")||orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组")||orgPath.contains("平台终端研发组/到店餐饮研发组")){
                                 coeP0.setCategory(incidentDetail.getString("category"));
 
@@ -147,30 +135,11 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 coeP0.setSubCategory("第三方");
                             }
 
-                            JSONObject coeImprovementsResp=HttpUtils.doGet(coeImprovementsUrl+coeId+"/improvements",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-                            JSONArray coeImproArr=coeImprovementsResp.getJSONArray("improvements");
-                            int doneCount=0;
-                            int todoCount=0;
-                            String taskLink="";
-                            if (coeImproArr.size()!=0){
-                                coeP0.setAllTodo(coeImproArr.size());
-                                for (Object o1 : coeImproArr) {
-                                    String status=((JSONObject)o1).getString("status");
-                                    if (status.equals("DONE")){
-                                        doneCount++;
-                                    }else {
-                                        todoCount++;
-                                        if (todoCount!=1){
-                                            taskLink=taskLink+" ; "+((JSONObject)o1).getString("url");
-                                        }else {
-                                            taskLink=taskLink+((JSONObject)o1).getString("url");
-                                        }
-                                    }
-                                }
-                            }
-                            coeP0.setNotFinishTodo(todoCount);
-                            coeP0.setFinishTodo(doneCount);
-                            coeP0.setNotFinishTodoTask(taskLink);
+                            /*
+                             * todoList方法
+                             * */
+                            getTodoList(coeP0,coeId);
+                            System.out.println(coeP0.toString());
 
                             if (coeIdList2.contains(coeId)){
                                 CoeListP0 coeListP0 = coeListP0Mapper.selectByCoeId(coeId);
@@ -245,16 +214,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                     }
                     coeP0.setAvailable(true);
-                    if (ownerStr!=null){
-                        if (ownerStr.contains("/")) {
-                            String ownerMis = ownerStr.substring(0, ownerStr.indexOf("/"));
-                            String ownerName = ownerStr.substring(ownerStr.indexOf("/") + 1);
-                            coeP0.setOwnerMis(ownerMis);
-                            coeP0.setOwnerName(ownerName);
-                        } else {
-                            coeP0.setOwnerMis(ownerStr);
-                        }
-                    }
+                    getOwnerMis(ownerStr,coeP0);
                     int coeId=((JSONObject)o).getInteger("_id");
 
                     JSONObject coeTypeResp=HttpUtils.doGet(coeTypeUrl+coeId+"/types",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
@@ -264,43 +224,17 @@ public class COEDataExtracter implements ICOEDataExtract {
                         coeP0.setSubCategory(reason.getString("parent"));
                     }
 
-                    JSONObject coeImprovementsResp=HttpUtils.doGet(coeImprovementsUrl+coeId+"/improvements",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-                    JSONArray coeImproArr=coeImprovementsResp.getJSONArray("improvements");
-                    int doneCount=0;
-                    int todoCount=0;
-                    String taskLink="";
-                    if (coeImproArr.size()!=0){
-                        coeP0.setAllTodo(coeImproArr.size());
-                        for (Object o1 : coeImproArr) {
-                            String status=((JSONObject)o1).getString("status");
-                            if (status.equals("DONE")){
-                                doneCount++;
-                            }else {
-                                todoCount++;
-                                if (todoCount!=1){
-                                    taskLink=taskLink+" ; "+((JSONObject)o1).getString("url");
-                                }else {
-                                    taskLink=taskLink+((JSONObject)o1).getString("url");
-                                }
-                            }
-                        }
-                    }
-                    coeP0.setNotFinishTodo(todoCount);
-                    coeP0.setFinishTodo(doneCount);
-                    coeP0.setNotFinishTodoTask(taskLink);
+                   /*
+                   * todoList方法
+                   * */
+                    getTodoList(coeP0,coeId);
+                    System.out.println(coeP0.toString());
 
                     JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
                     JSONObject incidentDetail=coeDetailResp.getJSONObject("incident");
                     String orgPath = incidentDetail.getString("org_path");
-                    if (orgPath.contains("平台技术部/"))
-                    {
-                        String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
-                        coeP0.setOrgName(subOrgPath);
 
-                    }else {
-                        String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
-                        coeP0.setOrgName(subOrgPath);
-                    }
+                    getShortOrgName(orgPath,coeP0);
 
                     if (orgPath.contains("到综研发组")){
                         coeP0.setAvailable(false);
@@ -332,9 +266,90 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (newCoe>0){
+       /* if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
             DaXiangUtils.pushToRoom(pushStr,64057026090l);
+        }*/
+    }
+
+    public void getTodoList(CoeListP0 coeP0,int coeId){
+        JSONObject coeImprovementsResp=HttpUtils.doGet(coeImprovementsUrl+coeId+"/improvements",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONArray coeImproArr=coeImprovementsResp.getJSONArray("improvements");
+        int doneCount=0;
+        int todoCount=0;
+        String taskLink="";
+        if (coeImproArr.size()!=0){
+            coeP0.setAllTodo(coeImproArr.size());
+            for (Object o1 : coeImproArr) {
+                ToDoPo todoPo=new ToDoPo();
+                todoPo.setCoeId(coeId);
+                int onesId = ((JSONObject) o1).getInteger("_id");
+                todoPo.setOnesId(onesId);
+                todoPo.setOnesLink(((JSONObject)o1).getString("url"));
+                todoPo.setOnesTitle(((JSONObject)o1).getString("brief"));
+                todoPo.setOwnerMis(((JSONObject)o1).getString("handler"));
+                todoPo.setOwnerName(((JSONObject)o1).getString("handler_name"));
+                todoPo.setDealline(((JSONObject)o1).getDate("estimate_time"));
+                todoPo.setStartDate(((JSONObject)o1).getDate("start_time"));
+                todoPo.setActualDate(((JSONObject)o1).getDate("actual_time"));
+                String status=((JSONObject)o1).getString("status");
+                if (status.equals("DONE")){
+                    doneCount++;
+                    todoPo.setIsDelay(false);
+                    todoPo.setIsFinish(true);
+                }else {
+                    todoCount++;
+                    if (todoCount!=1){
+                        taskLink=taskLink+" ; "+((JSONObject)o1).getString("url");
+                    }else {
+                        taskLink=taskLink+((JSONObject)o1).getString("url");
+                    }
+                    if (status.equals("TODO")){
+                        todoPo.setIsDelay(false);
+                        todoPo.setIsFinish(false);
+                    }else {
+                        todoPo.setIsDelay(true);
+                        todoPo.setIsFinish(false);
+                    }
+                }
+
+                List<Integer> onesIdList = toDoPoMapper.selectOnesIdList();
+                if (!onesIdList.contains(onesId)) {
+                    toDoPoMapper.insert(todoPo);
+                }else {
+                    ToDoPo existToDoPo = toDoPoMapper.selectByOnesId(onesId);
+                    todoPo.setId(existToDoPo.getId());
+                    toDoPoMapper.updateByPrimaryKey(todoPo);
+                }
+            }
+        }
+        coeP0.setNotFinishTodo(todoCount);
+        coeP0.setFinishTodo(doneCount);
+        coeP0.setNotFinishTodoTask(taskLink);
+    }
+
+    public void getShortOrgName(String orgPath,CoeListP0 coeP0){
+        if (orgPath.contains("平台技术部/"))
+        {
+            String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
+            coeP0.setOrgName(subOrgPath);
+
+        }else {
+            String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
+            coeP0.setOrgName(subOrgPath);
+        }
+    }
+
+    public void getOwnerMis(String ownerStr,CoeListP0 coeP0){
+        if (ownerStr!=null){
+            if (ownerStr.contains("/")) {
+                String ownerMis = ownerStr.substring(0, ownerStr.indexOf("/"));
+                String ownerName = ownerStr.substring(ownerStr.indexOf("/") + 1);
+                coeP0.setOwnerMis(ownerMis);
+                coeP0.setOwnerName(ownerName);
+            } else {
+                coeP0.setOwnerMis(ownerStr);
+            }
         }
     }
 }
