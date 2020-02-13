@@ -3,6 +3,7 @@ package com.meituan.food.web;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.meituan.food.extract.impl.KmExtracter;
 import com.meituan.food.mapper.*;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.AppkeyListPO;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,16 @@ public class ApiCoverageController {
     @GetMapping("/delete/batch")
     public String deleteDepartmentData(@Param("first") int first) {
         batchDatePOMapper.deleteByPrimaryKey(first);
+        return "OK!";
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        LocalDate firstDay=LocalDate.now().minusDays(7);
+        LocalDate lastDay=LocalDate.now();
+
+        KmExtracter km = new KmExtracter();
+        km.extractData4Week(firstDay,lastDay);
         return "OK!";
     }
 
