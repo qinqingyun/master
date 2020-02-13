@@ -304,11 +304,11 @@ public class COEDataExtracter implements ICOEDataExtract {
                     }else {
                         taskLink=taskLink+((JSONObject)o1).getString("url");
                     }
-                    if (status.equals("TODO")){
-                        todoPo.setIsDelay(false);
+                    if (status.equals("OVERDUE")){
+                        todoPo.setIsDelay(true);
                         todoPo.setIsFinish(false);
                     }else {
-                        todoPo.setIsDelay(true);
+                        todoPo.setIsDelay(false);
                         todoPo.setIsFinish(false);
                     }
                 }
