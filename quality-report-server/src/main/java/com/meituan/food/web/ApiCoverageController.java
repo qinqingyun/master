@@ -42,17 +42,6 @@ public class ApiCoverageController {
     private AppkeyListPOMapper appkeyListPOMapper;
 
 
-    @Resource
-    private LineCoverageP0Mapper lineCoverageP0Mapper;
-
-    private String trHead = "<tr>";
-    private String trTail = "</tr>";
-    private String tdHead = "<td data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(255, 255, 255);\\\"><p>";
-    private String tdTail = "</p></td>";
-    private String emptyData = "<td data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(255, 255, 255);\\\"><p style=\\\"text-align: start;\\\"></p></td>";
-    private String tableHead = "<table data-bordercolor=\\\"\\\\&quot;#cccccc\\\\&quot;\\\"><tbody><tr><th data-colwidth=\\\"61\\\" width=\\\"61\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>负责QA</p></th><th data-colwidth=\\\"354\\\" width=\\\"354\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>appKey</p></th><th data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>上一周覆盖率数据（取当天往前第7天的数据）</p></th><th data-colwidth=\\\"411\\\" width=\\\"411\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>本周覆盖率数据（取当天数据）</p></th><th data-colwidth=\\\"392\\\" width=\\\"392\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>本周主要工作</p></th><th data-colwidth=\\\"392\\\" width=\\\"392\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>备注</p></th></tr>";
-    private String tableTail = "</tbody></table><p><br></p><p></p>";
-
     private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
     @GetMapping("delete")
