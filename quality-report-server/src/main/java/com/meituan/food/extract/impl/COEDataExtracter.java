@@ -122,7 +122,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                             getOwnerMis(ownerStr,coeP0);
                             String orgPath = incidentDetail.getString("org_path");
                             getShortOrgName(orgPath,coeP0);
-                            if (orgPath.contains("到店餐饮研发中心")||orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组")||orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组")||orgPath.contains("平台终端研发组/到店餐饮研发组")){
+                            if (orgPath.contains("到店餐饮研发中心")||orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组")||orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组")||orgPath.contains("平台终端研发组/到店餐饮研发组")||orgPath.contains("到餐研发组")||orgPath.contains("到店餐饮测试组")){
                                 coeP0.setCategory(incidentDetail.getString("category"));
 
                                 JSONObject coeTypeResp=HttpUtils.doGet(coeTypeUrl+coeId+"/types",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
