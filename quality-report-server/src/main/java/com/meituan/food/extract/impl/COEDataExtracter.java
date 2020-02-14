@@ -26,7 +26,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
     private static final String coeUrl = "https://coe.mws.sankuai.com/detail/";
 
-    private static final String availabilityUrl = "https://coe.sankuai.com/api/v1.0/trend/availability?start=2019-01-01&end=2020-12-31";
+    private static final String availabilityUrl = "https://coe.sankuai.com/api/v1.0/trend/availability?start=2020-01-01&end=2020-12-31";
 
     private static final String coeDetailUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
@@ -55,6 +55,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         orgList.add(119);//平台业务研发中心 /交易平台研发组 / 餐饮交易技术组
         orgList.add(126);//平台业务研发中心 /营销平台研发组 / 到餐营销支持组
         orgList.add(75272);//平台业务研发中心/门店信息研发组
+        orgList.add(13181);//到餐测试组
 
         String pushStr="商家平台新增COE：";
         int newCoe=0;
@@ -266,10 +267,10 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (newCoe>0){
+       /* if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
             DaXiangUtils.pushToRoom(pushStr,64057026090l);
-        }
+        }*/
     }
 
     public void getTodoList(CoeListP0 coeP0,int coeId){
