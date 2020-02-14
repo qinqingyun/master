@@ -53,7 +53,7 @@ public class KmExtracter implements IOneWeekDataExtract {
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String kmTitle="覆盖率统计周报（"+firstDayStr+"-"+lastDayStr+"）";
+        String kmTitle="交易组覆盖率统计周报（"+firstDayStr+"-"+lastDayStr+"）";
 
 
         JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
@@ -88,39 +88,41 @@ public class KmExtracter implements IOneWeekDataExtract {
             for (String appkey : appkeyList) {
                 String oneRow = "";
                 String srv = appkeyListPOMapper.selectOnlineP1ByAppKey(appkey);
-                if( srv != null && "".equals(srv)){
+                if( srv != null && !"".equals(srv)){
                     String yestedayCoverage = lineCoverageP0Mapper.selectYesterdayCoverageBySrv(srv);
-                    if("".equals(yestedayCoverage))
+                    if(yestedayCoverage == null || "".equals(yestedayCoverage))
                         yestedayCoverage = "-.-";
 
                     String last7dayCoverage = lineCoverageP0Mapper.selectLast7dayCoverageBySrv(srv);
-                    if("".equals(last7dayCoverage))
+                    if(last7dayCoverage == null || "".equals(last7dayCoverage))
                         last7dayCoverage = "-.-";
 
                     oneRow = tdHead + mis + tdTail +tdHead+ appkey+ tdTail
                             +tdHead+last7dayCoverage + tdTail
                             +tdHead+yestedayCoverage + tdTail + emptyData + emptyData;
                 }
-                multiRows = multiRows + trHead + oneRow + trTail;
+                if( !"".equals(oneRow))
+                    multiRows = multiRows + trHead + oneRow + trTail;
             }
             //找P2服务
             for (String appkey : appkeyList) {
                 String oneRow = "";
                 String srv = appkeyListPOMapper.selectOnlineP2ByAppKey(appkey);
-                if( srv != null && "".equals(srv)){
+                if( srv != null && !"".equals(srv)){
                     String yestedayCoverage = lineCoverageP0Mapper.selectYesterdayCoverageBySrv(srv);
-                    if("".equals(yestedayCoverage))
+                    if(yestedayCoverage == null || "".equals(yestedayCoverage))
                         yestedayCoverage = "-.-";
 
                     String last7dayCoverage = lineCoverageP0Mapper.selectLast7dayCoverageBySrv(srv);
-                    if("".equals(last7dayCoverage))
+                    if(last7dayCoverage == null || "".equals(last7dayCoverage))
                         last7dayCoverage = "-.-";
 
                     oneRow = tdHead + mis + tdTail +tdHead+ appkey+ tdTail
                             +tdHead+last7dayCoverage + tdTail
                             +tdHead+yestedayCoverage + tdTail + emptyData + emptyData;
                 }
-                multiRows = multiRows + trHead + oneRow + trTail;
+                if( !"".equals(oneRow))
+                    multiRows = multiRows + trHead + oneRow + trTail;
             }
 
         }
@@ -185,13 +187,13 @@ public class KmExtracter implements IOneWeekDataExtract {
 //    }
 
 
-    public static void main (String[] args) {
-        LocalDate firstDay=LocalDate.now().minusDays(7);
-        LocalDate lastDay=LocalDate.now();
-
-        KmExtracter km = new KmExtracter();
-        km.extractData4Week(firstDay,lastDay);
-
-     //   DaXiangUtils.pushToPerson("test","guomengyao");
-    }
+//    public static void main (String[] args) {
+//        LocalDate firstDay=LocalDate.now().minusDays(7);
+//        LocalDate lastDay=LocalDate.now();
+//
+//        KmExtracter km = new KmExtracter();
+//        km.extractData4Week(firstDay,lastDay);
+//
+//     //   DaXiangUtils.pushToPerson("test","guomengyao");
+//    }
 }
