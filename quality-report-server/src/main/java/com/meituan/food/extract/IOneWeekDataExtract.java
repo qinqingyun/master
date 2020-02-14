@@ -4,6 +4,6 @@ import java.time.LocalDate;
 
 public interface IOneWeekDataExtract {
 
-    void extractData4Week(LocalDate firstDay, LocalDate lastDay);
+    void extractData4Week(LocalDate firstDay, LocalDate lastDay, String body);
 
 }

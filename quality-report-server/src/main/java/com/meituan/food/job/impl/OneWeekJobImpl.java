@@ -27,9 +27,9 @@ public class OneWeekJobImpl implements IOneWeekJob {
 
 
         //专项周报任务
-       List<CompletableFuture<Void>> extractFutures = oneWeekDataExtracts.stream()
-                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Week(firstDay,lastDay)))
-                .collect(Collectors.toList());
-        extractFutures.forEach(CompletableFuture::join);
+//       List<CompletableFuture<Void>> extractFutures = oneWeekDataExtracts.stream()
+//                .map(dataExtract -> CompletableFuture.runAsync(() -> dataExtract.extractData4Week(firstDay,lastDay)))
+//                .collect(Collectors.toList());
+//        extractFutures.forEach(CompletableFuture::join);
     }
 }
