@@ -3,7 +3,6 @@ package com.meituan.food.web;
 import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.mapper.CoeListP0Mapper;
-import com.meituan.food.po.CoeListP0;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Slf4j
 @RestController
