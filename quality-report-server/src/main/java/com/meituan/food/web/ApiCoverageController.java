@@ -41,7 +41,6 @@ public class ApiCoverageController {
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
 
-
     private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
     @GetMapping("delete")
