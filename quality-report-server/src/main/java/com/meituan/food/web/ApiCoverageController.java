@@ -3,7 +3,6 @@ package com.meituan.food.web;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
-import com.meituan.food.extract.impl.KmExtracter;
 import com.meituan.food.mapper.*;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.AppkeyListPO;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +41,18 @@ public class ApiCoverageController {
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
 
+
+    @Resource
+    private LineCoverageP0Mapper lineCoverageP0Mapper;
+
+    private String trHead = "<tr>";
+    private String trTail = "</tr>";
+    private String tdHead = "<td data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(255, 255, 255);\\\"><p>";
+    private String tdTail = "</p></td>";
+    private String emptyData = "<td data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(255, 255, 255);\\\"><p style=\\\"text-align: start;\\\"></p></td>";
+    private String tableHead = "<table data-bordercolor=\\\"\\\\&quot;#cccccc\\\\&quot;\\\"><tbody><tr><th data-colwidth=\\\"61\\\" width=\\\"61\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>负责QA</p></th><th data-colwidth=\\\"354\\\" width=\\\"354\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>appKey</p></th><th data-colwidth=\\\"694\\\" width=\\\"694\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>上一周覆盖率数据（取当天往前第7天的数据）</p></th><th data-colwidth=\\\"411\\\" width=\\\"411\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>本周覆盖率数据（取当天数据）</p></th><th data-colwidth=\\\"392\\\" width=\\\"392\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>本周主要工作</p></th><th data-colwidth=\\\"392\\\" width=\\\"392\\\" style=\\\"background-color: rgb(246, 246, 246);\\\"><p>备注</p></th></tr>";
+    private String tableTail = "</tbody></table><p><br></p><p></p>";
+
     private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
     @GetMapping("delete")
@@ -63,15 +73,6 @@ public class ApiCoverageController {
         return "OK!";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        LocalDate firstDay=LocalDate.now().minusDays(7);
-        LocalDate lastDay=LocalDate.now();
-
-        KmExtracter km = new KmExtracter();
-        km.extractData4Week(firstDay,lastDay);
-        return "OK!";
-    }
 
     @GetMapping("/getData")
     public CommonResponse<List<ApiCoverageStatusVO>> getCoverageData(@Param("appkey") String appkey, @Param("core") String core) {
