@@ -48,7 +48,7 @@ public class KmExtracter implements IOneWeekDataExtract {
     private static final String url = "https://km.sankuai.com/api/pages/8045";
 
     @Override
-    public void extractData4Week(LocalDate firstDay, LocalDate lastDay,String body) {
+    public void extractData4Week(LocalDate firstDay, LocalDate lastDay) {
 
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String lastDayStr = lastDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -64,7 +64,7 @@ public class KmExtracter implements IOneWeekDataExtract {
 
         JSONObject params = new JSONObject();
         params.put("title", kmTitle);
-        params.put("body",body);//combineBody
+        params.put("body",combineBody());//combineBody
         params.put("parentId", "122541012");//122541012  258410650
         params.put("bodyText", "测试内容" + contentId);
         params.put("contentId", contentId);
