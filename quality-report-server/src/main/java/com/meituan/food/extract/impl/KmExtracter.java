@@ -102,11 +102,11 @@ public class KmExtracter implements IOneWeekDataExtract {
                 if( srv != null && !"".equals(srv)){
                     String yestedayCoverage = lineCoverageP0Mapper.selectYesterdayCoverageBySrv(srv);
                     if(yestedayCoverage == null || "".equals(yestedayCoverage))
-                        yestedayCoverage = "-.-";
+                        yestedayCoverage = "当天未执行覆盖率统计";
 
                     String last7dayCoverage = lineCoverageP0Mapper.selectLast7dayCoverageBySrv(srv);
                     if(last7dayCoverage == null || "".equals(last7dayCoverage))
-                        last7dayCoverage = "-.-";
+                        last7dayCoverage = "当天未执行覆盖率统计";
 
                     oneRow = tdHead + mis + tdTail +tdHead+ appkey+ tdTail
                             +tdHead+ "P1"+ tdTail
@@ -123,11 +123,11 @@ public class KmExtracter implements IOneWeekDataExtract {
                 if( srv != null && !"".equals(srv)){
                     String yestedayCoverage = lineCoverageP0Mapper.selectYesterdayCoverageBySrv(srv);
                     if(yestedayCoverage == null || "".equals(yestedayCoverage))
-                        yestedayCoverage = "-.-";
+                        yestedayCoverage = "当天无结果";
 
                     String last7dayCoverage = lineCoverageP0Mapper.selectLast7dayCoverageBySrv(srv);
                     if(last7dayCoverage == null || "".equals(last7dayCoverage))
-                        last7dayCoverage = "-.-";
+                        last7dayCoverage = "当天无结果";
 
                     oneRow = tdHead + mis + tdTail +tdHead+ appkey+ tdTail
                             +tdHead+ "P2"+ tdTail
