@@ -104,6 +104,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         List<String> appkeyStrList3 = new ArrayList<>();
         appkeyStrList3.add("com.sankuai.meishi.scp.mtcharge");
 
+        List<String> appkeyList4=new ArrayList<>();
+        appkeyList4.add("com.sankuai.meishi.customer");
+        appkeyList4.add("com.sankuai.meishi.scp.customerbiz");
+        appkeyList4.add("com.sankuai.meishi.scp.coop");
+
         for (AppkeyData appkeyData : pdlList) {
             String pdlName = appkeyData.getPdlName();
             JSONObject srvResp = HttpUtils.doGet("http://ops.vip.sankuai.com/api/v0.2/pdls/" + pdlName + "/srvs", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
@@ -138,6 +143,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                         } else if (appkeyStrList3.contains(appkeyName)) {
                             listPO.setDepartmentId(3);
                             listPO.setDepartmentId2(3);
+                        } else if (appkeyList4.contains(appkeyName)){
+                            listPO.setDepartmentId(10);
+                            listPO.setDepartmentId2(10);
                         } else {
                             listPO.setDepartmentId(4);
                             listPO.setDepartmentId2(4);
