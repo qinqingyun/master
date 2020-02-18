@@ -1,23 +1,24 @@
 package com.meituan.food.extract.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayDutyDataExtract;
 import com.meituan.food.mapper.DutyTablePOMapper;
 import com.meituan.food.po.DutyTablePO;
 import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
-import net.sf.cglib.core.Local;
-import org.springframework.format.datetime.joda.ReadablePartialPrinter;
+import com.sankuai.meituan.attendance.api.HolidayService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.NameList;
 
 import javax.annotation.Resource;
-import javax.naming.Name;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Component
 public class DutyDataExtracter implements IOneDayDutyDataExtract {
 
@@ -32,31 +33,42 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     @Resource
     private DutyTablePOMapper dutyTablePOMapper;
 
+    @Resource
+    private HolidayService holidayService;
+
     @Override
     public void extractData4Day(LocalDate day) {
-        String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+       /* String firstDayStr = day.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String secondDayStr=day.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String response=HttpUtils.doGet(url+firstDayStr,String.class,ImmutableMap.of());
-        String nextDateResponse=HttpUtils.doGet(url+secondDayStr,String.class,ImmutableMap.of());
+        String nextDateResponse=HttpUtils.doGet(url+secondDayStr,String.class,ImmutableMap.of());*/
+       
+       Date firstDate=localDate2Date(day);
+       Date secondDate=localDate2Date(day.minusDays(1));
+        Integer firstDateType = holidayService.getDayHoliday(firstDate).getType();
+        Integer secongDateType = holidayService.getDayHoliday(secondDate).getType();
 
         int count=0;
 
         //dayStatus代表某天的状态，0：工作日；1：周末；2：法定节假日
-        int dayStatus=Integer.valueOf(response);
-        int secondDayStatus=Integer.valueOf(nextDateResponse);
-        if (dayStatus!=0 &&  secondDayStatus==0){
+        //1-工作日，2-休息日（包括法定休息日和周末休息日），3-法定节假日
+      /*  int dayStatus=Integer.valueOf(response);
+        int secondDayStatus=Integer.valueOf(nextDateResponse);*/
+        if (firstDateType!=1 &&  secongDateType==1){
             count++;
             for(int i=1;i<=100;i++){
-                LocalDate nextDay=day.plusDays(i);
-                String nextDayStr=nextDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+               // LocalDate nextDay=day.plusDays(i);
+                Integer  nextDateType = holidayService.getDayHoliday(localDate2Date(day.plusDays(i))).getType();
+               /* String nextDayStr=nextDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
                 String nextResp=HttpUtils.doGet(url+nextDayStr,String.class,ImmutableMap.of());
-                int nextDayStatus=Integer.valueOf(nextResp);
-                 if (nextDayStatus!=0){
+                int nextDayStatus=Integer.valueOf(nextResp);*/
+                 if (nextDateType!=1){
                      count++;
                  }else {
                      break;
                  }
             }
+            log.info("值班人员个数为："+count+"/n");
             List<DutyTablePO> dutyTablePOS = dutyTablePOMapper.selectDutyPerson(count);
             String nameList="";
             int i=0;
@@ -67,8 +79,8 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             }
 
             DaXiangUtils.pushToPerson(nameList+"轮到你们值班了\n"+content,"guomengyao");
-            DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
-            DaXiangUtils.pushToRoom("本周值班人员："+nameList,64013968876L);
+          /*  DaXiangUtils.pushToRoom(nameList+"轮到你们值班了\n"+content,879074L);
+            DaXiangUtils.pushToRoom("本周值班人员："+nameList,64013968876L);*/
         }
     }
 
@@ -77,5 +89,13 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
         String firstDayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         List<String> nameList = dutyTablePOMapper.selectByDate(firstDayStr);
         DaXiangUtils.pushToPerson("本周值班人员："+nameList.toString(),"buyuqi");
+    }
+
+    public static Date localDate2Date(LocalDate localDate) {
+        if(null == localDate) {
+            return null;
+        }
+        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+        return Date.from(zonedDateTime.toInstant());
     }
 }
