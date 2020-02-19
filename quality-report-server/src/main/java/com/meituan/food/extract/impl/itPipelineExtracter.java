@@ -29,7 +29,6 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
     private String v;
 
     @Override
-    @Test
     public void updateItPipelineData(Date date) {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = LocalDate.now().plusDays(-1);

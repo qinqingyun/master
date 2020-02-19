@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -72,7 +73,8 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
             JSONObject partResponse = restTemplate.postForEntity(URL, partHttpEntity, JSONObject.class).getBody();
             JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
             for (int j = 1; j < partResult.size(); j++) {
-                String createAllName = ((JSONArray) (partResult.get(j))).getString(3);
+                JSONArray partResultArr = JSON.parseArray(JSONObject.toJSONString(partResult.get(j)));
+                String createAllName = partResultArr.getString(3);
                 if (createAllName != null && (!createAllName.equals("无"))) {
 
                     String createMis = createAllName.substring(createAllName.indexOf("(") + 1, createAllName.lastIndexOf(")"));
@@ -85,7 +87,7 @@ public class EfficiencyBugExtracter implements IOneDayEffDataEx {
                     }
                     createBugCount.increaseCreateBugNum();
                 }
-                String acceptAllName = ((JSONArray) (partResult.get(j))).getString(4);
+                String acceptAllName = partResultArr.getString(4);
                 if (acceptAllName != null && (!acceptAllName.equals("无"))) {
 
                     String acceptMis = acceptAllName.substring(acceptAllName.indexOf("(") + 1, acceptAllName.lastIndexOf(")"));
