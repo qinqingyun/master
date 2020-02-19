@@ -2,8 +2,6 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.CoeListP0;
 import com.meituan.food.po.CoeListP0Example;
-
-import java.sql.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -55,7 +53,9 @@ public interface CoeListP0Mapper {
         "appearance, sub_category, ",
         "all_todo, not_finish_todo, ",
         "finish_todo, not_finish_todo_task, ",
-        "available, org_name)",
+        "available, org_name, ",
+        "find_date, finder, influence_time, ",
+        "clear_time)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
         "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
@@ -70,7 +70,9 @@ public interface CoeListP0Mapper {
         "#{appearance,jdbcType=VARCHAR}, #{subCategory,jdbcType=VARCHAR}, ",
         "#{allTodo,jdbcType=INTEGER}, #{notFinishTodo,jdbcType=INTEGER}, ",
         "#{finishTodo,jdbcType=INTEGER}, #{notFinishTodoTask,jdbcType=VARCHAR}, ",
-        "#{available,jdbcType=BIT}, #{orgName,jdbcType=VARCHAR})"
+        "#{available,jdbcType=BIT}, #{orgName,jdbcType=VARCHAR}, ",
+        "#{findDate,jdbcType=DATE}, #{finder,jdbcType=VARCHAR}, #{influenceTime,jdbcType=INTEGER}, ",
+        "#{clearTime,jdbcType=TIMESTAMP})"
     })
     int insert(CoeListP0 record);
 
@@ -109,7 +111,11 @@ public interface CoeListP0Mapper {
         @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
         @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
+        @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
+        @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
+        @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<CoeListP0> selectByExample(CoeListP0Example example);
 
@@ -119,7 +125,7 @@ public interface CoeListP0Mapper {
         "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
         "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
         "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-        "available, org_name",
+        "available, org_name, find_date, finder, influence_time, clear_time",
         "from coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -154,7 +160,11 @@ public interface CoeListP0Mapper {
         @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
         @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
         @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
+        @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
+        @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
+        @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP)
     })
     CoeListP0 selectByPrimaryKey(Integer id);
 
@@ -164,7 +174,7 @@ public interface CoeListP0Mapper {
             "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
             "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available, org_name",
+            "available, org_name, find_date, finder, influence_time, clear_time",
             "from coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -199,10 +209,13 @@ public interface CoeListP0Mapper {
             @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
             @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
             @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
+            @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
+            @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
+            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP)
     })
     CoeListP0 selectByCoeId(Integer id);
-
 
     @Select({
             "select",
@@ -210,7 +223,7 @@ public interface CoeListP0Mapper {
             "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
             "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available, org_name",
+            "available, org_name, find_date, finder, influence_time, clear_time",
             "from coe_list",
             "where occur_date >= #{occur,jdbcType=DATE}"
     })
@@ -245,7 +258,11 @@ public interface CoeListP0Mapper {
             @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
             @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
             @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR)
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
+            @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
+            @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
+            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP)
     })
     List<CoeListP0> selectByDate(@Param("occur") java.util.Date occur);
 
@@ -289,7 +306,11 @@ public interface CoeListP0Mapper {
           "finish_todo = #{finishTodo,jdbcType=INTEGER},",
           "not_finish_todo_task = #{notFinishTodoTask,jdbcType=VARCHAR},",
           "available = #{available,jdbcType=BIT},",
-          "org_name = #{orgName,jdbcType=VARCHAR}",
+          "org_name = #{orgName,jdbcType=VARCHAR},",
+          "find_date = #{findDate,jdbcType=DATE},",
+          "finder = #{finder,jdbcType=VARCHAR},",
+          "influence_time = #{influenceTime,jdbcType=INTEGER},",
+          "clear_time = #{clearTime,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeListP0 record);

@@ -110,6 +110,18 @@ public interface AppkeyListPOMapper {
     AppkeyListPO selectByAppKey(String appkey);
 
     @Select({
+            "select srv from appkey_list_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR} and rank=1 and offline=0"
+    })
+    String selectOnlineP1ByAppKey(String appkey);
+
+    @Select({
+            "select srv from appkey_list_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR} and rank=3 and offline=0"
+    })
+    String selectOnlineP2ByAppKey(String appkey);
+
+    @Select({
             "select",
             "count(*) ",
             "from appkey_list_table",

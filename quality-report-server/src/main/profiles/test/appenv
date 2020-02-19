@@ -1,0 +1,4 @@
+#deployenv=dev
+#zkserver=lion.dev.sankuai.com:2181
+env=test
+zkserver=lion.test.sankuai.com:2181

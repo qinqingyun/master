@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import java.text.ParseException;
+
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -21,7 +23,7 @@ public class COEDataExtracterTest {
     private ICOEDataExtract coeDataExtract;
 
     @Test
-    public void getCOEData() {
-        coeDataExtract.getCOEData("2019-01-01","2019-10-16");
+    public void getCOEData() throws ParseException {
+        coeDataExtract.getCOEData("2020-01-01","2020-02-16");
     }
 }

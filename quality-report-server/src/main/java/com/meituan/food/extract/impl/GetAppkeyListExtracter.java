@@ -91,6 +91,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.c", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.m", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.nibtp","meituan.nibtp.food","","",1,1));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.new","","",14,14));
 
 
         List<String> appkeyStrList2 = new ArrayList<>();
@@ -102,6 +103,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
         List<String> appkeyStrList3 = new ArrayList<>();
         appkeyStrList3.add("com.sankuai.meishi.scp.mtcharge");
+
+        List<String> appkeyList4=new ArrayList<>();
+        appkeyList4.add("com.sankuai.meishi.customer");
+        appkeyList4.add("com.sankuai.meishi.scp.customerbiz");
+        appkeyList4.add("com.sankuai.meishi.scp.coop");
 
         for (AppkeyData appkeyData : pdlList) {
             String pdlName = appkeyData.getPdlName();
@@ -137,6 +143,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                         } else if (appkeyStrList3.contains(appkeyName)) {
                             listPO.setDepartmentId(3);
                             listPO.setDepartmentId2(3);
+                        } else if (appkeyList4.contains(appkeyName)){
+                            listPO.setDepartmentId(10);
+                            listPO.setDepartmentId2(10);
                         } else {
                             listPO.setDepartmentId(4);
                             listPO.setDepartmentId2(4);
@@ -154,6 +163,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         List<String> appkeyList = new ArrayList<>();
         appkeyList.add("meituan.nibcus.inf.nibcus-inf-customer");
         appkeyList.add("meituan.nibcus.inf.contract-mtcontract");
+        appkeyList.add("meituan.nibcus.inf.nibcus-inf-idmapping");
 
         for (String s : appkeyList) {
             AppkeyListPO po = new AppkeyListPO();

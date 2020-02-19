@@ -65,7 +65,7 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
 
         }
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","jiaxiaoqi","wuqifang","yangchunxia","liyuhua","wangjianming02");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
     }

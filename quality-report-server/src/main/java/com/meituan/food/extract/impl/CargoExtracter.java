@@ -71,7 +71,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
             stackuuid.put("商家平台", "f5784acb-d30a-4a83-8046-de1212944317");
 
-            stackuuid.put("到综商家", "51bbfff9-cff3-4a41-9fab-3a769de8fd69");
+            stackuuid.put("商家增值平台-BP", "717b7b57-13bd-4e6e-a5d3-0bc3f4f83f98");
 
 
             stackuuid.put("客户平台", "b6f29059-baa9-44da-a063-73174e69a471");
@@ -79,24 +79,25 @@ public class CargoExtracter implements IOneDayCargoExtract {
             stackuuid.put("酒旅客户", "1b522725-fee4-4401-97fd-84c65b96e1e6");
             stackuuid.put("到餐TDC", "c80efd36-7b67-40a8-a53d-ba9ea804e66e");
 
-            stackuuid.put("到综团购交易", "c80efd36-7b67-40a8-a53d-ba9ea804e66e");
+            stackuuid.put("到综团购交易", "7f5f395d-9ff9-4481-a292-a3927e466109");
 
 
 
         }
         {
-            person.put(stackuuid.get("到餐信息") + ".Deal", "wuqifang");
-            person.put(stackuuid.get("到餐信息") + ".Filter", "buyuqi");
+            person.put(stackuuid.get("到餐信息") + ".Deal", "hanye03");
+            person.put(stackuuid.get("到餐信息") + ".Filter", "qinqingyun");
             person.put(stackuuid.get("到餐信息") + ".运营", "qinqingyun");
             person.put(stackuuid.get("到餐信息") + ".POI", "qinqingyun");
             person.put(stackuuid.get("到餐信息") + "._others", "qinqingyun");
-            person.put(stackuuid.get("到餐交易") + "._others", "liyuhua");
-            person.put(stackuuid.get("到餐交易") + ".到综团购", "liyuhua");
-            person.put(stackuuid.get("到餐交易") + ".到餐交易", "liyuhua");
-            person.put(stackuuid.get("到餐交易") + ".券码", "liyuhua");
-            person.put(stackuuid.get("到餐交易") + ".退款", "liyuhua");
 
-            person.put(stackuuid.get("到餐促销") + "._others", "wangyang60");
+            person.put(stackuuid.get("到餐交易") + "._others", "sunnaili");
+            person.put(stackuuid.get("到餐交易") + ".到综团购", "sunnaili");
+            person.put(stackuuid.get("到餐交易") + ".到餐交易", "sunnaili");
+            person.put(stackuuid.get("到餐交易") + ".券码", "sunnaili");
+            person.put(stackuuid.get("到餐交易") + ".退款", "sunnaili");
+
+            person.put(stackuuid.get("到餐促销") + "._others", "konghongwei");
 
             person.put(stackuuid.get("到餐预订") + "._others", "buyuqi");
             person.put(stackuuid.get("到餐预订") + ".预订FE", "buyuqi");
@@ -117,29 +118,24 @@ public class CargoExtracter implements IOneDayCargoExtract {
 
             person.put(stackuuid.get("到餐数据") + "._others", "zhouke");
 
-            person.put(stackuuid.get("到餐策略") + "._others", "wangyang60");
-            person.put(stackuuid.get("到餐策略") + ".C端依赖", "wangyang60");
+            person.put(stackuuid.get("到餐策略") + "._others", "hanye03");
+            person.put(stackuuid.get("到餐策略") + ".C端依赖", "hanye03");
 
             person.put(stackuuid.get("到餐TDC") + "._others", "wanglan13");
 
-            person.put(stackuuid.get("到综团购交易") + "._others", "sunnaili");
-            person.put(stackuuid.get("到综团购交易") + ".到综团购", "sunnaili");
+            person.put(stackuuid.get("到综团购交易") + "._others", "liyuhua");
+            person.put(stackuuid.get("到综团购交易") + ".到综团购", "liyuhua");
 
 
-
-
-
-
-//
             person.put(stackuuid.get("到餐SCP") + "._others", "wangjiani");
             person.put(stackuuid.get("到餐SCP") + ".客户", "feilichao");
             person.put(stackuuid.get("到餐SCP") + ".上单", "wangjiani");
             person.put(stackuuid.get("到餐SCP") + ".代理商", "wangjiani");
 
             person.put(stackuuid.get("到餐点评") + "._others", "buyuqi");
-            person.put(stackuuid.get("到餐点评") + ".促销", "wangyang60");
-            person.put(stackuuid.get("到餐点评") + ".买单", "qinqingyun");
-            person.put(stackuuid.get("到餐点评") + ".列表", "buyuqi");
+            person.put(stackuuid.get("到餐点评") + ".促销", "konghongwei");
+            person.put(stackuuid.get("到餐点评") + ".买单", "buyuqi");
+            person.put(stackuuid.get("到餐点评") + ".列表", "qinqingyun");
 
             person.put(stackuuid.get("到餐财务") + "._others", "yingzhixun");
             person.put(stackuuid.get("到餐财务") + ".结款", "yingzhixun");
@@ -151,27 +147,31 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("到餐财务") + ".商家后台", "yingzhixun");
             person.put(stackuuid.get("到餐财务") + ".监控平台", "yingzhixun");
 
-//            person.put(stackuuid.get("商家平台") + "._others", "fengchen");
-            person.put(stackuuid.get("商家平台") + ".商家增值平台", "fengchen");
+            person.put(stackuuid.get("商家平台") + ".业务应用技术组", "fengchen");
+            person.put(stackuuid.get("商家平台") + ".公共能力研发组", "fengchen");
             person.put(stackuuid.get("商家平台") + ".商家运营平台", "huangguilin");
             person.put(stackuuid.get("商家平台") + ".商家基础平台", "zhangyancui");
             person.put(stackuuid.get("商家平台") + ".触达平台", "zhangyancui");
+            person.put(stackuuid.get("商家平台") + "._others", "zhangyancui");
 
 
-            person.put(stackuuid.get("到综商家") + "._others", "wenwen");
-            person.put(stackuuid.get("到综商家") + ".到综研发组", "honghui.huang");
-            person.put(stackuuid.get("到综商家") + ".商家运营组", "honghui.huang");
-            person.put(stackuuid.get("到综商家") + ".业务应用技术组", "bei.guo");
-            person.put(stackuuid.get("到综商家") + ".公共能力研发组", "summer.sun");
-            person.put(stackuuid.get("到综商家") + ".基础平台研发组", "honghui.huang");
+            person.put(stackuuid.get("商家增值平台-BP") + ".业务应用技术组", "tangwenchao");
+            person.put(stackuuid.get("商家增值平台-BP") + ".公共能力研发组", "bei.guo");
+            person.put(stackuuid.get("商家增值平台-BP") + "._others", "bei.guo");
+
+
+
+
 
             person.put(stackuuid.get("客户平台") + "._others", "xiongyiping");
-//            person.put(stackuuid.get("到综客户") + "._others", "zhouying");
+
+            person.put(stackuuid.get("到综客户") + "._others", "zhouying");
             person.put(stackuuid.get("到综客户") + ".客户", "zhouying");
 
             person.put(stackuuid.get("酒旅客户") + "._others", "xiongyiping");
             person.put(stackuuid.get("酒旅客户") + ".住宿", "xiongyiping");
             person.put(stackuuid.get("酒旅客户") + ".度假", "xiongyiping");
+
 
         }
 
@@ -182,7 +182,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("wangyang60", "C端");
             direct.put("qinqingyun", "C端");
             direct.put("buyuqi", "C端");
-            direct.put("wanglan13","C端");
+            direct.put("wanglan13","TDC门店信息");
             direct.put("sunnaili","C端");
 
             direct.put("liuxiangyi", "M端");
@@ -192,6 +192,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("yingzhixun", "M端");
             direct.put("fengchen", "B端_上海");
             direct.put("chenyunyun", "B端_上海");
+            direct.put("tangwenchao", "B端_上海");
             direct.put("xiongyiping", "M端");
             direct.put("zhouying", "M端");
             direct.put("bei.guo", "B端_上海");

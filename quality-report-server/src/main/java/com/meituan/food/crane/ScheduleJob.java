@@ -108,6 +108,7 @@ public class ScheduleJob {
 
     @Resource
     private IOneDayItPipelineJob iOneDayItPipelineJob;
+    private IOneHourJob oneHourJob;
 
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
@@ -241,7 +242,13 @@ public class ScheduleJob {
     @Crane("api.coverage.job")
     public void getApiCoverage(){
         List<CompletableFuture<Void>> crashExtractFutures = apiCoverageJobs.stream()
-                .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.sync()))
+                .map(crashDataExtract -> CompletableFuture.runAsync(() -> {
+                    try {
+                        crashDataExtract.sync();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }))
                 .collect(Collectors.toList());
         crashExtractFutures.forEach(CompletableFuture::join);
     }
@@ -300,6 +307,10 @@ public class ScheduleJob {
         halfYearMailJob.sync();
     }
 
+    @Crane("one.hour.job")
+    public void oneHourJob() throws TException, MDMThriftException, ParseException {
+        oneHourJob.extractData4Hour();
+    }
     //每天集成流水线获取
     @Crane("one.day.itpipeline.job")
     public void itPipelineJob() throws TException, MDMThriftException {

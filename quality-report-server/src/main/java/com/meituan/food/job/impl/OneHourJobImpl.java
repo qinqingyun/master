@@ -1,7 +1,7 @@
 package com.meituan.food.job.impl;
 
 import com.meituan.food.extract.ICOEDataExtract;
-import com.meituan.food.job.IGetApiCoverageJob;
+import com.meituan.food.job.IOneHourJob;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -10,13 +10,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class CoeDataJobImpl implements IGetApiCoverageJob {
+public class OneHourJobImpl implements IOneHourJob {
 
     @Resource
     private ICOEDataExtract coeDataExtract;
 
     @Override
-    public void sync() throws ParseException {
+    public void extractData4Hour() throws ParseException {
         LocalDate firstDay=LocalDate.now().minusDays(60);
         LocalDate secondDay=LocalDate.now().minusDays(1);
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

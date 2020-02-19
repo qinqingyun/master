@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class RestaurantDauMapperTest {
     }
 
     @Test
-    public void getCoverageTest(){
+    public void getCoverageTest() throws ParseException {
         apiCoverageJob.sync();
     }
 
