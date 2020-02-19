@@ -108,6 +108,8 @@ public class ScheduleJob {
 
     @Resource
     private IOneDayItPipelineJob iOneDayItPipelineJob;
+
+    @Resource
     private IOneHourJob oneHourJob;
 
     //定时推送专项进度wiki---已暂停使用
