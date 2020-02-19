@@ -106,6 +106,9 @@ public class ScheduleJob {
     @Resource
     private IHalfYearMailJob halfYearMailJob;
 
+    @Resource
+    private IOneDayItPipelineJob iOneDayItPipelineJob;
+
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -295,5 +298,11 @@ public class ScheduleJob {
     @Crane("one.half.mail.job")
     public void halfOfYearJob() throws TException, MDMThriftException {
         halfYearMailJob.sync();
+    }
+
+    //每天集成流水线获取
+    @Crane("one.day.itpipeline.job")
+    public void itPipelineJob() throws TException, MDMThriftException {
+        iOneDayItPipelineJob.sync();
     }
 }
