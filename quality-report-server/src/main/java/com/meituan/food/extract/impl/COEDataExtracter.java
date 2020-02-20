@@ -267,10 +267,10 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (newCoe>0){
+    /*    if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
             DaXiangUtils.pushToRoom(pushStr,64057026090l);
-        }
+        }*/
     }
 
     public void getTodoList(CoeListP0 coeP0,int coeId){
@@ -333,6 +333,8 @@ public class COEDataExtracter implements ICOEDataExtract {
         if (orgPath.contains("平台技术部/"))
         {
             String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
+          //  String str = subOrgPath.substring(subOrgPath.indexOf("/")+1,(subOrgPath.indexOf(subOrgPath.indexOf("/")+1)));
+            subOrgPath = subOrgPath.substring(subOrgPath.indexOf("/")+1,subOrgPath.indexOf("/",subOrgPath.indexOf("/")+1));
             coeP0.setOrgName(subOrgPath);
 
         }else {
