@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.meituan.food.extract.IOneWeekCrashExtract;
@@ -57,15 +58,16 @@ public class WeekMomaCrashExtracter implements IOneWeekCrashExtract {
         if (result.size() != 0 && result.size() != 1) {
             WeekMomaCrashPO weekMomaCrashPO = new WeekMomaCrashPO();
             for (Object o : result) {
-                if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("MOMA"))) {
-                    weekMomaCrashPO.setMomaCrashCount(((JSONArray) o).getInteger(3));
-                    weekMomaCrashPO.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("阿波罗"))) {
-                    weekMomaCrashPO.setAboluoCrashCount(((JSONArray) o).getInteger(3));
-                    weekMomaCrashPO.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("蜜蜂"))) {
-                    weekMomaCrashPO.setBeeCrashCount(((JSONArray) o).getInteger(3));
-                    weekMomaCrashPO.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+                JSONArray dataArr= JSON.parseArray(JSONObject.toJSONString(o));
+                if ((dataArr.getString(0).equals("Android")) && (dataArr.getString(1).equals("MOMA"))) {
+                    weekMomaCrashPO.setMomaCrashCount(dataArr.getInteger(3));
+                    weekMomaCrashPO.setMomaCrashRate(dataArr.getBigDecimal(2));
+                } else if ((dataArr.getString(0).equals("Android")) && (dataArr.getString(1).equals("阿波罗"))) {
+                    weekMomaCrashPO.setAboluoCrashCount(dataArr.getInteger(3));
+                    weekMomaCrashPO.setAboluoCrashRate(dataArr.getBigDecimal(2));
+                } else if ((dataArr.getString(0).equals("Android")) && (dataArr.getString(1).equals("蜜蜂"))) {
+                    weekMomaCrashPO.setBeeCrashCount(dataArr.getInteger(3));
+                    weekMomaCrashPO.setBeeCrashRate(dataArr.getBigDecimal(2));
                 }
             }
             weekMomaCrashPO.setPlatform("MOMA");
@@ -86,15 +88,16 @@ public class WeekMomaCrashExtracter implements IOneWeekCrashExtract {
             WeekMomaCrashPO momaCrashRatePOIos = new WeekMomaCrashPO();
 
             for (Object o : result) {
-                if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("MOMA"))) {
-                    momaCrashRatePOIos.setMomaCrashCount(((JSONArray) o).getInteger(3));
-                    momaCrashRatePOIos.setMomaCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("阿波罗"))) {
-                    momaCrashRatePOIos.setAboluoCrashCount(((JSONArray) o).getInteger(3));
-                    momaCrashRatePOIos.setAboluoCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("蜜蜂"))) {
-                    momaCrashRatePOIos.setBeeCrashCount(((JSONArray) o).getInteger(3));
-                    momaCrashRatePOIos.setBeeCrashRate(((JSONArray) o).getBigDecimal(2));
+                JSONArray dataArr= JSON.parseArray(JSONObject.toJSONString(o));
+                if ((dataArr.getString(0).equals("iPhone")) && (dataArr.getString(1).equals("MOMA"))) {
+                    momaCrashRatePOIos.setMomaCrashCount(dataArr.getInteger(3));
+                    momaCrashRatePOIos.setMomaCrashRate(dataArr.getBigDecimal(2));
+                } else if ((dataArr.getString(0).equals("iPhone")) && (dataArr.getString(1).equals("阿波罗"))) {
+                    momaCrashRatePOIos.setAboluoCrashCount(dataArr.getInteger(3));
+                    momaCrashRatePOIos.setAboluoCrashRate(dataArr.getBigDecimal(2));
+                } else if ((dataArr.getString(0).equals("iPhone")) && (dataArr.getString(1).equals("蜜蜂"))) {
+                    momaCrashRatePOIos.setBeeCrashCount(dataArr.getInteger(3));
+                    momaCrashRatePOIos.setBeeCrashRate(dataArr.getBigDecimal(2));
                 }
             }
             momaCrashRatePOIos.setPlatform("MOMA");
