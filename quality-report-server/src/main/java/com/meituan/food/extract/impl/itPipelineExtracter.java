@@ -28,7 +28,6 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
     private String v;
 
     @Override
-    @Test
     public void updateItPipelineData(LocalDate date) {
         LocalDate today = date;
         LocalDate yesterday = today.plusDays(-1);
@@ -40,7 +39,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
         PipelineItPO pipelineItPO = new PipelineItPO();
         double passRate = 0.00;
         double casePassRate = 0.00;
-        pipelineItMapper.deleteByDate(date);
+        pipelineItMapper.deleteByDate(yesterday);
 
         for (int i = 1; i < itPipelineData.size(); i++) {
             JSONObject data = itPipelineData.getJSONObject(i);
@@ -62,7 +61,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
                 casePassRate = new BigDecimal((float) wholeCasePass / wholeCaseTotal).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             pipelineItPO.setCasePassRate(BigDecimal.valueOf(casePassRate));
-            pipelineItPO.setCreateTime(date);
+            pipelineItPO.setCreateTime(yesterday);
             pipelineItMapper.insert(pipelineItPO);
 
         }

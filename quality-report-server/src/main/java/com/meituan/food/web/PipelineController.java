@@ -23,22 +23,23 @@ public class PipelineController {
 
     @GetMapping("/insert/itdate")
     public String insertDate(@RequestParam("date") String date) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        LocalDate dateParam = LocalDate.parse((CharSequence) simpleDateFormat, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        oneDayItPipelineExtract.updateItPipelineData(dateParam);
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateL = LocalDate.parse(date, fmt);
+        LocalDate dateAdd = dateL.plusDays(+1);
+        oneDayItPipelineExtract.updateItPipelineData(dateL);
         return "OK!";
     }
     @GetMapping("/insert/it")
     public String insertFromToDate(@RequestParam("from") String start,@RequestParam("to") String end) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-
-        LocalDate startL = LocalDate.parse((CharSequence) start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate endL = LocalDate.parse((CharSequence) end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startL = LocalDate.parse(start, fmt);
+        LocalDate startAdd = startL.plusDays(+1);//start默认加昨天
+        LocalDate endL = LocalDate.parse(end, fmt);
+        LocalDate endAdd = endL.plusDays(+1);
         do {
-            oneDayItPipelineExtract.updateItPipelineData(startL);
-            startL = startL.plusDays(1);
-        } while (startL.toEpochDay() <= endL.toEpochDay());
+            oneDayItPipelineExtract.updateItPipelineData(startAdd);
+            startAdd = startAdd.plusDays(1);
+        } while (startAdd.toEpochDay() <= endAdd.toEpochDay());
 
 
 //        Date startDate = simpleDateFormat.parse(start);
