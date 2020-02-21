@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+
 
 @RestController
 @RequestMapping("/pipeline")
@@ -41,17 +39,6 @@ public class PipelineController {
             startAdd = startAdd.plusDays(1);
         } while (startAdd.toEpochDay() <= endAdd.toEpochDay());
 
-
-//        Date startDate = simpleDateFormat.parse(start);
-//        Date endDate = simpleDateFormat.parse(end);
-//        Date temp = startDate;
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(startDate);
-//        while(temp.getTime()<endDate.getTime()) {
-//            temp = calendar.getTime();
-//            oneDayItPipelineExtract.updateItPipelineData(temp);
-//            calendar.add(Calendar.DAY_OF_MONTH,1);
-//        }
         return "OK!";
     }
 }

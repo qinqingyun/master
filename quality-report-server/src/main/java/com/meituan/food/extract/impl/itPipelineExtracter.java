@@ -10,7 +10,6 @@ import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.sankuai.meituan.org.opensdk.service.OrgService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,10 +21,6 @@ import java.time.LocalDate;
 public class itPipelineExtracter implements IOneDayItPipelineExtract {
     @Resource
     public PipelineItMapper pipelineItMapper;
-
-    @Resource
-    private OrgService orgService;
-    private String v;
 
     @Override
     public void updateItPipelineData(LocalDate date) {
