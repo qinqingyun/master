@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
 
 @Slf4j
 @Component
@@ -30,9 +29,9 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
 
     @Override
     @Test
-    public void updateItPipelineData(Date date) {
-        LocalDate today = LocalDate.now();
-        LocalDate yesterday = LocalDate.now().plusDays(-1);
+    public void updateItPipelineData(LocalDate date) {
+        LocalDate today = date;
+        LocalDate yesterday = today.plusDays(-1);
         String url = "http://qa.sankuai.com/data/it/operate?from=" + yesterday + "&to=" + today;
 //        参数469为到店餐饮测试组id
         String param = "[{\"value\":\"\",\"key\":\"469\"}]";

@@ -6,7 +6,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -79,11 +78,11 @@ public class PipelineItPO implements Serializable {
         this.casePassRate = casePassRate;
     }
 
-    public Date getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 
@@ -101,7 +100,7 @@ public class PipelineItPO implements Serializable {
 
     private BigDecimal casePassRate;
 
-    private Date createTime;
+    private LocalDate createTime;
     public Integer getId() {
         return id;
     }
