@@ -29,10 +29,8 @@ public class NewCrashExtracterTest {
 
     @Test
     public void sync() {
-        LocalDate a=LocalDate.now().minusDays(6);
-        LocalDate b=LocalDate.now().minusDays(5);
+        LocalDate a=LocalDate.now().minusDays(1);
         newCrashExtracter.sync(a);
-        newCrashExtracter.sync(b);
     }
 
     @Test

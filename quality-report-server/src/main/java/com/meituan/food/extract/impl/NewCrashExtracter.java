@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -132,8 +133,10 @@ public class NewCrashExtracter implements INewCrashExtract {
 
                     JSONArray datas = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                     for (Object data : datas) {
-                        if (((JSONArray) data).getString(1).equals("餐饮(北京)")) {
-                            int crash=((JSONArray) data).getInteger(2);
+                        JSONArray dateArray = JSON.parseArray(JSONObject.toJSONString(data));
+                        if (dateArray.getString(1).equals("餐饮(北京)")) {
+                            int crash=dateArray.getInteger(2);
+                      //      int crash=((JSONArray) data).getInteger(2);
                             po.setCrash(crash);
                         }
                     }

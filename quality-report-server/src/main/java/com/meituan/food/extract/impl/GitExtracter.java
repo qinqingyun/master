@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -76,8 +77,9 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
 
             for (int i = 1; i < gitResult.size(); i++) {
                 GitPO gitPO = new GitPO();
+                JSONArray gitResultArr=JSON.parseArray(JSONObject.toJSONString(gitResult.get(i)));
 
-                String misAndName = ((JSONArray) gitResult.get(i)).getString(0);
+                String misAndName = gitResultArr.getString(0);
 
                 String createName = misAndName.substring(0, misAndName.indexOf("("));
                 String createMis = misAndName.substring(misAndName.indexOf("(") + 1, misAndName.lastIndexOf(")"));
@@ -86,10 +88,10 @@ public class GitExtracter implements IOneDayForEfficiencyDataExtract {
                 gitPO.setMisid(createMis);
                 gitPO.setGitDate(dayStr);
 
-                gitPO.setGitCodeIncrease(((JSONArray) gitResult.get(i)).getInteger(1));
-                gitPO.setGitCodeDelete(((JSONArray) gitResult.get(i)).getInteger(2));
-                gitPO.setGitCodeSubmit(((JSONArray) gitResult.get(i)).getInteger(3));
-                gitPO.setGitCodeSubmitTime(((JSONArray) gitResult.get(i)).getInteger(4));
+                gitPO.setGitCodeIncrease(gitResultArr.getInteger(1));
+                gitPO.setGitCodeDelete(gitResultArr.getInteger(2));
+                gitPO.setGitCodeSubmit(gitResultArr.getInteger(3));
+                gitPO.setGitCodeSubmitTime(gitResultArr.getInteger(4));
 
                 gitPOMapper.insert(gitPO);
             }

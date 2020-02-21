@@ -107,10 +107,10 @@ public class ScheduleJob {
     private IHalfYearMailJob halfYearMailJob;
 
     @Resource
-    private IOneHourJob oneHourJob;
+    private IOneDayItPipelineJob iOneDayItPipelineJob;
 
     @Resource
-    private IOneDayItPipelineJob iOneDayItPipelineJob;
+    private IOneHourJob oneHourJob;
 
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
