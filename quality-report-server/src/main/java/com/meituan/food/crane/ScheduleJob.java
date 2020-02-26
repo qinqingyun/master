@@ -110,6 +110,9 @@ public class ScheduleJob {
     private IOneDayItPipelineJob iOneDayItPipelineJob;
 
     @Resource
+    private IOneDayPrPipelineJob iOneDayPrPipelineJob;
+
+    @Resource
     private IOneHourJob oneHourJob;
 
     //定时推送专项进度wiki---已暂停使用
@@ -317,5 +320,10 @@ public class ScheduleJob {
     @Crane("one.day.itpipeline.job")
     public void itPipelineJob() throws TException, MDMThriftException {
         iOneDayItPipelineJob.sync();
+    }
+    //每天PR流水线获取
+    @Crane("one.day.prpipeline.job")
+    public void prpipeline() throws TException, MDMThriftException {
+        iOneDayPrPipelineJob.sync();
     }
 }
