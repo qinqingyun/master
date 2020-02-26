@@ -16,7 +16,8 @@ public class OneDayPrPipelineJobImpl implements IOneDayPrPipelineJob {
     @Override
     public void sync() {
         LocalDate today = LocalDate.now();
-        oneDayPrPipelineExtract.UpdatePrPipelineData(today);
+        LocalDate yesterday = today.plusDays(-1);
+        oneDayPrPipelineExtract.UpdatePrPipelineData(yesterday);
         }
 
 
