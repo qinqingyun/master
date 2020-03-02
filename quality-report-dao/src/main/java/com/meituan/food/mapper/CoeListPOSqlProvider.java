@@ -1,30 +1,30 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.CoeListP0;
-import com.meituan.food.po.CoeListP0Example.Criteria;
-import com.meituan.food.po.CoeListP0Example.Criterion;
-import com.meituan.food.po.CoeListP0Example;
+import com.meituan.food.po.CoeListPO;
+import com.meituan.food.po.CoeListPOExample.Criteria;
+import com.meituan.food.po.CoeListPOExample.Criterion;
+import com.meituan.food.po.CoeListPOExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class CoeListP0SqlProvider {
+public class CoeListPOSqlProvider {
 
-    public String countByExample(CoeListP0Example example) {
+    public String countByExample(CoeListPOExample example) {
         SQL sql = new SQL();
         sql.SELECT("count(*)").FROM("coe_list");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(CoeListP0Example example) {
+    public String deleteByExample(CoeListPOExample example) {
         SQL sql = new SQL();
         sql.DELETE_FROM("coe_list");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(CoeListP0 record) {
+    public String insertSelective(CoeListPO record) {
         SQL sql = new SQL();
         sql.INSERT_INTO("coe_list");
         
@@ -168,10 +168,30 @@ public class CoeListP0SqlProvider {
             sql.VALUES("clear_time", "#{clearTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getNodeTwoOrg() != null) {
+            sql.VALUES("node_two_org", "#{nodeTwoOrg,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getLocator() != null) {
+            sql.VALUES("locator", "#{locator,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getOrderLoss() != null) {
+            sql.VALUES("order_loss", "#{orderLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getCapitalLoss() != null) {
+            sql.VALUES("capital_loss", "#{capitalLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLineOfBusiness() != null) {
+            sql.VALUES("line_of_business", "#{lineOfBusiness,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
-    public String selectByExample(CoeListP0Example example) {
+    public String selectByExample(CoeListPOExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
@@ -212,6 +232,11 @@ public class CoeListP0SqlProvider {
         sql.SELECT("finder");
         sql.SELECT("influence_time");
         sql.SELECT("clear_time");
+        sql.SELECT("node_two_org");
+        sql.SELECT("locator");
+        sql.SELECT("order_loss");
+        sql.SELECT("capital_loss");
+        sql.SELECT("line_of_business");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -223,8 +248,8 @@ public class CoeListP0SqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        CoeListP0 record = (CoeListP0) parameter.get("record");
-        CoeListP0Example example = (CoeListP0Example) parameter.get("example");
+        CoeListPO record = (CoeListPO) parameter.get("record");
+        CoeListPOExample example = (CoeListPOExample) parameter.get("example");
         
         SQL sql = new SQL();
         sql.UPDATE("coe_list");
@@ -369,6 +394,26 @@ public class CoeListP0SqlProvider {
             sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getNodeTwoOrg() != null) {
+            sql.SET("node_two_org = #{record.nodeTwoOrg,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getLocator() != null) {
+            sql.SET("locator = #{record.locator,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getOrderLoss() != null) {
+            sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getCapitalLoss() != null) {
+            sql.SET("capital_loss = #{record.capitalLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLineOfBusiness() != null) {
+            sql.SET("line_of_business = #{record.lineOfBusiness,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -412,13 +457,18 @@ public class CoeListP0SqlProvider {
         sql.SET("finder = #{record.finder,jdbcType=VARCHAR}");
         sql.SET("influence_time = #{record.influenceTime,jdbcType=INTEGER}");
         sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
+        sql.SET("node_two_org = #{record.nodeTwoOrg,jdbcType=VARCHAR}");
+        sql.SET("locator = #{record.locator,jdbcType=VARCHAR}");
+        sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+        sql.SET("capital_loss = #{record.capitalLoss,jdbcType=INTEGER}");
+        sql.SET("line_of_business = #{record.lineOfBusiness,jdbcType=VARCHAR}");
         
-        CoeListP0Example example = (CoeListP0Example) parameter.get("example");
+        CoeListPOExample example = (CoeListPOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(CoeListP0 record) {
+    public String updateByPrimaryKeySelective(CoeListPO record) {
         SQL sql = new SQL();
         sql.UPDATE("coe_list");
         
@@ -558,12 +608,32 @@ public class CoeListP0SqlProvider {
             sql.SET("clear_time = #{clearTime,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getNodeTwoOrg() != null) {
+            sql.SET("node_two_org = #{nodeTwoOrg,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getLocator() != null) {
+            sql.SET("locator = #{locator,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getOrderLoss() != null) {
+            sql.SET("order_loss = #{orderLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getCapitalLoss() != null) {
+            sql.SET("capital_loss = #{capitalLoss,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLineOfBusiness() != null) {
+            sql.SET("line_of_business = #{lineOfBusiness,jdbcType=VARCHAR}");
+        }
+        
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
         
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, CoeListP0Example example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, CoeListPOExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }
