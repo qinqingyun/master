@@ -19,7 +19,7 @@ public interface PipelineTpMapper {
         "insert into pipeline_tp_data (id, direction_id, direction_name," +
                 "task,sum,pass," +
                 "failed,oneTimePassCount,autoRunCountNumberList," +
-                "branchCheckOK,branchCheckNO,codeCheckNO,codeCheckOK," +
+                "branchCheckOK,branchCheckNO," +
                 "enviromentcheckOK," +
                 "enviromentcheckNO,codeCheckOK,codeCheckNO," +
                 "sonarCheckOK,sonarCheckNO,unitCheckOk," +
@@ -29,7 +29,7 @@ public interface PipelineTpMapper {
         "values (#{id,jdbcType=INTEGER},#{direction_id,jdbcType=INTEGER},#{direction_name,jdbcType=VARCHAR}," +
                 "#{task,jdbcType=INTEGER},#{sum,jdbcType=INTEGER},#{pass,jdbcType=INTEGER}," +
                 "#{failed,jdbcType=INTEGER},#{oneTimePassCount,jdbcType=INTEGER},#{autoRunCountNumberList,jdbcType=INTEGER}," +
-                "#{branchCheckOK,jdbcType=INTEGER},#{branchCheckNO,jdbcType=INTEGER},#{codeCheckNO,jdbcType=INTEGER},#{codeCheckOK,jdbcType=INTEGER}," +
+                "#{branchCheckOK,jdbcType=INTEGER},#{branchCheckNO,jdbcType=INTEGER}," +
                 "#{enviromentcheckOK,jdbcType=INTEGER}," +
                 "#{enviromentcheckNO,jdbcType=INTEGER},#{codeCheckOK,jdbcType=INTEGER},#{codeCheckNO,jdbcType=INTEGER}," +
                 "#{sonarCheckOK,jdbcType=INTEGER},#{sonarCheckNO,jdbcType=INTEGER},#{unitCheckOk,jdbcType=INTEGER}," +

@@ -2,6 +2,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.extract.IOneDayItPipelineExtract;
 import com.meituan.food.extract.IOneDayPrPipelineExtract;
+import com.meituan.food.extract.IOneDayTpPipelineExtract;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,9 @@ public class PipelineController {
 
     @Resource
     private IOneDayPrPipelineExtract oneDayPrPipelineExtract;
+
+    @Resource
+    private IOneDayTpPipelineExtract oneDayTpPipelineExtract;
 
     @GetMapping("/insert/itdate")
     public String insertDate(@RequestParam("date") String date) throws ParseException {
@@ -52,6 +56,19 @@ public class PipelineController {
         LocalDate endL = LocalDate.parse(end, fmt);
         do {
             oneDayPrPipelineExtract.UpdatePrPipelineData(startL);
+            startL = startL.plusDays(1);
+        } while (startL.toEpochDay() <= endL.toEpochDay());
+
+        return "OK!";
+    }
+
+    @GetMapping("/insert/tp")
+    public String insertTPFromToDate(@RequestParam("from") String start,@RequestParam("to") String end) throws ParseException {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startL = LocalDate.parse(start, fmt);
+        LocalDate endL = LocalDate.parse(end, fmt);
+        do {
+            oneDayTpPipelineExtract.UpdateTpPipelineData(startL);
             startL = startL.plusDays(1);
         } while (startL.toEpochDay() <= endL.toEpochDay());
 

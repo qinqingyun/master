@@ -15,7 +15,7 @@ public class PipelineTpPO implements Serializable {
     Integer id;
     Integer direction_id;
     String direction_name;
-    Date tp_date;
+    LocalDate tp_date;
 
     Integer task;
     Integer sum;
