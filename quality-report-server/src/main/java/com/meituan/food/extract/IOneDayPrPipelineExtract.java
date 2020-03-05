@@ -5,8 +5,8 @@ import java.time.LocalDate;
 /**
  * Created by wjn on 2020-02-17.
  */
-public interface IOneDayItPipelineExtract {
+public interface IOneDayPrPipelineExtract {
 
-    void updateItPipelineData(LocalDate date);
+    void UpdatePrPipelineData(LocalDate date);
 
 }

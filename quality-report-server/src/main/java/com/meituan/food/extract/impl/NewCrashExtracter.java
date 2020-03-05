@@ -136,6 +136,7 @@ public class NewCrashExtracter implements INewCrashExtract {
                         JSONArray dateArray = JSON.parseArray(JSONObject.toJSONString(data));
                         if (dateArray.getString(1).equals("餐饮(北京)")) {
                             int crash=dateArray.getInteger(2);
+                      //      int crash=((JSONArray) data).getInteger(2);
                             po.setCrash(crash);
                         }
                     }

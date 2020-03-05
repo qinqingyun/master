@@ -10,13 +10,11 @@ import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.sankuai.meituan.org.opensdk.service.OrgService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
 
 @Slf4j
 @Component
@@ -24,14 +22,10 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
     @Resource
     public PipelineItMapper pipelineItMapper;
 
-    @Resource
-    private OrgService orgService;
-    private String v;
-
     @Override
-    public void updateItPipelineData(Date date) {
-        LocalDate today = LocalDate.now();
-        LocalDate yesterday = LocalDate.now().plusDays(-1);
+    public void updateItPipelineData(LocalDate date) {
+        LocalDate today = date;
+        LocalDate yesterday = today.plusDays(-1);
         String url = "http://qa.sankuai.com/data/it/operate?from=" + yesterday + "&to=" + today;
 //        参数469为到店餐饮测试组id
         String param = "[{\"value\":\"\",\"key\":\"469\"}]";
@@ -40,7 +34,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
         PipelineItPO pipelineItPO = new PipelineItPO();
         double passRate = 0.00;
         double casePassRate = 0.00;
-        pipelineItMapper.deleteByDate(date);
+        pipelineItMapper.deleteByDate(yesterday);
 
         for (int i = 1; i < itPipelineData.size(); i++) {
             JSONObject data = itPipelineData.getJSONObject(i);
@@ -62,7 +56,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
                 casePassRate = new BigDecimal((float) wholeCasePass / wholeCaseTotal).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
             pipelineItPO.setCasePassRate(BigDecimal.valueOf(casePassRate));
-            pipelineItPO.setCreateTime(date);
+            pipelineItPO.setCreateTime(yesterday);
             pipelineItMapper.insert(pipelineItPO);
 
         }
