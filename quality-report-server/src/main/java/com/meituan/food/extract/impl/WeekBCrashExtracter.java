@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -65,15 +66,16 @@ public class WeekBCrashExtracter implements IOneWeekCrashExtract {
         if (result.size() != 0 && result.size() != 1) {
             WeekBCrashPO weekBCrashPO = new WeekBCrashPO();
             for (Object o : result) {
-                if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("开店宝"))) {
-                    weekBCrashPO.setbCrashCount(((JSONArray) o).getInteger(3));
-                    weekBCrashPO.setbCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("点评管家"))) {
-                    weekBCrashPO.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
-                    weekBCrashPO.setbDianping(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("Android")) && (((JSONArray) o).getString(1).equals("外卖商家"))) {
-                    weekBCrashPO.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
-                    weekBCrashPO.setbWaimai(((JSONArray) o).getBigDecimal(2));
+                JSONArray dataArray = JSON.parseArray(JSONObject.toJSONString(o));
+                if (dataArray.getString(0).equals("Android") && dataArray.getString(1).equals("开店宝")) {
+                    weekBCrashPO.setbCrashCount(dataArray.getInteger(3));
+                    weekBCrashPO.setbCrashRate(dataArray.getBigDecimal(2));
+                } else if ((dataArray.getString(0).equals("Android")) && (dataArray.getString(1).equals("点评管家"))) {
+                    weekBCrashPO.setbDianpingCrashCount(dataArray.getInteger(3));
+                    weekBCrashPO.setbDianping(dataArray.getBigDecimal(2));
+                } else if ((dataArray.getString(0).equals("Android")) && (dataArray.getString(1).equals("外卖商家"))) {
+                    weekBCrashPO.setbWaimaiCrashCount(dataArray.getInteger(3));
+                    weekBCrashPO.setbWaimai(dataArray.getBigDecimal(2));
                 }
             }
             weekBCrashPO.setPlatform("开店宝");
@@ -94,15 +96,16 @@ public class WeekBCrashExtracter implements IOneWeekCrashExtract {
             WeekBCrashPO bCrashRatePOIos = new WeekBCrashPO();
 
             for (Object o : result) {
-                if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("开店宝"))) {
-                    bCrashRatePOIos.setbCrashCount(((JSONArray) o).getInteger(3));
-                    bCrashRatePOIos.setbCrashRate(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("点评管家"))) {
-                    bCrashRatePOIos.setbDianpingCrashCount(((JSONArray) o).getInteger(3));
-                    bCrashRatePOIos.setbDianping(((JSONArray) o).getBigDecimal(2));
-                } else if ((((JSONArray) o).getString(0).equals("iPhone")) && (((JSONArray) o).getString(1).equals("外卖商家"))) {
-                    bCrashRatePOIos.setbWaimaiCrashCount(((JSONArray) o).getInteger(3));
-                    bCrashRatePOIos.setbWaimai(((JSONArray) o).getBigDecimal(2));
+                JSONArray dataArray = JSON.parseArray(JSONObject.toJSONString(o));
+                if ((dataArray.getString(0).equals("iPhone")) && (dataArray.getString(1).equals("开店宝"))) {
+                    bCrashRatePOIos.setbCrashCount(dataArray.getInteger(3));
+                    bCrashRatePOIos.setbCrashRate(dataArray.getBigDecimal(2));
+                } else if ((dataArray.getString(0).equals("iPhone")) && (dataArray.getString(1).equals("点评管家"))) {
+                    bCrashRatePOIos.setbDianpingCrashCount(dataArray.getInteger(3));
+                    bCrashRatePOIos.setbDianping((dataArray.getBigDecimal(2)));
+                } else if ((dataArray.getString(0).equals("iPhone")) && (dataArray.getString(1).equals("外卖商家"))) {
+                    bCrashRatePOIos.setbWaimaiCrashCount(dataArray.getInteger(3));
+                    bCrashRatePOIos.setbWaimai(dataArray.getBigDecimal(2));
                 }
             }
             bCrashRatePOIos.setPlatform("开店宝");

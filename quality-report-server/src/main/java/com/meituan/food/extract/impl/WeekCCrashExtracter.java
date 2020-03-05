@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
@@ -85,7 +86,7 @@ public class WeekCCrashExtracter implements IOneWeekCrashExtract {
 
         JSONArray datas = response.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
         return datas.stream()
-                .map(o -> (JSONArray) o)
+                .map(o -> JSON.parseArray(JSONObject.toJSONString(o)))
                 .filter(arr -> arr.getString(1).equals(widget.getMatchField()))
                 .map(arr -> {
                     WeekCCrashRatePO crashRatePO = new WeekCCrashRatePO();

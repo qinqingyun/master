@@ -1,5 +1,6 @@
 package com.meituan.food.extract.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.meituan.food.extract.IWeekBugDataExtract;
@@ -89,16 +90,17 @@ public class WeekBugExtracter implements IWeekBugDataExtract {
                 JSONArray partResult = partResponse.getJSONObject("data").getJSONObject("resData").getJSONArray("data");
                 for (int j = 1; j < partResult.size(); j++) {
                     WeekBugDetailPO weekBugDetailPO = new WeekBugDetailPO();
-                    String bugLevel = ((JSONArray) (partResult.get(j))).getString(1);
-                    String all = ((JSONArray) (partResult.get(j))).getString(0);
-                    String createdTimeStr = ((JSONArray) (partResult.get(j))).getString(6);
+                    JSONArray dataArray = JSON.parseArray(JSONObject.toJSONString(partResult.get(j)));
+                    String bugLevel =dataArray.getString(1);
+                    String all = dataArray.getString(0);
+                    String createdTimeStr = dataArray.getString(6);
                     weekBugDetailPO.setAllTitle("");
                     weekBugDetailPO.setBugLevel(bugLevel);
-                    weekBugDetailPO.setReason(((JSONArray) (partResult.get(j))).getString(2));
-                    weekBugDetailPO.setCreator(((JSONArray) (partResult.get(j))).getString(3));
-                    weekBugDetailPO.setReceiver(((JSONArray) (partResult.get(j))).getString(4));
+                    weekBugDetailPO.setReason(dataArray.getString(2));
+                    weekBugDetailPO.setCreator(dataArray.getString(3));
+                    weekBugDetailPO.setReceiver(dataArray.getString(4));
                     weekBugDetailPO.setCreatedTime(createdTimeStr);
-                    weekBugDetailPO.setBugStatus(((JSONArray) (partResult.get(j))).getString(5));
+                    weekBugDetailPO.setBugStatus(dataArray.getString(5));
                     weekBugDetailPO.setOrgid(key);
                     weekBugDetailPO.setOrgname(orgMap.get(key));
                     weekBugDetailPO.setTimeFlag(Long.valueOf(timestamp));
