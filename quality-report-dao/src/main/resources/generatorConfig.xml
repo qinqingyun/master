@@ -126,7 +126,9 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="department_org_map" domainObjectName="DepartmentOrgMap" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+       <!-- <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->

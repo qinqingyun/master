@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CoeListP0 implements Serializable {
+public class CoeListPO implements Serializable {
     private Integer id;
 
     private Integer coeId;
@@ -74,6 +74,16 @@ public class CoeListP0 implements Serializable {
     private Integer influenceTime;
 
     private Date clearTime;
+
+    private String nodeTwoOrg;
+
+    private String locator;
+
+    private Integer orderLoss;
+
+    private Integer capitalLoss;
+
+    private String lineOfBusiness;
 
     private static final long serialVersionUID = 1L;
 
@@ -357,6 +367,46 @@ public class CoeListP0 implements Serializable {
         this.clearTime = clearTime;
     }
 
+    public String getNodeTwoOrg() {
+        return nodeTwoOrg;
+    }
+
+    public void setNodeTwoOrg(String nodeTwoOrg) {
+        this.nodeTwoOrg = nodeTwoOrg == null ? null : nodeTwoOrg.trim();
+    }
+
+    public String getLocator() {
+        return locator;
+    }
+
+    public void setLocator(String locator) {
+        this.locator = locator == null ? null : locator.trim();
+    }
+
+    public Integer getOrderLoss() {
+        return orderLoss;
+    }
+
+    public void setOrderLoss(Integer orderLoss) {
+        this.orderLoss = orderLoss;
+    }
+
+    public Integer getCapitalLoss() {
+        return capitalLoss;
+    }
+
+    public void setCapitalLoss(Integer capitalLoss) {
+        this.capitalLoss = capitalLoss;
+    }
+
+    public String getLineOfBusiness() {
+        return lineOfBusiness;
+    }
+
+    public void setLineOfBusiness(String lineOfBusiness) {
+        this.lineOfBusiness = lineOfBusiness == null ? null : lineOfBusiness.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -368,7 +418,7 @@ public class CoeListP0 implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        CoeListP0 other = (CoeListP0) that;
+        CoeListPO other = (CoeListPO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCoeId() == null ? other.getCoeId() == null : this.getCoeId().equals(other.getCoeId()))
             && (this.getBrief() == null ? other.getBrief() == null : this.getBrief().equals(other.getBrief()))
@@ -403,7 +453,12 @@ public class CoeListP0 implements Serializable {
             && (this.getFindDate() == null ? other.getFindDate() == null : this.getFindDate().equals(other.getFindDate()))
             && (this.getFinder() == null ? other.getFinder() == null : this.getFinder().equals(other.getFinder()))
             && (this.getInfluenceTime() == null ? other.getInfluenceTime() == null : this.getInfluenceTime().equals(other.getInfluenceTime()))
-            && (this.getClearTime() == null ? other.getClearTime() == null : this.getClearTime().equals(other.getClearTime()));
+            && (this.getClearTime() == null ? other.getClearTime() == null : this.getClearTime().equals(other.getClearTime()))
+            && (this.getNodeTwoOrg() == null ? other.getNodeTwoOrg() == null : this.getNodeTwoOrg().equals(other.getNodeTwoOrg()))
+            && (this.getLocator() == null ? other.getLocator() == null : this.getLocator().equals(other.getLocator()))
+            && (this.getOrderLoss() == null ? other.getOrderLoss() == null : this.getOrderLoss().equals(other.getOrderLoss()))
+            && (this.getCapitalLoss() == null ? other.getCapitalLoss() == null : this.getCapitalLoss().equals(other.getCapitalLoss()))
+            && (this.getLineOfBusiness() == null ? other.getLineOfBusiness() == null : this.getLineOfBusiness().equals(other.getLineOfBusiness()));
     }
 
     @Override
@@ -445,6 +500,11 @@ public class CoeListP0 implements Serializable {
         result = prime * result + ((getFinder() == null) ? 0 : getFinder().hashCode());
         result = prime * result + ((getInfluenceTime() == null) ? 0 : getInfluenceTime().hashCode());
         result = prime * result + ((getClearTime() == null) ? 0 : getClearTime().hashCode());
+        result = prime * result + ((getNodeTwoOrg() == null) ? 0 : getNodeTwoOrg().hashCode());
+        result = prime * result + ((getLocator() == null) ? 0 : getLocator().hashCode());
+        result = prime * result + ((getOrderLoss() == null) ? 0 : getOrderLoss().hashCode());
+        result = prime * result + ((getCapitalLoss() == null) ? 0 : getCapitalLoss().hashCode());
+        result = prime * result + ((getLineOfBusiness() == null) ? 0 : getLineOfBusiness().hashCode());
         return result;
     }
 
@@ -489,6 +549,11 @@ public class CoeListP0 implements Serializable {
         sb.append(", finder=").append(finder);
         sb.append(", influenceTime=").append(influenceTime);
         sb.append(", clearTime=").append(clearTime);
+        sb.append(", nodeTwoOrg=").append(nodeTwoOrg);
+        sb.append(", locator=").append(locator);
+        sb.append(", orderLoss=").append(orderLoss);
+        sb.append(", capitalLoss=").append(capitalLoss);
+        sb.append(", lineOfBusiness=").append(lineOfBusiness);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

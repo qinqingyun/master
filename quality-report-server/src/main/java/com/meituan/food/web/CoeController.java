@@ -2,7 +2,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.extract.ICargoDataPushExtract;
-import com.meituan.food.mapper.CoeListP0Mapper;
+import com.meituan.food.mapper.CoeListPOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class CoeController {
     private ICOEDataExtract coeDataExtract;
 
     @Resource
-    private CoeListP0Mapper coeListP0Mapper;
+    private CoeListPOMapper coeListPOMapper;
 
     @Resource(name = "COEPush")
     private ICargoDataPushExtract cargoDataPushExtract;
@@ -37,7 +37,7 @@ public class CoeController {
 
     @GetMapping("invalid")
     public String updateCoeToInvalid(@RequestParam("coeId") int coeId) {
-        int flag = coeListP0Mapper.updateCoeToInvalidByCoeId(coeId);
+        int flag = coeListPOMapper.updateCoeToInvalidByCoeId(coeId);
         if (flag == 1) {
             return "更新成功";
         }
@@ -46,7 +46,7 @@ public class CoeController {
 
     @GetMapping("valid")
     public String updateCoeToValid(@RequestParam("coeId") int coeId) {
-        int flag = coeListP0Mapper.updateCoeToValidByCoeId(coeId);
+        int flag = coeListPOMapper.updateCoeToValidByCoeId(coeId);
         if (flag == 1) {
             return "更新成功";
         }
@@ -55,7 +55,7 @@ public class CoeController {
 
     @GetMapping("/delete")
     public String deleteCoe(@RequestParam("coeId") int coeId) {
-        int flag = coeListP0Mapper.deleteByCoeId(coeId);
+        int flag = coeListPOMapper.deleteByCoeId(coeId);
         if (flag == 1) {
             return "删除成功";
         }

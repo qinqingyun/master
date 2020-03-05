@@ -1,8 +1,8 @@
 package com.meituan.food.extract.impl;
 
 import com.meituan.food.extract.ICargoDataPushExtract;
-import com.meituan.food.mapper.CoeListP0Mapper;
-import com.meituan.food.po.CoeListP0;
+import com.meituan.food.mapper.CoeListPOMapper;
+import com.meituan.food.po.CoeListPO;
 import com.meituan.food.utils.DaXiangUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.*;
 public class CoeDataPushExtracter implements ICargoDataPushExtract {
 
     @Resource
-    private CoeListP0Mapper coeListP0Mapper;
+    private CoeListPOMapper coeListPOMapper;
 
     @Override
     public void pushData() {
@@ -27,38 +27,38 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
         yesterday.set(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH), yesterday.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         Date mYesterday = Date.from(LocalDate.now().minusDays(60).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        List<CoeListP0> coeListP0s = coeListP0Mapper.selectByDate(mYesterday);
-        for (CoeListP0 coeListP0 : coeListP0s) {
-            if (!(pushList.keySet().contains(coeListP0.getOwnerMis()))) {
-                String content = coeListP0.getOwnerName() + "同学：您负责的COE未按照规范填写，请及时处理。问题如下：";
-                content = content + "\n△【" + coeListP0.getBrief() + "】";
+        List<CoeListPO> coeListPOs = coeListPOMapper.selectByDate(mYesterday);
+        for (CoeListPO coeListPO : coeListPOs) {
+            if (!(pushList.keySet().contains(coeListPO.getOwnerMis()))) {
+                String content = coeListPO.getOwnerName() + "同学：您负责的COE未按照规范填写，请及时处理。问题如下：";
+                content = content + "\n△【" + coeListPO.getBrief() + "】";
                 int index = 0;
-                if (coeListP0.getFminusoTime() == null || coeListP0.getLminusfTime() == null || coeListP0.getSminushTime() == null) {
+                if (coeListPO.getFminusoTime() == null || coeListPO.getLminusfTime() == null || coeListPO.getSminushTime() == null) {
                     content = content + "\n● 时间线不完整";
                     index++;
                 }
-                if (coeListP0.getSubCategory() == null) {
+                if (coeListPO.getSubCategory() == null) {
                     content = content + "\n● 未填写原因分类";
                     index++;
                 }
                 if (index != 0) {
-                    content = content + "\n" + "[点此处理|" + coeListP0.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]";
-                    pushList.put(coeListP0.getOwnerMis(), content);
+                    content = content + "\n" + "[点此处理|" + coeListPO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]";
+                    pushList.put(coeListPO.getOwnerMis(), content);
                 }
             } else {
                 int index = 0;
-                String content = pushList.get(coeListP0.getOwnerMis()) + "\n△【" + coeListP0.getBrief() + "】";
-                if (coeListP0.getFminusoTime() == null || coeListP0.getLminusfTime() == null || coeListP0.getSminushTime() == null) {
+                String content = pushList.get(coeListPO.getOwnerMis()) + "\n△【" + coeListPO.getBrief() + "】";
+                if (coeListPO.getFminusoTime() == null || coeListPO.getLminusfTime() == null || coeListPO.getSminushTime() == null) {
                     content = content + "\n● 时间线不完整";
                     index++;
                 }
-                if (coeListP0.getSubCategory() == null) {
+                if (coeListPO.getSubCategory() == null) {
                     content = content + "\n● 未填写原因分类";
                     index++;
                 }
                 if (index != 0) {
-                    content = content + "\n" + "[点此处理|" + coeListP0.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]";
-                    pushList.put(coeListP0.getOwnerMis(), content);
+                    content = content + "\n" + "[点此处理|" + coeListPO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]";
+                    pushList.put(coeListPO.getOwnerMis(), content);
                 }
             }
 
