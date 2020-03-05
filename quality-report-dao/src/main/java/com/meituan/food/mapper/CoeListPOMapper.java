@@ -362,6 +362,39 @@ public interface CoeListPOMapper {
     })
     int updateCoeToValidByCoeId(Integer id);
 
+    @Update({
+            "update coe_list",
+            "set line_of_business = #{line_of_business,jdbcType=VARCHAR}",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
+    })
+    int updateBusiness(@Param("id") Integer id,@Param("line_of_business") String line_of_business);
+
+    @Update({
+            "update coe_list",
+            "set order_loss = #{order,jdbcType=INTEGER}",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER)
+    })
+    int updateOrder(@Param("id") Integer id,@Param("order") Integer order);
+
+    @Update({
+            "update coe_list",
+            "set capital_loss = #{money,jdbcType=INTEGER}",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.INTEGER),
+    })
+    int updateMoney(@Param("id") Integer id,@Param("money") Integer money);
+
     @Select({
             "select coe_id from coe_list"
     })
