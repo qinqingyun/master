@@ -38,8 +38,8 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
             JSONObject data = itPipelineData.getJSONObject(i);
             pipelineItPO.setDepartmentId(data.getInteger("id"));
             pipelineItPO.setDepartmentName(data.getString("name"));
-            Integer pipelinePass = data.getInteger("pipelinePass");
-            Integer pipelineTotal = data.getInteger("pipelineTotal");
+            Integer pipelinePass = data.getInteger("deployPass");
+            Integer pipelineTotal = data.getInteger("deployTotal");
             pipelineItPO.setPipelinePass(pipelinePass);
             pipelineItPO.setPipelineTotal(pipelineTotal);
             if (pipelinePass!=0){
@@ -47,8 +47,8 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
             }
             pipelineItPO.setPassRate(BigDecimal.valueOf(passRate));
             //部署成功率
-            Integer wholeCasePass = data.getInteger("deployPass");
-            Integer wholeCaseTotal = data.getInteger("deployTotal");
+            Integer wholeCasePass = data.getInteger("wholeCasePass");
+            Integer wholeCaseTotal = data.getInteger("wholeCaseTotal");
             pipelineItPO.setWholeCasePass(wholeCasePass);
             pipelineItPO.setWholeCaseTotal(wholeCaseTotal);
             if (wholeCasePass!=0) {
