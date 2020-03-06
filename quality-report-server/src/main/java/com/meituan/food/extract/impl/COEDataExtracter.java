@@ -50,6 +50,9 @@ public class COEDataExtracter implements ICOEDataExtract {
     @Override
     public void getCOEData(String firstDateStr, String secondDateStr) throws ParseException {
 
+        String dateString = "2020-03-06";
+        Date inceptionDate= new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
         List<Integer> orgList=new ArrayList<>();
      //   orgList.add(43442);
         orgList.add(70); //到店餐饮研发中心
@@ -137,7 +140,6 @@ public class COEDataExtracter implements ICOEDataExtract {
                             getOther(coeId,coePO);
                             if (orgPath.contains("到店餐饮研发中心")||orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组")||orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组")||orgPath.contains("平台终端研发组/到店餐饮研发组")||orgPath.contains("到餐研发组")||orgPath.contains("到店餐饮测试组")){
                                 coePO.setCategory(incidentDetail.getString("category"));
-
                                 JSONObject coeTypeResp=HttpUtils.doGet(coeTypeUrl+coeId+"/types",JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
                                 JSONArray coeTypeArray=coeTypeResp.getJSONArray("types");
                                 if (coeTypeArray.size()!=0){
@@ -159,7 +161,13 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 CoeListPO coeListPO = coeListPOMapper.selectByCoeId(coeId);
                                 coePO.setId(coeListPO.getId());
                                 coePO.setAvailable(coeListPO.getAvailable());
+                                if(coePO.getOccurDate().compareTo(inceptionDate)<=0){
+                                    coePO.setCapitalLoss(coeListPO.getCapitalLoss());
+                                    coePO.setOrderLoss(coeListPO.getOrderLoss());
+                                    coePO.setLineOfBusiness(coeListPO.getLineOfBusiness());
+                                }
                                 coeListPOMapper.updateByPrimaryKey(coePO);
+
                             }else {
                                 coeListPOMapper.insert(coePO);
                             }
@@ -262,6 +270,11 @@ public class COEDataExtracter implements ICOEDataExtract {
                     if (coeIdList.contains(coeId)){
                         CoeListPO coeListPO = coeListPOMapper.selectByCoeId(coeId);
                         coePO.setId(coeListPO.getId());
+                        if(coePO.getOccurDate().compareTo(inceptionDate)<=0){
+                            coePO.setCapitalLoss(coeListPO.getCapitalLoss());
+                            coePO.setOrderLoss(coeListPO.getOrderLoss());
+                            coePO.setLineOfBusiness(coeListPO.getLineOfBusiness());
+                        }
                         coeListPOMapper.updateByPrimaryKey(coePO);
                     }else {
                         if (!coePO.getOrgName().contains("住宿门票研发组")){
@@ -283,10 +296,10 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (newCoe>0){
+       /* if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
             DaXiangUtils.pushToRoom(pushStr,64057026090l);
-        }
+        }*/
     }
 
     public void getTodoList(CoeListPO coePO,int coeId){
