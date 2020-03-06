@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayTpPipelineExtract;
 import com.meituan.food.mapper.PipelineTpMapper;
-import com.meituan.food.po.PipelinePrPO;
 import com.meituan.food.po.PipelineTpPO;
 import com.meituan.food.utils.HttpUtils;
-import com.meituan.food.utils.SsoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +39,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     public void UpdateTpPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/cq/cq/pipeline/data/portal-union-by-direction";
         String param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"]}";
-        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         pipelineTpMapper.deleteByDate(date);
         for (int i = 0 ; i<directions.length; i++){
             JSONArray dirTDs=null;
@@ -94,7 +92,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         String url = "http://qa.sankuai.com/cq/cq/pipeline/data/detail";
         for(int j = 0 ;j<issueKey.size();j++){
             param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"issueKey\":\""+issueKey.get(j)+"\"}";
-            resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+            resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
             JSONArray rejects = resp.getJSONObject("data").getJSONArray("rejectInfo");
             for(int k=0;k<rejects.size();k++) {
                     JSONObject rejectInfo = rejects.getJSONObject(k);

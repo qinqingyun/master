@@ -7,8 +7,6 @@ import com.meituan.food.extract.IOneDayItPipelineExtract;
 import com.meituan.food.mapper.PipelineItMapper;
 import com.meituan.food.po.PipelineItPO;
 import com.meituan.food.utils.HttpUtils;
-import com.meituan.food.utils.SsoUtils;
-import com.sankuai.meituan.org.opensdk.service.OrgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +27,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
         String url = "http://qa.sankuai.com/data/it/operate?from=" + yesterday + "&to=" + today;
 //        参数469为到店餐饮测试组id
         String param = "[{\"value\":\"\",\"key\":\"469\"}]";
-        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
+        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         JSONArray itPipelineData = resp.getJSONObject("data").getJSONArray("到店餐饮测试组#469");
         PipelineItPO pipelineItPO = new PipelineItPO();
         double passRate = 0.00;
@@ -40,14 +38,15 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
             JSONObject data = itPipelineData.getJSONObject(i);
             pipelineItPO.setDepartmentId(data.getInteger("id"));
             pipelineItPO.setDepartmentName(data.getString("name"));
-            Integer pipelinePass = data.getInteger("pipelinePass");
-            Integer pipelineTotal = data.getInteger("pipelineTotal");
+            Integer pipelinePass = data.getInteger("deployPass");
+            Integer pipelineTotal = data.getInteger("deployTotal");
             pipelineItPO.setPipelinePass(pipelinePass);
             pipelineItPO.setPipelineTotal(pipelineTotal);
             if (pipelinePass!=0){
                 passRate = new BigDecimal((float)pipelinePass/pipelineTotal).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             }
             pipelineItPO.setPassRate(BigDecimal.valueOf(passRate));
+            //部署成功率
             Integer wholeCasePass = data.getInteger("wholeCasePass");
             Integer wholeCaseTotal = data.getInteger("wholeCaseTotal");
             pipelineItPO.setWholeCasePass(wholeCasePass);
