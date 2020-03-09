@@ -102,7 +102,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                     }
                     pipelineTpPO.addRejectReasons(rejectInfo.getString("reason"));
 
-                    if (rejectInfo.getBoolean("valid")) {
+                    if (rejectInfo.getBoolean("valid")!=null&&rejectInfo.getBoolean("valid")==true) {
                         switch (rejectStage) {
                             case "分支规范检查":
                                 pipelineTpPO.setBranchCheckOK(pipelineTpPO.getBranchCheckOK() + 1);
@@ -128,7 +128,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                             default:
                                 pipelineTpPO.setOtherOK(pipelineTpPO.getOtherOK() + 1);
                         }
-                    } else {
+                    } else if (rejectInfo.getBoolean("valid")!=null&&rejectInfo.getBoolean("valid")==false){
                         switch (rejectStage) {
                             case "分支规范检查":
                                 pipelineTpPO.setBranchCheckNO(pipelineTpPO.getBranchCheckNO() + 1);
