@@ -24,6 +24,7 @@ public class PipelineTpPO implements Serializable {
     Integer oneTimePassCount;
     //自动化接入
     Integer autoRunCountNumberList;
+    Integer allCase = 0;
 
 
 
