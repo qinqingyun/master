@@ -66,7 +66,9 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 pipelineTpPO.setFailed(failed);
                 pipelineTpPO.setOneTimePassCount(oneTimePassCount);
                 pipelineTpPO.setAutoRunCountNumberList(autoRunCountNumberList);
+                //获取自动化case数和提测失败原因
                 PipelineTpPO rejectResult = getReason(dirTDs, date);
+                pipelineTpPO.setAllCase(rejectResult.getAllCase());
                 pipelineTpPO.setRejectReasonString(rejectResult.getRejectReasons().toString());
                 String descSlip = org.apache.commons.lang.StringUtils.join(rejectResult.getRejectDesc(), "###");
                 pipelineTpPO.setRejectDescString(descSlip);
@@ -93,6 +95,8 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         for(int j = 0 ;j<issueKey.size();j++){
             param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"issueKey\":\""+issueKey.get(j)+"\"}";
             resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
+            Integer allCase = resp.getJSONObject("data").getJSONArray("atCountList").getJSONArray(0).getInteger(0);
+            pipelineTpPO.setAllCase(allCase);
             JSONArray rejects = resp.getJSONObject("data").getJSONArray("rejectInfo");
             for(int k=0;k<rejects.size();k++) {
                     JSONObject rejectInfo = rejects.getJSONObject(k);

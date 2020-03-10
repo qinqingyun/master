@@ -17,7 +17,7 @@ public interface PipelineTpMapper {
 
     @Insert({
         "insert into pipeline_tp_data (id, direction_id, direction_name," +
-                "task,sum,pass," +
+                "task,sum,pass,allCase," +
                 "failed,oneTimePassCount,autoRunCountNumberList," +
                 "branchCheckOK,branchCheckNO," +
                 "enviromentcheckOK," +
@@ -27,7 +27,7 @@ public interface PipelineTpMapper {
                 "autoCheckOK,autoCheckNO,otherOK," +
                 "otherNO,rejectReasonString,rejectDescString,tp_date)",
         "values (#{id,jdbcType=INTEGER},#{direction_id,jdbcType=INTEGER},#{direction_name,jdbcType=VARCHAR}," +
-                "#{task,jdbcType=INTEGER},#{sum,jdbcType=INTEGER},#{pass,jdbcType=INTEGER}," +
+                "#{task,jdbcType=INTEGER},#{sum,jdbcType=INTEGER},#{pass,jdbcType=INTEGER},#{allCase,jdbcType=INTEGER}," +
                 "#{failed,jdbcType=INTEGER},#{oneTimePassCount,jdbcType=INTEGER},#{autoRunCountNumberList,jdbcType=INTEGER}," +
                 "#{branchCheckOK,jdbcType=INTEGER},#{branchCheckNO,jdbcType=INTEGER}," +
                 "#{enviromentcheckOK,jdbcType=INTEGER}," +
