@@ -49,6 +49,11 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
             }
             if(dirTDs!=null) {
                 for (int k = 0; k < dirTDs.size(); k++) {
+                    sum=0 ;
+                    pass = 0;
+                    failed = 0;
+                    oneTimePassCount =0;
+                    autoRunCountNumberList = 0;
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
                         sum = sum + detail.getInteger("sum");
@@ -95,8 +100,11 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         for(int j = 0 ;j<issueKey.size();j++){
             param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"issueKey\":\""+issueKey.get(j)+"\"}";
             resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
-            Integer allCase = resp.getJSONObject("data").getJSONArray("atCountList").getJSONArray(0).getInteger(0);
-            pipelineTpPO.setAllCase(allCase);
+            Integer haveCase = resp.getJSONObject("data").getJSONArray("atCountList").size();
+            if (haveCase!=0){//提测被删=0？
+                Integer allCase = resp.getJSONObject("data").getJSONArray("atCountList").getJSONArray(0).getInteger(0);
+                pipelineTpPO.setAllCase(allCase);
+            }
             JSONArray rejects = resp.getJSONObject("data").getJSONArray("rejectInfo");
             for(int k=0;k<rejects.size();k++) {
                     JSONObject rejectInfo = rejects.getJSONObject(k);
