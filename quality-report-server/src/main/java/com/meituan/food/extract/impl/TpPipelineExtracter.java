@@ -88,6 +88,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         for(int j =0;j<dirs.size();j++){
             if(dirs.get(j).toString().contains("st")){
                 dirs.remove(j);
+                j=j-1;
             }
         }
         return dirs;
