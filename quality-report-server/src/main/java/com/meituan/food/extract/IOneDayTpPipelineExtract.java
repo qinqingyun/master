@@ -8,5 +8,6 @@ import java.time.LocalDate;
 public interface IOneDayTpPipelineExtract {
 
     void UpdateTpPipelineData(LocalDate date);
+    void insertDirection(Integer direction_id,String direction_name,String group_name);
 
 }

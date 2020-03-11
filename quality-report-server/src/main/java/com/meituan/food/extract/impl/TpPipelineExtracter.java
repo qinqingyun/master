@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayTpPipelineExtract;
 import com.meituan.food.mapper.PipelineTpMapper;
+import com.meituan.food.po.PipelineDirectionPO;
 import com.meituan.food.po.PipelineTpPO;
 import com.meituan.food.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -172,5 +173,15 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
 
         }
         return pipelineTpPO;
+    }
+
+    public void insertDirection(Integer direction_id,String direction_name,String group_name){
+        PipelineDirectionPO pipelineDirectionPO = new PipelineDirectionPO();
+        pipelineDirectionPO.setDirection_id(direction_id);
+        pipelineDirectionPO.setDirection_name(direction_name);
+        pipelineDirectionPO.setGroup_name(group_name);
+        pipelineTpMapper.insertDirection(pipelineDirectionPO);
+
+
     }
 }
