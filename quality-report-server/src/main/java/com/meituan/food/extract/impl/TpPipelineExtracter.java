@@ -43,12 +43,12 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         pipelineTpMapper.deleteByDate(date);
         for (int i = 0 ; i<directions.length; i++){
-            JSONArray dirTDs=null;
+            JSONArray dirTDs=new JSONArray();
             JSONArray dirAll = resp.getJSONObject("data").getJSONObject("direciton-relationship").getJSONArray(String.valueOf((directions[i])));
             if(dirAll!=null){
                 dirTDs = removeST(dirAll);
             }
-            if(dirTDs!=null) {
+            if(dirTDs.size()!=0) {
                 for (int k = 0; k < dirTDs.size(); k++) {
                     sum=0 ;
                     pass = 0;
