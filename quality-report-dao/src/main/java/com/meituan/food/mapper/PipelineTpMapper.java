@@ -1,5 +1,6 @@
 package com.meituan.food.mapper;
 
+import com.meituan.food.po.PipelineDirectionPO;
 import com.meituan.food.po.PipelinePrPO;
 import com.meituan.food.po.PipelineTpPO;
 import org.apache.ibatis.annotations.Delete;
@@ -38,5 +39,11 @@ public interface PipelineTpMapper {
                 "#{otherNO,jdbcType=INTEGER}, #{rejectReasonString,jdbcType=VARCHAR},#{rejectDescString,jdbcType=VARCHAR},#{tp_date,jdbcType=DATE})"
     })
     int insert(PipelineTpPO record);
+
+    @Insert({
+            "insert into direction (id, direction_id, direction_name,group_name)",
+            "values (#{id,jdbcType=INTEGER},#{direction_id,jdbcType=INTEGER},#{direction_name,jdbcType=VARCHAR},#{group_name,jdbcType=VARCHAR})"
+    })
+    int insertDirection(PipelineDirectionPO record);
 
 }

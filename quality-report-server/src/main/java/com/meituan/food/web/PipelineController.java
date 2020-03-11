@@ -74,4 +74,11 @@ public class PipelineController {
 
         return "OK!";
     }
+
+    @GetMapping("/insert/direction")
+    public String insertDirectionDate(@RequestParam("direction_id") Integer direction_id,@RequestParam("direction_name") String direction_name,@RequestParam("group_name") String group_name) throws ParseException {
+
+        oneDayTpPipelineExtract.insertDirection(direction_id,direction_name,group_name);
+        return "OK!";
+    }
 }
