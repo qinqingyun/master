@@ -34,7 +34,7 @@ public class itPipelineExtracter implements IOneDayItPipelineExtract {
         double casePassRate = 0.00;
         pipelineItMapper.deleteByDate(yesterday);
 
-        for (int i = 1; i < itPipelineData.size(); i++) {
+        for (int i = 0; i < itPipelineData.size(); i++) {
             JSONObject data = itPipelineData.getJSONObject(i);
             pipelineItPO.setDepartmentId(data.getInteger("id"));
             pipelineItPO.setDepartmentName(data.getString("name"));
