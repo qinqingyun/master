@@ -49,12 +49,12 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 dirTDs = removeST(dirAll);
             }
             if(dirTDs.size()!=0) {
+                sum=0 ;
+                pass = 0;
+                failed = 0;
+                oneTimePassCount =0;
+                autoRunCountNumberList = 0;
                 for (int k = 0; k < dirTDs.size(); k++) {
-                    sum=0 ;
-                    pass = 0;
-                    failed = 0;
-                    oneTimePassCount =0;
-                    autoRunCountNumberList = 0;
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
                         sum = sum + detail.getInteger("sum");
