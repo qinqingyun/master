@@ -33,11 +33,11 @@ public class COEDataExtracter implements ICOEDataExtract {
 
     private static final String coeDetailUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
-    private static final String coeTypeUrl="https://coe.sankuai.com/api/v1.0/incidents/";
+    private static final String coeTypeUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
-    private static final String coeImprovementsUrl="https://coe.sankuai.com/api/v1.0/incidents/";
+    private static final String coeImprovementsUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
-    private static final String customUrl="https://coe.sankuai.com/api/v1.0/incidents/";
+    private static final String customUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
     @Resource
     private CoeListPOMapper coeListPOMapper;
@@ -45,12 +45,12 @@ public class COEDataExtracter implements ICOEDataExtract {
     @Resource
     private ToDoPoMapper toDoPoMapper;
 
-    String ssoid=SsoUtils.getSsoId();
+    String ssoid = SsoUtils.getSsoId();
 
     @Override
     public void getCOEData(String firstDateStr, String secondDateStr) throws ParseException {
 
-        String dateString = "2020-03-06";
+       /* String dateString = "2020-03-06";
         Date inceptionDate= new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
 
         List<Integer> orgList=new ArrayList<>();
@@ -151,9 +151,9 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 coePO.setSubCategory("第三方");
                             }
 
-                            /*
-                             * todoList方法
-                             * */
+                            *//*
+         * todoList方法
+         * *//*
                             getTodoList(coePO,coeId);
                             System.out.println(coePO.toString());
 
@@ -296,10 +296,10 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (newCoe>0){
+      *//*  if (newCoe>0){
             DaXiangUtils.pushToPerson(pushStr,"guomengyao");
             DaXiangUtils.pushToRoom(pushStr,64057026090l);
-        }
+        }*//*
     }
 
     public void getTodoList(CoeListPO coePO,int coeId){
@@ -411,5 +411,6 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
+    }*/
     }
 }
