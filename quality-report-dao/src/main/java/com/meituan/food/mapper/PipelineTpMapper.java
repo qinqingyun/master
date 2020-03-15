@@ -46,4 +46,10 @@ public interface PipelineTpMapper {
     })
     int insertDirection(PipelineDirectionPO record);
 
+    @Delete({
+            "delete from direction",
+            "where direction_id = #{direction_id,jdbcType=DATE}"
+    })
+    int deleteDirection(Integer direction_id);
+
 }
