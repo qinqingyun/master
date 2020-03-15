@@ -3,14 +3,14 @@ package com.meituan.food.po;
 import java.util.ArrayList;
 import java.util.List;
 
-public class apiCoverStatusTableExample {
+public class ApiCoverStatusTableExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public apiCoverStatusTableExample() {
+    public ApiCoverStatusTableExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

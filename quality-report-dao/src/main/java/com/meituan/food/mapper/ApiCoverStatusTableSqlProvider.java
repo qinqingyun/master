@@ -1,30 +1,30 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.apiCoverStatusTable;
-import com.meituan.food.po.apiCoverStatusTableExample.Criteria;
-import com.meituan.food.po.apiCoverStatusTableExample.Criterion;
-import com.meituan.food.po.apiCoverStatusTableExample;
+import com.meituan.food.po.ApiCoverStatusTable;
+import com.meituan.food.po.ApiCoverStatusTableExample.Criteria;
+import com.meituan.food.po.ApiCoverStatusTableExample.Criterion;
+import com.meituan.food.po.ApiCoverStatusTableExample;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
-public class apiCoverStatusTableSqlProvider {
+public class ApiCoverStatusTableSqlProvider {
 
-    public String countByExample(apiCoverStatusTableExample example) {
+    public String countByExample(ApiCoverStatusTableExample example) {
         SQL sql = new SQL();
         sql.SELECT("count(*)").FROM("api_cover_status_table");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String deleteByExample(apiCoverStatusTableExample example) {
+    public String deleteByExample(ApiCoverStatusTableExample example) {
         SQL sql = new SQL();
         sql.DELETE_FROM("api_cover_status_table");
         applyWhere(sql, example, false);
         return sql.toString();
     }
 
-    public String insertSelective(apiCoverStatusTable record) {
+    public String insertSelective(ApiCoverStatusTable record) {
         SQL sql = new SQL();
         sql.INSERT_INTO("api_cover_status_table");
         
@@ -43,7 +43,7 @@ public class apiCoverStatusTableSqlProvider {
         return sql.toString();
     }
 
-    public String selectByExample(apiCoverStatusTableExample example) {
+    public String selectByExample(ApiCoverStatusTableExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
             sql.SELECT_DISTINCT("id");
@@ -63,8 +63,8 @@ public class apiCoverStatusTableSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        apiCoverStatusTable record = (apiCoverStatusTable) parameter.get("record");
-        apiCoverStatusTableExample example = (apiCoverStatusTableExample) parameter.get("example");
+        ApiCoverStatusTable record = (ApiCoverStatusTable) parameter.get("record");
+        ApiCoverStatusTableExample example = (ApiCoverStatusTableExample) parameter.get("example");
         
         SQL sql = new SQL();
         sql.UPDATE("api_cover_status_table");
@@ -93,12 +93,12 @@ public class apiCoverStatusTableSqlProvider {
         sql.SET("appkey = #{record.appkey,jdbcType=VARCHAR}");
         sql.SET("api_name = #{record.apiName,jdbcType=VARCHAR}");
         
-        apiCoverStatusTableExample example = (apiCoverStatusTableExample) parameter.get("example");
+        ApiCoverStatusTableExample example = (ApiCoverStatusTableExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
     }
 
-    public String updateByPrimaryKeySelective(apiCoverStatusTable record) {
+    public String updateByPrimaryKeySelective(ApiCoverStatusTable record) {
         SQL sql = new SQL();
         sql.UPDATE("api_cover_status_table");
         
@@ -115,7 +115,7 @@ public class apiCoverStatusTableSqlProvider {
         return sql.toString();
     }
 
-    protected void applyWhere(SQL sql, apiCoverStatusTableExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(SQL sql, ApiCoverStatusTableExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

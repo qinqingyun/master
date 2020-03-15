@@ -2,7 +2,7 @@ package com.meituan.food.po;
 
 import java.io.Serializable;
 
-public class apiCoverStatusTable implements Serializable {
+public class ApiCoverStatusTable implements Serializable {
     private Integer id;
 
     private String appkey;
@@ -46,7 +46,7 @@ public class apiCoverStatusTable implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        apiCoverStatusTable other = (apiCoverStatusTable) that;
+        ApiCoverStatusTable other = (ApiCoverStatusTable) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getAppkey() == null ? other.getAppkey() == null : this.getAppkey().equals(other.getAppkey()))
             && (this.getApiName() == null ? other.getApiName() == null : this.getApiName().equals(other.getApiName()));

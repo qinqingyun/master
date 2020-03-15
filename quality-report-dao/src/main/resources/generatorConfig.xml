@@ -133,8 +133,8 @@
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
-        <table tableName="api_cover_status_table" domainObjectName="apiCoverStatusTable" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+        <!--<table tableName="api_cover_status_table" domainObjectName="ApiCoverStatusTable" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
     </context>
 
 </generatorConfiguration>
