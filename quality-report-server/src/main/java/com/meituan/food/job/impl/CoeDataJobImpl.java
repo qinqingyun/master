@@ -17,11 +17,11 @@ public class CoeDataJobImpl implements IGetApiCoverageJob {
 
     @Override
     public void sync() throws ParseException {
-      /*  LocalDate firstDay=LocalDate.now().minusDays(60);
+        LocalDate firstDay=LocalDate.now().minusDays(60);
         LocalDate secondDay=LocalDate.now().minusDays(1);
         String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        coeDataExtract.getCOEData(firstDayStr,secondDayStr);*/
+        coeDataExtract.getCOEData(firstDayStr,secondDayStr);
     }
 }
