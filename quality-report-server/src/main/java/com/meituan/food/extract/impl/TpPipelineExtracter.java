@@ -181,6 +181,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         pipelineDirectionPO.setDirection_id(direction_id);
         pipelineDirectionPO.setDirection_name(direction_name);
         pipelineDirectionPO.setGroup_name(group_name);
+        pipelineTpMapper.deleteDirection(direction_id);
         pipelineTpMapper.insertDirection(pipelineDirectionPO);
 
 

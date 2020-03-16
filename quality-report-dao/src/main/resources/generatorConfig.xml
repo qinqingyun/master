@@ -128,6 +128,7 @@
                enableUpdateByExample="true"/>-->
        <!-- <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
+
         <!--<table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -135,6 +136,7 @@
 
         <!--<table tableName="api_cover_status_table" domainObjectName="ApiCoverStatusTable" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
+
     </context>
 
 </generatorConfiguration>
