@@ -91,4 +91,18 @@ public interface ApiCoverStatusTableMapper {
             "where appkey = #{appkey,jdbcType=VARCHAR}"
     })
     List<String> getCoverdApiByAppkey(@Param("appkey") String appkey);
+
+    @Select({
+            "select",
+            "id, appkey, api_name",
+            "from api_cover_status_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR} ",
+            "and api_name=#{api,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="api_name", property="apiName", jdbcType=JdbcType.VARCHAR)
+    })
+    ApiCoverStatusTable selectByAppkeyAndApi(@Param("appkey") String  appkey,@Param("api") String api);
 }

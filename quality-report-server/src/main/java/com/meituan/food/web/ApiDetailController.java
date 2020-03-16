@@ -58,9 +58,9 @@ public class ApiDetailController {
                     ApiCoverStatusTable record = new ApiCoverStatusTable();
                     record.setApiName(data.get(i).getApiName());
                     record.setAppkey(data.get(i).getAppkey());
-                    if(apiCoverStatusTableMapper.isNull(record) == 0 && data.get(i).getIsCovered() == 1) {
+                    if(data.get(i).getIsCovered() == 1 && apiCoverStatusTableMapper.isNull(record) == 0) {
                         apiCoverStatusTableMapper.insert(record);
-                    }else if(apiCoverStatusTableMapper.isNull(record) > 0 && data.get(i).getIsCovered() == 0) {
+                    }else if( data.get(i).getIsCovered() == 0 && apiCoverStatusTableMapper.isNull(record) > 0) {
                         apiCoverStatusTableMapper.deleteByApiName(data.get(i).getAppkey(), data.get(i).getApiName());
                     }
             }else{
