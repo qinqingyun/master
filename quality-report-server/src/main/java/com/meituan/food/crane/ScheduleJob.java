@@ -210,14 +210,14 @@ public class ScheduleJob {
         oneWeekEfficiencyJob.sync();
     }
 
-    //每月人效数据邮件
+    //每月人效数据邮件---暂停
     @Crane("one.month.efficiency.job")
     public void syncOneMonthEfficiency() throws MDMThriftException, TException {
         log.info("one month efficiency job execute at: {}", new Date());
         oneMonthEfficiencyJob.sync();
     }
 
-    //季度人效邮件任务
+    //季度人效邮件任务--暂停
     @Crane("one.quarter.mail.job")
     public void syncOneQMailJob() throws TException, MDMThriftException {
         log.info("one quarter mail  efficiency job execute at: {}", new Date());
@@ -310,7 +310,7 @@ public class ScheduleJob {
         pushDutyDataToAdminJob.pushData();
     }
 
-    //人效邮件-半年
+    //人效邮件-半年---暂停
     @Crane("one.half.mail.job")
     public void halfOfYearJob() throws TException, MDMThriftException {
         halfYearMailJob.sync();
