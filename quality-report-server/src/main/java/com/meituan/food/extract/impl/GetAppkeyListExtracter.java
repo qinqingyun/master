@@ -92,6 +92,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.m", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.nibtp","meituan.nibtp.food","","",1,1));
         pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.new","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.shopping_community","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.dzopen_saas","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.relex","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.saas-product","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.zsda","","",14,14));
 
 
         List<String> appkeyStrList2 = new ArrayList<>();
