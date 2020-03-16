@@ -10,6 +10,7 @@ public class ApiVO {
     private String appkey;
     private String apiName;
     private int isCore; //核心:1；非核心:0
+    private int isCovered; //覆盖:1；没覆盖:0
     private long callCount; //接口调用量
     private BigDecimal proportion; //接口调用量占比
     private Date updatedTime; //数据更新时间

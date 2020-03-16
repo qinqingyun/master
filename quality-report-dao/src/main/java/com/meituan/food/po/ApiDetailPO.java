@@ -23,6 +23,9 @@ public class ApiDetailPO implements Serializable {
 
     private Date updatedAt;
 
+
+    private Integer isCovered;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -95,6 +98,14 @@ public class ApiDetailPO implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getIsCovered() {
+        return isCovered;
+    }
+
+    public void setIsCovered(Integer isCovered) {
+        this.isCovered = isCovered;
     }
 
     @Override
