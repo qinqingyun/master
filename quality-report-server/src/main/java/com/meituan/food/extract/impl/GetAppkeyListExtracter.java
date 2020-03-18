@@ -9,9 +9,11 @@ import com.meituan.food.extract.IGetAppkeyList;
 import com.meituan.food.extract.IReleaseNameExtract;
 import com.meituan.food.job.vo.AppkeyData;
 import com.meituan.food.mapper.AppkeyListPOMapper;
+import com.meituan.food.mapper.ReleaseNamePOMapper;
 import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.utils.HttpUtils;
 import groovy.json.StringEscapeUtils;
+import org.bouncycastle.jcajce.provider.symmetric.Noekeon;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.events.Event;
@@ -31,6 +33,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
     @Resource
     public IReleaseNameExtract releaseNameExtract;
+
+    @Resource
+    public ReleaseNamePOMapper releaseNamePOMapper;
 
     @Override
     public void getAppkeyList() {
@@ -243,6 +248,12 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 appkeyListPOMapper.insert(appkeyListPO);
                 String srv = appkeyListPO.getSrv();
                 releaseNameExtract.insertReleaseName(srv);
+            }else {
+                appkeyListPOMapper.updateAppkey(appkeyListPO.getAppkey(),now,appkeyListPO.getDepartmentId(),appkeyListPO.getDepartmentId2(),appkeyListPO.getOwt(),appkeyListPO.getPdl(),appkeyListPO.getSrv());
+                String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());
+                if (releaseName!=null){
+                    releaseNamePOMapper.updateByReleaseName(appkeyListPO.getSrv(),releaseName,now);
+                }
             }
         }
 
