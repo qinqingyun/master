@@ -81,4 +81,20 @@ public class PipelineController {
         oneDayTpPipelineExtract.insertDirection(direction_id,direction_name,group_name);
         return "OK!";
     }
+
+    @GetMapping("/insert/pr/repo")
+    public String insertRepoPRFromToDate(@RequestParam("from") String start,@RequestParam("to") String end) throws ParseException {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startL = LocalDate.parse(start, fmt);
+        LocalDate endL = LocalDate.parse(end, fmt);
+        do {
+            startL = startL.plusDays(1);
+            oneDayPrPipelineExtract.UpdatePrAutoData(startL);
+
+        } while (startL.toEpochDay() <= endL.toEpochDay());
+
+        return "OK!";
+    }
+
+
 }
