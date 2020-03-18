@@ -8,5 +8,6 @@ import java.time.LocalDate;
 public interface IOneDayPrPipelineExtract {
 
     void UpdatePrPipelineData(LocalDate date);
+    void UpdatePrAutoData(LocalDate date);
 
 }
