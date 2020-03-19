@@ -113,15 +113,17 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         //组织参数参考wiki https://km.sankuai.com/page/201266445
         String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"265\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
-        PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
         pipelinePrMapper.deleteRepoByDate(yesterday);
+        //遍历每个组织
         for(String strKey:resp.getJSONObject("data").keySet())
         {
+            PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
             pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
             pipelinePrAutoPO.setDirectionName(data.getString("label"));
             JSONObject repos = data.getJSONObject("children");
 
+            //遍历组织下所有仓库
             for(String strKey2:repos.keySet()) {
                 JSONObject onePro = repos.getJSONObject(strKey2);
                 pipelinePrAutoPO.setRepo(strKey2);
@@ -135,7 +137,8 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
                     } else {
                         pipelinePrAutoPO.setIsAutoOn(0);
-                        pipelinePrAutoPO.setTotalCase(0);
+                        //仓库自动化关闭，默认自动化数-1
+                        pipelinePrAutoPO.setTotalCase(-1);
                         pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
                     }
                 }else {
@@ -170,21 +173,22 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                 }
                 JSONObject repoCases = pr.getJSONObject(strKey);
                 Integer times = 0;
-                for (String strKey2 : repoCases.keySet()) {
-                    times++;
-                    if (times==repoCases.size()) {
-                        JSONObject onetimeAuto = repoCases.getJSONObject(strKey2);
-                        Integer totals = onetimeAuto.getInteger("total");
-                        double coverage = onetimeAuto.getDouble("coverage");
-                        pipelinePrAutoPO.setTotalCase(totals);
-                        pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(coverage));
-                    }
+                    for (String strKey2 : repoCases.keySet()) {
+                        times++;
+                        if (times == repoCases.size()) {
+                            JSONObject onetimeAuto = repoCases.getJSONObject(strKey2);
+                            Integer totals = onetimeAuto.getInteger("total");
+                            double coverage = onetimeAuto.getDouble("coverage");
+                            pipelinePrAutoPO.setTotalCase(totals);
+                            pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(coverage));
+                        }
 
-                }
+                    }
 
             }
         }else {
-            pipelinePrAutoPO.setTotalCase(0);
+            //没有PR执行默认-1
+            pipelinePrAutoPO.setTotalCase(-1);
             pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
         }
 
