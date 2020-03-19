@@ -17,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -69,6 +70,9 @@ public class WeekCCrashExtracter implements IOneWeekCrashExtract {
                 .map(CompletableFuture::join)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(crashRatePOS)) {
+            return;
+        }
         weekCCrashRatePOMapper.batchInsert(crashRatePOS);
     }
 
