@@ -75,6 +75,15 @@ public interface ApiCoverStatusPOMapper {
     })
     ApiCoverStatusPO selectByAppkeyAndApi(@Param("appkey") String  appkey,@Param("api") String api);
 
+    @Select({
+            "select",
+            "api_name",
+            "from api_cover_status_table",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    List<String> selectByAppkey(@Param("appkey") String  appkey);
+
+
     @UpdateProvider(type=ApiCoverStatusPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ApiCoverStatusPO record, @Param("example") ApiCoverStatusPOExample example);
 

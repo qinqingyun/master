@@ -338,6 +338,15 @@ public interface AppkeyListPOMapper {
     })
     List<String> selectByDepartment_id_2(@Param("department_id_2") Integer departmentId2);
 
+
+    @Select({
+            "select",
+            "appkey",
+            "from appkey_list_table",
+            "where  offline=0 and rank!=2 and department_id_2 = #{department_id_2,jdbcType=INTEGER}"
+    })
+    List<String> selectCoreAppkeyByDepartment_id_2(@Param("department_id_2") Integer departmentId2);
+
     @Select({
             "select",
             "appkey",
