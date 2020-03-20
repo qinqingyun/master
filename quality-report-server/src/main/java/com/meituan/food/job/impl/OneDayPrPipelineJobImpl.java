@@ -18,6 +18,7 @@ public class OneDayPrPipelineJobImpl implements IOneDayPrPipelineJob {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.plusDays(-1);
         oneDayPrPipelineExtract.UpdatePrPipelineData(yesterday);
+        oneDayPrPipelineExtract.UpdatePrAutoData(today);
         }
 
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -171,6 +172,14 @@ public class AppkeyController {
         appkeyVO.setRank(appkeyPO.getRank());
         List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
 //        List<String> getCoverdApiByAppkey(@Param("appkey") String appkey);
+        Iterator<ApiDetailPO> it = apiDetailPOS.iterator();
+        while(it.hasNext()){
+            ApiDetailPO item = it.next();
+            if(1 == item.getCallCount()){
+                it.remove();
+            }
+        }
+
         List<String> coveredList = apiCoverStatusTableMapper.getCoverdApiByAppkey(appkey);
         if (apiDetailPOS.size()==0){
             return appkeyVO;
