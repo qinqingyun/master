@@ -22,6 +22,8 @@ public class PipelinePrAutoPO implements Serializable {
 
     private Integer totalCase;
 
+
+
     public BigDecimal getCoverage() {
         return coverage;
     }
@@ -31,6 +33,8 @@ public class PipelinePrAutoPO implements Serializable {
     }
 
     private BigDecimal coverage;
+
+    private BigDecimal passes;
 
     private LocalDate auto_date;
 

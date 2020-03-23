@@ -17,7 +17,7 @@ public interface PipelinePrMapper {
 
     @Delete({
             "delete from pipeline_pr_repo_data",
-            "where auto_date = #{createTime,jdbcType=DATE}"
+            "where auto_date = #{createTime,jdbcType=DATE} and department_id in (260,262,296)"
     })
     int deleteRepoByDate(LocalDate createTime);
 
@@ -28,8 +28,8 @@ public interface PipelinePrMapper {
     int insert(PipelinePrPO record);
 
     @Insert({
-            "insert into pipeline_pr_repo_data (id,department_id, department_name, repo,isAutoOn, totalCase,coverage,auto_date)",
-            "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{coverage,jdbcType=DECIMAL},#{auto_date,jdbcType=DATE})"
+            "insert into pipeline_pr_repo_data (id,department_id, department_name, repo,isAutoOn, totalCase,passes,coverage,auto_date)",
+            "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{passes,jdbcType=DECIMAL},#{coverage,jdbcType=DECIMAL},#{auto_date,jdbcType=DATE})"
     })
     int insertRepo(PipelinePrAutoPO record);
 
