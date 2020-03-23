@@ -161,7 +161,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         }
 
                     }else {
-                        //遍历组织下所有仓库
+                        //遍历组织下所有仓库todo
 //                            JSONObject onePro = repos.getJSONObject(strKey2);
 //                            pipelinePrAutoPO.setRepo(strKey2);
 //
