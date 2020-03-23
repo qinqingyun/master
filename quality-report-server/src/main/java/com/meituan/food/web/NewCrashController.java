@@ -30,7 +30,7 @@ public class NewCrashController {
     }
 
 
-   @GetMapping("/update2")
+/*   @GetMapping("/update2")
     public String updateAllData(){
         for (int i=10;i>=1;i--){
             System.out.println(LocalDate.now().minusDays(i));
@@ -43,7 +43,7 @@ public class NewCrashController {
     public String updateAllWeekData()throws ParseException {
         newCrashExtract.syncForDays(format1.parse("2020-03-13"),format1.parse("2020-03-19"));
         return "OK!";
-    }
+    }*/
 
     /* @GetMapping("/updatemonth")
     public String updateAllMonthData()throws ParseException{

@@ -215,7 +215,7 @@ public class NewCrashExtracter implements INewCrashExtract {
     }
 
     public enum ProjectEnum {
-       /* B_IOS("开店宝", "iOS", "group_e", ""),
+        B_IOS("开店宝", "iOS", "group_e", ""),
         B_ANDROID("开店宝", "Android", "merchant-android", ""),
         DPGJ_IOS("点评管家", "iOS", "dpmerchant_ios", ""),
         DPGJ_ANDROID("点评管家", "Android", "_dpmerchant_android", ""),
@@ -224,11 +224,11 @@ public class NewCrashExtracter implements INewCrashExtract {
         MOMA_IOS("MOMA", "iOS", "moma_ios", ""),
         MOMA_ANDROID("MOMA", "Android", "momaandroid", ""),
         BEE_IOS("蜜蜂", "iOS", "waimai_mfe_bee_ios", ""),
-        BEE_ANDROID("蜜蜂", "Android", "waimai_mfe_bee_android", ""),*/
+        BEE_ANDROID("蜜蜂", "Android", "waimai_mfe_bee_android", ""),
         MT_IOS("美团", "iOS", "meituan", "optional_biz_group,group_food"),
-        MT_ANDROID("美团", "Android", "android_platform_monitor", "default_bg_bu_chinese,到店事业群-到店餐饮");
-       /* DP_IOS("点评", "iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59"),
-        DP_ANDROID("点评", "Android", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59");*/
+        MT_ANDROID("美团", "Android", "android_platform_monitor", "default_bg_bu_chinese,到店事业群-到店餐饮"),
+        DP_IOS("点评", "iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59"),
+        DP_ANDROID("点评", "Android", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59");
 
         private String app;
         private String os;
