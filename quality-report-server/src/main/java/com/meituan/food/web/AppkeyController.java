@@ -64,7 +64,10 @@ public class AppkeyController {
         Date now = new Date();
         appkeyListPOMapper.updateToOnByAppkey(appkey, now);
         AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
-        releaseNameExtract.insertReleaseName(appkeyListPO.getSrv());
+        String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());
+        if (releaseName==null){
+            releaseNameExtract.insertReleaseName(appkeyListPO.getSrv());
+        }
         return "OK!";
     }
 
