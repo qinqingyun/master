@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.boot.util.LambdaSafe;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -162,7 +163,28 @@ public class ApiCoverageController {
         if (departmentList.size()==0)
             return CommonResponse.errorRes("无数据，请确认id是否正确/是否有P1&P2服务");
         List<ApiCoverageStatusVO> apiCoverageStatusVOList=new ArrayList<>();
-        for (String departmentAppkey : departmentList) {
+        getUnCoverCoreApi(apiCoverageStatusVOList, departmentList);
+        return CommonResponse.successRes("成功",apiCoverageStatusVOList);
+    }
+
+    @GetMapping("/person")
+    public CommonResponse<List<ApiCoverageStatusVO>> getPersonalUncoverData(@RequestParam("mis") String mis){
+        List<String> appkeyList = appkeyAdminPOMapper.selectByMis(mis);
+        if (appkeyList.size()==0)
+            return CommonResponse.errorRes("无关联Appkey，请检查Mis信息是否正确");
+        for (String appkey : appkeyList) {
+            AppkeyListPO po = appkeyListPOMapper.selectByAppKey(appkey);
+            if (po.getRank()==2)
+                appkeyList.remove(po);
+        }
+        List<ApiCoverageStatusVO> apiCoverageStatusVOList=new ArrayList<>();
+        getUnCoverCoreApi(apiCoverageStatusVOList, appkeyList);
+        return CommonResponse.successRes("成功",apiCoverageStatusVOList);
+
+    }
+
+    public List<ApiCoverageStatusVO> getUnCoverCoreApi(List<ApiCoverageStatusVO> list,List<String> appkeyList){
+        for (String departmentAppkey : appkeyList) {
             List<String> apiList = apiCoverStatusPOMapper.selectByAppkey(departmentAppkey);
             List<ApiDetailPO> coreApiList = apiDetailPOMapper.selectCoreApiByAppkey(departmentAppkey);
             if (coreApiList.size()!=0){
@@ -173,11 +195,11 @@ public class ApiCoverageController {
                         vo.setCore(true);
                         vo.setCover(false);
                         vo.setApiSpanName(apiDetailPO.getApiSpanName());
-                        apiCoverageStatusVOList.add(vo);
+                        list.add(vo);
                     }
                 }
             }
         }
-        return CommonResponse.successRes("成功",apiCoverageStatusVOList);
+        return list;
     }
 }
