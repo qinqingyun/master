@@ -161,36 +161,36 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         }
 
                     }else {
-                        //遍历组织下所有仓库todo
-//                            JSONObject onePro = repos.getJSONObject(strKey2);
-//                            pipelinePrAutoPO.setRepo(strKey2);
-//
-//                            if(onePro.getBoolean("isAutoTest")!=null) {
-//
-//                                if (onePro.getBoolean("isAutoTest")) {
-//                                    pipelinePrAutoPO.setIsAutoOn(1);
-//                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-//                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-//                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-//                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-//                                } else {
-//                                    pipelinePrAutoPO.setIsAutoOn(0);
-//                                    //仓库自动化关闭，默认自动化数-1
-//                                    pipelinePrAutoPO.setTotalCase(-1);
-//                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
-//                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
-//                                }
-//                            }else {
-//                                //仓库下未标记isAutoTest
-//                                pipelinePrAutoPO.setIsAutoOn(0);
-//                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
-//                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-//                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-//                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
-//
-//                            }
-//                            pipelinePrAutoPO.setAuto_date(yesterday);
-//                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                        //遍历组织下所有仓库
+                            JSONObject onePro = repos.getJSONObject(strKey2);
+                            pipelinePrAutoPO.setRepo(strKey2);
+
+                            if(onePro.getBoolean("isAutoTest")!=null) {
+
+                                if (onePro.getBoolean("isAutoTest")) {
+                                    pipelinePrAutoPO.setIsAutoOn(1);
+                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
+                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+                                } else {
+                                    pipelinePrAutoPO.setIsAutoOn(0);
+                                    //仓库自动化关闭，默认自动化数-1
+                                    pipelinePrAutoPO.setTotalCase(-1);
+                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
+                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+                                }
+                            }else {
+                                //仓库下未标记isAutoTest
+                                pipelinePrAutoPO.setIsAutoOn(0);
+                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
+                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+
+                            }
+                            pipelinePrAutoPO.setAuto_date(yesterday);
+                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
                         }
 //
                 }

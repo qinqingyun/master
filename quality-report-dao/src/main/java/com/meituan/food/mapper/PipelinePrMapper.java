@@ -17,7 +17,7 @@ public interface PipelinePrMapper {
 
     @Delete({
             "delete from pipeline_pr_repo_data",
-            "where auto_date = #{createTime,jdbcType=DATE} and department_id in (260,262,296)"
+            "where auto_date = #{createTime,jdbcType=DATE}"
     })
     int deleteRepoByDate(LocalDate createTime);
 
