@@ -247,7 +247,12 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
             if (po1 == null) {
                 appkeyListPOMapper.insert(appkeyListPO);
                 String srv = appkeyListPO.getSrv();
-                releaseNameExtract.insertReleaseName(srv);
+                String releaseName = releaseNamePOMapper.selectBySrv(srv);
+                if (releaseName==null){
+                    releaseNameExtract.insertReleaseName(srv);
+                }else {
+                    releaseNamePOMapper.updateByReleaseName(srv,releaseName,now);
+                }
             }else {
                 appkeyListPOMapper.updateAppkey(appkeyListPO.getAppkey(),now,appkeyListPO.getDepartmentId(),appkeyListPO.getDepartmentId2(),appkeyListPO.getOwt(),appkeyListPO.getPdl(),appkeyListPO.getSrv());
                 String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());

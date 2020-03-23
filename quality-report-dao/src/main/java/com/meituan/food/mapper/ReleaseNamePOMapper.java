@@ -73,11 +73,7 @@ public interface ReleaseNamePOMapper {
             "where srv = #{srv,jdbcType=VARCHAR}"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
-            @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+            @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR)
     })
     String selectBySrv(@Param("srv") String srv);
 
