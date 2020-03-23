@@ -223,7 +223,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             JSONObject onetimeAuto = repoCases.getJSONObject(strKey2);
                             Integer totals = onetimeAuto.getInteger("total");
                             double coverage = onetimeAuto.getDouble("coverage");
-                            double passes = onetimeAuto.getDouble("passes")/totals;
+
+                            double passes = 0.0;
+                            if(totals!=0){
+                                passes=onetimeAuto.getDouble("passes")/totals;
+                            }else {
+                                passes = 0.0;
+                            }
                             pipelinePrAutoPO.setTotalCase(totals);
                             pipelinePrAutoPO.setPasses(BigDecimal.valueOf(passes));
                             pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(coverage));
