@@ -67,4 +67,31 @@ public class CoeController {
         cargoDataPushExtract.pushData();
         return "OK!";
     }
+
+    @GetMapping("/updatebusiness")
+    public String updateBusiness(@RequestParam("coeId") int coeId,@RequestParam("business") String business){
+        int flag = coeListPOMapper.updateBusiness(coeId, business);
+        if (flag == 1) {
+            return "更新成功";
+        }
+        return "更新失败";
+    }
+
+    @GetMapping("/updateorder")
+    public String updateOrder(@RequestParam("coeId") int coeId,@RequestParam("order") int order){
+        int flag = coeListPOMapper.updateOrder(coeId, order);
+        if (flag == 1) {
+            return "更新成功";
+        }
+        return "更新失败";
+    }
+
+    @GetMapping("/updatemoney")
+    public String updateMoney(@RequestParam("coeId") int coeId,@RequestParam("money") int money){
+        int flag = coeListPOMapper.updateMoney(coeId, money);
+        if (flag == 1) {
+            return "更新成功";
+        }
+        return "更新失败";
+    }
 }

@@ -3,11 +3,7 @@ package com.meituan.food.web;
 import com.meituan.food.extract.IGetAppkeyList;
 import com.meituan.food.extract.IReleaseNameExtract;
 import com.meituan.food.mapper.*;
-import com.meituan.food.po.ApiDetailPO;
-import com.meituan.food.po.AppkeyAdminPO;
-import com.meituan.food.po.AppkeyListPO;
-import com.meituan.food.po.AppkeyListPOExample;
-import com.meituan.food.po.ReleaseNamePO;
+import com.meituan.food.po.*;
 import com.meituan.food.web.vo.*;
 import jdk.nashorn.internal.objects.NativeRangeError;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -43,6 +40,10 @@ public class AppkeyController {
     @Resource
     private ApiDetailPOMapper apiDetailPOMapper;
 
+    @Resource
+    private ApiCoverStatusTableMapper apiCoverStatusTableMapper;
+
+
    /* @GetMapping("/insert")
     public String insertAppkey(){
         appkeyList.getAppkeyList();
@@ -63,7 +64,10 @@ public class AppkeyController {
         Date now = new Date();
         appkeyListPOMapper.updateToOnByAppkey(appkey, now);
         AppkeyListPO appkeyListPO = appkeyListPOMapper.selectByAppKey(appkey);
-        releaseNameExtract.insertReleaseName(appkeyListPO.getSrv());
+        String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());
+        if (releaseName==null){
+            releaseNameExtract.insertReleaseName(appkeyListPO.getSrv());
+        }
         return "OK!";
     }
 
@@ -170,6 +174,16 @@ public class AppkeyController {
         AppkeyListPO appkeyPO = appkeyListPOMapper.selectByAppKey(appkey);
         appkeyVO.setRank(appkeyPO.getRank());
         List<ApiDetailPO> apiDetailPOS = apiDetailPOMapper.selectByAppkey(appkey);
+//        List<String> getCoverdApiByAppkey(@Param("appkey") String appkey);
+        Iterator<ApiDetailPO> it = apiDetailPOS.iterator();
+        while(it.hasNext()){
+            ApiDetailPO item = it.next();
+            if(1 == item.getCallCount()){
+                it.remove();
+            }
+        }
+
+        List<String> coveredList = apiCoverStatusTableMapper.getCoverdApiByAppkey(appkey);
         if (apiDetailPOS.size()==0){
             return appkeyVO;
         }else {
@@ -181,6 +195,7 @@ public class AppkeyController {
                 apiVO.setIsCore(apiDetailPO.getIsCore());
                 apiVO.setProportion(apiDetailPO.getProportion());
                 apiVO.setUpdatedTime(apiDetailPO.getUpdatedAt());
+                apiVO.setIsCovered(coveredList.contains(apiDetailPO.getApiSpanName())==true?1:0);
                 apiVOList.add(apiVO);
             }
             appkeyVO.setApiVOList(apiVOList);

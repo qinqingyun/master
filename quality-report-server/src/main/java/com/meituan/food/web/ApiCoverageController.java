@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.mapper.*;
+import com.meituan.food.po.ApiCoverStatusPO;
 import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.utils.HttpUtils;
@@ -40,6 +41,9 @@ public class ApiCoverageController {
 
     @Resource
     private AppkeyListPOMapper appkeyListPOMapper;
+
+    @Resource
+    private ApiCoverStatusPOMapper apiCoverStatusPOMapper;
 
     private static final String url = "http://jacocolive.meishi.test.sankuai.com/public/getApiCoverageData?appkey=";
 
@@ -150,5 +154,30 @@ public class ApiCoverageController {
             return CommonResponse.successRes("成功", apiCoverageStatusVOS);
         }
         return CommonResponse.errorRes("无数据");
+    }
+
+    @GetMapping("/department")
+    public CommonResponse<List<ApiCoverageStatusVO>> getDepartmentData(@Param("id") int id){
+        List<String> departmentList = appkeyListPOMapper.selectCoreAppkeyByDepartment_id_2(id);
+        if (departmentList.size()==0)
+            return CommonResponse.errorRes("无数据，请确认id是否正确/是否有P1&P2服务");
+        List<ApiCoverageStatusVO> apiCoverageStatusVOList=new ArrayList<>();
+        for (String departmentAppkey : departmentList) {
+            List<String> apiList = apiCoverStatusPOMapper.selectByAppkey(departmentAppkey);
+            List<ApiDetailPO> coreApiList = apiDetailPOMapper.selectCoreApiByAppkey(departmentAppkey);
+            if (coreApiList.size()!=0){
+                for (ApiDetailPO apiDetailPO : coreApiList) {
+                    if (!apiList.contains(apiDetailPO.getApiSpanName())){
+                        ApiCoverageStatusVO vo=new ApiCoverageStatusVO();
+                        vo.setAppkey(departmentAppkey);
+                        vo.setCore(true);
+                        vo.setCover(false);
+                        vo.setApiSpanName(apiDetailPO.getApiSpanName());
+                        apiCoverageStatusVOList.add(vo);
+                    }
+                }
+            }
+        }
+        return CommonResponse.successRes("成功",apiCoverageStatusVOList);
     }
 }

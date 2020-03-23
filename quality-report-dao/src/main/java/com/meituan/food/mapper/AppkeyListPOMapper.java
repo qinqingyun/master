@@ -285,6 +285,32 @@ public interface AppkeyListPOMapper {
     })
     int updateDepartment(@Param("appkey") String appkey, @Param("updatedTime") Date updatedTime,@Param("departmentId") Integer departmentId,@Param("departmentId2") Integer departmentId2);
 
+    @Update({
+            "update appkey_list_table",
+            "set department_id = #{departmentId,jdbcType=INTEGER},",
+            "owt = #{owt,jdbcType=VARCHAR},",
+            "pdl = #{pdl,jdbcType=VARCHAR},",
+            "srv = #{srv,jdbcType=VARCHAR},",
+            "appkey = #{appkey,jdbcType=VARCHAR},",
+            "department_id_2=#{departmentId2,jdbcType=INTEGER},",
+            "updated_time = #{updatedTime,jdbcType=TIMESTAMP} ",
+            "where appkey = #{appkey,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="owt", property="owt", jdbcType=JdbcType.VARCHAR),
+            @Result(column="pdl", property="pdl", jdbcType=JdbcType.VARCHAR),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="appkey", property="appkey", jdbcType=JdbcType.VARCHAR),
+            @Result(column="department_id", property="departmentId", jdbcType=JdbcType.INTEGER),
+            @Result(column="offline", property="offline", jdbcType=JdbcType.INTEGER),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="rank", property="rank", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id_2", property="departmentId2", jdbcType=JdbcType.INTEGER)
+    })
+    int updateAppkey(@Param("appkey") String appkey, @Param("updatedTime") Date updatedTime,@Param("departmentId") Integer departmentId,@Param("departmentId2") Integer departmentId2,@Param("owt") String owt,@Param("pdl") String pdl,@Param("srv") String srv);
+
 
     @Update({
             "truncate table appkey_list_table"
@@ -311,6 +337,15 @@ public interface AppkeyListPOMapper {
             "where department_id_2 = #{department_id_2,jdbcType=INTEGER}"
     })
     List<String> selectByDepartment_id_2(@Param("department_id_2") Integer departmentId2);
+
+
+    @Select({
+            "select",
+            "appkey",
+            "from appkey_list_table",
+            "where  offline=0 and rank!=2 and department_id_2 = #{department_id_2,jdbcType=INTEGER}"
+    })
+    List<String> selectCoreAppkeyByDepartment_id_2(@Param("department_id_2") Integer departmentId2);
 
     @Select({
             "select",

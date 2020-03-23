@@ -87,14 +87,18 @@
                     title += "<th scope='col'>接口名称</th>";
                     title += "<th scope='col'>调用量</th>";
                     title += "<th scope='col'>是否核心</th>";
+                    title += "<th scope='col'>是否覆盖</th>";
                     $("thead.table-title").append(title);
                     var apiVOList=data.apiVOList;
-                    for(var i = 1;i <= apiVOList.length; i++){
-                        var row = "<tr><th scope='row'>" + i + "</th>";
-                        row += "<td id='apiName'>" + apiVOList[i-1].apiName + "</td>";
-                        row += "<td id='callCount'>" + apiVOList[i-1].callCount + "</td>";
-                        var checked = (apiVOList[i-1].isCore=='1')?"checked":"";
-                        row += "<td id='isCore'><input type= 'checkbox' onclick='dataSubmit(event)'" + checked + disabled +"></input></td>";
+                    for(var i = 0;i < apiVOList.length; i++){
+                        var j =i + 1;
+                        var row = "<tr><th scope='row'>" + j + "</th>";
+                        row += "<td id='apiName'>" + apiVOList[i].apiName + "</td>";
+                        row += "<td id='callCount'>" + apiVOList[i].callCount + "</td>";
+                        var checked = (apiVOList[i].isCore=='1')?"checked":"";
+                        row += "<td><input id='isCore' type= 'checkbox' onclick='dataSubmit(event)'" + checked + disabled +"></input></td>";
+                        var checked = (apiVOList[i].isCovered=='1')?"checked":"";
+                        row += "<td><input  id='isCovered' type= 'checkbox' onclick='dataSubmit(event)'" + checked + disabled +"></input></td>";
                         $("tbody.table-api").append(row);
                     }
                 }
@@ -118,29 +122,33 @@
         return theRequest;
     }
 
-     function dataSubmit(event) {
+    function dataSubmit(event) {
+        var $target = $(event.target).parent().parent().children('td');
+
         if(isCoreAppkey==false){
-            alert("当前服务为非核心服务，不能修改核心接口标记");
-             $("thead").empty();
-             $("tbody").empty();
-             showdata();
+            alert("当前服务为非核心服务，不能修改核心接口数据");
+            $("thead").empty();
+            $("tbody").empty();
+            showdata();
             return;
         }
+
         var data = [];
-        <!--$('.table-api tr').each(function(i){-->
-            <!--var appkey = $('h3').text();-->
 
-            <!--var apiname = $(this).children('td').eq(0).text();-->
-
-            <!--var iscore = $(this).find('input').prop("checked")==true?'1':'0';-->
-
-            <!--data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore})-->
-
-        <!--});-->
         var appkey = $('h3').text();
-        var apiname = $(event.target).parent().parent().children('td').eq(0).text();
-        var iscore = $(event.target).prop("checked")==true?'1':'0';
-        data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore});
+        var apiname = $target.first().text();
+        var iscore = $target.eq(2).children().prop("checked")==true?'1':'0';
+        var isCovered = $target.eq(3).children().prop("checked")==true?'1':'0';
+
+        if($(event.target).attr('id')=='isCovered'&&iscore=='0'){
+            alert("当前服务为非核心接口，不能修改覆盖数据");
+            $("thead").empty();
+            $("tbody").empty();
+            showdata();
+            return;
+        }
+
+        data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore,"isCovered":isCovered});
 
         var datajson = JSON.stringify(data);
 

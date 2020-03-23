@@ -3,6 +3,7 @@ package com.meituan.food.mapper;
 import com.meituan.food.po.ReleaseNamePO;
 import com.meituan.food.po.ReleaseNamePOExample;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,15 @@ public interface ReleaseNamePOMapper {
     })
     ReleaseNamePO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select  release_name from release_name_table",
+            "where srv = #{srv,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR)
+    })
+    String selectBySrv(@Param("srv") String srv);
+
 
     @Select({
             "select",
@@ -96,4 +106,20 @@ public interface ReleaseNamePOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ReleaseNamePO record);
+
+
+    @Update({
+            "update release_name_table",
+            "set srv = #{srv,jdbcType=VARCHAR},",
+            "updated_time = #{updatedTime,jdbcType=TIMESTAMP}",
+            "where release_name = #{release,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="srv", property="srv", jdbcType=JdbcType.VARCHAR),
+            @Result(column="release_name", property="releaseName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="updated_time", property="updatedTime", jdbcType=JdbcType.TIMESTAMP)
+    })
+    int updateByReleaseName(@Param("srv") String srv,@Param("release") String release,@Param("updatedTime") Date updatedTime);
 }

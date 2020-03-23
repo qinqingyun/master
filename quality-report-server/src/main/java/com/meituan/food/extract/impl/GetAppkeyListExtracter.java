@@ -9,9 +9,11 @@ import com.meituan.food.extract.IGetAppkeyList;
 import com.meituan.food.extract.IReleaseNameExtract;
 import com.meituan.food.job.vo.AppkeyData;
 import com.meituan.food.mapper.AppkeyListPOMapper;
+import com.meituan.food.mapper.ReleaseNamePOMapper;
 import com.meituan.food.po.AppkeyListPO;
 import com.meituan.food.utils.HttpUtils;
 import groovy.json.StringEscapeUtils;
+import org.bouncycastle.jcajce.provider.symmetric.Noekeon;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.events.Event;
@@ -31,6 +33,9 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
 
     @Resource
     public IReleaseNameExtract releaseNameExtract;
+
+    @Resource
+    public ReleaseNamePOMapper releaseNamePOMapper;
 
     @Override
     public void getAppkeyList() {
@@ -92,6 +97,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         pdlList.add(new AppkeyData("meituan.resv", "meituan.resv.m", "", "", 7, 7));
         pdlList.add(new AppkeyData("meituan.nibtp","meituan.nibtp.food","","",1,1));
         pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.new","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.shopping_community","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.dzopen_saas","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.relex","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.saas-product","","",14,14));
+        pdlList.add(new AppkeyData("dianping.dzu","dianping.dzu.zsda","","",14,14));
 
 
         List<String> appkeyStrList2 = new ArrayList<>();
@@ -237,7 +247,18 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
             if (po1 == null) {
                 appkeyListPOMapper.insert(appkeyListPO);
                 String srv = appkeyListPO.getSrv();
-                releaseNameExtract.insertReleaseName(srv);
+                String releaseName = releaseNamePOMapper.selectBySrv(srv);
+                if (releaseName==null){
+                    releaseNameExtract.insertReleaseName(srv);
+                }else {
+                    releaseNamePOMapper.updateByReleaseName(srv,releaseName,now);
+                }
+            }else {
+                appkeyListPOMapper.updateAppkey(appkeyListPO.getAppkey(),now,appkeyListPO.getDepartmentId(),appkeyListPO.getDepartmentId2(),appkeyListPO.getOwt(),appkeyListPO.getPdl(),appkeyListPO.getSrv());
+                String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());
+                if (releaseName!=null){
+                    releaseNamePOMapper.updateByReleaseName(appkeyListPO.getSrv(),releaseName,now);
+                }
             }
         }
 

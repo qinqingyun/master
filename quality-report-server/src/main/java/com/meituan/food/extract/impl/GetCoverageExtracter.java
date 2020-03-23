@@ -41,6 +41,9 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
     @Resource
     public ApiCoverageDetailP0Mapper apiCoverageDetailP0Mapper;
 
+    @Resource
+    public ApiCoverStatusPOMapper apiCoverStatusPOMapper;
+
     @Override
     public void getCoverage() {
         List<String> allAppkey = appkeyListPOMapper.selectAllAppkey();
@@ -122,6 +125,14 @@ public class GetCoverageExtracter implements IGetCoverageExtract {
                                     apiCoverageDetailP0.setIsCover(true);
                                     apiCoverageDetailP0.setCoverageDate(dateString);
                                     apiCoverageDetailP0Mapper.insert(apiCoverageDetailP0);
+
+                                    ApiCoverStatusPO apiCoverStatusPO = apiCoverStatusPOMapper.selectByAppkeyAndApi(s, spanName);
+                                    if (apiCoverStatusPO==null){
+                                        ApiCoverStatusPO statusPO=new ApiCoverStatusPO();
+                                        statusPO.setAppkey(s);
+                                        statusPO.setApiName(spanName);
+                                        apiCoverStatusPOMapper.insert(statusPO);
+                                    }
                                 }
                             }
                         }
