@@ -123,35 +123,79 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
             pipelinePrAutoPO.setDirectionName(data.getString("label"));
             JSONObject repos = data.getJSONObject("children");
 
-            //遍历组织下所有仓库
-            for(String strKey2:repos.keySet()) {
-                JSONObject onePro = repos.getJSONObject(strKey2);
-                pipelinePrAutoPO.setRepo(strKey2);
+                for(String strKey2:repos.keySet()) {
+                    if(!strKey2.contains("ssh")){//还继续向下分组情况260/262/296
+                        JSONObject repos2=repos.getJSONObject(strKey2).getJSONObject("children");
+                        //遍历组织下所有仓库
+                        for(String strKey3:repos2.keySet()) {
 
-                if(onePro.getBoolean("isAutoTest")!=null) {
+                            JSONObject onePro = repos2.getJSONObject(strKey3);
+                            pipelinePrAutoPO.setRepo(strKey3);
 
-                    if (onePro.getBoolean("isAutoTest")) {
-                        pipelinePrAutoPO.setIsAutoOn(1);
-                        PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-                        pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                        pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-                    } else {
-                        pipelinePrAutoPO.setIsAutoOn(0);
-                        //仓库自动化关闭，默认自动化数-1
-                        pipelinePrAutoPO.setTotalCase(-1);
-                        pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
-                    }
-                }else {
-                    //仓库下未标记isAutoTest
-                    pipelinePrAutoPO.setIsAutoOn(0);
-                    PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
-                    pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                    pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+                            if(onePro.getBoolean("isAutoTest")!=null) {
 
+                                if (onePro.getBoolean("isAutoTest")) {
+                                    pipelinePrAutoPO.setIsAutoOn(1);
+                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
+                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+                                } else {
+                                    pipelinePrAutoPO.setIsAutoOn(0);
+                                    //仓库自动化关闭，默认自动化数-1
+                                    pipelinePrAutoPO.setTotalCase(-1);
+                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
+                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+                                }
+                            }else {
+                                //仓库下未标记isAutoTest
+                                pipelinePrAutoPO.setIsAutoOn(0);
+                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
+                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+
+                            }
+                            pipelinePrAutoPO.setAuto_date(yesterday);
+                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                        }
+
+                    }else {
+                        //遍历组织下所有仓库
+//                            JSONObject onePro = repos.getJSONObject(strKey2);
+//                            pipelinePrAutoPO.setRepo(strKey2);
+//
+//                            if(onePro.getBoolean("isAutoTest")!=null) {
+//
+//                                if (onePro.getBoolean("isAutoTest")) {
+//                                    pipelinePrAutoPO.setIsAutoOn(1);
+//                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
+//                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+//                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+//                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+//                                } else {
+//                                    pipelinePrAutoPO.setIsAutoOn(0);
+//                                    //仓库自动化关闭，默认自动化数-1
+//                                    pipelinePrAutoPO.setTotalCase(-1);
+//                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
+//                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+//                                }
+//                            }else {
+//                                //仓库下未标记isAutoTest
+//                                pipelinePrAutoPO.setIsAutoOn(0);
+//                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
+//                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+//                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+//                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+//
+//                            }
+//                            pipelinePrAutoPO.setAuto_date(yesterday);
+//                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                        }
+//
                 }
-                pipelinePrAutoPO.setAuto_date(yesterday);
-                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                }
+
+
 
 
         }
@@ -179,7 +223,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             JSONObject onetimeAuto = repoCases.getJSONObject(strKey2);
                             Integer totals = onetimeAuto.getInteger("total");
                             double coverage = onetimeAuto.getDouble("coverage");
+                            double passes = onetimeAuto.getDouble("passes")/totals;
                             pipelinePrAutoPO.setTotalCase(totals);
+                            pipelinePrAutoPO.setPasses(BigDecimal.valueOf(passes));
                             pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(coverage));
                         }
 
@@ -189,6 +235,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         }else {
             //没有PR执行默认-1
             pipelinePrAutoPO.setTotalCase(-1);
+            pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
             pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
         }
 
