@@ -223,7 +223,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                 pipelinePrAutoPO.setPr_times(pr.getJSONObject(strKey).size());
                 k++;
                 if (k == 2) {
-                    log.error("ddd");
+                    log.error("问题数据todo");
                 }
                 JSONObject repoCases = pr.getJSONObject(strKey);
                 Integer times = 0;
