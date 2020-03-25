@@ -229,19 +229,19 @@ public class COEDataExtracter implements ICOEDataExtract {
         }
         if (bNewCoe > 0) {
             DaXiangUtils.pushToPerson(bPushStr, "guomengyao");
-          //  DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
+            DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
         if (cNewCoe > 0) {
             DaXiangUtils.pushToPerson(cPushStr, "guomengyao");
-            //  DaXiangUtils.pushToRoom(cPushStr,64011296017l);
+            DaXiangUtils.pushToRoom(cPushStr,64011296017l);
         }
         if (mNewCoe > 0) {
             DaXiangUtils.pushToPerson(mPushStr, "guomengyao");
-            //  DaXiangUtils.pushToRoom(pmPushStrushStr, 64013592112l);
+            DaXiangUtils.pushToRoom(mPushStr, 64013592112l);
         }
         if (cServerNewCoe > 0) {
             DaXiangUtils.pushToPerson(cServerPushStr, "guomengyao");
-            //  DaXiangUtils.pushToRoom(cServerPushStr,64010966716l);
+              DaXiangUtils.pushToRoom(cServerPushStr,64010966716l);
         }
 
 
