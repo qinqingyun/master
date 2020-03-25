@@ -88,6 +88,18 @@ public interface ToDoPoMapper {
     })
     ToDoPo selectByPrimaryKey(Integer id);
 
+
+
+
+    @Select({
+            "select distinct (coe_id) from todo_list where is_finish=false"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+    })
+    List<Integer> selectNotFinishTODO();
+
+
     @Select({
             "select",
             "id, coe_id, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, owner_mis, ",

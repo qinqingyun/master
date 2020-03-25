@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.meituan.mdp</groupId>
         <artifactId>mdp-parent</artifactId>
-        <version>1.4.2.RC2</version>
+        <version>1.4.2.RC3</version>
     </parent>
 
 
@@ -20,9 +20,6 @@
         <module>quality-report-server</module>
         <module>quality-report-dao</module>
     </modules>
-
-    <dependencies>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -35,6 +32,11 @@
                 <groupId>com.sankuai.attendance</groupId>
                 <artifactId>attendance-api</artifactId>
                 <version>1.6-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.67</version>
             </dependency>
         </dependencies>
 
