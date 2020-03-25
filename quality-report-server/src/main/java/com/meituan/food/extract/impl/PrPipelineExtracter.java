@@ -131,6 +131,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
                             JSONObject onePro = repos2.getJSONObject(strKey3);
                             pipelinePrAutoPO.setRepo(strKey3);
+                            pipelinePrAutoPO.setPriority(onePro.getString("priority"));
 
                             if(onePro.getBoolean("isAutoTest")!=null) {
 
@@ -139,11 +140,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
                                     pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
                                     pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                     pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
                                 } else {
                                     pipelinePrAutoPO.setIsAutoOn(0);
                                     //仓库自动化关闭，默认自动化数-1
                                     pipelinePrAutoPO.setTotalCase(-1);
+                                    pipelinePrAutoPO.setPr_times(0);
                                     pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
                                     pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
                                 }
@@ -153,6 +156,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
                                 pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
                                 pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+                                pipelinePrAutoPO.setPr_times(0);
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
 
                             }
@@ -164,6 +168,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         //遍历组织下所有仓库
                             JSONObject onePro = repos.getJSONObject(strKey2);
                             pipelinePrAutoPO.setRepo(strKey2);
+                            pipelinePrAutoPO.setPriority(onePro.getString("priority"));
 
                             if(onePro.getBoolean("isAutoTest")!=null) {
 
@@ -171,6 +176,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     pipelinePrAutoPO.setIsAutoOn(1);
                                     PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
                                     pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                     pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                                     pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
                                 } else {
@@ -178,6 +184,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     //仓库自动化关闭，默认自动化数-1
                                     pipelinePrAutoPO.setTotalCase(-1);
                                     pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
+                                    pipelinePrAutoPO.setPr_times(0);
                                     pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
                                 }
                             }else {
@@ -185,6 +192,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setIsAutoOn(0);
                                 PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
                                 pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                                pipelinePrAutoPO.setPr_times(0);
                                 pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
 
@@ -210,7 +218,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         JSONObject pr = resp.getJSONObject("data").getJSONObject("PR");
         if(pr!=null) {
             Integer k = 0;
+
             for (String strKey : pr.keySet()) {
+                pipelinePrAutoPO.setPr_times(pr.getJSONObject(strKey).size());
                 k++;
                 if (k == 2) {
                     log.error("ddd");
@@ -242,6 +252,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
             //没有PR执行默认-1
             pipelinePrAutoPO.setTotalCase(-1);
             pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
+            pipelinePrAutoPO.setPr_times(0);
             pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
         }
 

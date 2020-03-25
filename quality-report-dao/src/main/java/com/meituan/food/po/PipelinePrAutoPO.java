@@ -17,10 +17,12 @@ public class PipelinePrAutoPO implements Serializable {
     private String directionName;
 
     private String repo;
+    private String priority;
 
     private Integer isAutoOn;
 
     private Integer totalCase;
+    private Integer pr_times;
 
 
 
