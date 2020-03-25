@@ -196,9 +196,17 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                                 mPushStr = mPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 mNewCoe++;
-                            }else if (coePO.getOrgName().contains("业务前端研发组")){
+                            }else if(coePO.getOrgName().contains("动态化组")||coePO.getOrgName().contains("套代运营组")){
                                 cPushStr = cPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
-                                String minorOrgParh= orgPath.substring(orgPath.indexOf("业务前端研发组/") + 8);
+                                cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
+                                String minorOrgParh= orgPath.substring(orgPath.indexOf("到店餐饮研发中心/") + 17);
+                                cPushStr = cPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
+                                cServerPushStr = cServerPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
+                                cNewCoe++;
+                                cServerNewCoe++;
+                            } else if (coePO.getOrgName().contains("业务前端研发组")||coePO.getOrgName().contains("信息平台组")){
+                                cPushStr = cPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
+                                String minorOrgParh= orgPath.substring(orgPath.indexOf("到店餐饮研发中心/") + 17);
                                 cPushStr = cPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 cNewCoe++;
                             }else if(coePO.getOrgName().contains("业务后台研发组")||coePO.getOrgName().contains("交易")||coePO.getOrgName().contains("营销")){
