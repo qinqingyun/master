@@ -29,7 +29,8 @@ public interface PipelinePrMapper {
     int insertRepoInfo(PipelinePrAutoPO record);
 
     @Delete({
-            "truncate table direction"
+            "delete from direction",
+            "where id!=0"
     })
     int deleteDirRepoByDate();
 
