@@ -28,9 +28,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     String skipDeatilStr="";
     String skipReasonStr="";
     //组织参数参考wiki https://km.sankuai.com/page/201266445
-    //todo
-//    String[] directions = new String[]{"260", "262","264","261","265","253","254","255","296","321","251","252","256","258","257","259","241","217"};
-    String[] directions = new String[]{"497"};
+    String[] directions = new String[]{"260", "262","264","261","265","253","254","255","296","321","251","252","256","258","257","259","241","217","497"};
     Integer sum=0 ;
     Integer pass = 0;
     Integer failed = 0;
@@ -43,8 +41,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         String url = "http://qa.sankuai.com/cq/cq/pipeline/data/portal-union-by-direction";
         String param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"]}";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
-//        pipelineTpMapper.deleteByDate(date);
-        //todo
+        pipelineTpMapper.deleteByDate(date);
         for (int i = 0 ; i<directions.length; i++){
             JSONArray dirTDs=new JSONArray();
             JSONArray dirAll = resp.getJSONObject("data").getJSONObject("direciton-relationship").getJSONArray(String.valueOf((directions[i])));

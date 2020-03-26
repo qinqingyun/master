@@ -33,7 +33,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     public void UpdatePrPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/data/pr/detail?startTime=" + date + "&endTime=" + date;
         //组织参数参考wiki https://km.sankuai.com/page/201266445
-        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"265\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"}]";
+        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"265\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         PipelinePrPO pipelinePrPO = new PipelinePrPO();
         pipelinePrMapper.deleteByDate(date);
@@ -111,9 +111,10 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         String url = "http://qa.sankuai.com/data/pr/image?startTime=" + yesterday + "&endTime=" + today;//昨天数据
 //        String url = "http://qa.sankuai.com/data/pr/image?startTime=2020-03-10&endTime=2020-03-17";
         //组织参数参考wiki https://km.sankuai.com/page/201266445
-        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"265\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"}]";
+        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"265\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         pipelinePrMapper.deleteRepoByDate(yesterday);
+        pipelinePrMapper.deleteDirRepoByDate();
         //遍历每个组织
         for(String strKey:resp.getJSONObject("data").keySet())
         {
@@ -133,6 +134,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             pipelinePrAutoPO.setRepo(strKey3);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
 
+                            pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
+
+
                             if(onePro.getBoolean("isAutoTest")!=null) {
 
                                 if (onePro.getBoolean("isAutoTest")) {
@@ -142,6 +146,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                                     pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                     pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                                    if(autoInfo.getTotalCase()>=0){
+                                        //执行PR的存库
+                                        pipelinePrAutoPO.setAuto_date(yesterday);
+                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                    }
+
                                 } else {
                                     pipelinePrAutoPO.setIsAutoOn(0);
                                     //仓库自动化关闭，默认自动化数-1
@@ -160,8 +171,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
 
                             }
-                            pipelinePrAutoPO.setAuto_date(yesterday);
-                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                            pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
                         }
 
                     }else {
@@ -169,6 +179,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             JSONObject onePro = repos.getJSONObject(strKey2);
                             pipelinePrAutoPO.setRepo(strKey2);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
+                            pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
 
                             if(onePro.getBoolean("isAutoTest")!=null) {
 
@@ -179,6 +190,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                     pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                                     pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                                    if(autoInfo.getTotalCase()>=0){
+                                        //执行PR的存库
+                                        pipelinePrAutoPO.setAuto_date(yesterday);
+                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                    }
+
                                 } else {
                                     pipelinePrAutoPO.setIsAutoOn(0);
                                     //仓库自动化关闭，默认自动化数-1
@@ -197,8 +215,8 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
 
                             }
-                            pipelinePrAutoPO.setAuto_date(yesterday);
-                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+
+                        pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
                         }
 //
                 }
