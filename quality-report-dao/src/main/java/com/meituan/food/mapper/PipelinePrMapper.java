@@ -21,6 +21,18 @@ public interface PipelinePrMapper {
     })
     int deleteRepoByDate(LocalDate createTime);
 
+
+    @Insert({
+            "insert into direction(id,direction_id,direction_name,group_name,repo,priority,isAutoOn)",
+            "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{group_name,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER})"
+    })
+    int insertRepoInfo(PipelinePrAutoPO record);
+
+    @Delete({
+            "truncate table direction"
+    })
+    int deleteDirRepoByDate();
+
     @Insert({
         "insert into pipeline_pr_data (id, direction_id, direction_name, hotfixTotal,hotfixDetail, skipTotal,skipDetail,skipReason,it_date)",
         "values (#{id,jdbcType=INTEGER},#{direction_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{hotfix,jdbcType=INTEGER},#{hotfixDetailStr,jdbcType=VARCHAR},#{skip,jdbcType=INTEGER}, #{skipDetailStr,jdbcType=VARCHAR},#{skipReasonStr,jdbcType=VARCHAR},#{createTime,jdbcType=DATE})"
