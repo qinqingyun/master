@@ -20,7 +20,7 @@ public class PipelinePrAutoPO implements Serializable {
     }
 
     public void setGroup_name(Integer department_id) {
-        if(department_id==256||department_id==258||department_id==259||department_id==259){
+        if(department_id==256||department_id==258||department_id==259||department_id==257){
             this.group_name="客户平台";
         }else if (department_id==251||department_id==252||department_id==241||department_id==217||department_id==497){
             this.group_name="到餐平台";
