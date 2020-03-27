@@ -28,7 +28,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     String skipDeatilStr="";
     String skipReasonStr="";
     //组织参数参考wiki https://km.sankuai.com/page/201266445
-    String[] directions = new String[]{"260", "262","264","261","265","253","254","255","296","321","251","252","256","258","257","259","241","217","497"};
+    String[] directions = new String[]{"260", "262","264","261","253","254","255","296","321","251","252","256","258","257","259","241","217","497"};
     Integer sum=0 ;
     Integer pass = 0;
     Integer failed = 0;
