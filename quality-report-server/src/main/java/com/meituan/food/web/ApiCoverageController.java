@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -172,10 +173,12 @@ public class ApiCoverageController {
         List<String> appkeyList = appkeyAdminPOMapper.selectByMis(mis);
         if (appkeyList.size()==0)
             return CommonResponse.errorRes("无关联Appkey，请检查Mis信息是否正确");
-        for (String appkey : appkeyList) {
+        Iterator<String> iterator = appkeyList.iterator();
+        while(iterator.hasNext()){
+            String appkey = iterator.next();
             AppkeyListPO po = appkeyListPOMapper.selectByAppKey(appkey);
-            if (po.getRank()==2)
-                appkeyList.remove(po);
+            if(po.getRank()==2)
+                iterator.remove();
         }
         List<ApiCoverageStatusVO> apiCoverageStatusVOList=new ArrayList<>();
         getUnCoverCoreApi(apiCoverageStatusVOList, appkeyList);
