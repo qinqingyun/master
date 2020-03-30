@@ -63,7 +63,7 @@ public class CoeController {
     }
 
     @GetMapping("/push")
-    public String pushCoe() {
+    public String pushCoe() throws ParseException {
         cargoDataPushExtract.pushData();
         return "OK!";
     }

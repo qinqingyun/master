@@ -301,7 +301,7 @@ public interface CoeListPOMapper {
             "available, org_name, find_date, finder, influence_time, clear_time, node_two_org, ",
             "locator, order_loss, capital_loss, line_of_business",
             "from coe_list",
-            "where occur_date >= #{occur,jdbcType=DATE}"
+            "where available=1 and occur_date >= #{occur,jdbcType=DATE}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
