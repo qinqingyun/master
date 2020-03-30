@@ -130,6 +130,11 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         //遍历组织下所有仓库
                         for(String strKey3:repos2.keySet()) {
 
+//                            if(strKey3.equals("ssh://git@git.sankuai.com/web/campaigncardassign.git")){
+//                                Integer test = 0;
+//                            }
+
+
                             JSONObject onePro = repos2.getJSONObject(strKey3);
                             pipelinePrAutoPO.setRepo(strKey3);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
@@ -157,18 +162,33 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                     pipelinePrAutoPO.setIsAutoOn(0);
                                     //仓库自动化关闭，默认自动化数-1
                                     pipelinePrAutoPO.setTotalCase(-1);
-                                    pipelinePrAutoPO.setPr_times(0);
-                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
-                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
+                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                                    if(autoInfo.getTotalCase()>=0){
+                                        //执行PR的存库
+                                        pipelinePrAutoPO.setAuto_date(yesterday);
+                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                    }
+
                                 }
                             }else {
                                 //仓库下未标记isAutoTest
                                 pipelinePrAutoPO.setIsAutoOn(0);
                                 PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
                                 pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                                pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
                                 pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-                                pipelinePrAutoPO.setPr_times(0);
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+                                if(autoInfoNotag.getTotalCase()>=0){
+                                    //执行PR的存库
+                                    pipelinePrAutoPO.setAuto_date(yesterday);
+                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                }
+
 
                             }
                             pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
@@ -176,6 +196,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
                     }else {
                         //遍历组织下所有仓库
+//                        if(strKey2.equals("ssh://git@git.sankuai.com/web/campaigncardassign.git")){
+//                            Integer test = 0;
+//                        }
                             JSONObject onePro = repos.getJSONObject(strKey2);
                             pipelinePrAutoPO.setRepo(strKey2);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
@@ -199,20 +222,33 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
                                 } else {
                                     pipelinePrAutoPO.setIsAutoOn(0);
-                                    //仓库自动化关闭，默认自动化数-1
-                                    pipelinePrAutoPO.setTotalCase(-1);
-                                    pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
-                                    pipelinePrAutoPO.setPr_times(0);
-                                    pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+                                    //仓库自动化关闭
+                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
+                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                                    if(autoInfo.getTotalCase()>=0){
+                                        //执行PR的存库
+                                        pipelinePrAutoPO.setAuto_date(yesterday);
+                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                    }
                                 }
                             }else {
                                 //仓库下未标记isAutoTest
                                 pipelinePrAutoPO.setIsAutoOn(0);
                                 PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
                                 pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                                pipelinePrAutoPO.setPr_times(0);
+                                pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
                                 pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+                                if(autoInfoNotag.getTotalCase()>=0){
+                                    //执行PR的存库
+                                    pipelinePrAutoPO.setAuto_date(yesterday);
+                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                }
+
 
                             }
 
