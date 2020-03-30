@@ -40,11 +40,11 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
     @Override
     public void getAppkeyList() {
         List<String> owtList = new ArrayList<>();
-        owtList.add("meituan.web");
+       owtList.add("meituan.web");
         owtList.add("dianping.dc");
         List<AppkeyListPO> appkeyListPOS = new ArrayList<>();
         Date now = new Date();
-        for (String owt : owtList) {
+         for (String owt : owtList) {
             JSONObject resp = HttpUtils.doGet(url + owt + "/pdls", JSONObject.class, ImmutableMap.of("Authorization", "Bearer 960526c96313d1cf42b6c3c36751ef931ecac858"));
             JSONArray respArr = resp.getJSONArray("pdls");
             for (Object o : respArr) {
@@ -254,10 +254,13 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                     releaseNamePOMapper.updateByReleaseName(srv,releaseName,now);
                 }
             }else {
+                String srv=po1.getSrv();
                 appkeyListPOMapper.updateAppkey(appkeyListPO.getAppkey(),now,appkeyListPO.getDepartmentId(),appkeyListPO.getDepartmentId2(),appkeyListPO.getOwt(),appkeyListPO.getPdl(),appkeyListPO.getSrv());
-                String releaseName = releaseNamePOMapper.selectBySrv(appkeyListPO.getSrv());
+                String releaseName = releaseNamePOMapper.selectBySrv(srv);
                 if (releaseName!=null){
                     releaseNamePOMapper.updateByReleaseName(appkeyListPO.getSrv(),releaseName,now);
+                }else {
+                    releaseNameExtract.insertReleaseName(srv);
                 }
             }
         }
