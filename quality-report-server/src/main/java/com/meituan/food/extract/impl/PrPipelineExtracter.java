@@ -129,11 +129,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         JSONObject repos2=repos.getJSONObject(strKey2).getJSONObject("children");
                         //遍历组织下所有仓库
                         for(String strKey3:repos2.keySet()) {
-
 //                            if(strKey3.equals("ssh://git@git.sankuai.com/web/campaigncardassign.git")){
 //                                Integer test = 0;
 //                            }
-
 
                             JSONObject onePro = repos2.getJSONObject(strKey3);
                             pipelinePrAutoPO.setRepo(strKey3);
