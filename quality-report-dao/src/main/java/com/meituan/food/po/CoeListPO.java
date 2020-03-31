@@ -81,7 +81,7 @@ public class CoeListPO implements Serializable {
 
     private Integer orderLoss;
 
-    private Integer capitalLoss;
+    private BigDecimal capitalLoss;
 
     private String lineOfBusiness;
 
@@ -391,11 +391,11 @@ public class CoeListPO implements Serializable {
         this.orderLoss = orderLoss;
     }
 
-    public Integer getCapitalLoss() {
+    public BigDecimal getCapitalLoss() {
         return capitalLoss;
     }
 
-    public void setCapitalLoss(Integer capitalLoss) {
+    public void setCapitalLoss(BigDecimal capitalLoss) {
         this.capitalLoss = capitalLoss;
     }
 
