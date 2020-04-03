@@ -32,7 +32,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     @Override
     public void UpdatePrPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/data/pr/detail?startTime=" + date + "&endTime=" + date;
-        //组织参数参考wiki https://km.sankuai.com/page/201266445
+        //组织参数参考wiki: https://km.sankuai.com/page/201266445
         String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         PipelinePrPO pipelinePrPO = new PipelinePrPO();
