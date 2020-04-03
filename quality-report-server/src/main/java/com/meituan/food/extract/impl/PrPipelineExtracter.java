@@ -32,8 +32,8 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     @Override
     public void UpdatePrPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/data/pr/detail?startTime=" + date + "&endTime=" + date;
-        //组织参数参考wiki https://km.sankuai.com/page/201266445
-        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
+        //组织参数参考wiki: https://km.sankuai.com/page/201266445
+        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         PipelinePrPO pipelinePrPO = new PipelinePrPO();
         pipelinePrMapper.deleteByDate(date);
@@ -129,9 +129,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         JSONObject repos2=repos.getJSONObject(strKey2).getJSONObject("children");
                         //遍历组织下所有仓库
                         for(String strKey3:repos2.keySet()) {
-//                            if(strKey3.equals("ssh://git@git.sankuai.com/web/campaigncardassign.git")){
-//                                Integer test = 0;
-//                            }
+                            if(strKey3.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")){
+                                Integer test = 0;
+                            }
 
                             JSONObject onePro = repos2.getJSONObject(strKey3);
                             pipelinePrAutoPO.setRepo(strKey3);
@@ -194,9 +194,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
                     }else {
                         //遍历组织下所有仓库
-//                        if(strKey2.equals("ssh://git@git.sankuai.com/web/campaigncardassign.git")){
-//                            Integer test = 0;
-//                        }
+                        if(strKey2.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")){
+                            Integer test = 0;
+                        }
                             JSONObject onePro = repos.getJSONObject(strKey2);
                             pipelinePrAutoPO.setRepo(strKey2);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
