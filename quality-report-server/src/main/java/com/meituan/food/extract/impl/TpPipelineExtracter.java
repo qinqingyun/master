@@ -34,6 +34,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     Integer failed = 0;
     Integer  oneTimePassCount =0;
     Integer  autoRunCountNumberList = 0;
+    String taskName="";
 
 
     @Override
@@ -49,14 +50,19 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 dirTDs = removeST(dirAll);
             }
             if(dirTDs.size()!=0) {
+
+
+
                 sum=0 ;
                 pass = 0;
                 failed = 0;
                 oneTimePassCount =0;
                 autoRunCountNumberList = 0;
+                taskName="";
                 for (int k = 0; k < dirTDs.size(); k++) {
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
+                        taskName=dirTDs.getString(k);
                         sum = sum + detail.getInteger("sum");
                         pass = pass + detail.getInteger("pass");
                         failed = failed + detail.getInteger("failed");
@@ -65,6 +71,8 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                     }
                 }
                 PipelineTpPO pipelineTpPO = new PipelineTpPO();
+                //  记录taskName，为了去重
+                pipelineTpPO.setDirection_name(taskName);
                 pipelineTpPO.setDirection_id(Integer.valueOf(directions[i]));
                 pipelineTpPO.setTask(dirTDs.size());
                 pipelineTpPO.setSum(sum);
