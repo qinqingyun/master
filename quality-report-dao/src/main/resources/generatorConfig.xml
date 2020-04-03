@@ -9,8 +9,10 @@
     <!-- !!!! Driver Class Path !!!! -->
     <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
     <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
-    <!--<classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
+    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+<!--
 <classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+-->
 
     <context id="context" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
@@ -129,8 +131,8 @@
        <!-- <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
-        <!--<table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 

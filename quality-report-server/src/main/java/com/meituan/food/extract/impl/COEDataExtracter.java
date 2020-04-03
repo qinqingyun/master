@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -354,7 +355,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                             } else if (label.equals("到餐订单损失量")||label.equals("订单损失量")) {
                                 po.setOrderLoss(Integer.valueOf(value));
                             } else if (label.equals("资金损失（元）")) {
-                                po.setCapitalLoss(Integer.valueOf(value));
+                                po.setCapitalLoss(new BigDecimal(value));
                             }
                         }
                     }

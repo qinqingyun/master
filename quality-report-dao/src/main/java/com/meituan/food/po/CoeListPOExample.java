@@ -2583,52 +2583,52 @@ public class CoeListPOExample {
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossEqualTo(Integer value) {
+        public Criteria andCapitalLossEqualTo(BigDecimal value) {
             addCriterion("capital_loss =", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossNotEqualTo(Integer value) {
+        public Criteria andCapitalLossNotEqualTo(BigDecimal value) {
             addCriterion("capital_loss <>", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossGreaterThan(Integer value) {
+        public Criteria andCapitalLossGreaterThan(BigDecimal value) {
             addCriterion("capital_loss >", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossGreaterThanOrEqualTo(Integer value) {
+        public Criteria andCapitalLossGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("capital_loss >=", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossLessThan(Integer value) {
+        public Criteria andCapitalLossLessThan(BigDecimal value) {
             addCriterion("capital_loss <", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossLessThanOrEqualTo(Integer value) {
+        public Criteria andCapitalLossLessThanOrEqualTo(BigDecimal value) {
             addCriterion("capital_loss <=", value, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossIn(List<Integer> values) {
+        public Criteria andCapitalLossIn(List<BigDecimal> values) {
             addCriterion("capital_loss in", values, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossNotIn(List<Integer> values) {
+        public Criteria andCapitalLossNotIn(List<BigDecimal> values) {
             addCriterion("capital_loss not in", values, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossBetween(Integer value1, Integer value2) {
+        public Criteria andCapitalLossBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("capital_loss between", value1, value2, "capitalLoss");
             return (Criteria) this;
         }
 
-        public Criteria andCapitalLossNotBetween(Integer value1, Integer value2) {
+        public Criteria andCapitalLossNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("capital_loss not between", value1, value2, "capitalLoss");
             return (Criteria) this;
         }

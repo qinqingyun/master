@@ -288,7 +288,7 @@ public class ScheduleJob {
 
     //每天推送Cargo数据
     @Crane("cargo.data.push.job")
-    public void cargoDataPush(){
+    public void cargoDataPush() throws ParseException {
         cargoDataPushJob.sync();
     }
 
