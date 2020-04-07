@@ -236,7 +236,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-       /* if (bNewCoe > 0) {
+        if (bNewCoe > 0) {
             DaXiangUtils.pushToPerson(bPushStr, "guomengyao");
             DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
@@ -251,7 +251,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         if (cServerNewCoe > 0) {
             DaXiangUtils.pushToPerson(cServerPushStr, "guomengyao");
               DaXiangUtils.pushToRoom(cServerPushStr,64010966716l);
-        }*/
+        }
 
 
         List<Integer> notFinishTODO = toDoPoMapper.selectNotFinishTODO();
