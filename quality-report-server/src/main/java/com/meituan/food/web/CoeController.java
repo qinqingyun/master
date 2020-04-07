@@ -94,4 +94,13 @@ public class CoeController {
         }
         return "更新失败";
     }
+
+    @GetMapping("/updatebusiness2")
+    public String updateBusiness2(@RequestParam("coeId") int coeId,@RequestParam("business") String business){
+        int flag=coeListPOMapper.updateBusiness2(coeId,business);
+        if (flag==1) {
+            return "更新成功";
+        }
+        return "更新失败";
+    }
 }

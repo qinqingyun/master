@@ -101,13 +101,13 @@ public class COEDataExtracter implements ICOEDataExtract {
                 if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
                     coePO.setCategory("第三方");
                     coePO.setSubCategory("第三方");
+                    coePO.setBusiness("第三方");
                 }
 
                 /*
                  * todoList方法
                  * */
                 getTodoList(coePO, coePO.getCoeId());
-                System.out.println(coePO.toString());
 
                 List<Integer> coeIdList2 = coeListPOMapper.selectCoeIdList();
 
@@ -119,6 +119,9 @@ public class COEDataExtracter implements ICOEDataExtract {
                         coePO.setCapitalLoss(coeListPO.getCapitalLoss());
                         coePO.setOrderLoss(coeListPO.getOrderLoss());
                         coePO.setLineOfBusiness(coeListPO.getLineOfBusiness());
+                    }
+                    if (coeListPO.getBusiness()!=null){
+                        coePO.setBusiness(coeListPO.getBusiness());
                     }
                     coeListPOMapper.updateByPrimaryKey(coePO);
 
@@ -164,6 +167,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                             coePO.setOrderLoss(coeListPO.getOrderLoss());
                             coePO.setLineOfBusiness(coeListPO.getLineOfBusiness());
                         }
+                        coePO.setBusiness(coeListPO.getBusiness());
                         coeListPOMapper.updateByPrimaryKey(coePO);
                     } else {
                         if (!coePO.getOrgName().contains("商家平台研发组/住宿门票研发组")) {
@@ -178,6 +182,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                                 bPushStr = bPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 bNewCoe++;
+                                coePO.setBusiness("B端");
                             }else if(coePO.getOrgName().contains("客户平台研发组") || coePO.getOrgName().contains("销售")||coePO.getOrgName().contains("门店")){
                                 mPushStr = mPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
                                 String minorOrgParh;
@@ -197,6 +202,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                                 mPushStr = mPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 mNewCoe++;
+                                coePO.setBusiness("M端");
                             }else if(coePO.getOrgName().contains("动态化组")||coePO.getOrgName().contains("套代运营组")){
                                 cPushStr = cPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
                                 cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
@@ -210,6 +216,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 String minorOrgParh= orgPath.substring(orgPath.indexOf("到店餐饮研发中心/") + 17);
                                 cPushStr = cPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 cNewCoe++;
+                                coePO.setBusiness("C端客户端");
                             }else if(coePO.getOrgName().contains("业务后台研发组")||coePO.getOrgName().contains("交易")||coePO.getOrgName().contains("营销")){
                                 cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
                                 String minorOrgParh;
@@ -221,6 +228,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                                 cServerPushStr = cServerPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
                                 cServerNewCoe++;
+                                coePO.setBusiness("C端服务端");
                             }
                             coeListPOMapper.insert(coePO);
                         }
@@ -228,7 +236,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-        if (bNewCoe > 0) {
+       /* if (bNewCoe > 0) {
             DaXiangUtils.pushToPerson(bPushStr, "guomengyao");
             DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
@@ -243,7 +251,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         if (cServerNewCoe > 0) {
             DaXiangUtils.pushToPerson(cServerPushStr, "guomengyao");
               DaXiangUtils.pushToRoom(cServerPushStr,64010966716l);
-        }
+        }*/
 
 
         List<Integer> notFinishTODO = toDoPoMapper.selectNotFinishTODO();

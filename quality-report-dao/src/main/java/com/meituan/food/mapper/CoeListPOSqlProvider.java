@@ -188,6 +188,10 @@ public class CoeListPOSqlProvider {
             sql.VALUES("line_of_business", "#{lineOfBusiness,jdbcType=VARCHAR}");
         }
         
+        if (record.getBusiness() != null) {
+            sql.VALUES("business", "#{business,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -237,6 +241,7 @@ public class CoeListPOSqlProvider {
         sql.SELECT("order_loss");
         sql.SELECT("capital_loss");
         sql.SELECT("line_of_business");
+        sql.SELECT("business");
         sql.FROM("coe_list");
         applyWhere(sql, example, false);
         
@@ -414,6 +419,10 @@ public class CoeListPOSqlProvider {
             sql.SET("line_of_business = #{record.lineOfBusiness,jdbcType=VARCHAR}");
         }
         
+        if (record.getBusiness() != null) {
+            sql.SET("business = #{record.business,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -462,6 +471,7 @@ public class CoeListPOSqlProvider {
         sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
         sql.SET("capital_loss = #{record.capitalLoss,jdbcType=DECIMAL}");
         sql.SET("line_of_business = #{record.lineOfBusiness,jdbcType=VARCHAR}");
+        sql.SET("business = #{record.business,jdbcType=VARCHAR}");
         
         CoeListPOExample example = (CoeListPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -626,6 +636,10 @@ public class CoeListPOSqlProvider {
         
         if (record.getLineOfBusiness() != null) {
             sql.SET("line_of_business = #{lineOfBusiness,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getBusiness() != null) {
+            sql.SET("business = #{business,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

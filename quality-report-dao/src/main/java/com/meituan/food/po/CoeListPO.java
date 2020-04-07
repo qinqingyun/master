@@ -85,6 +85,8 @@ public class CoeListPO implements Serializable {
 
     private String lineOfBusiness;
 
+    private String business;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -407,6 +409,14 @@ public class CoeListPO implements Serializable {
         this.lineOfBusiness = lineOfBusiness == null ? null : lineOfBusiness.trim();
     }
 
+    public String getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(String business) {
+        this.business = business == null ? null : business.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -458,7 +468,8 @@ public class CoeListPO implements Serializable {
             && (this.getLocator() == null ? other.getLocator() == null : this.getLocator().equals(other.getLocator()))
             && (this.getOrderLoss() == null ? other.getOrderLoss() == null : this.getOrderLoss().equals(other.getOrderLoss()))
             && (this.getCapitalLoss() == null ? other.getCapitalLoss() == null : this.getCapitalLoss().equals(other.getCapitalLoss()))
-            && (this.getLineOfBusiness() == null ? other.getLineOfBusiness() == null : this.getLineOfBusiness().equals(other.getLineOfBusiness()));
+            && (this.getLineOfBusiness() == null ? other.getLineOfBusiness() == null : this.getLineOfBusiness().equals(other.getLineOfBusiness()))
+            && (this.getBusiness() == null ? other.getBusiness() == null : this.getBusiness().equals(other.getBusiness()));
     }
 
     @Override
@@ -505,6 +516,7 @@ public class CoeListPO implements Serializable {
         result = prime * result + ((getOrderLoss() == null) ? 0 : getOrderLoss().hashCode());
         result = prime * result + ((getCapitalLoss() == null) ? 0 : getCapitalLoss().hashCode());
         result = prime * result + ((getLineOfBusiness() == null) ? 0 : getLineOfBusiness().hashCode());
+        result = prime * result + ((getBusiness() == null) ? 0 : getBusiness().hashCode());
         return result;
     }
 
@@ -554,6 +566,7 @@ public class CoeListPO implements Serializable {
         sb.append(", orderLoss=").append(orderLoss);
         sb.append(", capitalLoss=").append(capitalLoss);
         sb.append(", lineOfBusiness=").append(lineOfBusiness);
+        sb.append(", business=").append(business);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

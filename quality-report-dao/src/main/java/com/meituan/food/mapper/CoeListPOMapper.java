@@ -57,7 +57,8 @@ public interface CoeListPOMapper {
         "find_date, finder, influence_time, ",
         "clear_time, node_two_org, ",
         "locator, order_loss, ",
-        "capital_loss, line_of_business)",
+        "capital_loss, line_of_business, ",
+        "business)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
         "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
@@ -76,7 +77,8 @@ public interface CoeListPOMapper {
         "#{findDate,jdbcType=DATE}, #{finder,jdbcType=VARCHAR}, #{influenceTime,jdbcType=INTEGER}, ",
         "#{clearTime,jdbcType=TIMESTAMP}, #{nodeTwoOrg,jdbcType=VARCHAR}, ",
         "#{locator,jdbcType=VARCHAR}, #{orderLoss,jdbcType=INTEGER}, ",
-        "#{capitalLoss,jdbcType=DECIMAL}, #{lineOfBusiness,jdbcType=VARCHAR})"
+        "#{capitalLoss,jdbcType=DECIMAL}, #{lineOfBusiness,jdbcType=VARCHAR}, ",
+        "#{business,jdbcType=VARCHAR})"
     })
     int insert(CoeListPO record);
 
@@ -124,7 +126,8 @@ public interface CoeListPOMapper {
         @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
         @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
         @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-        @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
+        @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR),
+        @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeListPO> selectByExample(CoeListPOExample example);
 
@@ -135,7 +138,7 @@ public interface CoeListPOMapper {
         "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
         "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
         "available, org_name, find_date, finder, influence_time, clear_time, node_two_org, ",
-        "locator, order_loss, capital_loss, line_of_business",
+        "locator, order_loss, capital_loss, line_of_business, business",
         "from coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -179,7 +182,8 @@ public interface CoeListPOMapper {
         @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
         @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
         @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-        @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
+        @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR),
+        @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
     })
     CoeListPO selectByPrimaryKey(Integer id);
 
@@ -232,7 +236,8 @@ public interface CoeListPOMapper {
           "locator = #{locator,jdbcType=VARCHAR},",
           "order_loss = #{orderLoss,jdbcType=INTEGER},",
           "capital_loss = #{capitalLoss,jdbcType=DECIMAL},",
-          "line_of_business = #{lineOfBusiness,jdbcType=VARCHAR}",
+          "line_of_business = #{lineOfBusiness,jdbcType=VARCHAR},",
+          "business = #{business,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeListPO record);
@@ -244,7 +249,7 @@ public interface CoeListPOMapper {
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
             "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
             "available, org_name, find_date, finder, influence_time, clear_time, node_two_org, ",
-            "locator, order_loss, capital_loss, line_of_business",
+            "locator, order_loss, capital_loss, line_of_business,business",
             "from coe_list",
             "where available=1 and occur_date >= #{occur,jdbcType=DATE}"
     })
@@ -283,7 +288,8 @@ public interface CoeListPOMapper {
             @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
             @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP)
+            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeListPO> selectByDate(@Param("occur") java.util.Date occur);
 
@@ -294,7 +300,7 @@ public interface CoeListPOMapper {
             "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
             "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
             "available, org_name, find_date, finder, influence_time, clear_time, node_two_org, ",
-            "locator, order_loss, capital_loss, line_of_business",
+            "locator, order_loss, capital_loss, line_of_business,business",
             "from coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -338,7 +344,8 @@ public interface CoeListPOMapper {
             @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
             @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
+            @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR),
+            @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
     })
     CoeListPO selectByCoeId(Integer id);
 
@@ -372,6 +379,17 @@ public interface CoeListPOMapper {
             @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
     })
     int updateBusiness(@Param("id") Integer id,@Param("line_of_business") String line_of_business);
+
+    @Update({
+            "update coe_list",
+            "set business = #{business,jdbcType=VARCHAR}",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
+    })
+    int updateBusiness2(@Param("id") Integer id,@Param("business") String business);
 
     @Update({
             "update coe_list",

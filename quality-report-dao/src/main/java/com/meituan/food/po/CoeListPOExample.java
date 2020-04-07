@@ -2702,6 +2702,76 @@ public class CoeListPOExample {
             addCriterion("line_of_business not between", value1, value2, "lineOfBusiness");
             return (Criteria) this;
         }
+
+        public Criteria andBusinessIsNull() {
+            addCriterion("business is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessIsNotNull() {
+            addCriterion("business is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessEqualTo(String value) {
+            addCriterion("business =", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessNotEqualTo(String value) {
+            addCriterion("business <>", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessGreaterThan(String value) {
+            addCriterion("business >", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessGreaterThanOrEqualTo(String value) {
+            addCriterion("business >=", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessLessThan(String value) {
+            addCriterion("business <", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessLessThanOrEqualTo(String value) {
+            addCriterion("business <=", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessLike(String value) {
+            addCriterion("business like", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessNotLike(String value) {
+            addCriterion("business not like", value, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessIn(List<String> values) {
+            addCriterion("business in", values, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessNotIn(List<String> values) {
+            addCriterion("business not in", values, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessBetween(String value1, String value2) {
+            addCriterion("business between", value1, value2, "business");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessNotBetween(String value1, String value2) {
+            addCriterion("business not between", value1, value2, "business");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
