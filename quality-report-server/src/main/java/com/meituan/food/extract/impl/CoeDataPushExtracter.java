@@ -30,7 +30,7 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
         yesterday.add(Calendar.DATE, -1);
         yesterday.set(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH), yesterday.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         Date mYesterday = Date.from(LocalDate.now().minusDays(60).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        String dateString = "2020-03-06";
+        String dateString = "2020-03-26";
         Date inceptionDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
         List<CoeListPO> coeListPOs = coeListPOMapper.selectByDate(mYesterday);
         for (CoeListPO coeListPO : coeListPOs) {
