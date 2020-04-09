@@ -28,6 +28,9 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             "3、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。\n" +
             "4、值班同学可参考各平台业务对接人引导wiki：https://km.sankuai.com/page/181829982，拉取相关同学进群，配合解决问题。";
 
+    public static final String contentForB="@所有人 PM&RD同学们，请在需求池wiki中更新下周需评审的需求；截止到晚7点，我们会按照需求池统一安排资源参加评审；除紧急需求外临时需求会议qa不能准时参加，需求评审请提前发行事历；感谢合作。\n"+
+            "https://km.sankuai.com/page/305878317";
+
     @Resource
     private DutyTablePOMapper dutyTablePOMapper;
 
@@ -73,6 +76,10 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
 
     @Override
     public void pushToAdmin(LocalDate today) {
+        DaXiangUtils.pushToPerson(contentForB,"guomengyao");
+        DaXiangUtils.pushToRoom(contentForB,64141332738l);
+        DaXiangUtils.pushToRoom(contentForB,64141367262l);
+        DaXiangUtils.pushToRoom(contentForB,64141307357l);
         String firstDayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         List<String> nameList = dutyTablePOMapper.selectByDate(firstDayStr);
         DaXiangUtils.pushToPerson("本周值班人员：" + nameList.toString(), "buyuqi");
