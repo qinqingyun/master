@@ -32,7 +32,6 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
         Date mYesterday = Date.from(LocalDate.now().minusDays(60).atStartOfDay(ZoneId.systemDefault()).toInstant());
         String dateString = "2020-03-06";
         Date inceptionDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
         List<CoeListPO> coeListPOs = coeListPOMapper.selectByDate(mYesterday);
         for (CoeListPO coeListPO : coeListPOs) {
             if (coeListPO.getCoeId() != 86605) {
@@ -81,9 +80,9 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
                         }
                         if (coeListPO.getOccurDate().compareTo(inceptionDate) > 0) {
                             if (coeListPO.getLineOfBusiness() == null || coeListPO.getOrderLoss() == null || coeListPO.getCapitalLoss() == null) {
-                                log.info("这条COE的数据为："+coeListPO.toString()+"\n");
                                 content = content + "\n● 未填写业务线/资损数据(如无损失请填0)";
                                 index++;
+                                log.info("这条COE的数据为："+coeListPO.toString()+"\n");
                             }
                         }
                         if (index != 0) {
@@ -95,9 +94,8 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
         }
         }
         for (String key : pushList.keySet()) {
-          /*  DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","jiaxiaoqi","wuqifang","yangchunxia","liyuhua","wangjianming02");
-            DaXiangUtils.pushToPerson(pushList.get(key), key);*/
-          DaXiangUtils.pushToPerson(pushList.get(key),"guomengyao");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","jiaxiaoqi","wuqifang","yangchunxia","liyuhua","wangjianming02");
+            DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
     }
 }
