@@ -4,6 +4,7 @@ import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.mapper.CoeListPOMapper;
 import com.meituan.food.po.CoeListPO;
 import com.meituan.food.utils.DaXiangUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+@Slf4j
 @Component
 @Service("COEPush")
 public class CoeDataPushExtracter implements ICargoDataPushExtract {
@@ -53,6 +55,7 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
                         }
                         if (coeListPO.getOccurDate().compareTo(inceptionDate) > 0) {
                             if (coeListPO.getLineOfBusiness() == null || coeListPO.getOrderLoss() == null || coeListPO.getCapitalLoss() == null) {
+                                log.info("这条COE的数据为："+coeListPO.toString()+"\n");
                                 content = content + "\n● 未填写业务线/资损数据(如无损失请填0)";
                                 index++;
                             }
@@ -78,6 +81,7 @@ public class CoeDataPushExtracter implements ICargoDataPushExtract {
                         }
                         if (coeListPO.getOccurDate().compareTo(inceptionDate) > 0) {
                             if (coeListPO.getLineOfBusiness() == null || coeListPO.getOrderLoss() == null || coeListPO.getCapitalLoss() == null) {
+                                log.info("这条COE的数据为："+coeListPO.toString()+"\n");
                                 content = content + "\n● 未填写业务线/资损数据(如无损失请填0)";
                                 index++;
                             }
