@@ -289,7 +289,10 @@ public interface CoeListPOMapper {
             @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
+            @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
+            @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeListPO> selectByDate(@Param("occur") java.util.Date occur);
 
