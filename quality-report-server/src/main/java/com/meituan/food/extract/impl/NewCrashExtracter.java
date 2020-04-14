@@ -40,8 +40,8 @@ public class NewCrashExtracter implements INewCrashExtract {
     @Resource
     private RestaurantDauMapper restaurantDauMapper;
 
-    private static final String crashUrl = "https://crash.sankuai.com/new/api/crash/count?access_token=5a7914027be9024a11dd1fb2&type=crash&project=";
-    private static final String crashRateUrl = "https://crash.sankuai.com/new/api/crash/ratio?access_token=5a7914027be9024a11dd1fb2&type=crash&project=";
+    private static final String crashUrl = "https://crash.sankuai.com/token/api/v2/crash/count?access_token=5a7914027be9024a11dd1fb2&type=crash&project=";
+    private static final String crashRateUrl = "https://crash.sankuai.com/token/api/v2/crash/ratio?access_token=5a7914027be9024a11dd1fb2&type=crash&project=";
     private static final String URL = "https://yuntu.sankuai.com/api/open/v1/widget/";
 
     @Override
