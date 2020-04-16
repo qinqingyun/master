@@ -93,16 +93,16 @@
                     switch(data[j-1].rank)
                     {
                       case 1:
-                          row +="<td><select onchange='dataSubmit1(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       case 2:
-                          row +="<td><select onchange='dataSubmit1(event)'><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit(event)'><option value='1'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                           break;
                       case 3:
-                          row +="<td><select onchange='dataSubmit1(event)'><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit(event)'><option value='1'>P1</option><option value='3' selected='selected'>P2</option><option value='2'>P3</option></select></td>";
                           break;
                       default:
-                          row +="<td><select onchange='dataSubmit1(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
+                          row +="<td><select onchange='dataSubmit(event)'><option value='1' selected='selected'>P1</option><option value='3'>P2</option><option value='2' selected='selected'>P3</option></select></td>";
                     }
                     $("tbody.table-api").append(row);
                 }
@@ -110,48 +110,12 @@
     }
 
     function dataSubmit(event) {
+        var $target = $(event.target).parent().parent().children('td');
 
         var data = [];
-
-        var appkey = $(event.target).parent().parent().children('td').eq(0).text();
-        var adminMis = event.target.value;
-
-        data.push({"appkey":appkey,"adminMis":adminMis})
-
-        var datajson = JSON.stringify(data);
-        if(data.length>0){
-        $.ajax({
-            type: 'post',
-            data: datajson,
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            url:'/appkey/updateAppkeyCoreMark',
-            timeout:240000,
-            success: function(jsonResult){
-                var jsonObj = eval('(' +jsonResult + ')');
-                if(jsonObj.code == 0){
-                    $("thead").empty();
-                    $("tbody").empty();
-                    showAppkey($('#tree').treeview('getSelected')[0].text);
-                 }
-                alert(jsonObj.msg);
-            },
-            error: function () {
-                alert("保存失败");
-            }
-        });
-        }
-    };
-
-    function dataSubmit1(event) {
-
-        var data = [];
-
-        var appkey = $(event.target).parent().parent().children('td').eq(0).text();
-        var adminMis = $(event.target).parent().parent().children('td').eq(2).find('input').val();
-
-        var rank = event.target.value;
-
+        var appkey = $target.first().text();
+        var adminMis = $target.eq(2).find('input').val();
+        var rank = $target.eq(3).children().find("option:selected").val();
         data.push({"appkey":appkey,"rank":rank,"adminMis":adminMis})
 
         var datajson = JSON.stringify(data);

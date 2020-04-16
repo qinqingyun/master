@@ -53,18 +53,21 @@ public class ApiDetailController {
     public CommonResponse updateApiCoreMark(@RequestBody ArrayList<ApiVO> data) {
         Date now=new Date();
         for(int i = 0 ;i < data.size(); i++) {
+            if(data.get(i).getIsCore() == 0 && data.get(i).getIsCovered() == 1){
+                return CommonResponse.errorRes("只有核心接口才可标记为已覆盖，请确认数据");//bad param
+            }
             if(data.get(i).getIsCore() == 1){
                 apiDetailPOMapper.updateByAppkeyAndApi(data.get(i).getApiName(), data.get(i).getAppkey(), now);
-                    ApiCoverStatusTable record = new ApiCoverStatusTable();
-                    record.setApiName(data.get(i).getApiName());
-                    record.setAppkey(data.get(i).getAppkey());
-                    if(data.get(i).getIsCovered() == 1 && apiCoverStatusTableMapper.isNull(record) == 0) {
-                        apiCoverStatusTableMapper.insert(record);
-                    }else if( data.get(i).getIsCovered() == 0 && apiCoverStatusTableMapper.isNull(record) > 0) {
-                        apiCoverStatusTableMapper.deleteByApiName(data.get(i).getAppkey(), data.get(i).getApiName());
-                    }
             }else{
                 apiDetailPOMapper.updateToNoncoreByAppkeyAndApi(data.get(i).getApiName(), data.get(i).getAppkey(), now);
+            }
+            ApiCoverStatusTable record = new ApiCoverStatusTable();
+            record.setApiName(data.get(i).getApiName());
+            record.setAppkey(data.get(i).getAppkey());
+            if(data.get(i).getIsCovered() == 1 && apiCoverStatusTableMapper.isNull(record) == 0) {
+                apiCoverStatusTableMapper.insert(record);
+            }else if(data.get(i).getIsCovered() == 0 && apiCoverStatusTableMapper.isNull(record) > 0) {
+                apiCoverStatusTableMapper.deleteByApiName(data.get(i).getAppkey(), data.get(i).getApiName());
             }
         }
 
