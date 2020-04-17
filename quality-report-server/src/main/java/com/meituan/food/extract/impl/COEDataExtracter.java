@@ -152,6 +152,8 @@ public class COEDataExtracter implements ICOEDataExtract {
 
                     getBaseInfo(o,coePO);
 
+                    String department=((JSONObject)o).getString("department");
+
                     String orgPath=coePO.getOrgName();
                     if (orgPath.contains("到综研发组")) {
                         coePO.setAvailable(false);
@@ -230,13 +232,15 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 cServerNewCoe++;
                                 coePO.setBusiness("C端服务端");
                             }
-                            coeListPOMapper.insert(coePO);
+                            if (!(org==126&&department.equals("dianping.travelsh"))){
+                                coeListPOMapper.insert(coePO);
+                            }
                         }
                     }
                 }
             }
         }
-        if (bNewCoe > 0) {
+/*        if (bNewCoe > 0) {
             DaXiangUtils.pushToPerson(bPushStr, "guomengyao");
             DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
@@ -259,7 +263,7 @@ public class COEDataExtracter implements ICOEDataExtract {
             for (Integer integer : notFinishTODO) {
                 getTodoList(new CoeListPO(),integer);
             }
-        }
+        }*/
     }
 
     public void getTodoList(CoeListPO coePO, int coeId) {
