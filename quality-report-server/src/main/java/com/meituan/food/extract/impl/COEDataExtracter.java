@@ -240,7 +240,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                 }
             }
         }
-/*        if (bNewCoe > 0) {
+        if (bNewCoe > 0) {
             DaXiangUtils.pushToPerson(bPushStr, "guomengyao");
             DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
@@ -263,7 +263,7 @@ public class COEDataExtracter implements ICOEDataExtract {
             for (Integer integer : notFinishTODO) {
                 getTodoList(new CoeListPO(),integer);
             }
-        }*/
+        }
     }
 
     public void getTodoList(CoeListPO coePO, int coeId) {
