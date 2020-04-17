@@ -27,7 +27,7 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
 
     private static final String username = "test_sh";
 
-    private static final String password = "Ceshi123";
+    private static final String password = "Ceshi.123";
 
     @Resource
     private JenkinsViewPOMapper jenkinsViewPOMapper;

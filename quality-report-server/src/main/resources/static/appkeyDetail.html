@@ -148,6 +148,14 @@
             return;
         }
 
+        if(isCovered=='1'&&iscore=='0'){
+            alert("只有核心接口才可标记为已覆盖，请确认数据");
+            $("thead").empty();
+            $("tbody").empty();
+            showdata();
+            return;
+        }
+
         data.push({"appkey":appkey,"apiName":apiname,"isCore":iscore,"isCovered":isCovered});
 
         var datajson = JSON.stringify(data);
