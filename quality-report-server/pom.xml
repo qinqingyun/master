@@ -26,6 +26,11 @@
         <!--</dependency>-->
 
         <dependency>
+            <groupId>com.meituan.mdp.boot</groupId>
+            <artifactId>mdp-boot-starter-threadpool</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
