@@ -220,17 +220,19 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 cNewCoe++;
                                 coePO.setBusiness("C端客户端");
                             }else if(coePO.getOrgName().contains("业务后台研发组")||coePO.getOrgName().contains("交易")||coePO.getOrgName().contains("营销")){
-                                cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
-                                String minorOrgParh;
-                                if (orgPath.contains("业务后台研发组")) {
-                                    minorOrgParh = orgPath.substring(orgPath.indexOf("业务后台研发组/") + 8);
-                                } else {
-                                    minorOrgParh = orgPath.substring(orgPath.indexOf("平台业务研发中心/") + 9);
-                                }
+                                if (!(org==126&&department.equals("dianping.travelsh"))){
+                                    cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
+                                    String minorOrgParh;
+                                    if (orgPath.contains("业务后台研发组")) {
+                                        minorOrgParh = orgPath.substring(orgPath.indexOf("业务后台研发组/") + 8);
+                                    } else {
+                                        minorOrgParh = orgPath.substring(orgPath.indexOf("平台业务研发中心/") + 9);
+                                    }
 
-                                cServerPushStr = cServerPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
-                                cServerNewCoe++;
-                                coePO.setBusiness("C端服务端");
+                                    cServerPushStr = cServerPushStr + "\n● 组织：" + minorOrgParh + "   RD:" + coePO.getOwnerName() + "(" + coePO.getOwnerMis() + ")";
+                                    cServerNewCoe++;
+                                    coePO.setBusiness("C端服务端");
+                                }
                             }
                             if (!(org==126&&department.equals("dianping.travelsh"))){
                                 coeListPOMapper.insert(coePO);
