@@ -118,7 +118,9 @@ public class UpdateApiExtracter implements IUpdateApiExtract {
             po.setProportion(pro);
             po.setCreatedTime(now);
             po.setUpdatedAt(now);
-            currentAppApiDetailPOList.add(po);
+            if (apiMap.get(key)>2){
+                currentAppApiDetailPOList.add(po);
+            }
         }
         return currentAppApiDetailPOList;
     }
