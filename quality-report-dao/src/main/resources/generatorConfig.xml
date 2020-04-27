@@ -34,7 +34,7 @@
         <!-- !!!! Model Configurations !!!! -->
         <javaModelGenerator targetPackage="com.meituan.food.po" targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
+            <!--<property name="trimStrings" value="true"/>-->
         </javaModelGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->

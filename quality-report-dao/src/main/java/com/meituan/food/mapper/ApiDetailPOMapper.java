@@ -248,11 +248,11 @@ int updateByAppkeyAndApi(@Param("name") String name, @Param("appkey") String app
             "updated_at)",
             "values ",
             "<foreach collection='list' item='item' index='index' separator=','>",
-            "(#{id,jdbcType=INTEGER},#{appkey,jdbcType=VARCHAR}, ",
-            "#{apiFullName,jdbcType=VARCHAR}, #{callCount,jdbcType=BIGINT}, ",
-            "#{apiSpanName,jdbcType=VARCHAR}, #{proportion,jdbcType=DECIMAL}, ",
-            "#{isCore,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, ",
-            "#{updatedAt,jdbcType=TIMESTAMP})",
+            "(#{item.id,jdbcType=INTEGER},#{item.appkey,jdbcType=VARCHAR}, ",
+            "#{item.apiFullName,jdbcType=VARCHAR}, #{item.callCount,jdbcType=BIGINT}, ",
+            "#{item.apiSpanName,jdbcType=VARCHAR}, #{item.proportion,jdbcType=DECIMAL}, ",
+            "#{item.isCore,jdbcType=INTEGER}, #{item.createdTime,jdbcType=TIMESTAMP}, ",
+            "#{item.updatedAt,jdbcType=TIMESTAMP})",
             "</foreach>",
             "</script>"
     })
