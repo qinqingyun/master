@@ -65,7 +65,7 @@ public class ApiDetailPO implements Serializable {
     }
 
     public void setApiSpanName(String apiSpanName) {
-        this.apiSpanName = apiSpanName == null ? null : apiSpanName.trim();
+        this.apiSpanName = apiSpanName;
     }
 
     public BigDecimal getProportion() {

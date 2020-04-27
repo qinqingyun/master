@@ -12,6 +12,7 @@ import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.ApiDetailPOExample;
 import com.meituan.food.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -86,7 +87,7 @@ public class UpdateApiExtracter implements IUpdateApiExtract {
             JSONArray respArr = resp.getJSONArray("data");
 
             for (Object o : respArr) {
-                String spanName = ((JSONObject) o).getString("spanname");
+                String spanName = StringUtils.trim(((JSONObject) o).getString("spanname"));
                 Long count = ((JSONObject) o).getLong("count");
                 if (!spanName.equals("all")) {
                     if (apiMap.get(spanName) == null) {
@@ -118,9 +119,10 @@ public class UpdateApiExtracter implements IUpdateApiExtract {
             po.setProportion(pro);
             po.setCreatedTime(now);
             po.setUpdatedAt(now);
-            if (apiMap.get(key)>2){
+            if (apiMap.get(key)>1){
                 currentAppApiDetailPOList.add(po);
             }
+            currentAppApiDetailPOList.add(po);
         }
         return currentAppApiDetailPOList;
     }
