@@ -122,7 +122,6 @@ public class UpdateApiExtracter implements IUpdateApiExtract {
             if (apiMap.get(key)>1){
                 currentAppApiDetailPOList.add(po);
             }
-            currentAppApiDetailPOList.add(po);
         }
         return currentAppApiDetailPOList;
     }
