@@ -15,6 +15,7 @@ public class PipelinePrAutoPO implements Serializable {
     private Integer department_id;
     private String group_name;
 
+
     public String getGroup_name() {
         return group_name;
     }
@@ -42,6 +43,8 @@ public class PipelinePrAutoPO implements Serializable {
 
     private Integer totalCase;
     private Integer pr_times;
+
+    private String mis;
 
 
 

@@ -136,12 +136,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             JSONObject onePro = repos2.getJSONObject(strKey3);
                             pipelinePrAutoPO.setRepo(strKey3);
                             pipelinePrAutoPO.setPriority(onePro.getString("priority"));
-
                             pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
 
-
                             if(onePro.getBoolean("isAutoTest")!=null) {
-
                                 if (onePro.getBoolean("isAutoTest")) {
                                     pipelinePrAutoPO.setIsAutoOn(1);
                                     PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
@@ -182,12 +179,10 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
                                 pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
                                 if(autoInfoNotag.getTotalCase()>=0){
-                                    //执行PR的存库
+                                    //执行PR自动化
                                     pipelinePrAutoPO.setAuto_date(yesterday);
                                     pipelinePrMapper.insertRepo(pipelinePrAutoPO);
                                 }
-
-
                             }
                             pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
                         }
@@ -312,4 +307,15 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
         return pipelinePrAutoPO;
     }
+
+
+    public int UpdateDirectionMis(String repo,String mis)
+    {
+        PipelinePrAutoPO misPo = new PipelinePrAutoPO();
+        misPo.setRepo(repo);
+        misPo.setMis(mis);
+        return pipelinePrMapper.updateDirectionMis(misPo);
+    }
+
+
 }

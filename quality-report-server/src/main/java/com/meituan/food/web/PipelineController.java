@@ -97,4 +97,14 @@ public class PipelineController {
     }
 
 
+    @GetMapping("/insert/pr/repoMis")
+    public String insertRepoMis(@RequestParam("repo") String repo,@RequestParam("mis") String mis) throws ParseException {
+        int result = oneDayPrPipelineExtract.UpdateDirectionMis(repo,mis);
+        if (result ==1){
+            return "更新pr仓库负责人成功！";
+        }else return "更新pr仓库负责人失败！";
+
+    }
+
+
 }

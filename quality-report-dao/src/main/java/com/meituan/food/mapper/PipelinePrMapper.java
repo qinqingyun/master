@@ -2,10 +2,11 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.PipelinePrAutoPO;
 import com.meituan.food.po.PipelinePrPO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public interface PipelinePrMapper {
 
@@ -45,5 +46,15 @@ public interface PipelinePrMapper {
             "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{passes,jdbcType=DECIMAL},#{coverage,jdbcType=DECIMAL},#{pr_times,jdbcType=INTEGER},#{auto_date,jdbcType=DATE})"
     })
     int insertRepo(PipelinePrAutoPO record);
+
+
+    @Update({
+            "update direction",
+            "set mis = #{mis,jdbcType=VARCHAR}",
+            "where repo = #{repo,jdbcType=VARCHAR}"
+    })
+    int updateDirectionMis(PipelinePrAutoPO record);
+
+
 
 }
