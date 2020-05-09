@@ -50,9 +50,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 dirTDs = removeST(dirAll);
             }
             if(dirTDs.size()!=0) {
-
-
-
                 sum=0 ;
                 pass = 0;
                 failed = 0;
@@ -68,6 +65,20 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                         failed = failed + detail.getInteger("failed");
                         oneTimePassCount = oneTimePassCount + detail.getInteger("oneTimePassCount");
                         autoRunCountNumberList = autoRunCountNumberList + (Integer) detail.getJSONArray("lastUseCountNumberList").get(6);
+                    }else {
+                        //存在提测任务和提测信息时间不一致情况：task任务在date时间，task信息在date前一天
+                        LocalDate yestoday = date.plusDays(-1);
+                        String paramYestoday = "{\"start\":\""+yestoday+"\",\"end\":\""+yestoday+"\",\"typeList\":[\"total\"]}";
+                        JSONObject respYestoday = HttpUtils.doPost(url, paramYestoday, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
+                        JSONObject detailYestoday = respYestoday.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
+                        if (detailYestoday != null) {
+                            taskName=dirTDs.getString(k);
+                            sum = sum + detailYestoday.getInteger("sum");
+                            pass = pass + detailYestoday.getInteger("pass");
+                            failed = failed + detailYestoday.getInteger("failed");
+                            oneTimePassCount = oneTimePassCount + detailYestoday.getInteger("oneTimePassCount");
+                            autoRunCountNumberList = autoRunCountNumberList + (Integer) detailYestoday.getJSONArray("lastUseCountNumberList").get(6);
+                        }
                     }
                 }
                 PipelineTpPO pipelineTpPO = new PipelineTpPO();

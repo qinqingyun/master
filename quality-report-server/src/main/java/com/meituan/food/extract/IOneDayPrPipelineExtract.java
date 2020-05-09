@@ -9,5 +9,6 @@ public interface IOneDayPrPipelineExtract {
 
     void UpdatePrPipelineData(LocalDate date);
     void UpdatePrAutoData(LocalDate date);
+    int UpdateDirectionMis(String repo,String mis);
 
 }
