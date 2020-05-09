@@ -35,6 +35,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     Integer  oneTimePassCount =0;
     Integer  autoRunCountNumberList = 0;
     String taskName="";
+    Integer exp=1 ;
 
 
     @Override
@@ -56,6 +57,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 oneTimePassCount =0;
                 autoRunCountNumberList = 0;
                 taskName="";
+                PipelineTpPO rejectResult = getReason(dirTDs, date);
                 for (int k = 0; k < dirTDs.size(); k++) {
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
@@ -72,12 +74,14 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                         JSONObject respYestoday = HttpUtils.doPost(url, paramYestoday, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
                         JSONObject detailYestoday = respYestoday.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                         if (detailYestoday != null) {
+                            exp = 0;
                             taskName=dirTDs.getString(k);
                             sum = sum + detailYestoday.getInteger("sum");
                             pass = pass + detailYestoday.getInteger("pass");
                             failed = failed + detailYestoday.getInteger("failed");
                             oneTimePassCount = oneTimePassCount + detailYestoday.getInteger("oneTimePassCount");
                             autoRunCountNumberList = autoRunCountNumberList + (Integer) detailYestoday.getJSONArray("lastUseCountNumberList").get(6);
+                            rejectResult = getReason(dirTDs, yestoday);
                         }
                     }
                 }
@@ -92,7 +96,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 pipelineTpPO.setOneTimePassCount(oneTimePassCount);
                 pipelineTpPO.setAutoRunCountNumberList(autoRunCountNumberList);
                 //获取自动化case数和提测失败原因
-                PipelineTpPO rejectResult = getReason(dirTDs, date);
                 pipelineTpPO.setAllCase(rejectResult.getAllCase());
                 pipelineTpPO.setRejectReasonString(rejectResult.getRejectReasons().toString());
                 String descSlip = org.apache.commons.lang.StringUtils.join(rejectResult.getRejectDesc(), "###");
