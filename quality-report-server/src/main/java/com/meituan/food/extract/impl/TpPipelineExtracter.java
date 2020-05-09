@@ -22,11 +22,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     @Resource
     public PipelineTpMapper pipelineTpMapper;
 
-    ArrayList<String> skipDeatil = new ArrayList<>();
-    ArrayList<String> skipReason = new ArrayList<>();
-    String hotfixDeatilStr="";
-    String skipDeatilStr="";
-    String skipReasonStr="";
     //组织参数参考wiki https://km.sankuai.com/page/201266445
     String[] directions = new String[]{"260", "262","264","261","253","254","255","296","321","251","252","256","258","257","259","241","217","497"};
     Integer sum=0 ;
@@ -56,6 +51,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 oneTimePassCount =0;
                 autoRunCountNumberList = 0;
                 taskName="";
+                PipelineTpPO rejectResult = getReason(dirTDs, date);
                 for (int k = 0; k < dirTDs.size(); k++) {
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
@@ -78,6 +74,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                             failed = failed + detailYestoday.getInteger("failed");
                             oneTimePassCount = oneTimePassCount + detailYestoday.getInteger("oneTimePassCount");
                             autoRunCountNumberList = autoRunCountNumberList + (Integer) detailYestoday.getJSONArray("lastUseCountNumberList").get(6);
+                            rejectResult = getReason(dirTDs, yestoday);
                         }
                     }
                 }
@@ -92,7 +89,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 pipelineTpPO.setOneTimePassCount(oneTimePassCount);
                 pipelineTpPO.setAutoRunCountNumberList(autoRunCountNumberList);
                 //获取自动化case数和提测失败原因
-                PipelineTpPO rejectResult = getReason(dirTDs, date);
                 pipelineTpPO.setAllCase(rejectResult.getAllCase());
                 pipelineTpPO.setRejectReasonString(rejectResult.getRejectReasons().toString());
                 String descSlip = org.apache.commons.lang.StringUtils.join(rejectResult.getRejectDesc(), "###");
