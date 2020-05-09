@@ -22,11 +22,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     @Resource
     public PipelineTpMapper pipelineTpMapper;
 
-    ArrayList<String> skipDeatil = new ArrayList<>();
-    ArrayList<String> skipReason = new ArrayList<>();
-    String hotfixDeatilStr="";
-    String skipDeatilStr="";
-    String skipReasonStr="";
     //组织参数参考wiki https://km.sankuai.com/page/201266445
     String[] directions = new String[]{"260", "262","264","261","253","254","255","296","321","251","252","256","258","257","259","241","217","497"};
     Integer sum=0 ;
@@ -35,7 +30,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     Integer  oneTimePassCount =0;
     Integer  autoRunCountNumberList = 0;
     String taskName="";
-    Integer exp=1 ;
 
 
     @Override
@@ -74,7 +68,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                         JSONObject respYestoday = HttpUtils.doPost(url, paramYestoday, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
                         JSONObject detailYestoday = respYestoday.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                         if (detailYestoday != null) {
-                            exp = 0;
                             taskName=dirTDs.getString(k);
                             sum = sum + detailYestoday.getInteger("sum");
                             pass = pass + detailYestoday.getInteger("pass");
