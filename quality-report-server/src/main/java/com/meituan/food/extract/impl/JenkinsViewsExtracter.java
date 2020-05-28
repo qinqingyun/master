@@ -152,7 +152,7 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
         bUnRunJob=bUnRunJobList.size();
         if (bUnRunJob> 0) {
             DaXiangUtils.pushToPerson(bPushStr, "tongmeina");
-            DaXiangUtils.pushToPerson(bPushStr, "137442102174");
+            DaXiangUtils.pushToPerson(bPushStr, "64057026090");
         }
 //
 //        if (cUnRunJob > 0) {
