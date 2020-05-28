@@ -105,4 +105,17 @@ public interface JenkinsViewPOMapper {
           "and job = #{job,jdbcType=VARCHAR}"
     })
     int updateStatusByViewAndJob(Integer status, String view, String job);
+
+
+   @Select({
+            "select",
+            "url,view",
+            "from ( select url,view,concat('meishi_b/',job) as job from( select url,job, view from jenkins_views  where status=1 and view in ('B端','C端test环境覆盖率计算','M端-CRM代理商','M端-MOMA','供应链自动化','结算自动化','商家平台-北京Test环境接口自动化','商家平台-上海Test环境接口自动化','客户平台-Test环境接口自动化','TDC门店信息') group by job  order by view )a) b  left outer join ( select dc_job_name,depart_name from dc_case_issue  where build_date>=#{build_date,jdbcType=VARCHAR} group by dc_job_name order by view_name) c on b.job COLLATE utf8mb4_unicode_ci = c.dc_job_name COLLATE utf8mb4_unicode_ci" ,
+            "where c.dc_job_name is NULL"
+    })
+    @Results({
+            @Result(column="url", property="url", jdbcType=JdbcType.VARCHAR),
+            @Result(column="view", property="view", jdbcType=JdbcType.VARCHAR)
+    })
+    List<JenkinsViewPO> selectUnRunJobAndVieByBuildDate(String buil_date);
 }
