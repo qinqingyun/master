@@ -49,7 +49,7 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
             for (Map<String, String> map : jobsFromJenkins) {
                 String job = map.get("name");
                 String url = map.get("url");
-                if (!existJobMap.containsKey(job)) {
+              if (!existJobMap.containsKey(job)) {
                     JenkinsViewPO jenkinsViewPO = new JenkinsViewPO();
                     jenkinsViewPO.setView(view);
                     jenkinsViewPO.setJob(job);
@@ -101,14 +101,18 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
         JSONArray jobsArray = respObject.getJSONArray("jobs");
         List<Map<String, String>> jobList = new ArrayList<>();
         for (Object item : jobsArray) {
+
             JSONObject jobObject = JSONObject.parseObject(item.toString());
-            Map<String, String> map = new HashMap<>();
-            map.put("name", jobObject.getString("name"));
-            map.put("url", jobObject.getString("url"));
-            jobList.add(map);
+            if(!jobObject.getString("color").contains("disabled")) {
+                Map<String, String> map = new HashMap<>();
+                map.put("name", jobObject.getString("name"));
+                map.put("url", jobObject.getString("url"));
+                jobList.add(map);
+            }
         }
         return jobList;
     }
+
 
     public void noticeTest() {
 
