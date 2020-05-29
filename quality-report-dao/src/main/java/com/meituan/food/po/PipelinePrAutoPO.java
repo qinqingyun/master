@@ -42,7 +42,18 @@ public class PipelinePrAutoPO implements Serializable {
     private Integer isAutoOn;
 
     private Integer totalCase;
-    private Integer pr_times;
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
+    }
+
+    private Integer times;//执行PR次数
+
+    private Integer pr_times;//执行自动化次数
 
     private String mis;
 
