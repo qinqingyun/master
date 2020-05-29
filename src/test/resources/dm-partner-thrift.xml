@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           ">
+    <!--config-->
+    <bean id="mtThriftPoolConfig"
+          class="com.meituan.service.mobile.mtthrift.client.pool.MTThriftPoolConfig">
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="20"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxWait" value="3000"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="testWhileIdle" value="false"/>
+    </bean>
+
+
+    <bean id="partnerRoleRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy" destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.PartnerRoleRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9202"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="partnerRolePermissionsRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy" destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.PartnerRolePermissionsRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9201"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="partnerHotelRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.PartnerHotelRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9204"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="merchantService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.MerchantRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9203"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="wxService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.HotelWxInfoRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9200"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    
+    <bean id="partnerAccountAdminRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.PartnerAccountAdminRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9205"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+    
+    
+    <bean id="wxAppInfoRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.WxAppInfoRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9206"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="wxAppCardRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.WxAppCardRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9207"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="settleAccountRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.SettleAccountRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9221"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="wxOpenappInfoRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface" value="com.meituan.hotel.dm.partner.api.service.WxOpenappInfoRPCService"/>
+        <property name="timeout" value="5000"/>
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9208"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="wxOfficialUserRPCServiceImpl" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface"
+                  value="com.meituan.hotel.dm.partner.api.service.WxOfficialAccountUserRPCService"/> <!-- 实现类 -->
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9209"/> <!-- 监听端口 -->
+        <property name="timeout" value="10000"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="hotelWxCodeVersionRPCServiceImpl" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface"
+                  value="com.meituan.hotel.dm.partner.api.service.HotelWxCodeVersionRPCService"/> <!-- 实现类 -->
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9222"/> <!-- 监听端口 -->
+        <property name="timeout" value="50000"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="hotelWxCodePublishRPCServiceImpl" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface"
+                  value="com.meituan.hotel.dm.partner.api.service.HotelWxCodePublishRPCService"/> <!-- 实现类 -->
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9223"/> <!-- 监听端口 -->
+        <property name="timeout" value="5000"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="thirdChannelSettingAdminRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface"
+                  value="com.meituan.hotel.dm.partner.api.service.ThirdChannelSettingAdminRPCService"/> <!-- 实现类 -->
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9226"/> <!-- 监听端口 -->
+        <property name="timeout" value="5000"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+
+    <bean id="thirdPartnerSettingRPCService" class="com.meituan.service.mobile.mtthrift.proxy.ThriftClientProxy"
+          destroy-method="destroy">
+        <property name="mtThriftPoolConfig" ref="mtThriftPoolConfig"/>
+        <property name="serviceInterface"
+                  value="com.meituan.hotel.dm.partner.api.service.ThirdPartnerSettingRPCService"/> <!-- 实现类 -->
+        <property name="clusterManager" value="octo"/>
+        <property name="remoteAppkey" value="com.sankuai.hotel.dm.partner"/>
+        <property name="remoteServerPort" value="9225"/> <!-- 监听端口 -->
+        <property name="timeout" value="5000"/>
+        <property name="appKey" value="com.sankuai.hotel.dm.autotest"/>
+    </bean>
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="testSuite" parallel="true">
+    <test name="P1">
+        <packages>
+            <package name="http.testsuites"/>
+        </packages>
+    </test>
+    <test name="P2">
+        <classes>
+            <class name="thrift.testsuites.PriceCalcServiceTest"/>
+            <class name="thrift.testsuites.WechatMsgServiceTest"/>
+        </classes>
+    </test>
+</suite>

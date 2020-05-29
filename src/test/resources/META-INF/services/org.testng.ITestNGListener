@@ -1,0 +1,4 @@
+com.meituan.toolchain.mario.listener.MarioTestClassListener
+com.meituan.toolchain.mario.listener.MarioTestListener
+com.meituan.toolchain.mario.listener.JsonReportNG
+org.uncommons.reportng.HTMLReporter
