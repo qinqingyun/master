@@ -50,11 +50,11 @@ public class ImportantProjectReviewJob implements IImportantProjectReviewJob {
                 .collect(Collectors.toList());
         extractFutures.forEach(CompletableFuture::join);*/
 
+        newCrashExtract.syncForDays(Date.from(firstDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()),Date.from(lastDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()));
+
         List<CompletableFuture<Void>> crashExtractFutures = oneWeekCrashExtracts.stream()
                 .map(crashDataExtract -> CompletableFuture.runAsync(() -> crashDataExtract.extractData4Week(firstDay,lastDay)))
                 .collect(Collectors.toList());
         crashExtractFutures.forEach(CompletableFuture::join);
-
-        newCrashExtract.syncForDays(Date.from(firstDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()),Date.from(lastDay.atStartOfDay(ZoneOffset.ofHours(8)).toInstant()));
     }
 }
