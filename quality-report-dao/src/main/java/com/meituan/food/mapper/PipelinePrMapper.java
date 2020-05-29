@@ -1,5 +1,6 @@
 package com.meituan.food.mapper;
 
+import com.meituan.food.po.ApiDetailPO;
 import com.meituan.food.po.PipelinePrAutoPO;
 import com.meituan.food.po.PipelinePrPO;
 import org.apache.ibatis.annotations.*;
@@ -7,6 +8,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public interface PipelinePrMapper {
 
@@ -29,6 +31,29 @@ public interface PipelinePrMapper {
     })
     int insertRepoInfo(PipelinePrAutoPO record);
 
+
+    @Insert({
+            "<script>",
+            "insert into direction(id,direction_id,direction_name,group_name,repo,priority,isAutoOn)",
+            "values ",
+            "<foreach collection='list' item='item' index='index' separator=','>",
+            "(#{item.id,jdbcType=INTEGER},#{item.department_id,jdbcType=INTEGER},#{item.directionName,jdbcType=VARCHAR},#{item.group_name,jdbcType=VARCHAR},#{item.repo,jdbcType=VARCHAR},#{item.priority,jdbcType=VARCHAR},#{item.isAutoOn,jdbcType=INTEGER})",
+            "</foreach>",
+            "</script>"
+    })
+    int insertRepoInfoList(List<PipelinePrAutoPO> records);
+
+    @Insert({
+            "<script>",
+            "insert into pipeline_pr_repo_data (id,department_id, department_name, repo,priority,isAutoOn, totalCase,passes,coverage,pr_times,auto_date,times)",
+            "values ",
+            "<foreach collection='list' item='item' index='index' separator=','>",
+            "(#{item.id,jdbcType=INTEGER},#{item.department_id,jdbcType=INTEGER},#{item.directionName,jdbcType=VARCHAR},#{item.repo,jdbcType=VARCHAR},#{item.priority,jdbcType=VARCHAR},#{item.isAutoOn,jdbcType=INTEGER}, #{item.totalCase,jdbcType=INTEGER},#{item.passes,jdbcType=DECIMAL},#{item.coverage,jdbcType=DECIMAL},#{item.pr_times,jdbcType=INTEGER},#{item.auto_date,jdbcType=DATE},#{item.times,jdbcType=INTEGER})",
+            "</foreach>",
+            "</script>"
+    })
+    int insertRepoList(List<PipelinePrAutoPO> records);
+
     @Delete({
             "delete from direction",
             "where id!=0"
@@ -46,6 +71,9 @@ public interface PipelinePrMapper {
             "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{passes,jdbcType=DECIMAL},#{coverage,jdbcType=DECIMAL},#{pr_times,jdbcType=INTEGER},#{auto_date,jdbcType=DATE},#{times,jdbcType=INTEGER})"
     })
     int insertRepo(PipelinePrAutoPO record);
+
+
+
 
 
     @Update({
