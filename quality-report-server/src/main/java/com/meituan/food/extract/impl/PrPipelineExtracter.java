@@ -9,12 +9,19 @@ import com.meituan.food.po.PipelinePrAutoPO;
 import com.meituan.food.po.PipelinePrPO;
 import com.meituan.food.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -32,8 +39,8 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     @Override
     public void UpdatePrPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/data/pr/detail?startTime=" + date + "&endTime=" + date;
-        //组织参数参考wiki: https://km.sankuai.com/page/201266445
-        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
+        //组织参数参考wiki: https://km.sankuai.com/page/201266445-排除254
+        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         PipelinePrPO pipelinePrPO = new PipelinePrPO();
         pipelinePrMapper.deleteByDate(date);
@@ -104,157 +111,184 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
 
     //pr组织下所有仓库自动化case和覆盖率
-//    @Test
     public void UpdatePrAutoData(LocalDate date) {
-        LocalDate today = date;
-        LocalDate yesterday = today.plusDays(-1);
-        String url = "http://qa.sankuai.com/data/pr/image?startTime=" + yesterday + "&endTime=" + today;//昨天数据
-//        String url = "http://qa.sankuai.com/data/pr/image?startTime=2020-03-10&endTime=2020-03-17";
-        //组织参数参考wiki https://km.sankuai.com/page/201266445
-        String param = " [{\"value\":\"\",\"key\":\"260\"},{\"value\":\"\",\"key\":\"262\"},{\"value\":\"\",\"key\":\"264\"},{\"value\":\"\",\"key\":\"261\"},{\"value\":\"\",\"key\":\"253\"},{\"value\":\"\",\"key\":\"254\"},{\"value\":\"\",\"key\":\"255\"},{\"value\":\"\",\"key\":\"296\"},{\"value\":\"\",\"key\":\"321\"},{\"value\":\"\",\"key\":\"251\"},{\"value\":\"\",\"key\":\"252\"},{\"value\":\"\",\"key\":\"256\"},{\"value\":\"\",\"key\":\"258\"},{\"value\":\"\",\"key\":\"259\"},{\"value\":\"\",\"key\":\"257\"},{\"value\":\"\",\"key\":\"241\"},{\"value\":\"\",\"key\":\"217\"},{\"value\":\"\",\"key\":\"497\"}]";
-        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
+        LocalDate yesterday = date.plusDays(1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
         pipelinePrMapper.deleteDirRepoByDate();
+        //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
+        String param = "{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"497\"}";
+        List<String> dirList= Arrays.asList(param.split(";"));
         //遍历每个组织
-        for(String strKey:resp.getJSONObject("data").keySet())
-        {
+        for(int i = 0;i<dirList.size();i++){
+            //更改为每个组织获取，防止接口超时
+            String dir = dirList.get(i);
+            insertData(dir,date);
+        }
+    }
+
+    public void insertData(String dir,LocalDate date){
+        String param = "["+dir+"]";
+        LocalDate yesterday = date.plusDays(-1);
+        String url = "http://qa.sankuai.com/data/pr/image?startTime=" + yesterday + "&endTime=" + date;//昨天数据
+        JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
+        for(String strKey:resp.getJSONObject("data").keySet()) {
+            //一个key，还必须遍历。。
             PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
             pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
             pipelinePrAutoPO.setDirectionName(data.getString("label"));
             JSONObject repos = data.getJSONObject("children");
+            for (String strKey2 : repos.keySet()) {
+                if (!strKey2.contains("ssh")) {//还继续向下分组情况260/262/296
+                    JSONObject repos2 = repos.getJSONObject(strKey2).getJSONObject("children");
+                    //遍历组织下所有仓库
+                    for (String strKey3 : repos2.keySet()) {
+                        //获取仓库pr次数
+                        int times = getPRTimes(strKey3, date);
+                        pipelinePrAutoPO.setTimes(times);
+                        JSONObject onePro = repos2.getJSONObject(strKey3);
+                        pipelinePrAutoPO.setRepo(strKey3);
+                        pipelinePrAutoPO.setPriority(onePro.getString("priority"));
+                        pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
 
-                for(String strKey2:repos.keySet()) {
-                    if(!strKey2.contains("ssh")){//还继续向下分组情况260/262/296
-                        JSONObject repos2=repos.getJSONObject(strKey2).getJSONObject("children");
-                        //遍历组织下所有仓库
-                        for(String strKey3:repos2.keySet()) {
-                            if(strKey3.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")){
-                                Integer test = 0;
-                            }
+                        if (onePro.getBoolean("isAutoTest") != null) {
+                            if (onePro.getBoolean("isAutoTest")) {
+                                pipelinePrAutoPO.setIsAutoOn(1);
+                                PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
+                                pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                                pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
 
-                            JSONObject onePro = repos2.getJSONObject(strKey3);
-                            pipelinePrAutoPO.setRepo(strKey3);
-                            pipelinePrAutoPO.setPriority(onePro.getString("priority"));
-                            pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
-
-                            if(onePro.getBoolean("isAutoTest")!=null) {
-                                if (onePro.getBoolean("isAutoTest")) {
-                                    pipelinePrAutoPO.setIsAutoOn(1);
-                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
-                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                                    if(autoInfo.getTotalCase()>=0){
-                                        //执行PR的存库
-                                        pipelinePrAutoPO.setAuto_date(yesterday);
-                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                    }
-
-                                } else {
-                                    pipelinePrAutoPO.setIsAutoOn(0);
-                                    //仓库自动化关闭，默认自动化数-1
-                                    pipelinePrAutoPO.setTotalCase(-1);
-                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
-                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                                    if(autoInfo.getTotalCase()>=0){
-                                        //执行PR的存库
-                                        pipelinePrAutoPO.setAuto_date(yesterday);
-                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                    }
-
-                                }
-                            }else {
-                                //仓库下未标记isAutoTest
-                                pipelinePrAutoPO.setIsAutoOn(0);
-                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
-                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                                pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
-                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
-                                if(autoInfoNotag.getTotalCase()>=0){
-                                    //执行PR自动化
-                                    pipelinePrAutoPO.setAuto_date(yesterday);
-                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                }
-                            }
-                            pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
-                        }
-
-                    }else {
-                        //遍历组织下所有仓库
-                        if(strKey2.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")){
-                            Integer test = 0;
-                        }
-                            JSONObject onePro = repos.getJSONObject(strKey2);
-                            pipelinePrAutoPO.setRepo(strKey2);
-                            pipelinePrAutoPO.setPriority(onePro.getString("priority"));
-                            pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
-
-                            if(onePro.getBoolean("isAutoTest")!=null) {
-
-                                if (onePro.getBoolean("isAutoTest")) {
-                                    pipelinePrAutoPO.setIsAutoOn(1);
-                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                                    if(autoInfo.getTotalCase()>=0){
-                                        //执行PR的存库
-                                        pipelinePrAutoPO.setAuto_date(yesterday);
-                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                    }
-
-                                } else {
-                                    pipelinePrAutoPO.setIsAutoOn(0);
-                                    //仓库自动化关闭
-                                    PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-                                    pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                    pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                    pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                    pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                                    if(autoInfo.getTotalCase()>=0){
-                                        //执行PR的存库
-                                        pipelinePrAutoPO.setAuto_date(yesterday);
-                                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                    }
-                                }
-                            }else {
-                                //仓库下未标记isAutoTest
-                                pipelinePrAutoPO.setIsAutoOn(0);
-                                PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
-                                pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                                pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
-                                pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-                                pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
-                                if(autoInfoNotag.getTotalCase()>=0){
+                                if (pipelinePrAutoPO.getTimes() > 0) {
                                     //执行PR的存库
                                     pipelinePrAutoPO.setAuto_date(yesterday);
                                     pipelinePrMapper.insertRepo(pipelinePrAutoPO);
                                 }
 
+                            } else {
+                                pipelinePrAutoPO.setIsAutoOn(0);
+                                //仓库自动化关闭，默认自动化数-1
+                                pipelinePrAutoPO.setTotalCase(-1);
+                                PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
+                                pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                                pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                                pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                                pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                                if (pipelinePrAutoPO.getTimes() >0) {
+                                    //执行PR的存库
+                                    pipelinePrAutoPO.setAuto_date(yesterday);
+                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                                }
 
                             }
-
-                        pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
+                        } else {
+                            //仓库下未标记isAutoTest
+                            pipelinePrAutoPO.setIsAutoOn(0);
+                            PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
+                            pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                            pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
+                            pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+                            pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+                            if (autoInfoNotag.getTotalCase() >= 0) {
+                                //执行PR自动化
+                                pipelinePrAutoPO.setAuto_date(yesterday);
+                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                            }
                         }
-//
+                        pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
+                    }
+
+                } else {
+                    //遍历组织下所有仓库
+                    if (strKey2.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")) {
+                        Integer test = 0;
+                    }
+                    //获取仓库pr次数
+                    int times = getPRTimes(strKey2, date);
+                    pipelinePrAutoPO.setTimes(times);
+                    JSONObject onePro = repos.getJSONObject(strKey2);
+                    pipelinePrAutoPO.setRepo(strKey2);
+                    pipelinePrAutoPO.setPriority(onePro.getString("priority"));
+                    pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
+
+                    if (onePro.getBoolean("isAutoTest") != null) {
+
+                        if (onePro.getBoolean("isAutoTest")) {
+                            pipelinePrAutoPO.setIsAutoOn(1);
+                            PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
+                            pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                            pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                            pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                            pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                            if (pipelinePrAutoPO.getTimes() > 0) {
+                                //执行PR的存库
+                                pipelinePrAutoPO.setAuto_date(yesterday);
+                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                            }
+
+                        } else {
+                            pipelinePrAutoPO.setIsAutoOn(0);
+                            //仓库自动化关闭
+                            PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
+                            pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
+                            pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
+                            pipelinePrAutoPO.setPasses(autoInfo.getPasses());
+                            pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
+
+                            if (pipelinePrAutoPO.getTimes() > 0) {
+                                //执行PR的存库
+                                pipelinePrAutoPO.setAuto_date(yesterday);
+                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                            }
+                        }
+                    } else {
+                        //仓库下未标记isAutoTest
+                        pipelinePrAutoPO.setIsAutoOn(0);
+                        PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
+                        pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
+                        pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
+                        pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
+                        pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
+                        if (pipelinePrAutoPO.getTimes() > 0) {
+                            //执行PR的存库
+                            pipelinePrAutoPO.setAuto_date(yesterday);
+                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                        }
+
+
+                    }
+                    pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
                 }
-
-
-
-
+//
+            }
         }
     }
+
+
+    public int getPRTimes(String repo,LocalDate today){
+        int prTimes = 0;
+        LocalDate yesterday = today.plusDays(-1);
+        ZoneId zone = ZoneId.systemDefault();
+        Date yesdayDate = Date.from(yesterday.atStartOfDay().atZone(zone).toInstant());
+        Date todayDate = Date.from(today.atStartOfDay().atZone(zone).toInstant());
+        String url = "http://qa.sankuai.com/data/pr/build/list?git_addr="+repo+"&startTime="+yesterday+"&endTime="+yesterday;
+        JSONObject resp = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
+        JSONArray repos = resp.getJSONArray("data");
+        if (repos!=null){
+            for (int i = 0; i < repos.size(); i++) {
+                Date prTime = repos.getJSONObject(i).getDate("createdTime");
+                if (prTime.before(todayDate) && prTime.after(yesdayDate)) {
+                    prTimes++;
+                }
+
+            }
+        }
+        return prTimes;
+    }
+
 
     public PipelinePrAutoPO getAutoInfo(String repo,LocalDate yesterday){
         LocalDate today = yesterday.plusDays(+1);
