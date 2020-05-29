@@ -116,9 +116,9 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
 
     public void noticeTest() {
 
-        String bPushStr = "商家平台近三日未执行的自动化job如下，辛苦关注";
-        String mPushStr = "客户平台近三日未执行的自动化job如下，辛苦关注";
-        String cPushStr = "C端近三日未执行的自动化job如下，辛苦关注";
+        String bPushStr = "商家平台近三日未执行的自动化job如下，辛苦关注。如果job不再使用，辛苦禁用job";
+        String mPushStr = "客户平台近三日未执行的自动化job如下，辛苦关注。如果job不再使用，辛苦禁用job";
+        String cPushStr = "C端服务端近三日未执行的自动化job如下，辛苦关注。如果job不再使用，辛苦禁用job";
         int bUnRunJob = 0;
         int mUnRunJob = 0;
         int cUnRunJob = 0;
@@ -135,20 +135,24 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
             return;
         for (JenkinsViewPO jenkinsViewPO : jenkinsViewPOS) {
             log.info("近3日未执行job的信息"+jenkinsViewPO.getUrl());
-            if (jenkinsViewPO.getView().contains("B端")  || jenkinsViewPO.getView().contains("商家平台-北京Test环境接口自动化") || jenkinsViewPO.getView().contains ("商家平台-上海Test环境接口自动化")) {
+            if (jenkinsViewPO.getView().contains("B端") || jenkinsViewPO.getView().contains("商家平台-北京Test环境接口自动化") || jenkinsViewPO.getView().contains ("商家平台-上海Test环境接口自动化")) {
                 bUnRunJob++;
                 bUnRunJobList.add(jenkinsViewPO.getUrl());
                 bPushStr=bPushStr+"\n"+jenkinsViewPO.getUrl();
             }
-            if (jenkinsViewPO.getView().contains("供应链自动化") || jenkinsViewPO.getView().contains("组")  || jenkinsViewPO.getView().contains("客户平台-Test环境接口自动化")||jenkinsViewPO.getView().contains("M端-CRM代理商")||
+            if (jenkinsViewPO.getView().contains("供应链自动化") || jenkinsViewPO.getView().contains("结算自动化")  || jenkinsViewPO.getView().contains("客户平台-Test环境接口自动化")||jenkinsViewPO.getView().contains("M端-CRM代理商")||
             jenkinsViewPO.getView().contains("M端-MOMA"))
             {
                 mUnRunJob++;
                 mUnRunJobList.add(jenkinsViewPO.getUrl());
+                mPushStr=mPushStr+"\n"+jenkinsViewPO.getUrl();
+
             }
-            if (jenkinsViewPO.getView().contains("TDC门店信息")  || jenkinsViewPO.getView().contains("C端test环境覆盖率计算组"))
+            if (jenkinsViewPO.getView().contains("TDC门店信息") ||jenkinsViewPO.getView().contains("C端test环境覆盖率计算")) {
                 cUnRunJob++;
-            cUnRunJobList.add(jenkinsViewPO.getUrl());
+                cUnRunJobList.add(jenkinsViewPO.getUrl());
+                cPushStr = cPushStr + "\n" + jenkinsViewPO.getUrl();
+            }
 
         }
 
@@ -158,15 +162,15 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
             DaXiangUtils.pushToPerson(bPushStr, "tongmeina");
             DaXiangUtils.pushToRoom(bPushStr, 64057026090l);
         }
-//
-//        if (cUnRunJob > 0) {
-//            DaXiangUtils.pushToPerson(cPushStr, "tongmeina");
-//            //DaXiangUtils.pushToRoom(cPushStr,64011296017l);
-//        }
-//        if (mUnRunJob > 0) {
-//            DaXiangUtils.pushToPerson(mPushStr, "tongmeina");
-//            //DaXiangUtils.pushToRoom(mPushStr, 64013592112l);
-//        }
+
+        if (cUnRunJob > 0) {
+            DaXiangUtils.pushToPerson(cPushStr, "tongmeina");
+            DaXiangUtils.pushToRoom(cPushStr,64010966716l);
+        }
+        if (mUnRunJob > 0) {
+            DaXiangUtils.pushToPerson(mPushStr, "tongmeina");
+            DaXiangUtils.pushToRoom(mPushStr, 64013592112l);
+        }
     }
 
 }
