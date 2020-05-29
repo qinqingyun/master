@@ -2,6 +2,7 @@ package com.meituan.food.extract.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dianping.pigeon.remoting.invoker.concurrent.Callback;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayPrPipelineExtract;
 import com.meituan.food.mapper.PipelinePrMapper;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.*;
 
 @Slf4j
 @Component
@@ -112,21 +114,24 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
     //pr组织下所有仓库自动化case和覆盖率
     public void UpdatePrAutoData(LocalDate date) {
-        LocalDate yesterday = date.plusDays(1);
+        LocalDate yesterday = date.plusDays(-1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
         pipelinePrMapper.deleteDirRepoByDate();
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
         String param = "{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
-        //遍历每个组织
-        for(int i = 0;i<dirList.size();i++){
-            //更改为每个组织来获取，防止接口超时
-            String dir = dirList.get(i);
-            insertData(dir,date);
-        }
+        // 遍历每个组织
+        List<PipelinePrAutoPO> prDatasArry= new ArrayList<>();
+        long s = System.currentTimeMillis();
+        dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
+//        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
+        pipelinePrMapper.insertRepoInfoList(prDatasArry);
+        long e = System.currentTimeMillis();
+        System.out.println((e - s));
     }
 
-    public void insertData(String dir,LocalDate date){
+    public List<PipelinePrAutoPO> insertData(String dir,LocalDate date){
+        List <PipelinePrAutoPO> pipelinePrAutoArry = new ArrayList<PipelinePrAutoPO>();
         String param = "["+dir+"]";
         LocalDate yesterday = date.plusDays(-1);
         String url = "http://qa.sankuai.com/data/pr/image?startTime=" + yesterday + "&endTime=" + date;//昨天数据
@@ -160,12 +165,6 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                 pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
 
-                                if (pipelinePrAutoPO.getTimes() > 0) {
-                                    //执行PR的存库
-                                    pipelinePrAutoPO.setAuto_date(yesterday);
-                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                }
-
                             } else {
                                 pipelinePrAutoPO.setIsAutoOn(0);
                                 //仓库自动化关闭，默认自动化数-1
@@ -175,13 +174,6 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                                 pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                                 pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                                 pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                                if (pipelinePrAutoPO.getTimes() >0) {
-                                    //执行PR的存库
-                                    pipelinePrAutoPO.setAuto_date(yesterday);
-                                    pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                                }
-
                             }
                         } else {
                             //仓库下未标记isAutoTest
@@ -191,20 +183,16 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
                             pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
                             pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
-                            if (autoInfoNotag.getTotalCase() >= 0) {
-                                //执行PR自动化
-                                pipelinePrAutoPO.setAuto_date(yesterday);
-                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                            }
                         }
-                        pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
+                        if (pipelinePrAutoPO.getTimes() >0) {
+                            //执行PR的存库
+                            pipelinePrAutoPO.setAuto_date(yesterday);
+                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                        }
+                        pipelinePrAutoArry.add(pipelinePrAutoPO);
                     }
 
-                } else {
-                    //遍历组织下所有仓库
-                    if (strKey2.equals("ssh://git@git.dianpingoa.com/tuangou/deal-refund.git")) {
-                        Integer test = 0;
-                    }
+                } else {//遍历组织下所有仓库
                     //获取仓库pr次数
                     int times = getPRTimes(strKey2, date);
                     pipelinePrAutoPO.setTimes(times);
@@ -223,12 +211,6 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                             pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
 
-                            if (pipelinePrAutoPO.getTimes() > 0) {
-                                //执行PR的存库
-                                pipelinePrAutoPO.setAuto_date(yesterday);
-                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                            }
-
                         } else {
                             pipelinePrAutoPO.setIsAutoOn(0);
                             //仓库自动化关闭
@@ -237,12 +219,6 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
                             pipelinePrAutoPO.setPasses(autoInfo.getPasses());
                             pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
-                            if (pipelinePrAutoPO.getTimes() > 0) {
-                                //执行PR的存库
-                                pipelinePrAutoPO.setAuto_date(yesterday);
-                                pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                            }
                         }
                     } else {
                         //仓库下未标记isAutoTest
@@ -252,19 +228,18 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
                         pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
                         pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
-                        if (pipelinePrAutoPO.getTimes() > 0) {
-                            //执行PR的存库
-                            pipelinePrAutoPO.setAuto_date(yesterday);
-                            pipelinePrMapper.insertRepo(pipelinePrAutoPO);
-                        }
-
-
                     }
-                    pipelinePrMapper.insertRepoInfo(pipelinePrAutoPO);
+                    if (pipelinePrAutoPO.getTimes() >0) {
+                        //执行PR的存库
+                        pipelinePrAutoPO.setAuto_date(yesterday);
+                        pipelinePrMapper.insertRepo(pipelinePrAutoPO);
+                    }
+                    pipelinePrAutoArry.add(pipelinePrAutoPO);
                 }
-//
             }
+
         }
+        return pipelinePrAutoArry;
     }
 
 
