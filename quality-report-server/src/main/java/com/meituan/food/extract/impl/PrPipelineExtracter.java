@@ -120,7 +120,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         List<String> dirList= Arrays.asList(param.split(";"));
         //遍历每个组织
         for(int i = 0;i<dirList.size();i++){
-            //更改为每个组织获取，防止接口超时
+            //更改为每个组织来获取，防止接口超时
             String dir = dirList.get(i);
             insertData(dir,date);
         }
