@@ -123,7 +123,10 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         // 遍历每个组织
         List<PipelinePrAutoPO> prDatasArry= new ArrayList<>();
         long s = System.currentTimeMillis();
-        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
+        for(int i = 0;i<dirList.size();i++){
+            prDatasArry.addAll(insertData(dirList.get(i),date));
+            long e = System.currentTimeMillis();
+        }
 //        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
         pipelinePrMapper.insertRepoInfoList(prDatasArry);
         long e = System.currentTimeMillis();
@@ -138,16 +141,21 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         for(String strKey:resp.getJSONObject("data").keySet()) {
             //一个key，还必须遍历。。
-            PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
-            pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
-            pipelinePrAutoPO.setDirectionName(data.getString("label"));
+
+
             JSONObject repos = data.getJSONObject("children");
             for (String strKey2 : repos.keySet()) {
+
                 if (!strKey2.contains("ssh")) {//还继续向下分组情况260/262/296
                     JSONObject repos2 = repos.getJSONObject(strKey2).getJSONObject("children");
                     //遍历组织下所有仓库
                     for (String strKey3 : repos2.keySet()) {
+
+                        PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
+                        pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
+                        pipelinePrAutoPO.setDirectionName(data.getString("label"));
+
                         //获取仓库pr次数
                         int times = getPRTimes(strKey3, date);
                         pipelinePrAutoPO.setTimes(times);
@@ -189,10 +197,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                             pipelinePrAutoPO.setAuto_date(yesterday);
                             pipelinePrMapper.insertRepo(pipelinePrAutoPO);
                         }
-                        pipelinePrAutoArry.add(pipelinePrAutoPO);
+                          pipelinePrAutoArry.add(pipelinePrAutoPO);
                     }
 
                 } else {//遍历组织下所有仓库
+                    PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
+                    pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
+                    pipelinePrAutoPO.setDirectionName(data.getString("label"));
                     //获取仓库pr次数
                     int times = getPRTimes(strKey2, date);
                     pipelinePrAutoPO.setTimes(times);
