@@ -123,7 +123,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         // 遍历每个组织
         List<PipelinePrAutoPO> prDatasArry= new ArrayList<>();
         long s = System.currentTimeMillis();
-        dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
+        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
 //        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
         pipelinePrMapper.insertRepoInfoList(prDatasArry);
         long e = System.currentTimeMillis();
