@@ -15,13 +15,26 @@ public class OpenSdkConfig {
     private final static String REMOTE_APP_KEY = "com.sankuai.it.bsi.mdmgatewayservice";
     //TODO 替换成你的appkey
     //线上环境
-    private final static String CLIENT_APP_KEY = "0d6cf99067";
+/*    private final static String CLIENT_APP_KEY = "0d6cf99067";
 //    //TODO 替换成你的appSecret
     private final static String APP_SECRET = "85762a22382f45e4a3416d9fa48ea4f6";
 
    //线下
 //    private final static String CLIENT_APP_KEY ="cc6049a1ee";
-//    private final static String APP_SECRET = "247fcce757a44d6d9710f88719818988";
+//    private final static String APP_SECRET = "247fcce757a44d6d9710f88719818988";*/
+
+
+    /*
+    qdata的appkey
+    */
+
+    //线下环境
+    private final static String CLIENT_APP_KEY = "45b4871070";
+    private final static String APP_SECRET = "5cdbf1489d164f11bbaf2166cdd7cdf2";
+
+    //线上环境
+/*  private final static String CLIENT_APP_KEY ="215f5b75ef";
+    private final static String APP_SECRET = "b8efa677094741de81cdd777c89e99c6";*/
     private final static Integer APP_TENANT_ID = 1;//如需查询其它租户数据，请设置成其它租户ID
     private final static String APP_SOURCE = "MT";//设置租户下对应的source.如果设置为"ALL"，则查tenantId下所有sources。
 
