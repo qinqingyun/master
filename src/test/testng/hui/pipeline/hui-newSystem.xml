@@ -1,0 +1,18 @@
+
+<suite name="testSuite" parallel="true" thread-count="8">
+
+    <!--设置双写标识-->
+    <parameter name="DoubleWriteMode" value="NEW"/>
+
+    <test name="以新为主">
+
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo"/>
+        </classes>
+    </test>
+
+</suite>

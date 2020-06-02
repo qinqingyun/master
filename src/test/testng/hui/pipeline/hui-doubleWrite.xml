@@ -1,0 +1,9 @@
+<suite name="testSuite" parallel="false" preserve-order="true">
+    <suite-files>
+        <suite-file path="hui-oldSystem.xml"></suite-file>
+    </suite-files>
+
+    <suite-files>
+        <suite-file path="hui-newSystem.xml"></suite-file>
+    </suite-files>
+</suite>

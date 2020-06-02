@@ -1,0 +1,52 @@
+<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="8">
+    <parameter name="team_id" value="179"/>
+    <test name="以老为主">
+        <parameter name="DoubleWriteMode" value="OLD"/>
+        <groups>
+            <define name="all">
+                <include name="P1"/>
+                <include name="P2"/>
+            </define>
+            <run>
+                <include name="all"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+        </classes>
+    </test>
+    <test name="以新为主">
+        <parameter name="DoubleWriteMode" value="NEW"/>
+        <groups>
+            <define name="all">
+                <include name="P1"/>
+                <include name="P2"/>
+            </define>
+            <run>
+                <include name="all"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+        </classes>
+    </test>
+    <parameter name="maxRetries" value="3"/>
+    <parameter name="sleepBetweenRetries" value="1000"/>
+
+</suite>

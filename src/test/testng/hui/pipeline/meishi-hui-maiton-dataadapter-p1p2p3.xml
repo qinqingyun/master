@@ -1,0 +1,25 @@
+<suite name="MaitonDataadapterTest" parallel="true" thread-count="8">
+    <parameter name="team_id" value="179"/>
+    <test name="以老为主">
+        <parameter name="DoubleWriteMode" value="OLD"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
+        </classes>
+    </test>
+    <test name="以新为主">
+        <parameter name="DoubleWriteMode" value="NEW"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
+        </classes>
+    </test>
+    <parameter name="maxRetries" value="3"/>
+    <parameter name="sleepBetweenRetries" value="1000"/>
+</suite>

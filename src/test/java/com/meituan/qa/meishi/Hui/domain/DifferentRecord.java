@@ -67,7 +67,7 @@ public class DifferentRecord extends CommanDiff {
         JSONObject msg = new JSONObject();
         msg.put("newKey",newKey);
         msg.put("oldKey",oldKey);
-        msg.put("bizConfigId","10");
+        msg.put("bizConfigId","13");
         String msgStr = msg.toString();
 
         request.setRetryTime(30);

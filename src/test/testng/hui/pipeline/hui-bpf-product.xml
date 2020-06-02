@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestMeishiHuiCreateOrderTest">
+    <listeners>
+        <listener class-name="com.meituan.toolchain.mario.listener.JsonReportNG"/>
+    </listeners>
+    <parameter name="team_id" value="179"/>
+    <test name="meishiHuiMerchant">
+
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes"/>
+        </classes>
+    </test>
+
+    <parameter name="maxRetries" value="3"/>
+    <parameter name="sleepBetweenRetries" value="1000"/>
+
+</suite>
