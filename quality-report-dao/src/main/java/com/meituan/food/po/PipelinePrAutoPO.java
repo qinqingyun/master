@@ -55,19 +55,38 @@ public class PipelinePrAutoPO implements Serializable {
 
     private Integer pr_times;//执行自动化次数
 
+    private Integer auto_times;//执行自动化总次数（new）
+
+    public Integer getAuto_times() {
+        return auto_times;
+    }
+
+    public void setAuto_times(Integer auto_times) {
+        this.auto_times = auto_times;
+    }
+
+    public Integer getAuto_success_times() {
+        return auto_success_times;
+    }
+
+    public void setAuto_success_times(Integer auto_success_times) {
+        this.auto_success_times = auto_success_times;
+    }
+
+    private Integer auto_success_times;//执行自动化成功次数
+
     private String mis;
 
 
-
-    public BigDecimal getCoverage() {
+    public String getCoverage() {
         return coverage;
     }
 
-    public void setCoverage(BigDecimal coverage) {
+    public void setCoverage(String coverage) {
         this.coverage = coverage;
     }
 
-    private BigDecimal coverage;
+    private String coverage;
 
     private BigDecimal passes;
 
