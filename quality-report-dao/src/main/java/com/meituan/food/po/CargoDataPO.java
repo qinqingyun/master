@@ -23,14 +23,20 @@ public class CargoDataPO implements Serializable {
     private String direction;
 
     private String stableTagPercentage;
+    private String stablePercentage;
 
     private String avalibleTagPercentage;
+    private String avaliblePercentage;
 
     private Date date;
 
     private String comment;
 
     private Date updatedDate;
+
+
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -114,6 +120,14 @@ public class CargoDataPO implements Serializable {
         this.stableTagPercentage = stableTagPercentage == null ? null : stableTagPercentage.trim();
     }
 
+    public String getStablePercentage() {
+        return stablePercentage;
+    }
+
+    public void setStablePercentage(String stablePercentage) {
+        this.stablePercentage = stablePercentage == null ? null : stablePercentage.trim();
+    }
+
     public String getAvalibleTagPercentage() {
         return avalibleTagPercentage;
     }
@@ -122,17 +136,30 @@ public class CargoDataPO implements Serializable {
         this.avalibleTagPercentage = avalibleTagPercentage == null ? null : avalibleTagPercentage.trim();
     }
 
+    public String getAvaliblePercentage() {
+        return avaliblePercentage;
+    }
+
+    public void setAvaliblePercentage(String avaliblePercentage) {
+        this.avaliblePercentage = avaliblePercentage == null ? null : avaliblePercentage.trim();
+    }
+
     public void init(){
         this.setDate(new Date());
         this.setComment("测试");
         this.setDirection("");
         this.setUpdatedDate(new Date());
+
         this.setStableTotal(0);
         this.setStableSuccess(0);
         this.setStableTagPercentage("");
+        this.setStablePercentage("");
+
         this.setAvalibleTagPercentage("");
         this.setAvalibleTotal(0);
         this.setAvalibleSuccess(0);
+        this.setAvaliblePercentage("");
+
         this.setStackuuid("");
         this.setTag("");
         this.setId(0);
@@ -177,19 +204,17 @@ public class CargoDataPO implements Serializable {
         }
         CargoDataPO other = (CargoDataPO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getStackuuid() == null ? other.getStackuuid() == null : this.getStackuuid().equals(other.getStackuuid()))
-            && (this.getStableSuccess() == null ? other.getStableSuccess() == null : this.getStableSuccess().equals(other.getStableSuccess()))
-            && (this.getStableTotal() == null ? other.getStableTotal() == null : this.getStableTotal().equals(other.getStableTotal()))
-            && (this.getAvalibleSuccess() == null ? other.getAvalibleSuccess() == null : this.getAvalibleSuccess().equals(other.getAvalibleSuccess()))
-            && (this.getAvalibleTotal() == null ? other.getAvalibleTotal() == null : this.getAvalibleTotal().equals(other.getAvalibleTotal()))
-            && (this.getTag() == null ? other.getTag() == null : this.getTag().equals(other.getTag()))
-            && (this.getPerson() == null ? other.getPerson() == null : this.getPerson().equals(other.getPerson()))
-            && (this.getDirection() == null ? other.getDirection() == null : this.getDirection().equals(other.getDirection()))
-            && (this.getStableTagPercentage() == null ? other.getStableTagPercentage() == null : this.getStableTagPercentage().equals(other.getStableTagPercentage()))
-            && (this.getAvalibleTagPercentage() == null ? other.getAvalibleTagPercentage() == null : this.getAvalibleTagPercentage().equals(other.getAvalibleTagPercentage()))
-            && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
-            && (this.getComment() == null ? other.getComment() == null : this.getComment().equals(other.getComment()))
-            && (this.getUpdatedDate() == null ? other.getUpdatedDate() == null : this.getUpdatedDate().equals(other.getUpdatedDate()));
+                && (this.getStackuuid() == null ? other.getStackuuid() == null : this.getStackuuid().equals(other.getStackuuid()))
+                && (this.getStableSuccess() == null ? other.getStableSuccess() == null : this.getStableSuccess().equals(other.getStableSuccess()))
+                && (this.getStableTotal() == null ? other.getStableTotal() == null : this.getStableTotal().equals(other.getStableTotal()))
+                && (this.getAvalibleSuccess() == null ? other.getAvalibleSuccess() == null : this.getAvalibleSuccess().equals(other.getAvalibleSuccess()))
+                && (this.getAvalibleTotal() == null ? other.getAvalibleTotal() == null : this.getAvalibleTotal().equals(other.getAvalibleTotal()))
+                && (this.getTag() == null ? other.getTag() == null : this.getTag().equals(other.getTag()))
+                && (this.getPerson() == null ? other.getPerson() == null : this.getPerson().equals(other.getPerson()))
+                && (this.getDirection() == null ? other.getDirection() == null : this.getDirection().equals(other.getDirection()))
+                && (this.getStableTagPercentage() == null ? other.getStableTagPercentage() == null : this.getStableTagPercentage().equals(other.getStableTagPercentage())) && (this.getStablePercentage() == null ? other.getStablePercentage() == null : this.getStablePercentage().equals(other.getStablePercentage())) && (this.getAvalibleTagPercentage() == null ? other.getAvalibleTagPercentage() == null : this.getAvalibleTagPercentage().equals(other.getAvalibleTagPercentage())) && (this.getAvaliblePercentage() == null ? other.getAvaliblePercentage() == null : this.getAvaliblePercentage().equals(other.getAvaliblePercentage())) && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
+                && (this.getComment() == null ? other.getComment() == null : this.getComment().equals(other.getComment()))
+                && (this.getUpdatedDate() == null ? other.getUpdatedDate() == null : this.getUpdatedDate().equals(other.getUpdatedDate()));
     }
 
     @Override
@@ -206,7 +231,11 @@ public class CargoDataPO implements Serializable {
         result = prime * result + ((getPerson() == null) ? 0 : getPerson().hashCode());
         result = prime * result + ((getDirection() == null) ? 0 : getDirection().hashCode());
         result = prime * result + ((getStableTagPercentage() == null) ? 0 : getStableTagPercentage().hashCode());
+        result = prime * result + ((getStablePercentage() == null) ? 0 : getStablePercentage().hashCode());
+
         result = prime * result + ((getAvalibleTagPercentage() == null) ? 0 : getAvalibleTagPercentage().hashCode());
+        result = prime * result + ((getAvaliblePercentage() == null) ? 0 : getAvaliblePercentage().hashCode());
+
         result = prime * result + ((getDate() == null) ? 0 : getDate().hashCode());
         result = prime * result + ((getComment() == null) ? 0 : getComment().hashCode());
         result = prime * result + ((getUpdatedDate() == null) ? 0 : getUpdatedDate().hashCode());
@@ -229,7 +258,12 @@ public class CargoDataPO implements Serializable {
         sb.append(", person=").append(person);
         sb.append(", direction=").append(direction);
         sb.append(", stableTagPercentage=").append(stableTagPercentage);
+        sb.append(", stablePercentage=").append(stablePercentage);
+
         sb.append(", avalibleTagPercentage=").append(avalibleTagPercentage);
+        sb.append(", avaliblePercentage=").append(avaliblePercentage);
+
+
         sb.append(", date=").append(date);
         sb.append(", comment=").append(comment);
         sb.append(", updatedDate=").append(updatedDate);

@@ -91,6 +91,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("到餐信息") + ".POI", "qinqingyun");
             person.put(stackuuid.get("到餐信息") + "._others", "qinqingyun");
 
+
             person.put(stackuuid.get("到餐交易") + "._others", "sunnaili");
             person.put(stackuuid.get("到餐交易") + ".到综团购", "sunnaili");
             person.put(stackuuid.get("到餐交易") + ".到餐交易", "sunnaili");
@@ -173,6 +174,27 @@ public class CargoExtracter implements IOneDayCargoExtract {
             person.put(stackuuid.get("酒旅客户") + ".度假", "xiongyiping");
 
 
+
+            person.put(stackuuid.get("到餐信息") + "._total", "");
+            person.put(stackuuid.get("到餐交易") + "._total", "");
+            person.put(stackuuid.get("到餐促销") + "._total", "");
+            person.put(stackuuid.get("到餐预订") + "._total", "");
+            person.put(stackuuid.get("到餐CRM") + "._total", "");
+            person.put(stackuuid.get("到餐商家") + "._total", "");
+            person.put(stackuuid.get("到餐数据") + "._total", "");
+            person.put(stackuuid.get("到餐策略") + "._total", "");
+            person.put(stackuuid.get("到餐TDC") + "._total", "");
+            person.put(stackuuid.get("到综团购交易") + "._total", "");
+            person.put(stackuuid.get("到餐SCP") + "._total", "");
+            person.put(stackuuid.get("到餐点评") + "._total", "");
+            person.put(stackuuid.get("到餐财务") + "._total", "");
+            person.put(stackuuid.get("商家平台") + "._total", "");
+            person.put(stackuuid.get("商家增值平台-BP") + "._total", "");
+            person.put(stackuuid.get("客户平台") + "._total", "");
+            person.put(stackuuid.get("到综客户") + "._total", "");
+            person.put(stackuuid.get("酒旅客户") + "._total", "");
+
+
         }
 
 
@@ -241,6 +263,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
     }
 
     private List<CargoDataPO> getYesterdayStableData(Date yesterday, String stable_json) {
+
         int iter = getIndexByDay(yesterday, stable_json, "$.data._source[*]");
         log.info(stable_json);
         if (iter == -1) {
@@ -251,7 +274,14 @@ public class CargoExtracter implements IOneDayCargoExtract {
         String tag_str = String.valueOf(JSONPath.read(stable_json, "$.data.tag"));
         JSONObject tag_json = JSONObject.parseObject(tag_str);
 
+
+        ArrayList<String> tagList=new ArrayList<>();
         for (String tag : tag_json.keySet()) {
+            tagList.add(tag);
+        }
+        tagList.add("_total");
+
+        for (String tag : tagList) {
             CargoDataPO cp = new CargoDataPO();
             cp.init();
             cp.setTag(tag);
@@ -262,8 +292,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
             }
 
             cp.setUpdatedDate(new Date());
-
-
             cp.setDate(yesterday);
 
             cp.setDirection(direct.get(person_value));
@@ -273,10 +301,12 @@ public class CargoExtracter implements IOneDayCargoExtract {
             String success = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".success"));
             String error = String.valueOf(JSONPath.read(stable_json, "$.data._source[" + iter + "]." + tag + ".error"));
             String stableTagPercentage = String.valueOf(JSONPath.read(stable_json, "$.data.tag." + tag + "[" + iter + "]"));
+            String stablePercentage = String.valueOf(JSONPath.read(stable_json, "$.data.total_percentage"  + "[" + iter + "]"));
             update(cp, "stableTagPercentage", stableTagPercentage);
+            update(cp, "stablePercentage", stablePercentage);
+
             update(cp, "stableSuccess", success);
             update(cp, "stableTotal", error, success);
-
             cps.add(cp);
 
         }
@@ -310,7 +340,6 @@ public class CargoExtracter implements IOneDayCargoExtract {
             return yesStableData;
         }
         if (yesStableData !=null) {
-
             for (CargoDataPO cp : yesStableData) {
 
                 String tag = cp.getTag();
@@ -319,12 +348,13 @@ public class CargoExtracter implements IOneDayCargoExtract {
                 update(cp, "avalibleSuccess", success);
                 update(cp, "avalibleTotal", error, success);
 
-                String availble_total_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
-                update(cp, "avalibleTagPercentage", availble_total_percentage);
+                String availble_tag_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.tag." + tag + "[" + iter + "]"));
+                String availble_percentage = String.valueOf(JSONPath.read(availble_json, "$.data.total_percentage"  + "[" + iter + "]"));
 
+                update(cp, "avalibleTagPercentage", availble_tag_percentage);
+                update(cp, "avaliblePercentage", availble_percentage);
             }
         }
-
         return yesStableData;
 
     }
@@ -353,7 +383,12 @@ public class CargoExtracter implements IOneDayCargoExtract {
             case "stableTagPercentage":
                 cargoDataPO.setStableTagPercentage(value);
                 break;
-
+            case "avaliblePercentage":
+                cargoDataPO.setAvaliblePercentage(value);
+                break;
+            case "stablePercentage":
+                cargoDataPO.setStablePercentage(value);
+                break;
         }
 
     }
@@ -381,10 +416,12 @@ public class CargoExtracter implements IOneDayCargoExtract {
                 } else {
                     result = cargoDataPOMapper.updateByTagAndDate(cargoDataPO);
                 }
-
                 log.info("The cargo save result is :{}", cargoDataPO.toString() + result);
 
             }
         }
     }
+
+
+
 }
