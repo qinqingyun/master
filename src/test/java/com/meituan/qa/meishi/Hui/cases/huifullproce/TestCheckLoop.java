@@ -14,6 +14,7 @@ import com.meituan.nibtp.trade.client.buy.enums.BizSpaceId;
 import com.meituan.nibtp.trade.client.buy.enums.OrderResultCodeEnum;
 import com.meituan.nibtp.trade.client.buy.response.QueryOrderMappingRes;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
+import com.meituan.qa.meishi.Hui.cases.base.MaitonApi;
 import com.meituan.qa.meishi.Hui.domain.*;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
 import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;

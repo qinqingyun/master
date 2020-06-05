@@ -1,0 +1,41 @@
+<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="8">
+    <test name="meishiHuiMerchant">
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMoriginalScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpWeixinOriginalScence"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestmtWeixinOriginalScence"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestmtWeixinDiscountScence"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpWeixinDiscountScence"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpWeixinShopPromoScence"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestSpayOriginalScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpSpayScenes"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromoZeroOrder"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
+
+        </classes>
+    </test>
+
+    <parameter name="maxRetries" value="3"/>
+    <parameter name="sleepBetweenRetries" value="1000"/>
+
+</suite>

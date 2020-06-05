@@ -1,0 +1,15 @@
+
+<suite name="testSuite" parallel="true" thread-count="8">
+
+    <!--设置双写标识-->
+    <parameter name="DoubleWriteMode" value="OLD"/>
+
+    <test name="以老为主">
+
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+        </classes>
+    </test>
+
+</suite>

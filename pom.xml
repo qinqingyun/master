@@ -117,6 +117,11 @@
             <artifactId>hui-mt-poi-api</artifactId>
             <version>1.0.3-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>hui-open-business-api</artifactId>
+            <version>0.2.5-SNAPSHOT</version>
+        </dependency>
         <!--买单业务结束-->
         <!--预订业务开始-->
         <!--预订trade依赖-->
