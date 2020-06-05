@@ -116,18 +116,17 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     public void UpdatePrAutoData(LocalDate date) {
         LocalDate yesterday = date.plusDays(-1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
-        pipelinePrMapper.deleteDirRepoByDate();
+        //todo
+//        pipelinePrMapper.deleteDirRepoByDate();
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
-        String param = "{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
+        String param = "{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
         // 遍历每个组织
         List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
         long s = System.currentTimeMillis();
-//        for(int i = 0;i<dirList.size();i++){
-//            prDatasArry.addAll(insertData(dirList.get(i),date));
-//        }
         dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
-        pipelinePrMapper.insertRepoInfoList(prDatasArry);
+        //todo
+//        pipelinePrMapper.insertRepoInfoList(prDatasArry);
         long e = System.currentTimeMillis();
         System.out.println((e - s));
     }
@@ -230,7 +229,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
 
     public PipelinePrAutoPO getPRTimes(String repo,LocalDate today){
-        if(repo=="ssh://git@git.sankuai.com/cos/crmvisit.git"){
+        if(repo=="ssh://git@git.sankuai.com/nib/consumer-process.git"){
             String test="";
         }
 
@@ -300,7 +299,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");
                     int failedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("failedNum");
                     prBuild.setTotalCase(passedNum+failedNum);//自动化总数
-                    if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
+                    if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
                         cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
                     }
                         prBuild.setCoverage(cov);
