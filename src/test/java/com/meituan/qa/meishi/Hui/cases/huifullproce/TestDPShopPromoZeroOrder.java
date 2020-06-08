@@ -44,6 +44,7 @@ public class TestDPShopPromoZeroOrder extends TestDPLogin {
 
     private static String CASEID = "ms_c_hui_unicashiercreateorder_dpshop_02";
     public static String LOADUNIFIEDCASHIER = "ms_c_dpshoploadUnifiedCashier_03";
+    Integer source = 0;//1代表了使用买单优惠+优惠券，0元单;0代表了非0元单
 
 
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
@@ -103,7 +104,7 @@ public class TestDPShopPromoZeroOrder extends TestDPLogin {
                 .userAgent(dpClient).build();
         CouponProduct couponProduct = dploadCashier.parseCouponOfferId().orElse(null);
         //创建订单
-        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpTokenByq,dpClient,CASEID,couponProduct,deskCoupon);
+        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpTokenByq,dpClient,CASEID,couponProduct,deskCoupon,source);
 
 
 //        //1.加载优惠台

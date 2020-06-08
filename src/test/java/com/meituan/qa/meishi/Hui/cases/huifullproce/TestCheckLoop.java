@@ -76,13 +76,14 @@ public class TestCheckLoop {
     }
     @LoopCheck(desc = "商家券创建订单", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
     // 买单下单，使用商家券，加载优惠台
-    public HuiCreateOrderResult uniCashierCreateOrder(String  token, String userAgent, String caseId, CouponProduct couponProduct, DeskCoupon deskCoupon)  {
+    public HuiCreateOrderResult uniCashierCreateOrder(String  token, String userAgent, String caseId, CouponProduct couponProduct, DeskCoupon deskCoupon,Integer source)  {
         HuiCreateOrder createOrder = HuiCreateOrder.builder()
                 .token(token)
                 .userAgent(userAgent)
                 .caseid(caseId)
                 .couponProduct(couponProduct)
                 .deskcoupon(deskCoupon)
+                .source(source)
                 .build();
         HuiCreateOrderResult createResult = createOrder.requestCreate();
         return createResult;

@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Failed suite [testSuite]" parallel="methods">
-  <test thread-count="5" name="以老为主(failed)" parallel="methods">
+<suite thread-count="8" name="Failed suite [testSuite]" parallel="methods">
+  <test thread-count="8" name="以老为主(failed)" parallel="methods">
     <parameter name="DoubleWriteMode" value="OLD"/>
     <classes>
-      <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder">
+      <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder">
         <methods>
-          <include name="ms_c_createOrder_02"/>
           <include name="beforeSuite"/>
           <include name="ms_c_login_01"/>
           <include name="ms_c_login_02"/>
+          <include name="ms_c_hui_mt_couponZeroOrder" invocation-numbers="0"/>
         </methods>
-      </class> <!-- com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder -->
+      </class> <!-- com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder -->
     </classes>
   </test> <!-- 以老为主(failed) -->
-  <test thread-count="5" name="以新为主(failed)" parallel="methods">
-    <parameter name="DoubleWriteMode" value="NEW"/>
-    <classes>
-      <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder">
-        <methods>
-          <include name="ms_c_createOrder_02"/>
-          <include name="beforeSuite"/>
-          <include name="ms_c_login_01"/>
-          <include name="ms_c_login_02"/>
-        </methods>
-      </class> <!-- com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder -->
-    </classes>
-  </test> <!-- 以新为主(failed) -->
 </suite> <!-- Failed suite [testSuite] -->

@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default Suite]">
   <test thread-count="5" name="meishi_c_maiton(failed)">
     <classes>
-      <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder">
+      <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo">
         <methods>
-          <include name="ms_c_createOrder_07" invocation-numbers="0"/>
+          <include name="ms_c_DPHuiInfo_02"/>
         </methods>
-      </class> <!-- com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder -->
+      </class> <!-- com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo -->
     </classes>
   </test> <!-- meishi_c_maiton(failed) -->
 </suite> <!-- Failed suite [Default Suite] -->

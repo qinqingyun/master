@@ -51,6 +51,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
     public static String orderqueryPath = "/hui/ajax/orderquery";
     String platformPath="/platformPath";
     OrderCheck orderCheck=new OrderCheck();
+    Integer source = 0;//1代表了使用买单优惠+优惠券，0元单;0代表了非0元单
 
     public static String LOADUNIFIEDCASHIER = "ms_c_mtshoploadUnifiedCashier_02";
 
@@ -110,7 +111,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
                 .userAgent(mtClient).build();
         CouponProduct couponProduct = mtloadCashier.parseCouponOfferId().orElse(null);
         //创建订单
-        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,CASEID,couponProduct,deskCoupon);
+        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,CASEID,couponProduct,deskCoupon,source);
 
         String payToken = createResult.getPayToken();
         String serializedId = createResult.getSerializedId();

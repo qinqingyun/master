@@ -64,14 +64,15 @@ public class TestMTHuiInfo {
             List<String> discountList = res.getPayInfo().getData().stream().map(PayData::getDiscount).collect(Collectors.toList());
             String title = res.getPayInfo().getData().get(0).getTitle();
             long endTime = res.getPayInfo().getData().get(0).getEndTime();
-            Assert.assertTrue(title.equals("7折") && (endTime == 1582732799));
+            log.info("title:{}" + title + ";endTime:{}" + endTime);
+            Assert.assertTrue(title.equals("7折"));
         }catch (Exception e){
             System.out.println("无买单信息");
         }
     }
 
     @Test
-    @MethodAnotation(author = "byq", createTime = "2019-11-18",  des = "美团列表->poi详情，满减买单100-20")
+    @MethodAnotation(author = "byq", createTime = "2019-11-18",  des = "美团列表->poi详情，满减买单10-5")
     public void ms_c_MTHuiInfo_02()throws TException{
         //1。美团列表具有买单标签
         String _APIPATH_LIST = "/queryPoiInfosService.queryPoiPromos";
@@ -93,7 +94,7 @@ public class TestMTHuiInfo {
         PromoInfoResponse res = payPromoService.getPayInfo(dealStockReqInfo);
         try {
             List<String> discountList = res.getPayInfo().getData().stream().map(PayData::getDiscount).collect(Collectors.toList());
-            Assert.assertTrue(discountList.contains("100-20"));
+            Assert.assertTrue(discountList.contains("10-5"));
         }catch (Exception e){
             System.out.println("无买单信息");
         }

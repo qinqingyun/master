@@ -61,7 +61,7 @@ public class TestDPHuiInfo {
     }
 
     @Test
-    @MethodAnotation(author = "byq", createTime = "2019-11-19",  des = "点评搜索／列表->poi详情，满减买单100-20")
+    @MethodAnotation(author = "byq", createTime = "2019-11-19",  des = "点评搜索／列表->poi详情，满减买单10-5")
     public void ms_c_DPHuiInfo_02()throws TException {
         /**1.搜索／列表买单信息校验**/
         HuiCouponRequest huiCouponReq = new HuiCouponRequest();
@@ -74,7 +74,7 @@ public class TestDPHuiInfo {
         Map<Integer, List<HuiCouponDTO>> req = huiSearchService.loadHuiCouponsByShops(huiCouponReq);
         String couponDesc = req.get(shopIdList.get(0)).get(0).getCouponDiscount().getCouponDesc();
         log.info(couponDesc);
-        Assert.assertTrue(couponDesc.contains("每满10减2元"));
+        Assert.assertTrue(couponDesc.contains("每满10减5元"));
 
         /**2.详情买单信息校验**/
         QueryBizCouponRequest queryBizCouponReq  = new QueryBizCouponRequest();
@@ -83,7 +83,7 @@ public class TestDPHuiInfo {
         queryBizCouponReq.setDpId("0");
         List<String> resp = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(resp.toString());
-        Assert.assertTrue(resp.toString().contains("[自动化满减方案，勿动]"));
+        Assert.assertTrue(resp.toString().contains("[满减自动化]"));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class TestDPHuiInfo {
         Map creditMap = new HashMap();
         creditMap.put("uuid","1");
         huiCouponReq.setClientVersion("v33");
-        List<Integer> shopIdList = Arrays.asList(21221374);
+        List<Integer> shopIdList = Arrays.asList(24799161);
         huiCouponReq.setShopIds(shopIdList);
         huiCouponReq.setCreditContext(creditMap);
         Map<Integer, List<HuiCouponDTO>> req = huiSearchService.loadHuiCouponsByShops(huiCouponReq);
@@ -105,12 +105,12 @@ public class TestDPHuiInfo {
 
         /**2.详情买单信息校验**/
         QueryBizCouponRequest queryBizCouponReq  = new QueryBizCouponRequest();
-        queryBizCouponReq.setShopId(21221374);
+        queryBizCouponReq.setShopId(24799161);
         queryBizCouponReq.setUserId(0);
         queryBizCouponReq.setDpId("0");
         List<String> resp = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(resp.toString());
-        Assert.assertTrue(resp.toString().contains("4645489全单折"));
+        Assert.assertTrue(resp.toString().contains("[自动化全单折，勿动]"));
     }
 
 }

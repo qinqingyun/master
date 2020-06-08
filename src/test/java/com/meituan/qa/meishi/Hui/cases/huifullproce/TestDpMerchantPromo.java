@@ -46,7 +46,7 @@ public class TestDpMerchantPromo  extends TestDPLogin {
 
     @PigeonAPI(url = "http://service.dianping.com/UnifiedCouponIssueTrustRemoteService/UnifiedCouponIssueTrustService_1.0.0_pigeontest")
     private UnifiedCouponIssueTrustService unifiedCouponIssueTrustService;
-
+    Integer source = 0 ;//1代表了使用买单优惠+优惠券，0元单；0代表非0原单
 
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
@@ -88,7 +88,7 @@ public class TestDpMerchantPromo  extends TestDPLogin {
         //1、加载优惠台
         LoadCashier loadCashier = LoadCashier.builder().caseId("ms_c__dp_loadUnifiedCashier_02").token(dpToken).userAgent(dpClient).build();
         CouponProduct couponProduct = loadCashier.parseCouponOfferId().orElse(null);
-        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpToken,dpClient,CASEID,couponProduct,deskCoupon);
+        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpToken,dpClient,CASEID,couponProduct,deskCoupon,source);
 
 //        HuiCreateOrder createOrder = HuiCreateOrder.builder()
 //                .token(dpToken)

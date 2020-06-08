@@ -23,6 +23,8 @@ public class TestDPLogin {
     public static String dpToken;
     public static String dpUserId;
     public static String dpUserIdByq;
+    public static String mtbyqToken;
+    public static Long mtbyqUserId;
     public static String mtToken;
     public static Long mtUserId;
     public static String dpTokenByq;
@@ -52,8 +54,10 @@ public class TestDPLogin {
         log.info("mtToken:{}", mtToken);
         DPCUser user = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, "dp151");
         dpToken = user.getToken();
-
         log.info("dpToken:{}", dpToken);
+        MTCUser mtUserBya = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, "byq");
+        mtbyqToken = mtUserBya.getToken();
+        mtbyqUserId = mtUserBya.getId();
     }
 
     /**
