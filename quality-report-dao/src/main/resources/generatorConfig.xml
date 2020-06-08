@@ -25,7 +25,7 @@
         </commentGenerator>
 
         <!-- !!!! Database Configurations !!!! -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.48.204.61:5002/quality_report?characterEncoding=utf8" userId="quality_report_w" password="JOPzGdMc5vsymc"/>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.36.188.35:5002/quality_report?characterEncoding=utf8" userId="quality_report_w" password="JOPzGdMc5vsymc"/>
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -131,13 +131,20 @@
        <!-- <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
-        <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+      <!--  <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
         <!--<table tableName="api_cover_status_table" domainObjectName="ApiCoverStatusTable" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
+      <!--  <table tableName="org_mcd_id" domainObjectName="OrgMcdIdPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
+        <table tableName="mcd_info_table" domainObjectName="McdInfoPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+
+
+
 
     </context>
 
