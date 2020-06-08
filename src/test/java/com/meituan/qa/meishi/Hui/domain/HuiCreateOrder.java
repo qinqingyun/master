@@ -29,6 +29,7 @@ public class HuiCreateOrder {
 
     CouponProduct couponProduct;
     DeskCoupon deskcoupon;
+    Integer source;
 
     public HuiCreateOrderResult requestCreate() {
         Assert.assertNotNull(token);
@@ -55,15 +56,19 @@ public class HuiCreateOrder {
                 if (!Strings.isNullOrEmpty(deskcoupon.getCipher())) {
                     body.put("dpdealstring", URLEncoder.encode(deskcoupon.getCipher(), "utf-8"));
                 }
-                BigDecimal couponAmount = BigDecimal.valueOf(deskcoupon.getAmount());
-                if (BigDecimal.ZERO.compareTo(couponAmount) < 0) {
-                    BigDecimal userAmount = body.getBigDecimal("originamount").subtract(couponAmount);
-                    if(userAmount.compareTo(BigDecimal.ZERO) == 0){
-                        body.put("useramount", "0");
-                    }else {
-                        body.put("useramount", String.valueOf(userAmount));
-                    }
+                if(source ==1) {
+                    body.put("useramount", "0");
+                }else {
+                    BigDecimal couponAmount = BigDecimal.valueOf(deskcoupon.getAmount());
+                    if (BigDecimal.ZERO.compareTo(couponAmount) < 0) {
+                        BigDecimal userAmount = body.getBigDecimal("originamount").subtract(couponAmount);
+                        if(userAmount.compareTo(BigDecimal.ZERO) == 0){
+                            body.put("useramount", "0");
+                        }else {
+                            body.put("useramount", String.valueOf(userAmount));
+                        }
 
+                    }
                 }
             }
             log.info("request:{}" ,request);

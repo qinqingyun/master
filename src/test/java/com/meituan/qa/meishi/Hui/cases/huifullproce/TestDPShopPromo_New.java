@@ -61,6 +61,7 @@ public class TestDPShopPromo_New extends TestDPLogin {
 
     OrderCheck orderCheck=new OrderCheck();
     String platformPath="/platformPath";
+    Integer source = 0;//1代表了使用买单优惠+优惠券，0元单;0代表了非0元单
 
     /**
      * coupon 金额5元
@@ -106,7 +107,7 @@ public class TestDPShopPromo_New extends TestDPLogin {
                 .userAgent(dpClient).build();
         CouponProduct couponProduct = dploadCashier.parseCouponOfferId().orElse(null);
         //创建订单
-        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpToken,dpClient,CASEID,couponProduct,deskCoupon);
+        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpToken,dpClient,CASEID,couponProduct,deskCoupon,source);
 //        //1.加载优惠台
 //        LoadCashier dploadCashier = LoadCashier.builder()
 //                .caseId(LOADUNIFIEDCASHIER)

@@ -40,24 +40,20 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Author:      wuanran
+ * Author:      buyuqi
  * Modified:    buyuqi
  * Date:        2020-01-02
- * 用例简介:     买单使用原价买单方案，使用平台券6元
- * 数据源:       poiId：97224769
+ * 用例简介:     买单使用原价买单方案，使用
+ * 数据源:       poiId：
  * 主要流程:     下单 -> 支付 -> 详情 -> 退款
  * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：直接退款；促销方式：使用红包平台券
  **/
 @ClassAnnotation(author = "wuanran", depart = "C", des = "平台券")
 @Slf4j
-public class TestMerchantPromo_New extends TestDPLogin {
+public class TestMerchantPromoZero_New extends TestDPLogin {
 
 
     private static String CASEID = "ms_c_hui_unicashiercreateorder_shoppromo";
-
-    //private String bisid = CommonLoginUtil.merchantAPPLogin();
-    Integer source = 0;//1代表了使用买单优惠+优惠券，0元单;0代表了非0元单
-
     //商家端登录后获取
     public static String cashierOverviewPath = "/hui/ajax/cashieroverview";
     public static String orderoverviewPath = "/hui/ajax/orderoverview";
@@ -65,6 +61,7 @@ public class TestMerchantPromo_New extends TestDPLogin {
     public static String orderqueryPath = "/hui/ajax/orderquery";
     String platformPath = "/platformPath";
     OrderCheck orderCheck=new OrderCheck();
+    Integer source = 1;//1代表了使用买单优惠+优惠券，0元单；0代表了非0元单
 
 
     public static String LOADUNIFIEDCASHIER = "ms_c_4Verify_loadUnifiedCashier_04";
@@ -222,9 +219,9 @@ public class TestMerchantPromo_New extends TestDPLogin {
         log.info("获取退款结果:{}", JSON.toJSONString(response));
 
         //平台侧退款校验
-        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");
-        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
+//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");
+//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
         //买单侧退款校验
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);

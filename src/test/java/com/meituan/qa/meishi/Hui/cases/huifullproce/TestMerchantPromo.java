@@ -53,8 +53,7 @@ public class TestMerchantPromo extends TestDPLogin {
 
 
     private static String CASEID = "ms_c_hui_unicashiercreateorder_shoppromo";
-
-    private String bisid = CommonLoginUtil.merchantAPPLogin();
+    Integer source = 0;//1代表了使用买单优惠+优惠券，0元单;0代表了非0元单
 
     //商家端登录后获取
     public static String cashierOverviewPath = "/hui/ajax/cashieroverview";
@@ -141,7 +140,7 @@ public class TestMerchantPromo extends TestDPLogin {
 //                .couponProduct(loadCashier.parseCouponOfferId().orElse(null))
 //                .deskcoupon(deskCoupon)
 //                .build();
-        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,CASEID,couponProduct,deskCoupon);
+        HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,CASEID,couponProduct,deskCoupon,source);
 
 //        HuiCreateOrderResult createResult = createOrder.requestCreate();
         String payToken = createResult.getPayToken();
