@@ -1,9 +1,0 @@
-<suite name="testSuite" parallel="true" >
-    <!--设置双写标识-->
-    <test name="以新为主">
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-        </classes>
-    </test>
-
-</suite>

@@ -2,9 +2,15 @@ package com.meituan.qa.meishi.Hui.cases.base;
 
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
+import com.meituan.toolchain.mario.config.ConfigMange;
+import com.meituan.toolchain.mario.login.LoginUtil;
+import com.meituan.toolchain.mario.login.model.LoginType;
+import com.meituan.toolchain.mario.login.model.MTCUser;
+import org.jsoup.internal.StringUtil;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
+import static com.meituan.qa.meishi.Hui.util.TestDPLogin.dpUserId;
 import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
 
 /**
@@ -31,9 +37,11 @@ public class TestBase {
         // 判断并改写双写模式
         if( doubleWriteMode.equals("NEW")){
             LionUtil.setUserWriteList(mtUserId+"_1");
+            LionUtil.setUserWriteList(dpUserId+"_0");
         }
         if( doubleWriteMode.equals("OLD")){
-        LionUtil.setUserBlackList(mtUserId+"_1");
+            LionUtil.setUserBlackList(mtUserId+"_1");
+            LionUtil.setUserWriteList(dpUserId+"_0");
         }
     }
 
