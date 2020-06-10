@@ -3,6 +3,8 @@ package com.meituan.qa.meishi.Hui.cases.huifullproce;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dianping.hui.order.response.QueryOrderResponse;
+import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
+import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.meituan.qa.meishi.Hui.domain.DifferentRecord;
@@ -24,6 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.awt.peer.LightweightPeer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -140,15 +143,18 @@ public class TestDiscountScenes_New extends TestDPLogin  {
             log.error(e.toString());
         }
         //直接退款
-//        String renfundOrderStatus = checkLoop.getOrderRefundDetail(orderId,mtToken);
-//        Assert.assertEquals(renfundOrderStatus,"true","订单退款失败");
         //TODO:退款请求api层接口。用户／商家／客服的退款请求接口
         //TODO：商家同意退款、商家拒绝退款
-        HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator("qa-autocase").build();
-        DirectRefundResponse response = huiRefund.superRefund();
-        log.info("获取退款结果:{}", JSON.toJSONString(response));
-        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(response));
-        //Assert.assertEquals(jsonObject.getString("success"),"true","订单退款失败");
+        HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator(String.valueOf(mtUserId)).userId(mtUserId).build();
+        log.info("执行退款订单id{}",orderId);
+        ApplyRefundRequest applyRefundRequest = huiRefund.apply();
+        log.info("申请退款结果:",JSON.toJSONString(applyRefundRequest));
+        TimeUnit.SECONDS.sleep(2);
+        AgreeRefundResponse agreeRefundResponse = huiRefund.agree();
+        log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
+        TimeUnit.SECONDS.sleep(3);
+        agreeRefundResponse.isSuccess();
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
 
         //平台校验已消费退款
