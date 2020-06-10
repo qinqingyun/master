@@ -36,7 +36,6 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
-
         </classes>
     </test>
 
