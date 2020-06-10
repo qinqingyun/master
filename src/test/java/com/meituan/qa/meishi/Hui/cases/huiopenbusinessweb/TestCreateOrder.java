@@ -13,10 +13,7 @@ import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.math.BigDecimal;
 
@@ -33,7 +30,7 @@ public class TestCreateOrder extends TestDPLogin {
     EcomOrderCreateService ecomOrderCreateService;
     //String  doubleWriteMode="OLD";
     @Parameters({ "DoubleWriteMode" })
-    @BeforeMethod
+    @BeforeClass
     void updateUserId(String doubleWriteMode) throws Exception {
         if( doubleWriteMode.equals("NEW")){
             LionUtil.setUserWriteList(mtUserId+"_1");

@@ -83,6 +83,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
     @Parameters({ "DoubleWriteMode" })
+    //String doubleWriteMode = "OLD";
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
     public void ms_c_hui_mt_ShopPromoZeroOrder(String doubleWriteMode)  throws Exception {
@@ -122,7 +123,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
                 .caseid(CASEID)
                 .couponProduct(mtloadCashier.parseCouponOfferId().orElse(null))
                 .deskcoupon(deskCoupon)
-                .source(0)
+                .source(1)
                 .build();
         HuiCreateOrderResult createResult = createOrder.requestCreate();
         String payToken = createResult.getPayToken();
@@ -142,6 +143,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
 
 
         //下单后平台校验
+        Thread.sleep(2000);
         JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_hui_mt_ShopPromoZeroOrder");
         JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
         checkLoop.getPlatformStatus(1,neworderid,verifyRequest,null);
@@ -152,9 +154,6 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
 
 
         //3、支付
-//        CashierPay cashierPay = CashierPay.builder().payToken(payToken).token(mtToken).tradeNo(tradeNo).build();
-//        boolean payret = cashierPay.orderPay();
-//        Assert.assertTrue(payret, tradeNo + "订单支付失败");
         CreateOrderUtil.orderPay(payToken, tradeNo, mtbyqToken);
 
         //平台支付成功校验

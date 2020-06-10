@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 
 import java.lang.reflect.Method;
@@ -45,7 +46,7 @@ public class TestDPLogin {
     /**
      * 美团登录
      */
-    @BeforeClass(alwaysRun = true, groups = {"P3", "mapi"})
+    @BeforeTest(alwaysRun = true, groups = {"P3", "mapi"})
     public void ms_c_login_01() {
         envpath = ConfigMange.getValue("testData");
         MTCUser mtcUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, "user1");
@@ -63,7 +64,7 @@ public class TestDPLogin {
     /**
      * 点评登录
      */
-    @BeforeClass(alwaysRun = true, groups = {"P3", "mapi"})
+    @BeforeTest(alwaysRun = true, groups = {"P3", "mapi"})
     public void ms_c_login_02() {
         DPCUser user = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, "dp151");
         dpToken = user.getToken();
