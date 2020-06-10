@@ -143,7 +143,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
 
 
         //下单后平台校验
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_hui_mt_ShopPromoZeroOrder");
         JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
         checkLoop.getPlatformStatus(1,neworderid,verifyRequest,null);
