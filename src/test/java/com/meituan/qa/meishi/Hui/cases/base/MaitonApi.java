@@ -94,7 +94,8 @@ public class MaitonApi {
      * PayApi obj = new PayApi("cashier.qa.pay.test.sankuai.com");//点评侧域名
      *
      */
-    public static void orderPay(String payToken,String tradeNo,String token) throws Exception {
+    public void orderPay(String payToken,String tradeNo,OrderSourceEnum sourceEnum) throws Exception {
+        replaceUserInfo(sourceEnum);
         String payHost = ConfigMange.getValue("env.api.meishi.hui.pay");
         PayApi obj = new PayApi(payHost);
         Map<String, String> params = new HashMap<String, String>();
@@ -102,7 +103,7 @@ public class MaitonApi {
         params.put("tradeno", tradeNo);
         params.put("pay_token", payToken);
         //params.put("pay_password", passWord); //设置支付密码http://payc.fsp.test.sankuai.com/rstpwd/index.htm
-        params.put("token", token); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
+        params.put("token", userModel.getToken()); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
         //params.put("nb_app", "...");//非必传，默认值是group
         Boolean payRequest = false;
         for (int i = 0; i < 3; i++){
