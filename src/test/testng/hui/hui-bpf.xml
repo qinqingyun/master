@@ -10,6 +10,7 @@
         <parameter name="DoubleWriteMode" value="NEW"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
         </classes>
     </test>
 

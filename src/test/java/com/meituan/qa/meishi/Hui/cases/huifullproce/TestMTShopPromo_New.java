@@ -76,7 +76,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
     @Parameters({ "DoubleWriteMode" })
-    @Test(groups = "P1")
+    @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     @MethodAnotation(author = "byq", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
     public void ms_c_hui_mt_shopPromo(String  doubleWriteMode)  throws Exception {
         if( doubleWriteMode.equals("NEW"))
