@@ -116,19 +116,17 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     public void UpdatePrAutoData(LocalDate date) {
         LocalDate yesterday = date.plusDays(-1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
-        pipelinePrMapper.deleteDirRepoByDate();
+        //todo
+//        pipelinePrMapper.deleteDirRepoByDate();
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
-        String param = "{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"497\"}";
+        String param = "{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
         // 遍历每个组织
-        List<PipelinePrAutoPO> prDatasArry= new ArrayList<>();
+        List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
         long s = System.currentTimeMillis();
-        for(int i = 0;i<dirList.size();i++){
-            prDatasArry.addAll(insertData(dirList.get(i),date));
-            long e = System.currentTimeMillis();
-        }
-//        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
-        pipelinePrMapper.insertRepoInfoList(prDatasArry);
+        dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
+        //todo
+//        pipelinePrMapper.insertRepoInfoList(prDatasArry);
         long e = System.currentTimeMillis();
         System.out.println((e - s));
     }
@@ -157,8 +155,12 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         pipelinePrAutoPO.setDirectionName(data.getString("label"));
 
                         //获取仓库pr次数
-                        int times = getPRTimes(strKey3, date);
-                        pipelinePrAutoPO.setTimes(times);
+                        PipelinePrAutoPO getPRTimes=getPRTimes(strKey3, date);
+                        pipelinePrAutoPO.setTimes(getPRTimes.getTimes());
+                        pipelinePrAutoPO.setAuto_times(getPRTimes.getAuto_times());
+                        pipelinePrAutoPO.setAuto_success_times(getPRTimes.getAuto_success_times());
+                        pipelinePrAutoPO.setTotalCase(getPRTimes.getTotalCase());
+                        pipelinePrAutoPO.setCoverage(getPRTimes.getCoverage());
                         JSONObject onePro = repos2.getJSONObject(strKey3);
                         pipelinePrAutoPO.setRepo(strKey3);
                         pipelinePrAutoPO.setPriority(onePro.getString("priority"));
@@ -167,30 +169,15 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         if (onePro.getBoolean("isAutoTest") != null) {
                             if (onePro.getBoolean("isAutoTest")) {
                                 pipelinePrAutoPO.setIsAutoOn(1);
-                                PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
-                                pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
 
                             } else {
                                 pipelinePrAutoPO.setIsAutoOn(0);
                                 //仓库自动化关闭，默认自动化数-1
                                 pipelinePrAutoPO.setTotalCase(-1);
-                                PipelinePrAutoPO autoInfo = getAutoInfo(strKey3, yesterday);
-                                pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                                pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                                pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                                pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
                             }
                         } else {
                             //仓库下未标记isAutoTest
                             pipelinePrAutoPO.setIsAutoOn(0);
-                            PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey3, yesterday);
-                            pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                            pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
-                            pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-                            pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
                         }
                         if (pipelinePrAutoPO.getTimes() >0) {
                             //执行PR的存库
@@ -205,8 +192,12 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
                     pipelinePrAutoPO.setDirectionName(data.getString("label"));
                     //获取仓库pr次数
-                    int times = getPRTimes(strKey2, date);
-                    pipelinePrAutoPO.setTimes(times);
+                    PipelinePrAutoPO getPRTimes=getPRTimes(strKey2, date);
+                    pipelinePrAutoPO.setTimes(getPRTimes.getTimes());
+                    pipelinePrAutoPO.setAuto_times(getPRTimes.getAuto_times());
+                    pipelinePrAutoPO.setAuto_success_times(getPRTimes.getAuto_success_times());
+                    pipelinePrAutoPO.setTotalCase(getPRTimes.getTotalCase());
+                    pipelinePrAutoPO.setCoverage(getPRTimes.getCoverage());
                     JSONObject onePro = repos.getJSONObject(strKey2);
                     pipelinePrAutoPO.setRepo(strKey2);
                     pipelinePrAutoPO.setPriority(onePro.getString("priority"));
@@ -216,29 +207,12 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
                         if (onePro.getBoolean("isAutoTest")) {
                             pipelinePrAutoPO.setIsAutoOn(1);
-                            PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-                            pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                            pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                            pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                            pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
-
                         } else {
                             pipelinePrAutoPO.setIsAutoOn(0);
-                            //仓库自动化关闭
-                            PipelinePrAutoPO autoInfo = getAutoInfo(strKey2, yesterday);
-                            pipelinePrAutoPO.setTotalCase(autoInfo.getTotalCase());
-                            pipelinePrAutoPO.setPr_times(autoInfo.getPr_times());
-                            pipelinePrAutoPO.setPasses(autoInfo.getPasses());
-                            pipelinePrAutoPO.setCoverage(autoInfo.getCoverage());
                         }
                     } else {
                         //仓库下未标记isAutoTest
                         pipelinePrAutoPO.setIsAutoOn(0);
-                        PipelinePrAutoPO autoInfoNotag = getAutoInfo(strKey2, yesterday);
-                        pipelinePrAutoPO.setTotalCase(autoInfoNotag.getTotalCase());
-                        pipelinePrAutoPO.setPr_times(autoInfoNotag.getPr_times());
-                        pipelinePrAutoPO.setPasses(autoInfoNotag.getPasses());
-                        pipelinePrAutoPO.setCoverage(autoInfoNotag.getCoverage());
                     }
                     if (pipelinePrAutoPO.getTimes() >0) {
                         //执行PR的存库
@@ -254,8 +228,18 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
     }
 
 
-    public int getPRTimes(String repo,LocalDate today){
+    public PipelinePrAutoPO getPRTimes(String repo,LocalDate today){
+        if(repo=="ssh://git@git.sankuai.com/nib/consumer-process.git"){
+            String test="";
+        }
+
+
+        PipelinePrAutoPO prBuild = new PipelinePrAutoPO();
+
         int prTimes = 0;
+        int lastPRTag = 0;
+        int auto_times=0;
+        int auto_success_times=0;
         LocalDate yesterday = today.plusDays(-1);
         ZoneId zone = ZoneId.systemDefault();
         Date yesdayDate = Date.from(yesterday.atStartOfDay().atZone(zone).toInstant());
@@ -265,67 +249,67 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         JSONArray repos = resp.getJSONArray("data");
         if (repos!=null){
             for (int i = 0; i < repos.size(); i++) {
+                PipelinePrAutoPO prAutoBuild = new PipelinePrAutoPO();
                 Date prTime = repos.getJSONObject(i).getDate("createdTime");
                 if (prTime.before(todayDate) && prTime.after(yesdayDate)) {
                     prTimes++;
+                    prAutoBuild = getAutoTimes(repos.getJSONObject(i).getString("traceId"));
+                    auto_times+=prAutoBuild.getAuto_times();
+                    auto_success_times+=prAutoBuild.getAuto_success_times();
+                    if (lastPRTag==0&&prAutoBuild.getTotalCase()!=null&&prAutoBuild.getTotalCase()>0){
+                        //覆盖率默认一天最后一次覆盖率和总数
+                        prBuild.setCoverage(prAutoBuild.getCoverage());
+                        prBuild.setTotalCase(prAutoBuild.getTotalCase());
+                        lastPRTag++;
+                    }
                 }
 
             }
         }
-        return prTimes;
+        prBuild.setTimes(prTimes);
+        prBuild.setAuto_times(auto_times);
+        prBuild.setAuto_success_times(auto_success_times);
+
+
+        return prBuild;
     }
 
-
-    public PipelinePrAutoPO getAutoInfo(String repo,LocalDate yesterday){
-        LocalDate today = yesterday.plusDays(+1);
-        PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
-        String url = "http://qa.sankuai.com/data/autoTest/rd/application?repo="+repo+"&from="+ yesterday+"&to="+today;
+    public PipelinePrAutoPO getAutoTimes(String tracerId){
+        PipelinePrAutoPO prBuild = new PipelinePrAutoPO();
+        int autoPrTimes = 0;
+        int autoSuccessPrTimes = 0;
+        String url = "http://qa.sankuai.com/data/pr/build/result?tracerId="+tracerId;
         JSONObject resp = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
-
-        JSONObject pr = resp.getJSONObject("data").getJSONObject("PR");
-        if(pr!=null) {
-            Integer k = 0;
-
-            for (String strKey : pr.keySet()) {
-                pipelinePrAutoPO.setPr_times(pr.getJSONObject(strKey).size());
-                k++;
-                if (k == 2) {
-                    log.error("问题数据todo");
-                }
-                JSONObject repoCases = pr.getJSONObject(strKey);
-                Integer times = 0;
-                    for (String strKey2 : repoCases.keySet()) {
-                        times++;
-                        if (times == repoCases.size()) {
-                            JSONObject onetimeAuto = repoCases.getJSONObject(strKey2);
-                            Integer totals = onetimeAuto.getInteger("total");
-                            double coverage = onetimeAuto.getDouble("coverage");
-
-                            double passes = 0.0;
-                            if(totals!=0){
-                                passes=onetimeAuto.getDouble("passes")/totals;
-                            }else {
-                                passes = 0.0;
-                            }
-                            pipelinePrAutoPO.setTotalCase(totals);
-                            pipelinePrAutoPO.setPasses(BigDecimal.valueOf(passes));
-                            pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(coverage));
+        JSONObject prInfo = resp.getJSONObject("data");
+        if (prInfo!=null&&prInfo.getJSONObject("stageResultMap").size()!=0&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试")!=null){//todo
+                boolean autoSuccessTag = "SUCCESS".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
+                boolean autoFailedTag = "FAILED".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
+            String cov="";
+                if (autoSuccessTag==true) {
+                    autoPrTimes++;
+                    autoSuccessPrTimes++;
+                        int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");;
+                        prBuild.setTotalCase(passedNum);
+                        if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null) {
+                            cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
                         }
-
+                        prBuild.setCoverage(cov);
+                }else if (autoFailedTag==true){
+                    autoPrTimes++;
+                    int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");
+                    int failedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("failedNum");
+                    prBuild.setTotalCase(passedNum+failedNum);//自动化总数
+                    if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
+                        cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
                     }
+                        prBuild.setCoverage(cov);
 
-            }
-        }else {
-            //没有PR执行默认-1
-            pipelinePrAutoPO.setTotalCase(-1);
-            pipelinePrAutoPO.setPasses(BigDecimal.valueOf(-1));
-            pipelinePrAutoPO.setPr_times(0);
-            pipelinePrAutoPO.setCoverage(BigDecimal.valueOf(0));
+                }
+
         }
-
-//                pipelinePrAutoPO.setAllCase();
-
-        return pipelinePrAutoPO;
+        prBuild.setAuto_times(autoPrTimes);
+        prBuild.setAuto_success_times(autoSuccessPrTimes);
+        return prBuild;
     }
 
 

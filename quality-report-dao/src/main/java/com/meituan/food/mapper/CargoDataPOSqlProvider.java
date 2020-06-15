@@ -27,63 +27,63 @@ public class CargoDataPOSqlProvider {
     public String insertSelective(CargoDataPO record) {
         SQL sql = new SQL();
         sql.INSERT_INTO("cargo_data");
-        
+
         if (record.getId() != null) {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
-        
+
         if (record.getStackuuid() != null) {
             sql.VALUES("stackuuid", "#{stackuuid,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableSuccess() != null) {
             sql.VALUES("stable_success", "#{stableSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getStableTotal() != null) {
             sql.VALUES("stable_total", "#{stableTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleSuccess() != null) {
             sql.VALUES("avalible_success", "#{avalibleSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleTotal() != null) {
             sql.VALUES("avalible_total", "#{avalibleTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getTag() != null) {
             sql.VALUES("tag", "#{tag,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getPerson() != null) {
             sql.VALUES("person", "#{person,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDirection() != null) {
             sql.VALUES("direction", "#{direction,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableTagPercentage() != null) {
             sql.VALUES("stable_tag_percentage", "#{stableTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAvalibleTagPercentage() != null) {
             sql.VALUES("avalible_tag_percentage", "#{avalibleTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDate() != null) {
             sql.VALUES("date", "#{date,jdbcType=TIMESTAMP}");
         }
-        
+
         if (record.getComment() != null) {
             sql.VALUES("comment", "#{comment,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getUpdatedDate() != null) {
             sql.VALUES("updated_date", "#{updatedDate,jdbcType=TIMESTAMP}");
         }
-        
+
         return sql.toString();
     }
 
@@ -109,77 +109,77 @@ public class CargoDataPOSqlProvider {
         sql.SELECT("updated_date");
         sql.FROM("cargo_data");
         applyWhere(sql, example, false);
-        
+
         if (example != null && example.getOrderByClause() != null) {
             sql.ORDER_BY(example.getOrderByClause());
         }
-        
+
         return sql.toString();
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
         CargoDataPO record = (CargoDataPO) parameter.get("record");
         CargoDataPOExample example = (CargoDataPOExample) parameter.get("example");
-        
+
         SQL sql = new SQL();
         sql.UPDATE("cargo_data");
-        
+
         if (record.getId() != null) {
             sql.SET("id = #{record.id,jdbcType=INTEGER}");
         }
-        
+
         if (record.getStackuuid() != null) {
             sql.SET("stackuuid = #{record.stackuuid,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableSuccess() != null) {
             sql.SET("stable_success = #{record.stableSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getStableTotal() != null) {
             sql.SET("stable_total = #{record.stableTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleSuccess() != null) {
             sql.SET("avalible_success = #{record.avalibleSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleTotal() != null) {
             sql.SET("avalible_total = #{record.avalibleTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getTag() != null) {
             sql.SET("tag = #{record.tag,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getPerson() != null) {
             sql.SET("person = #{record.person,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDirection() != null) {
             sql.SET("direction = #{record.direction,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableTagPercentage() != null) {
             sql.SET("stable_tag_percentage = #{record.stableTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAvalibleTagPercentage() != null) {
             sql.SET("avalible_tag_percentage = #{record.avalibleTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDate() != null) {
             sql.SET("date = #{record.date,jdbcType=TIMESTAMP}");
         }
-        
+
         if (record.getComment() != null) {
             sql.SET("comment = #{record.comment,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getUpdatedDate() != null) {
             sql.SET("updated_date = #{record.updatedDate,jdbcType=TIMESTAMP}");
         }
-        
+
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -187,7 +187,7 @@ public class CargoDataPOSqlProvider {
     public String updateByExample(Map<String, Object> parameter) {
         SQL sql = new SQL();
         sql.UPDATE("cargo_data");
-        
+
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("stackuuid = #{record.stackuuid,jdbcType=VARCHAR}");
         sql.SET("stable_success = #{record.stableSuccess,jdbcType=INTEGER}");
@@ -202,7 +202,7 @@ public class CargoDataPOSqlProvider {
         sql.SET("date = #{record.date,jdbcType=TIMESTAMP}");
         sql.SET("comment = #{record.comment,jdbcType=VARCHAR}");
         sql.SET("updated_date = #{record.updatedDate,jdbcType=TIMESTAMP}");
-        
+
         CargoDataPOExample example = (CargoDataPOExample) parameter.get("example");
         applyWhere(sql, example, true);
         return sql.toString();
@@ -211,61 +211,61 @@ public class CargoDataPOSqlProvider {
     public String updateByPrimaryKeySelective(CargoDataPO record) {
         SQL sql = new SQL();
         sql.UPDATE("cargo_data");
-        
+
         if (record.getStackuuid() != null) {
             sql.SET("stackuuid = #{stackuuid,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableSuccess() != null) {
             sql.SET("stable_success = #{stableSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getStableTotal() != null) {
             sql.SET("stable_total = #{stableTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleSuccess() != null) {
             sql.SET("avalible_success = #{avalibleSuccess,jdbcType=INTEGER}");
         }
-        
+
         if (record.getAvalibleTotal() != null) {
             sql.SET("avalible_total = #{avalibleTotal,jdbcType=INTEGER}");
         }
-        
+
         if (record.getTag() != null) {
             sql.SET("tag = #{tag,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getPerson() != null) {
             sql.SET("person = #{person,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDirection() != null) {
             sql.SET("direction = #{direction,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStableTagPercentage() != null) {
             sql.SET("stable_tag_percentage = #{stableTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAvalibleTagPercentage() != null) {
             sql.SET("avalible_tag_percentage = #{avalibleTagPercentage,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getDate() != null) {
             sql.SET("date = #{date,jdbcType=TIMESTAMP}");
         }
-        
+
         if (record.getComment() != null) {
             sql.SET("comment = #{comment,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getUpdatedDate() != null) {
             sql.SET("updated_date = #{updatedDate,jdbcType=TIMESTAMP}");
         }
-        
+
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
-        
+
         return sql.toString();
     }
 
@@ -273,7 +273,7 @@ public class CargoDataPOSqlProvider {
         if (example == null) {
             return;
         }
-        
+
         String parmPhrase1;
         String parmPhrase1_th;
         String parmPhrase2;
@@ -295,7 +295,7 @@ public class CargoDataPOSqlProvider {
             parmPhrase3 = "#{oredCriteria[%d].allCriteria[%d].value[%d]}";
             parmPhrase3_th = "#{oredCriteria[%d].allCriteria[%d].value[%d],typeHandler=%s}";
         }
-        
+
         StringBuilder sb = new StringBuilder();
         List<Criteria> oredCriteria = example.getOredCriteria();
         boolean firstCriteria = true;
@@ -307,7 +307,7 @@ public class CargoDataPOSqlProvider {
                 } else {
                     sb.append(" or ");
                 }
-                
+
                 sb.append('(');
                 List<Criterion> criterions = criteria.getAllCriteria();
                 boolean firstCriterion = true;
@@ -318,7 +318,7 @@ public class CargoDataPOSqlProvider {
                     } else {
                         sb.append(" and ");
                     }
-                    
+
                     if (criterion.isNoValue()) {
                         sb.append(criterion.getCondition());
                     } else if (criterion.isSingleValue()) {
@@ -356,7 +356,7 @@ public class CargoDataPOSqlProvider {
                 sb.append(')');
             }
         }
-        
+
         if (sb.length() > 0) {
             sql.WHERE(sb.toString());
         }
