@@ -9,7 +9,8 @@
     <!-- !!!! Driver Class Path !!!! -->
     <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
     <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
-    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+   <!-- <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
+    <classPathEntry location="/Users/qinqingyun/.m2/repository/mysql/mysql-connector-java/6.0.5/mysql-connector-java-6.0.5.jar"/>
 <!--
 <classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
 -->
@@ -25,7 +26,7 @@
         </commentGenerator>
 
         <!-- !!!! Database Configurations !!!! -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.48.204.61:5002/quality_report?characterEncoding=utf8" userId="quality_report_w" password="JOPzGdMc5vsymc"/>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.36.188.35:5002/quality_report?characterEncoding=utf8" userId="quality_report_w" password="JOPzGdMc5vsymc"/>
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -131,13 +132,15 @@
        <!-- <table tableName="todo_list" domainObjectName="ToDoPo" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
-        <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+    <!--    <table tableName="coe_list" domainObjectName="CoeListPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>-->
        <!-- <table tableName="new_crash" domainObjectName="NewCrashP0" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
 
         <!--<table tableName="api_cover_status_table" domainObjectName="ApiCoverStatusTable" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
                <!--enableUpdateByExample="true"/>-->
+        <table tableName="mcd_coe_list" domainObjectName="McdCoePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
 
     </context>
 
