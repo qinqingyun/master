@@ -1,6 +1,7 @@
 package com.meituan.food.job.impl;
 
 import com.meituan.food.extract.ICOEDataExtract;
+import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.job.IOneHourJob;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +16,24 @@ public class OneHourJobImpl implements IOneHourJob {
     @Resource
     private ICOEDataExtract coeDataExtract;
 
+    @Resource
+    private ICOETdDataExtract coeDataTdExtract;
+
+    LocalDate firstDay=LocalDate.now().minusDays(60);
+    LocalDate secondDay=LocalDate.now().minusDays(1);
+    String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+
     @Override
     public void extractData4Hour() throws ParseException {
-        LocalDate firstDay=LocalDate.now().minusDays(60);
-        LocalDate secondDay=LocalDate.now().minusDays(1);
-        String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         coeDataExtract.getCOEData(firstDayStr,secondDayStr);
+    }
+
+    public void extractDataTd4Hour() throws ParseException{
+
+        coeDataTdExtract.getCOETdData(firstDayStr,secondDayStr);
+
     }
 }

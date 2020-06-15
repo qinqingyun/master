@@ -1,6 +1,7 @@
 package com.meituan.food.web;
 
 import com.meituan.food.extract.ICOEDataExtract;
+import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.mapper.CoeListPOMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,9 @@ public class CoeController {
     private ICOEDataExtract coeDataExtract;
 
     @Resource
+    private ICOETdDataExtract coeTdDataExtract;
+
+    @Resource
     private CoeListPOMapper coeListPOMapper;
 
     @Resource(name = "COEPush")
@@ -31,6 +35,16 @@ public class CoeController {
             coeDataExtract.getCOEData(startDate, endDate);
         } catch (Exception e) {
             log.error("updateHistoryData error, startDate: {},endDate: {}", startDate, endDate, e);
+        }
+        return "OK!";
+    }
+    //获取平台技术部的coe数据
+    @GetMapping("/td/update")
+    public String updateTdHistoryData(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) throws ParseException {
+        try {
+            coeTdDataExtract.getCOETdData(startDate, endDate);
+        } catch (Exception e) {
+            log.error("updateTdHistoryData error, startDate: {},endDate: {}", startDate, endDate, e);
         }
         return "OK!";
     }

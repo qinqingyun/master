@@ -315,12 +315,18 @@ public class ScheduleJob {
     public void halfOfYearJob() throws TException, MDMThriftException {
         halfYearMailJob.sync();
     }
-
+    //获取COE数据-每一小时
     @Crane("one.hour.job")
     public void oneHourJob() throws TException, MDMThriftException, ParseException {
         oneHourJob.extractData4Hour();
     }
-    //每天集成流水线获取
+
+    //获取平台技术部COE数据-每一小时
+    @Crane("one.hour.td.job")
+    public void oneHourTdJob() throws TException, MDMThriftException, ParseException {
+        oneHourJob.extractDataTd4Hour();
+    }
+    //每天集成流水线获取f
     @Crane("one.day.itpipeline.job")
     public void itPipelineJob() throws TException, MDMThriftException {
         iOneDayItPipelineJob.sync();
