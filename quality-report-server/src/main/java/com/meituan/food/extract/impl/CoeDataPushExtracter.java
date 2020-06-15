@@ -18,12 +18,11 @@ import java.util.*;
 @Slf4j
 @Component
 @Service("COEPush")
-public class CoeDataPushExtracter implements ICargoDataPushExtract {
+public class CoeDataPushExtracter  {
 
     @Resource
     private CoeListPOMapper coeListPOMapper;
 
-    @Override
     public void pushData() throws ParseException {
         Map<String, String> pushList = new HashMap<>();
         Calendar yesterday = Calendar.getInstance();
