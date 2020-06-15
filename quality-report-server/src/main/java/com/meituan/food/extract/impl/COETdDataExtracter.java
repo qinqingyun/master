@@ -85,7 +85,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     mcdCoePOMapper.updateByPrimaryKey(coePO);
 
                 } else {
-                    mcdCoePOMapper.insert(coePO);
+                    if (!coePO.getOrgName().contains("餐饮解决方案中心")){
+                        mcdCoePOMapper.insert(coePO);
+                    }
                 }
 
             }
