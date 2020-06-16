@@ -38,7 +38,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         for (McdCoePO mcdCoePO : mcdCoePOList) {
             if (!(pushList.keySet().contains(mcdCoePO.getOwnerMis()))) {
 
-                String content = mcdCoePO.getOwnerName() + "同学：您负责的COE未按照规范填写，请及时处理。问题如下：";
+                String content = mcdCoePO.getOwnerName() + "同学：您负责的COE创建已经超过一周，请及时补充完整。问题如下：";
                 content = content + "\n△【" + mcdCoePO.getBrief() + "】";
                 int index = 0;
 
@@ -67,7 +67,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         List<McdCoePO> threeDayCoePoiList=mcdCoePOMapper.selectByDate(remindDayDate);
         for (McdCoePO po : threeDayCoePoiList) {
             if (!(remindPushList.keySet().contains(po.getOwnerMis()))) {
-                String content = po.getOwnerName() + "同学：您负责的COE创建超过3天啦，请及时补充完成。问题如下：";
+                String content = po.getOwnerName() + "同学：您负责的COE创建超过3天啦，请及时补充完整。问题如下：";
                 content = content + "\n△【" + po.getBrief() + "】";
                 int index = 0;
 
@@ -114,7 +114,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
             index++;
         }
         if (index != 0) {
-            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]";
+            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象咨询郭孟瑶(guomengyao)）";
             pushList.put(mcdCoePO.getOwnerMis(), content);
         }
     }
