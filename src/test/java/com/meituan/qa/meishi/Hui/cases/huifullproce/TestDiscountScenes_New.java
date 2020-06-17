@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.DifferentRecord;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.OrderCheck;
@@ -163,6 +164,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         //TODO：商家同意退款、商家拒绝退款
         HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator("qa-autocase").build();
         DirectRefundResponse response = huiRefund.superRefund();
+        Tracer.putContext("PAY_MOCK","true");
         log.info("获取退款结果:{}", JSON.toJSONString(response));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(response));
         //Assert.assertEquals(jsonObject.getString("success"),"true","订单退款失败");
