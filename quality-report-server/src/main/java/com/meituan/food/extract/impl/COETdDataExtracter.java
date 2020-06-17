@@ -220,6 +220,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         String orgPath = incidentDetail.getString("org_path");
 
         getShortOrgName(orgPath, coePO);
+        log.info("coeId:{}",coePO.getCoeId());
         getOther(coeId, coePO);
     }
 
@@ -343,6 +344,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                         if (value != null) {
                            if (label.equals("到餐订单损失量")||label.equals("订单损失量")) {
                                 po.setOrderLoss(Integer.valueOf(value));
+
                             } else if (label.equals("资金损失（元）")) {
                                 po.setCapitalLoss(new BigDecimal(value));
                             }
