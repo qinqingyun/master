@@ -1,6 +1,5 @@
 package com.meituan.food.mapper;
 
-import com.meituan.food.po.CoeListPO;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoePOExample;
 import java.util.List;
@@ -70,7 +69,7 @@ public interface McdCoePOMapper {
         "#{available,jdbcType=BIT}, #{orgName,jdbcType=VARCHAR}, ",
         "#{findDate,jdbcType=DATE}, #{finder,jdbcType=VARCHAR}, #{influenceTime,jdbcType=INTEGER}, ",
         "#{clearTime,jdbcType=TIMESTAMP}, #{locator,jdbcType=VARCHAR}, ",
-        "#{orderLoss,jdbcType=INTEGER}, #{capitalLoss,jdbcType=DECIMAL}, ",
+        "#{orderLoss,jdbcType=DECIMAL}, #{capitalLoss,jdbcType=DECIMAL}, ",
         "#{couponLoss,jdbcType=VARCHAR}, #{onlineDiscovery,jdbcType=VARCHAR}, ",
         "#{onlineClassification,jdbcType=VARCHAR}, #{line,jdbcType=VARCHAR}, ",
         "#{customLevel,jdbcType=VARCHAR}, #{nofundReason,jdbcType=VARCHAR}, ",
@@ -119,7 +118,7 @@ public interface McdCoePOMapper {
         @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
         @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-        @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+        @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
         @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
         @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
         @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
@@ -181,7 +180,7 @@ public interface McdCoePOMapper {
         @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
         @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-        @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+        @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
         @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
         @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
         @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
@@ -240,7 +239,7 @@ public interface McdCoePOMapper {
           "influence_time = #{influenceTime,jdbcType=INTEGER},",
           "clear_time = #{clearTime,jdbcType=TIMESTAMP},",
           "locator = #{locator,jdbcType=VARCHAR},",
-          "order_loss = #{orderLoss,jdbcType=INTEGER},",
+          "order_loss = #{orderLoss,jdbcType=DECIMAL},",
           "capital_loss = #{capitalLoss,jdbcType=DECIMAL},",
           "coupon_loss = #{couponLoss,jdbcType=VARCHAR},",
           "online_discovery = #{onlineDiscovery,jdbcType=VARCHAR},",
@@ -253,6 +252,9 @@ public interface McdCoePOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(McdCoePO record);
+
+
+    //新增
 
     @Select({
             "select coe_id from mcd_coe_list"
@@ -312,7 +314,7 @@ public interface McdCoePOMapper {
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
             @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
@@ -324,6 +326,9 @@ public interface McdCoePOMapper {
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
     McdCoePO selectByCoeId(Integer id);
+
+
+
 
 
     @Select({
@@ -375,7 +380,7 @@ public interface McdCoePOMapper {
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
             @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
@@ -387,6 +392,8 @@ public interface McdCoePOMapper {
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
     List<McdCoePO> selectByTwoDate(@Param("occur") java.util.Date occur,@Param("occur2") java.util.Date occur2);
+
+
 
     @Select({
             "select",
@@ -437,7 +444,7 @@ public interface McdCoePOMapper {
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
             @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),

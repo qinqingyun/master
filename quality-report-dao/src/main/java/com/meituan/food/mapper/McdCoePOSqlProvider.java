@@ -173,7 +173,7 @@ public class McdCoePOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.VALUES("order_loss", "#{orderLoss,jdbcType=INTEGER}");
+            sql.VALUES("order_loss", "#{orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
@@ -429,7 +429,7 @@ public class McdCoePOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+            sql.SET("order_loss = #{record.orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
@@ -512,7 +512,7 @@ public class McdCoePOSqlProvider {
         sql.SET("influence_time = #{record.influenceTime,jdbcType=INTEGER}");
         sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
         sql.SET("locator = #{record.locator,jdbcType=VARCHAR}");
-        sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+        sql.SET("order_loss = #{record.orderLoss,jdbcType=DECIMAL}");
         sql.SET("capital_loss = #{record.capitalLoss,jdbcType=DECIMAL}");
         sql.SET("coupon_loss = #{record.couponLoss,jdbcType=VARCHAR}");
         sql.SET("online_discovery = #{record.onlineDiscovery,jdbcType=VARCHAR}");
@@ -673,7 +673,7 @@ public class McdCoePOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.SET("order_loss = #{orderLoss,jdbcType=INTEGER}");
+            sql.SET("order_loss = #{orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
