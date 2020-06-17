@@ -65,7 +65,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
     InvokeTaskServiceI invokeTaskServiceI;
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
-    String  doubleWriteMode = "OLD";
+    String  doubleWriteMode = "NEW";
 
 //    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
@@ -93,6 +93,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         log.info("折扣couponOfferId:" + couponOfferId);
 
         //创建订单
+        Tracer.putContext("PAY_MOCK","TRUE");
         orderCreateResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,caseId,couponOfferId);
         payToken = orderCreateResult.get(0);
         tradeNo = orderCreateResult.get(1);
@@ -164,7 +165,6 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         //TODO：商家同意退款、商家拒绝退款
         HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator("qa-autocase").build();
         DirectRefundResponse response = huiRefund.superRefund();
-        Tracer.putContext("PAY_MOCK","true");
         log.info("获取退款结果:{}", JSON.toJSONString(response));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(response));
         //Assert.assertEquals(jsonObject.getString("success"),"true","订单退款失败");
