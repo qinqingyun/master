@@ -2453,52 +2453,52 @@ public class McdCoePOExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossEqualTo(Integer value) {
+        public Criteria andOrderLossEqualTo(BigDecimal value) {
             addCriterion("order_loss =", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossNotEqualTo(Integer value) {
+        public Criteria andOrderLossNotEqualTo(BigDecimal value) {
             addCriterion("order_loss <>", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossGreaterThan(Integer value) {
+        public Criteria andOrderLossGreaterThan(BigDecimal value) {
             addCriterion("order_loss >", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossGreaterThanOrEqualTo(Integer value) {
+        public Criteria andOrderLossGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("order_loss >=", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossLessThan(Integer value) {
+        public Criteria andOrderLossLessThan(BigDecimal value) {
             addCriterion("order_loss <", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossLessThanOrEqualTo(Integer value) {
+        public Criteria andOrderLossLessThanOrEqualTo(BigDecimal value) {
             addCriterion("order_loss <=", value, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossIn(List<Integer> values) {
+        public Criteria andOrderLossIn(List<BigDecimal> values) {
             addCriterion("order_loss in", values, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossNotIn(List<Integer> values) {
+        public Criteria andOrderLossNotIn(List<BigDecimal> values) {
             addCriterion("order_loss not in", values, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossBetween(Integer value1, Integer value2) {
+        public Criteria andOrderLossBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("order_loss between", value1, value2, "orderLoss");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLossNotBetween(Integer value1, Integer value2) {
+        public Criteria andOrderLossNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("order_loss not between", value1, value2, "orderLoss");
             return (Criteria) this;
         }

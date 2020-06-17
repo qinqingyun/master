@@ -3,6 +3,7 @@ package com.meituan.food.web;
 import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.extract.ICargoDataPushExtract;
+import com.meituan.food.extract.impl.CoeDataPushExtracter;
 import com.meituan.food.mapper.CoeListPOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class CoeController {
     private CoeListPOMapper coeListPOMapper;
 
     @Resource(name = "COEPush")
-    private ICargoDataPushExtract cargoDataPushExtract;
+    private CoeDataPushExtracter cargoDataPushExtract;
 
     @GetMapping("/update")
     public String updateHistoryData(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) throws ParseException {

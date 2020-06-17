@@ -77,7 +77,7 @@ public class McdCoePO implements Serializable {
 
     private String locator;
 
-    private Integer orderLoss;
+    private BigDecimal orderLoss;
 
     private BigDecimal capitalLoss;
 
@@ -387,11 +387,11 @@ public class McdCoePO implements Serializable {
         this.locator = locator;
     }
 
-    public Integer getOrderLoss() {
+    public BigDecimal getOrderLoss() {
         return orderLoss;
     }
 
-    public void setOrderLoss(Integer orderLoss) {
+    public void setOrderLoss(BigDecimal orderLoss) {
         this.orderLoss = orderLoss;
     }
 

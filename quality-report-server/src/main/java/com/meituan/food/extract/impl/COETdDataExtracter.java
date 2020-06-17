@@ -85,7 +85,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     mcdCoePOMapper.updateByPrimaryKey(coePO);
 
                 } else {
-                    mcdCoePOMapper.insert(coePO);
+                    if (!coePO.getOrgName().contains("餐饮解决方案中心")){
+                        mcdCoePOMapper.insert(coePO);
+                    }
                 }
 
             }
@@ -341,11 +343,13 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                                 po.setNofundReason(value);
                         }
 
-                        if (value != null) {
+                        if (value != null&& !"".equals(value)) {
                            if (label.equals("到餐订单损失量")||label.equals("订单损失量")) {
-                                po.setOrderLoss(Integer.valueOf(value));
+
+                                po.setOrderLoss(new BigDecimal(value));
 
                             } else if (label.equals("资金损失（元）")) {
+
                                 po.setCapitalLoss(new BigDecimal(value));
                             }
                         }
