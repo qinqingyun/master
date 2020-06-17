@@ -75,12 +75,12 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
                     coePO.setId(coeListPO.getId());
                     coePO.setAvailable(coeListPO.getAvailable());
-
+/*
                     //获取损失时， 为啥有时间上的对比
-                   /* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*/
-                        coePO.setCapitalLoss(coeListPO.getCapitalLoss());
-                        coePO.setOrderLoss(coeListPO.getOrderLoss());
-                  /*  }*/
+                   *//* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*//*
+                    coeListPO.setCapitalLoss(coePO.getCapitalLoss());
+                    coeListPO.setOrderLoss(coePO.getOrderLoss());
+                  *//*  }*/
 
                     mcdCoePOMapper.updateByPrimaryKey(coePO);
 
