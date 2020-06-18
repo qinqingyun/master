@@ -31,7 +31,9 @@ public class OrderDetail {
         String _APIPATH = "/maiton/order/{orderid}";
         JSONObject request = new JSONObject();
         try{
+            log.info("--开始获取订单详情参数--");
             request = DBDataProvider.getRequest(_APIPATH, caseId);
+            log.info("--订单详情参数获取成功--",request);
         }catch (Exception e){
             log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
@@ -39,7 +41,9 @@ public class OrderDetail {
         request.put("path",request.getString("path").replaceAll("\\{orderid\\}",orderId));
         long currentTime = System.currentTimeMillis();
         try {
+            log.info("--开始获取订单详情结果--");
             responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
+            log.info("--订单详情结果获取成功--");
         } catch (Exception e) {
             log.info("查询订单详情Exception, Request:{}, 耗时: {}",
                     JSON.toJSONString(request),

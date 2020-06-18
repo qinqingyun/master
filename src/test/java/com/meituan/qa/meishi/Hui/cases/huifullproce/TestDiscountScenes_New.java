@@ -63,7 +63,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
     InvokeTaskServiceI invokeTaskServiceI;
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
-    //String  doubleWriteMode = "OLD";
+    //gString  doubleWriteMode = "NEW";
 
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
