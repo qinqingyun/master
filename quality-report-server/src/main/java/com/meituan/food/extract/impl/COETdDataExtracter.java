@@ -51,7 +51,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         inflowtParams.put("occur_start", firstDayStr);
         inflowtParams.put("occur_end", secondDayStr);
         inflowtParams.put("page", 1);
-        inflowtParams.put("page_size", 300);
+        inflowtParams.put("page_size", 100000);
         inflowtParams.put("sort", "desc");
         inflowtParams.put("sort_by", "create_at");
         inflowtParams.put("list_type", "all");
@@ -61,20 +61,22 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         //获取coe列表数据-到店数据
         JSONObject Resp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray incidentsArray = Resp.getJSONArray("incidents");
+        log.info("coe获取的数量：{}",incidentsArray.size());
         if (incidentsArray.size() != 0) {
             for (Object o : incidentsArray) {
-                McdCoePO coePO = new McdCoePO();
-                getBaseInfo(o, coePO);
 
-                getTodoList(coePO, coePO.getCoeId());
+                    McdCoePO coePO = new McdCoePO();
+                    getBaseInfo(o, coePO);
 
-                List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+                    getTodoList(coePO, coePO.getCoeId());
 
-                if (coeIdList2.contains(coePO.getCoeId())) {
-                    //coeid 存在时，为啥只有修改这几个字段
-                    McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
-                    coePO.setId(coeListPO.getId());
-                    coePO.setAvailable(coeListPO.getAvailable());
+                    List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+
+                    if (coeIdList2.contains(coePO.getCoeId())) {
+                        //coeid 存在时，为啥只有修改这几个字段
+                        McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
+                        coePO.setId(coeListPO.getId());
+                        coePO.setAvailable(coeListPO.getAvailable());
 /*
                     //获取损失时， 为啥有时间上的对比
                    *//* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*//*
@@ -82,18 +84,20 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     coeListPO.setOrderLoss(coePO.getOrderLoss());
                   *//*  }*/
 
-                    mcdCoePOMapper.updateByPrimaryKey(coePO);
+                        mcdCoePOMapper.updateByPrimaryKey(coePO);
 
-                } else {
-                    if (!coePO.getOrgName().contains("餐饮解决方案中心")){
-                        mcdCoePOMapper.insert(coePO);
+                    }
+                    else {
+                        if (!coePO.getOrgName().contains("餐饮解决方案中心")){
+                            mcdCoePOMapper.insert(coePO);
+                        }
                     }
                 }
 
+
+
             }
 
-
-        }
 
        /* //获取第三方coe数据的入参
         List<String> inflowt = new ArrayList<>();
