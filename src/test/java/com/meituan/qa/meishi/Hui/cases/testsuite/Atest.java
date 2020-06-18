@@ -45,7 +45,7 @@ public class Atest extends TestDPLogin {
         request.setIp("127.0.0.1");
         request.setDesc("同意退款desc");
         request.setOperator("5002907380");
-        request.setOrderId(4800841607001238870l);
+        request.setOrderId(4809848809930036566l);
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         request.setPlatform(RefundFlowPlatformEnum.MIS.getCode());
         String ret = JSON.toJSONString(request);
@@ -63,8 +63,8 @@ public class Atest extends TestDPLogin {
         request.setReason("直接退款");
         request.setIp("10.21.21.2");
         request.setDesc("直接退款");
-        request.setOperator("859811843");
-        request.setOrderId(4809848809887129282l);
+        request.setOperator("29060740");
+        request.setOrderId(4809848809972785494l);
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         //request.setSuperRefund(1); 超级退款
         request.setType(RefundFlowTypeEnum.AGREE.getCode());

@@ -56,7 +56,7 @@ public class TestDiscountScenes extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    String  doubleWriteMode="OLD";
+    String  doubleWriteMode="NEW";
 
     @Test(groups = {"P1"},description = "美团app，全单折优惠-下单-支付-退款")
 
