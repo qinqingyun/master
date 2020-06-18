@@ -41,6 +41,11 @@ public class OrderDetail {
         try {
             responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
         } catch (Exception e) {
+            log.error("查询订单详情Exception, Request:{}, 耗时: {}",
+                    JSON.toJSONString(request),
+                    System.currentTimeMillis() - currentTime,
+                    e);
+        }
         String body= responseMap.getResponseBody();
         OrderDetailCheck  orderDetailinfo = parseHtml(responseMap.getResponseBody());
         String orderDetailinfoContent = orderDetailinfo.getContent();
