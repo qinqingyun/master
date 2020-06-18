@@ -67,7 +67,15 @@ public class OrderDetail {
         request.getJSONObject("params").put("token",token);
         request.getJSONObject("params").put("orderId",orderId);
         request.getJSONObject("params").put("product","dpapp");
-        responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
+        long currentTime = System.currentTimeMillis();
+        try {
+            responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
+        } catch (Exception e) {
+            log.error("查询订单详情Exception, Request:{}, 耗时: {}",
+                    JSON.toJSONString(request),
+                    System.currentTimeMillis() - currentTime,
+                    e);
+        }
         String body= responseMap.getResponseBody();
         OrderDetailCheck  orderDetailinfo = parseHtml(responseMap.getResponseBody());
         String orderDetailinfoContent = orderDetailinfo.getContent();
