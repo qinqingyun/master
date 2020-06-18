@@ -26,14 +26,14 @@ public class OrderDetail {
     public String MtOrderDetail() {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
-
+        log.info("MTOrderDetail Enter");
         ResponseMap responseMap=null;
         String _APIPATH = "/maiton/order/{orderid}";
         JSONObject request = new JSONObject();
         try{
             request = DBDataProvider.getRequest(_APIPATH, caseId);
         }catch (Exception e){
-            log.error("", e);
+            log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
         request.getJSONObject("params").put("token",token);
         request.put("path",request.getString("path").replaceAll("\\{orderid\\}",orderId));
@@ -41,7 +41,7 @@ public class OrderDetail {
         try {
             responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
         } catch (Exception e) {
-            log.error("查询订单详情Exception, Request:{}, 耗时: {}",
+            log.info("查询订单详情Exception, Request:{}, 耗时: {}",
                     JSON.toJSONString(request),
                     System.currentTimeMillis() - currentTime,
                     e);
@@ -55,6 +55,7 @@ public class OrderDetail {
     public String DpOrderDetail() {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
+        log.info("MTOrderDetail Enter");
 
         ResponseMap responseMap=null;
         String _APIPATH = "/hui/maiton/order";
@@ -62,7 +63,7 @@ public class OrderDetail {
         try{
             request = DBDataProvider.getRequest(_APIPATH, caseId);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
         request.getJSONObject("params").put("token",token);
         request.getJSONObject("params").put("orderId",orderId);
@@ -71,7 +72,7 @@ public class OrderDetail {
         try {
             responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
         } catch (Exception e) {
-            log.error("查询订单详情Exception, Request:{}, 耗时: {}",
+            log.info("查询订单详情Exception, Request:{}, 耗时: {}",
                     JSON.toJSONString(request),
                     System.currentTimeMillis() - currentTime,
                     e);
