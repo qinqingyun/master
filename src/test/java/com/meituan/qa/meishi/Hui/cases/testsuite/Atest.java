@@ -45,7 +45,7 @@ public class Atest extends TestDPLogin {
         request.setIp("127.0.0.1");
         request.setDesc("同意退款desc");
         request.setOperator("5002907380");
-        request.setOrderId(4800841607001238870l);
+        request.setOrderId(4809848809930036566l);
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         request.setPlatform(RefundFlowPlatformEnum.MIS.getCode());
         String ret = JSON.toJSONString(request);
@@ -63,8 +63,8 @@ public class Atest extends TestDPLogin {
         request.setReason("直接退款");
         request.setIp("10.21.21.2");
         request.setDesc("直接退款");
-        request.setOperator("859811843");
-        request.setOrderId(200325928692073l);
+        request.setOperator("29060740");
+        request.setOrderId(4809848809972785494l);
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         //request.setSuperRefund(1); 超级退款
         request.setType(RefundFlowTypeEnum.AGREE.getCode());
@@ -76,7 +76,7 @@ public class Atest extends TestDPLogin {
     @Test
     public void superRefund11()  {
         // 直接发起退款
-        String orderId = "4809848809614358115";
+        String orderId = "4809848809887129282";
         HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator(dpUserIdByq).userId(Long.valueOf(dpUserIdByq)).build();
         log.info("执行退款订单id{}",orderId);
         ApplyRefundRequest applyRefundRequest = huiRefund.apply();

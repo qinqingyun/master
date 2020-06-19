@@ -5,7 +5,6 @@
         <parameter name="DoubleWriteMode" value="OLD"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-
         </classes>
     </test>
     <test name="以新为主">
