@@ -158,14 +158,14 @@ public class TestOriginalScenes  extends TestDPLogin {
         //退款成功订单diff
         differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01退款成功订单diff");
     }
-    @AfterSuite
-    public void afterSuite(){
-        int diffSumCount = CommanDiff.diffSumCount.getAndIncrement();
-        log.info("总比对数量diffSumCount = "+ diffSumCount);
-        int diffFailCount = CommanDiff.diffFailCount.getAndIncrement();
-        log.info("总失败数量diffFailCount ="+ diffFailCount);
-        //一致率计算
-        double diffPercent = (diffSumCount - diffFailCount) * 1.00 / diffSumCount;
-        Assert.assertTrue(diffFailCount <= 2);
-    }
+//    @AfterSuite
+//    public void afterSuite(){
+//        int diffSumCount = CommanDiff.diffSumCount.getAndIncrement();
+//        log.info("总比对数量diffSumCount = "+ diffSumCount);
+//        int diffFailCount = CommanDiff.diffFailCount.getAndIncrement();
+//        log.info("总失败数量diffFailCount ="+ diffFailCount);
+//        //一致率计算
+//        double diffPercent = (diffSumCount - diffFailCount) * 1.00 / diffSumCount;
+//        Assert.assertTrue(diffFailCount <= 2);
+//    }
 }
