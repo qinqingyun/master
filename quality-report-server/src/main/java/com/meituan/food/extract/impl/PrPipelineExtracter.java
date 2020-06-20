@@ -119,7 +119,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         //todo
 //        pipelinePrMapper.deleteDirRepoByDate();
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
-        String param = "{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
+        String param = "{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
         // 遍历每个组织
         List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
@@ -290,7 +290,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     autoSuccessPrTimes++;
                         int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");;
                         prBuild.setTotalCase(passedNum);
-                        if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null) {
+                        if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
                             cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
                         }
                         prBuild.setCoverage(cov);
