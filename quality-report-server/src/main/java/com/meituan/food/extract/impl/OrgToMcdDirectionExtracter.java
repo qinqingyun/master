@@ -59,6 +59,8 @@ public class OrgToMcdDirectionExtracter {
 
      //   System.out.println(orgHierarchy.toString());
 
+        List<Integer> allOrgId = orgMcdIdPOMapper.selectAllOrgId();
+
         orgItems.getItems().forEach((org) ->{
             OrgMcdIdPO po=new OrgMcdIdPO();
             String orgNamePath = org.getOrgNamePath();
@@ -69,7 +71,15 @@ public class OrgToMcdDirectionExtracter {
             po.setOrgName(orgPath);
 
             System.out.println(orgNamePath+" "+org.getOrgPath());
-         //   orgMcdIdPOMapper.insert(po);
+            if (allOrgId.contains(po.getOrgId())){
+                OrgMcdIdPO po1 = orgMcdIdPOMapper.selectByOrgId(po.getOrgId());
+                if (!po1.getOrgName().equals(orgPath)){
+                    po1.setOrgName(orgPath);
+                    orgMcdIdPOMapper.updateByPrimaryKey(po1);
+                }
+            }else {
+                orgMcdIdPOMapper.insert(po);
+            }
 
         });
 

@@ -69,6 +69,39 @@ public interface OrgMcdIdPOMapper {
     })
     OrgMcdIdPO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select",
+            "id, org_id, org_name, mcd_id, mcd_name, child_mcd_id",
+            "from org_mcd_id",
+            "where org_id = #{org,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="org_id", property="orgId", jdbcType=JdbcType.INTEGER),
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.VARCHAR),
+            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER),
+            @Result(column="child_mcd_id", property="childMcdId", jdbcType=JdbcType.VARCHAR)
+    })
+    OrgMcdIdPO selectByOrgId(@Param("org") int org);
+
+    @Select({
+            "select org_id from org_mcd_id",
+            "where org_name = #{org,jdbcType=VARCHAR}"
+    })
+    @Results({
+            @Result(column="org_id", property="orgId", jdbcType=JdbcType.INTEGER)
+    })
+    Integer selectOrgIdByOrgName(@Param("org") String org);
+
+    @Select({
+            "select org_id from org_mcd_id"
+    })
+    @Results({
+            @Result(column="org_id", property="orgId", jdbcType=JdbcType.INTEGER)
+    })
+    List<Integer> selectAllOrgId();
+
     @UpdateProvider(type=OrgMcdIdPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") OrgMcdIdPO record, @Param("example") OrgMcdIdPOExample example);
 
@@ -88,4 +121,12 @@ public interface OrgMcdIdPOMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(OrgMcdIdPO record);
+
+    @Update({
+            "update org_mcd_id",
+            "set org_name = #{orgName,jdbcType=VARCHAR},",
+            "mcd_id = #{mcdId,jdbcType=VARCHAR},",
+            "where id = #{id,jdbcType=INTEGER}"
+    })
+    int updateOrgName(OrgMcdIdPO record);
 }
