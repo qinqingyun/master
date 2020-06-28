@@ -1,12 +1,16 @@
 package com.meituan.food.web;
 
 import com.meituan.food.web.vo.OrgVO;
+import com.sankuai.meituan.org.openapi.model.Hierarchy;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
+import com.sankuai.meituan.org.opensdk.model.domain.Org;
 import com.sankuai.meituan.org.opensdk.model.domain.items.EmpItems;
 import com.sankuai.meituan.org.opensdk.service.EmpService;
+import com.sankuai.meituan.org.opensdk.service.OrgService;
 import com.sankuai.meituan.org.queryservice.domain.base.Paging;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
+import com.sankuai.meituan.org.treeservice.domain.param.OrgHierarchyCond;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +23,9 @@ public class OrgTestController {
 
     @Resource
     private EmpService empService;
+
+    @Resource
+    private OrgService orgService;
 
     @GetMapping
     public String testOrgController(@RequestParam("mis") String mis) throws MDMThriftException {
@@ -58,5 +65,22 @@ public class OrgTestController {
         String stringEmpItems=empItems.toString();
 
         return orgVOList;
+    }
+
+    @GetMapping("/orgTree")
+    public Hierarchy<Org> getAllOrgName(@RequestParam("orgId") String orgId)throws MDMThriftException {
+
+        EmpHierarchyCond empCond = new EmpHierarchyCond();
+        empCond = empCond.jobStatusIdET(15);//在职
+        Paging paging = new Paging();
+        paging.setSize(1000);
+
+        OrgHierarchyCond orgHierarchyCond=new OrgHierarchyCond();
+
+        EmpItems empItems = empService.queryEmp(orgId, 5, empCond, paging);
+
+        Hierarchy<Org> orgHierarchy = orgService.queryOrgTree(orgId, 3, orgHierarchyCond);
+
+        return orgHierarchy;
     }
 }
