@@ -32,6 +32,8 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpSpayScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestSpayOriginalScenes"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
