@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import java.text.ParseException;
+
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -21,8 +23,8 @@ public class OrgToMcdDirectionExtracterTest {
     private OrgToMcdDirectionExtracter orgToMcdDirectionExtracter;
 
     @Test
-    public void getAllOrgName() throws MDMThriftException {
-        orgToMcdDirectionExtracter.getAllOrgName();
+    public void getAllOrgName() throws MDMThriftException, ParseException {
+        orgToMcdDirectionExtracter.pushData();
     }
 
     @Test

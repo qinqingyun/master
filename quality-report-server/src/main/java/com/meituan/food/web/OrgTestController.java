@@ -1,5 +1,6 @@
 package com.meituan.food.web;
 
+import com.meituan.food.extract.impl.OrgToMcdDirectionExtracter;
 import com.meituan.food.web.vo.OrgVO;
 import com.sankuai.meituan.org.openapi.model.Hierarchy;
 import com.sankuai.meituan.org.opensdk.model.domain.Emp;
@@ -14,6 +15,7 @@ import com.sankuai.meituan.org.treeservice.domain.param.OrgHierarchyCond;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class OrgTestController {
 
     @Resource
     private OrgService orgService;
+
+    @Resource
+    private OrgToMcdDirectionExtracter orgToMcdDirectionExtracter;
 
     @GetMapping
     public String testOrgController(@RequestParam("mis") String mis) throws MDMThriftException {
@@ -82,5 +87,11 @@ public class OrgTestController {
         Hierarchy<Org> orgHierarchy = orgService.queryOrgTree(orgId, 3, orgHierarchyCond);
 
         return orgHierarchy;
+    }
+
+    @GetMapping("/getAllOrg")
+    public String getAllOrgTree() throws ParseException, MDMThriftException {
+        orgToMcdDirectionExtracter.pushData();
+        return "OK!";
     }
 }

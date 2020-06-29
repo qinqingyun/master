@@ -3,6 +3,7 @@ package com.meituan.food.extract.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.mapper.McdInfoPOMapper;
 import com.meituan.food.mapper.OrgMcdIdPOMapper;
 import com.meituan.food.po.McdInfoPO;
@@ -23,11 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.yaml.snakeyaml.events.Event;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class OrgToMcdDirectionExtracter {
+public class OrgToMcdDirectionExtracter  implements ICargoDataPushExtract {
 
     @Resource
     private EmpService empService;
@@ -144,5 +146,10 @@ public class OrgToMcdDirectionExtracter {
         }
 
         return mcdInfoPOS;
+    }
+
+    @Override
+    public void pushData() throws ParseException, MDMThriftException {
+        getAllOrgName();
     }
 }

@@ -29,12 +29,12 @@ public class OpenSdkConfig {
     */
 
     //线下环境
-    private final static String CLIENT_APP_KEY = "45b4871070";
-    private final static String APP_SECRET = "5cdbf1489d164f11bbaf2166cdd7cdf2";
+  /*  private final static String CLIENT_APP_KEY = "45b4871070";
+    private final static String APP_SECRET = "5cdbf1489d164f11bbaf2166cdd7cdf2";*/
 
     //线上环境
-/*  private final static String CLIENT_APP_KEY ="215f5b75ef";
-    private final static String APP_SECRET = "b8efa677094741de81cdd777c89e99c6";*/
+  private final static String CLIENT_APP_KEY ="215f5b75ef";
+    private final static String APP_SECRET = "b8efa677094741de81cdd777c89e99c6";
     private final static Integer APP_TENANT_ID = 1;//如需查询其它租户数据，请设置成其它租户ID
     private final static String APP_SOURCE = "MT";//设置租户下对应的source.如果设置为"ALL"，则查tenantId下所有sources。
 
