@@ -75,6 +75,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         JSONObject Resp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray incidentsArray = Resp.getJSONArray("incidents");
         log.info("coe获取的数量：{}", incidentsArray.size());
+        log.info("开始时间：{}",firstDayStr);
+        log.info("结束时间：{}",secondDayStr);
+        log.info("获取coe的数量：{}",incidentsArray.size());
         if (incidentsArray.size() != 0) {
             for (Object o : incidentsArray) {
 
