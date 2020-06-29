@@ -53,7 +53,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
