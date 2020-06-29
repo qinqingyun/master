@@ -124,11 +124,11 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 if (CollectionUtils.isEmpty(daxiangIds)) {
                     log.warn("orgName: {},orgId: {} daxiang push list is empty!", orgName, orgId);
                 }
-                String pushStr = "❗️❗️❗️您关注的组织结构下新增COE";
+                String pushStr = "❗️❗️❗️您关注的组织架构下新增COE，请及时跟进";
                 pushStr = pushStr + "\n\n△【" + "[" + mcdCoePO.getBrief() + "|" + mcdCoePO.getCoeLink() + "]" + "】";
-                pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "   RD:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
+                pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "\n● 责任人:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
                 for (Long daxiangId : daxiangIds) {
-                    DaXiangUtils.pushToPerson(daxiangId + " " + pushStr, "guomengyao");
+                    DaXiangUtils.pushToPerson( pushStr, "guomengyao");
                     DaXiangUtils.pushToRoom( pushStr, daxiangId);
 
                 }
