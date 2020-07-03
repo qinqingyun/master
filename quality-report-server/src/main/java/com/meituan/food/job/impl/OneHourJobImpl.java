@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Component
 @Slf4j
@@ -26,6 +27,7 @@ public class OneHourJobImpl implements IOneHourJob {
     LocalDate secondDay=LocalDate.now();
     String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    Date now=new Date();
 
 
     @Override
@@ -41,6 +43,7 @@ public class OneHourJobImpl implements IOneHourJob {
         log.info("前60天的日期为{}",firstDayStr);
         log.info("当前的日期为{}",secondDayStr);
         log.info("没有转换的当前的时间为{}",secondDay.toString());
+        log.info("Date获取的当前时间为{}",now.toString());
         coeDataTdExtract.getCOETdData(firstDayStr,secondDayStr);
 
     }
