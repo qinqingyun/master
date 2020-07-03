@@ -23,28 +23,38 @@ public class OneHourJobImpl implements IOneHourJob {
     private ICOETdDataExtract coeDataTdExtract;
 
 
-    LocalDate firstDay=LocalDate.now().minusDays(60);
-    LocalDate secondDay=LocalDate.now();
-    String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    Date now=new Date();
-
-
     @Override
     public void extractData4Hour() throws ParseException {
 
-        log.info("前60天的日期为{}",firstDayStr);
-        log.info("当前的日期为{}",secondDayStr);
-        coeDataExtract.getCOEData(firstDayStr,secondDayStr);
+        String first = getFirst();
+        String second = getSecond();
+
+        log.info("前60天的日期为{}",first);
+        log.info("当前的日期为{}",second);
+        coeDataExtract.getCOEData(first,second);
     }
 
     public void extractDataTd4Hour() throws ParseException{
 
-        log.info("前60天的日期为{}",firstDayStr);
-        log.info("当前的日期为{}",secondDayStr);
-        log.info("没有转换的当前的时间为{}",secondDay.toString());
-        log.info("Date获取的当前时间为{}",now.toString());
-        coeDataTdExtract.getCOETdData(firstDayStr,secondDayStr);
+        String first = getFirst();
+        String second = getSecond();
 
+        log.info("前60天的日期为{}",first);
+        log.info("当前的日期为{}",second);
+        log.info("没有转换的当前的时间为{}",second.toString());
+        coeDataTdExtract.getCOETdData(first,second);
+
+    }
+
+    public String getSecond(){
+        LocalDate secondDay=LocalDate.now();
+        String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return secondDayStr;
+    }
+
+    public String getFirst(){
+        LocalDate firstDay=LocalDate.now().minusDays(60);
+        String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return firstDayStr;
     }
 }
