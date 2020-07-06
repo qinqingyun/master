@@ -88,7 +88,7 @@ public class CreateOrderUtil {
         Map<String,Object> param = CreateOrderUtil.ms_c_tgCreateOrder("ms_c_tgCreateOrder_01");
         return uniCashierCreateOrder(token,userAgent,caseId,coupOfferId,"",param);
     }
-    public static List uniCashierCreateOrder(String token, String userAgent, String caseid, int coupOfferId, String dpDealString, Map<String,Object> receipt){
+    public static List  uniCashierCreateOrder(String token, String userAgent, String caseid, int coupOfferId, String dpDealString, Map<String,Object> receipt){
         // 生成新Trace
         TracerUtil.initAndLogTrace();
 

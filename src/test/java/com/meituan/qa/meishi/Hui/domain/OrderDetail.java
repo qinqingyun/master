@@ -1,5 +1,6 @@
 package com.meituan.qa.meishi.Hui.domain;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
@@ -25,19 +26,30 @@ public class OrderDetail {
     public String MtOrderDetail() {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
-
+        log.info("MTOrderDetail Enter");
         ResponseMap responseMap=null;
         String _APIPATH = "/maiton/order/{orderid}";
         JSONObject request = new JSONObject();
         try{
+            log.info("--开始获取订单详情参数--");
             request = DBDataProvider.getRequest(_APIPATH, caseId);
+            log.info("--订单详情参数获取成功--",request);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
         request.getJSONObject("params").put("token",token);
         request.put("path",request.getString("path").replaceAll("\\{orderid\\}",orderId));
-
-        responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
+        long currentTime = System.currentTimeMillis();
+        try {
+            log.info("--开始获取订单详情结果--");
+            responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
+            log.info("--订单详情结果获取成功--");
+        } catch (Exception e) {
+            log.info("查询订单详情Exception, Request:{}, 耗时: {}",
+                    JSON.toJSONString(request),
+                    System.currentTimeMillis() - currentTime,
+                    e);
+        }
         String body= responseMap.getResponseBody();
         OrderDetailCheck  orderDetailinfo = parseHtml(responseMap.getResponseBody());
         String orderDetailinfoContent = orderDetailinfo.getContent();
@@ -47,6 +59,7 @@ public class OrderDetail {
     public String DpOrderDetail() {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
+        log.info("MTOrderDetail Enter");
 
         ResponseMap responseMap=null;
         String _APIPATH = "/hui/maiton/order";
@@ -54,12 +67,20 @@ public class OrderDetail {
         try{
             request = DBDataProvider.getRequest(_APIPATH, caseId);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
         request.getJSONObject("params").put("token",token);
         request.getJSONObject("params").put("orderId",orderId);
         request.getJSONObject("params").put("product","dpapp");
-        responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
+        long currentTime = System.currentTimeMillis();
+        try {
+            responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
+        } catch (Exception e) {
+            log.info("查询订单详情Exception, Request:{}, 耗时: {}",
+                    JSON.toJSONString(request),
+                    System.currentTimeMillis() - currentTime,
+                    e);
+        }
         String body= responseMap.getResponseBody();
         OrderDetailCheck  orderDetailinfo = parseHtml(responseMap.getResponseBody());
         String orderDetailinfoContent = orderDetailinfo.getContent();

@@ -106,6 +106,7 @@ public class TestCheckLoop {
                 .build();
         ValidResponse validResponse = platformCheck.PlatformCheckInfo();
         if(!validResponse.isSuccess()){
+            log.error("下单后平台校验轮询失败:{}", validResponse.getMsg());
             return null;
         }
         return validResponse;
