@@ -111,16 +111,6 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         return reason;
     }
 
-//    更新组织下的仓库信息
-    public void UpdateRepo(LocalDate date) {
-        pipelinePrMapper.deleteDirRepoByDate();
-
-        // 遍历每个组织
-        List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
-        pipelinePrMapper.insertRepoInfoList(prDatasArry);
-
-}
-
 
     //pr组织下所有仓库自动化case和覆盖率
     public void UpdatePrAutoData(LocalDate date) {
