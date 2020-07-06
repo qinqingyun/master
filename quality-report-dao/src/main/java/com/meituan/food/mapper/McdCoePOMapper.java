@@ -3,6 +3,7 @@ package com.meituan.food.mapper;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoePOExample;
 import java.util.List;
+import java.util.Date;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -370,7 +371,7 @@ public interface McdCoePOMapper {
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
             "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
-            "where available=1 and occur_date >= #{occur,jdbcType=DATE} and occur_date < #{occur2,jdbcType=DATE}"
+            "where available=1 and create_time >= #{occur,jdbcType=TIMESTAMP} and create_time < #{occur2,jdbcType=TIMESTAMP}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -425,7 +426,7 @@ public interface McdCoePOMapper {
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
-    List<McdCoePO> selectByTwoDate(@Param("occur") java.util.Date occur,@Param("occur2") java.util.Date occur2);
+    List<McdCoePO> selectByTwoDate(@Param("occur") Date occur,@Param("occur2") Date occur2);
 
 
 
@@ -440,7 +441,7 @@ public interface McdCoePOMapper {
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
             "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
-            "where available=1 and occur_date = #{occur,jdbcType=DATE}"
+            "where available=1 and create_time >= #{occur,jdbcType=DATE} and create_time <= #{end,jdbcType=DATE}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -495,5 +496,5 @@ public interface McdCoePOMapper {
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
-    List<McdCoePO> selectByDate(@Param("occur") java.util.Date occur);
+    List<McdCoePO> selectByDate(@Param("occur") Date occur,@Param("end") Date end);
 }
