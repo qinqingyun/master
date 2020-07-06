@@ -111,13 +111,21 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         return reason;
     }
 
+//    更新组织下的仓库信息
+    public void UpdateRepo(LocalDate date) {
+        pipelinePrMapper.deleteDirRepoByDate();
+
+        // 遍历每个组织
+        List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
+        pipelinePrMapper.insertRepoInfoList(prDatasArry);
+
+}
+
 
     //pr组织下所有仓库自动化case和覆盖率
     public void UpdatePrAutoData(LocalDate date) {
         LocalDate yesterday = date.plusDays(-1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
-        //todo
-//        pipelinePrMapper.deleteDirRepoByDate();
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
         String param = "{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
@@ -125,8 +133,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
         long s = System.currentTimeMillis();
         dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
-        //todo
-//        pipelinePrMapper.insertRepoInfoList(prDatasArry);
+//        更新组织下仓库数据
+        pipelinePrMapper.deleteDirRepoByDate();
+        pipelinePrMapper.insertRepoInfoList(prDatasArry);
         long e = System.currentTimeMillis();
         System.out.println((e - s));
     }
