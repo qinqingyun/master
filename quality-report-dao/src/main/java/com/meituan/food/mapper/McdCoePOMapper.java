@@ -31,12 +31,14 @@ public interface McdCoePOMapper {
 
     @Insert({
         "insert into mcd_coe_list (id, coe_id, ",
-        "brief, occur_date, notify_time, ",
-        "find_time, location_time, ",
-        "handle_time, solved_time, ",
-        "fminuso_time, lminusf_time, ",
-        "sminush_time, wiki, ",
-        "level, owner_name, ",
+        "brief, create_time, ",
+        "occur_time, occur_date, ",
+        "build_time, update_time, ",
+        "notify_time, find_time, ",
+        "location_time, handle_time, ",
+        "solved_time, fminuso_time, ",
+        "lminusf_time, sminush_time, ",
+        "wiki, level, owner_name, ",
         "owner_mis, qa_name, ",
         "qa_mis, coe_link, ",
         "category, rd_share, ",
@@ -51,14 +53,17 @@ public interface McdCoePOMapper {
         "coupon_loss, online_discovery, ",
         "online_classification, line, ",
         "custom_level, nofund_reason, ",
-        "mcd_id, mcd_name)",
+        "root_cause, mcd_id, ",
+        "mcd_name)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
-        "#{brief,jdbcType=VARCHAR}, #{occurDate,jdbcType=DATE}, #{notifyTime,jdbcType=TIMESTAMP}, ",
-        "#{findTime,jdbcType=TIMESTAMP}, #{locationTime,jdbcType=TIMESTAMP}, ",
-        "#{handleTime,jdbcType=TIMESTAMP}, #{solvedTime,jdbcType=TIMESTAMP}, ",
-        "#{fminusoTime,jdbcType=INTEGER}, #{lminusfTime,jdbcType=INTEGER}, ",
-        "#{sminushTime,jdbcType=INTEGER}, #{wiki,jdbcType=VARCHAR}, ",
-        "#{level,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, ",
+        "#{brief,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
+        "#{occurTime,jdbcType=TIMESTAMP}, #{occurDate,jdbcType=DATE}, ",
+        "#{buildTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, ",
+        "#{notifyTime,jdbcType=TIMESTAMP}, #{findTime,jdbcType=TIMESTAMP}, ",
+        "#{locationTime,jdbcType=TIMESTAMP}, #{handleTime,jdbcType=TIMESTAMP}, ",
+        "#{solvedTime,jdbcType=TIMESTAMP}, #{fminusoTime,jdbcType=INTEGER}, ",
+        "#{lminusfTime,jdbcType=INTEGER}, #{sminushTime,jdbcType=INTEGER}, ",
+        "#{wiki,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, ",
         "#{ownerMis,jdbcType=VARCHAR}, #{qaName,jdbcType=VARCHAR}, ",
         "#{qaMis,jdbcType=VARCHAR}, #{coeLink,jdbcType=VARCHAR}, ",
         "#{category,jdbcType=VARCHAR}, #{rdShare,jdbcType=DECIMAL}, ",
@@ -73,7 +78,8 @@ public interface McdCoePOMapper {
         "#{couponLoss,jdbcType=VARCHAR}, #{onlineDiscovery,jdbcType=VARCHAR}, ",
         "#{onlineClassification,jdbcType=VARCHAR}, #{line,jdbcType=VARCHAR}, ",
         "#{customLevel,jdbcType=VARCHAR}, #{nofundReason,jdbcType=VARCHAR}, ",
-        "#{mcdId,jdbcType=INTEGER}, #{mcdName,jdbcType=INTEGER})"
+        "#{rootCause,jdbcType=VARCHAR}, #{mcdId,jdbcType=INTEGER}, ",
+        "#{mcdName,jdbcType=INTEGER})"
     })
     int insert(McdCoePO record);
 
@@ -85,7 +91,11 @@ public interface McdCoePOMapper {
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
         @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+        @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
@@ -126,6 +136,7 @@ public interface McdCoePOMapper {
         @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
         @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
         @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
+        @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
         @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
         @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
@@ -133,13 +144,14 @@ public interface McdCoePOMapper {
 
     @Select({
         "select",
-        "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
-        "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-        "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-        "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-        "available, org_name, find_date, finder, influence_time, clear_time, locator, ",
-        "order_loss, capital_loss, coupon_loss, online_discovery, online_classification, ",
-        "line, custom_level, nofund_reason, mcd_id, mcd_name",
+        "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
+        "notify_time, find_time, location_time, handle_time, solved_time, fminuso_time, ",
+        "lminusf_time, sminush_time, wiki, level, owner_name, owner_mis, qa_name, qa_mis, ",
+        "coe_link, category, rd_share, qa_share, join_status, appearance, sub_category, ",
+        "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
+        "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
+        "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
+        "root_cause, mcd_id, mcd_name",
         "from mcd_coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -147,7 +159,11 @@ public interface McdCoePOMapper {
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
         @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+        @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+        @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
@@ -188,6 +204,7 @@ public interface McdCoePOMapper {
         @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
         @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
         @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
+        @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
         @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
         @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
@@ -206,7 +223,11 @@ public interface McdCoePOMapper {
         "update mcd_coe_list",
         "set coe_id = #{coeId,jdbcType=INTEGER},",
           "brief = #{brief,jdbcType=VARCHAR},",
+          "create_time = #{createTime,jdbcType=TIMESTAMP},",
+          "occur_time = #{occurTime,jdbcType=TIMESTAMP},",
           "occur_date = #{occurDate,jdbcType=DATE},",
+          "build_time = #{buildTime,jdbcType=TIMESTAMP},",
+          "update_time = #{updateTime,jdbcType=TIMESTAMP},",
           "notify_time = #{notifyTime,jdbcType=TIMESTAMP},",
           "find_time = #{findTime,jdbcType=TIMESTAMP},",
           "location_time = #{locationTime,jdbcType=TIMESTAMP},",
@@ -247,6 +268,7 @@ public interface McdCoePOMapper {
           "line = #{line,jdbcType=VARCHAR},",
           "custom_level = #{customLevel,jdbcType=VARCHAR},",
           "nofund_reason = #{nofundReason,jdbcType=VARCHAR},",
+          "root_cause = #{rootCause,jdbcType=VARCHAR},",
           "mcd_id = #{mcdId,jdbcType=INTEGER},",
           "mcd_name = #{mcdName,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
@@ -267,13 +289,14 @@ public interface McdCoePOMapper {
 
     @Select({
             "select",
-            "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
-            "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-            "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available, org_name, find_date, finder, influence_time, clear_time, locator, ",
-            "order_loss, capital_loss, coupon_loss, online_discovery, online_classification, ",
-            "line, custom_level, nofund_reason, mcd_id, mcd_name",
+            "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
+            "notify_time, find_time, location_time, handle_time, solved_time, fminuso_time, ",
+            "lminusf_time, sminush_time, wiki, level, owner_name, owner_mis, qa_name, qa_mis, ",
+            "coe_link, category, rd_share, qa_share, join_status, appearance, sub_category, ",
+            "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
+            "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
+            "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
+            "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
@@ -281,7 +304,11 @@ public interface McdCoePOMapper {
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
             @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
@@ -322,6 +349,7 @@ public interface McdCoePOMapper {
             @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
             @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
             @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
+            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
@@ -333,13 +361,14 @@ public interface McdCoePOMapper {
 
     @Select({
             "select",
-            "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
-            "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-            "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available, org_name, find_date, finder, influence_time, clear_time, locator, ",
-            "order_loss, capital_loss, coupon_loss, online_discovery, online_classification, ",
-            "line, custom_level, nofund_reason, mcd_id, mcd_name",
+            "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
+            "notify_time, find_time, location_time, handle_time, solved_time, fminuso_time, ",
+            "lminusf_time, sminush_time, wiki, level, owner_name, owner_mis, qa_name, qa_mis, ",
+            "coe_link, category, rd_share, qa_share, join_status, appearance, sub_category, ",
+            "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
+            "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
+            "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
+            "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
             "where available=1 and occur_date >= #{occur,jdbcType=DATE} and occur_date < #{occur2,jdbcType=DATE}"
     })
@@ -347,7 +376,11 @@ public interface McdCoePOMapper {
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
             @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
@@ -388,6 +421,7 @@ public interface McdCoePOMapper {
             @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
             @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
             @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
+            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
@@ -397,13 +431,14 @@ public interface McdCoePOMapper {
 
     @Select({
             "select",
-            "id, coe_id, brief, occur_date, notify_time, find_time, location_time, handle_time, ",
-            "solved_time, fminuso_time, lminusf_time, sminush_time, wiki, level, owner_name, ",
-            "owner_mis, qa_name, qa_mis, coe_link, category, rd_share, qa_share, join_status, ",
-            "appearance, sub_category, all_todo, not_finish_todo, finish_todo, not_finish_todo_task, ",
-            "available, org_name, find_date, finder, influence_time, clear_time, locator, ",
-            "order_loss, capital_loss, coupon_loss, online_discovery, online_classification, ",
-            "line, custom_level, nofund_reason, mcd_id, mcd_name",
+            "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
+            "notify_time, find_time, location_time, handle_time, solved_time, fminuso_time, ",
+            "lminusf_time, sminush_time, wiki, level, owner_name, owner_mis, qa_name, qa_mis, ",
+            "coe_link, category, rd_share, qa_share, join_status, appearance, sub_category, ",
+            "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
+            "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
+            "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
+            "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
             "where available=1 and occur_date = #{occur,jdbcType=DATE}"
     })
@@ -411,7 +446,11 @@ public interface McdCoePOMapper {
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
             @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
+            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
+            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
+            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
@@ -452,9 +491,9 @@ public interface McdCoePOMapper {
             @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
             @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
             @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
+            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
             @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
     })
     List<McdCoePO> selectByDate(@Param("occur") java.util.Date occur);
-
 }

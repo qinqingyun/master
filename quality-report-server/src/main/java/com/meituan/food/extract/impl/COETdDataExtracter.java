@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.security.Timestamp;
 
 @Component
 @Slf4j
@@ -39,6 +40,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     private static final String coeImprovementsUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
     private static final String customUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
+
+    private static final String coeHistoryUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
+
 
 
     @Resource
@@ -81,20 +85,22 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         if (incidentsArray.size() != 0) {
             for (Object o : incidentsArray) {
 
-                McdCoePO coePO = new McdCoePO();
-                getBaseInfo(o, coePO);
+                 McdCoePO coePO = new McdCoePO();
+                 getBaseInfo(o, coePO);
 
-                if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
-                    getTodoList(coePO, coePO.getCoeId());
-                }
+                 if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
+                     getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
+                 }
 
-                List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+                 List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
 
-                if (coeIdList2.contains(coePO.getCoeId())) {
-                    //coeid 存在时，为啥只有修改这几个字段
-                    McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
-                    coePO.setId(coeListPO.getId());
-                    coePO.setAvailable(coeListPO.getAvailable());
+                 if (coeIdList2.contains(coePO.getCoeId())) {
+                     //coeid 存在时，为啥只有修改这几个字段
+                     McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
+                     coePO.setId(coeListPO.getId());
+                     coePO.setAvailable(coeListPO.getAvailable());
+                     coePO.setBuildTime(coeListPO.getBuildTime());
+                     coePO.setUpdateTime(new Date());
 /*
                     //获取损失时， 为啥有时间上的对比
                    *//* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*//*
@@ -102,20 +108,23 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     coeListPO.setOrderLoss(coePO.getOrderLoss());
                   *//*  }*/
 
-                    mcdCoePOMapper.updateByPrimaryKey(coePO);
+                     mcdCoePOMapper.updateByPrimaryKey(coePO);
 
-                } else {
-                    if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
-                        mcdCoePOMapper.insert(coePO);
-                        mcdCoePOList.add(coePO);
-                    }
-                }
+                 } else {
+                     if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
+                         coePO.setBuildTime(new Date());
+                         coePO.setUpdateTime(new Date());
+                         mcdCoePOMapper.insert(coePO);
+                         mcdCoePOList.add(coePO);
+                     }
+                 }
+
             }
 
 
         }
 
-        if (mcdCoePOList.size() != 0) {
+      /*  if (mcdCoePOList.size() != 0) {
             for (McdCoePO mcdCoePO : mcdCoePOList) {
                 String orgName = mcdCoePO.getOrgName();
                 Integer orgId = orgMcdIdPOMapper.selectOrgIdByOrgName("美团/到店事业群/平台技术部/" + orgName);
@@ -137,7 +146,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 }
 
             }
-        }
+        }*/
 
 
        /* //获取第三方coe数据的入参
@@ -205,9 +214,12 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     public void getBaseInfo(Object o, McdCoePO coePO) throws ParseException {
         coePO.setBrief(((JSONObject) o).getString("brief"));
         Date occurTime = ((JSONObject) o).getDate("occur_time");
+        coePO.setOccurTime(occurTime);
         coePO.setOccurDate(occurTime);
         coePO.setCoeId(((JSONObject) o).getInteger("_id"));
         coePO.setLevel(((JSONObject) o).getString("level"));
+        coePO.setRootCause(((JSONObject) o).getString("appkey"));
+        coePO.setCustomLevel(((JSONObject) o).getString("bglevel"));
         String ownerStr = ((JSONObject) o).getString("owner");
         Date findTime = ((JSONObject) o).getDate("find_time");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -260,11 +272,31 @@ public class COETdDataExtracter implements ICOETdDataExtract {
             coePO.setSubCategory(reason.getString("parent"));
         }
 
-        getTodoList(coePO, coeId);
+         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+                JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
+                String orgPath = incidentDetail.getString("org_path");
 
-        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-        JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
-        String orgPath = incidentDetail.getString("org_path");
+      //  getTodoList(coePO, coeId);
+
+        //coe的创建时间
+        JSONObject coeHistoryResp = HttpUtils.doGet(coeHistoryUrl + coeId + "/history", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONArray history=coeHistoryResp.getJSONArray("history");
+        List<Object> historyList = new ArrayList<Object>();
+        historyList=JSONObject.parseArray(history.toJSONString(),Object.class);
+        log.info("创建时间对应的coeid：{}",coeId);
+        log.info("historyList 的长度：{}",historyList.size());
+
+        //判断历史记录接口中与否有记录存在
+        if(historyList.size()>0){
+            Date time= ( (JSONObject)historyList.get(historyList.size()-1)).getDate("time");
+            coePO.setCreateTime(time);
+        }
+        else{
+            //历史记录没有数据时，取coe详情中的create_at时间
+            coePO.setCreateTime(((JSONObject) o).getDate("create_at"));
+        }
+
+
 
         getShortOrgName(orgPath, coePO);
         log.info("coeId:{}", coePO.getCoeId());
@@ -286,7 +318,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     }
 
     //获取每一个case中的todo项
-    public void getTodoList(McdCoePO coePO, int coeId) {
+    public void getTodoList(McdCoePO coePO, int coeId,String orgName) {
         JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
@@ -297,6 +329,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
             for (Object o1 : coeImproArr) {
                 McdCoeTodoPO todoPo = new McdCoeTodoPO();
                 todoPo.setCoeId(coeId);
+                todoPo.setOrgName(orgName);
                 int onesId = ((JSONObject) o1).getInteger("_id");
                 todoPo.setOnesId(onesId);
                 todoPo.setOnesLink(((JSONObject) o1).getString("url"));
@@ -351,6 +384,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         } else {
             String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
             coePO.setOrgName(subOrgPath);
+
         }
 
     }
@@ -380,9 +414,6 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                                 break;
                             case "业务线":
                                 po.setLine(value);
-                                break;
-                            case "内部定级":
-                                po.setCustomLevel(value);
                                 break;
                             case "前期测试未发现原因":
                                 po.setNofundReason(value);

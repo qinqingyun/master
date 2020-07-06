@@ -3,8 +3,6 @@ package com.meituan.food.mapper;
 import com.meituan.food.po.McdCoeTodoPO;
 import com.meituan.food.po.McdCoeTodoPOExample;
 import java.util.List;
-
-import com.meituan.food.po.ToDoPo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -33,17 +31,17 @@ public interface McdCoeTodoPOMapper {
 
     @Insert({
         "insert into mcd_todo_list (id, coe_id, ",
-        "ones_id, ones_link, ",
-        "ones_title, is_finish, ",
-        "is_delay, dealline, owner_mis, ",
-        "owner_name, start_date, ",
-        "actual_date)",
+        "org_name, ones_id, ",
+        "ones_link, ones_title, ",
+        "is_finish, is_delay, dealline, ",
+        "owner_mis, owner_name, ",
+        "start_date, actual_date)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
-        "#{onesId,jdbcType=INTEGER}, #{onesLink,jdbcType=VARCHAR}, ",
-        "#{onesTitle,jdbcType=VARCHAR}, #{isFinish,jdbcType=BIT}, ",
-        "#{isDelay,jdbcType=BIT}, #{dealline,jdbcType=DATE}, #{ownerMis,jdbcType=VARCHAR}, ",
-        "#{ownerName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, ",
-        "#{actualDate,jdbcType=DATE})"
+        "#{orgName,jdbcType=VARCHAR}, #{onesId,jdbcType=INTEGER}, ",
+        "#{onesLink,jdbcType=VARCHAR}, #{onesTitle,jdbcType=VARCHAR}, ",
+        "#{isFinish,jdbcType=BIT}, #{isDelay,jdbcType=BIT}, #{dealline,jdbcType=DATE}, ",
+        "#{ownerMis,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR}, ",
+        "#{startDate,jdbcType=DATE}, #{actualDate,jdbcType=DATE})"
     })
     int insert(McdCoeTodoPO record);
 
@@ -54,6 +52,7 @@ public interface McdCoeTodoPOMapper {
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
         @Result(column="ones_id", property="onesId", jdbcType=JdbcType.INTEGER),
         @Result(column="ones_link", property="onesLink", jdbcType=JdbcType.VARCHAR),
         @Result(column="ones_title", property="onesTitle", jdbcType=JdbcType.VARCHAR),
@@ -69,14 +68,15 @@ public interface McdCoeTodoPOMapper {
 
     @Select({
         "select",
-        "id, coe_id, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, owner_mis, ",
-        "owner_name, start_date, actual_date",
+        "id, coe_id, org_name, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, ",
+        "owner_mis, owner_name, start_date, actual_date",
         "from mcd_todo_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+        @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
         @Result(column="ones_id", property="onesId", jdbcType=JdbcType.INTEGER),
         @Result(column="ones_link", property="onesLink", jdbcType=JdbcType.VARCHAR),
         @Result(column="ones_title", property="onesTitle", jdbcType=JdbcType.VARCHAR),
@@ -102,6 +102,7 @@ public interface McdCoeTodoPOMapper {
     @Update({
         "update mcd_todo_list",
         "set coe_id = #{coeId,jdbcType=INTEGER},",
+          "org_name = #{orgName,jdbcType=VARCHAR},",
           "ones_id = #{onesId,jdbcType=INTEGER},",
           "ones_link = #{onesLink,jdbcType=VARCHAR},",
           "ones_title = #{onesTitle,jdbcType=VARCHAR},",
@@ -117,6 +118,7 @@ public interface McdCoeTodoPOMapper {
     int updateByPrimaryKey(McdCoeTodoPO record);
 
 
+    //新增
 
 
     @Select({
@@ -130,7 +132,6 @@ public interface McdCoeTodoPOMapper {
 
 
 
-
     @Select({
             "select",
             "id, coe_id, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, owner_mis, ",
@@ -141,6 +142,7 @@ public interface McdCoeTodoPOMapper {
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
             @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
             @Result(column="ones_id", property="onesId", jdbcType=JdbcType.INTEGER),
             @Result(column="ones_link", property="onesLink", jdbcType=JdbcType.VARCHAR),
             @Result(column="ones_title", property="onesTitle", jdbcType=JdbcType.VARCHAR),
@@ -153,4 +155,5 @@ public interface McdCoeTodoPOMapper {
             @Result(column="actual_date", property="actualDate", jdbcType=JdbcType.DATE)
     })
     McdCoeTodoPO selectByOnesId(Integer id);
+
 }

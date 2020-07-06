@@ -40,8 +40,24 @@ public class McdCoePOSqlProvider {
             sql.VALUES("brief", "#{brief,jdbcType=VARCHAR}");
         }
         
+        if (record.getCreateTime() != null) {
+            sql.VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getOccurTime() != null) {
+            sql.VALUES("occur_time", "#{occurTime,jdbcType=TIMESTAMP}");
+        }
+        
         if (record.getOccurDate() != null) {
             sql.VALUES("occur_date", "#{occurDate,jdbcType=DATE}");
+        }
+        
+        if (record.getBuildTime() != null) {
+            sql.VALUES("build_time", "#{buildTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdateTime() != null) {
+            sql.VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getNotifyTime() != null) {
@@ -204,6 +220,10 @@ public class McdCoePOSqlProvider {
             sql.VALUES("nofund_reason", "#{nofundReason,jdbcType=VARCHAR}");
         }
         
+        if (record.getRootCause() != null) {
+            sql.VALUES("root_cause", "#{rootCause,jdbcType=VARCHAR}");
+        }
+        
         if (record.getMcdId() != null) {
             sql.VALUES("mcd_id", "#{mcdId,jdbcType=INTEGER}");
         }
@@ -224,7 +244,11 @@ public class McdCoePOSqlProvider {
         }
         sql.SELECT("coe_id");
         sql.SELECT("brief");
+        sql.SELECT("create_time");
+        sql.SELECT("occur_time");
         sql.SELECT("occur_date");
+        sql.SELECT("build_time");
+        sql.SELECT("update_time");
         sql.SELECT("notify_time");
         sql.SELECT("find_time");
         sql.SELECT("location_time");
@@ -265,6 +289,7 @@ public class McdCoePOSqlProvider {
         sql.SELECT("line");
         sql.SELECT("custom_level");
         sql.SELECT("nofund_reason");
+        sql.SELECT("root_cause");
         sql.SELECT("mcd_id");
         sql.SELECT("mcd_name");
         sql.FROM("mcd_coe_list");
@@ -296,8 +321,24 @@ public class McdCoePOSqlProvider {
             sql.SET("brief = #{record.brief,jdbcType=VARCHAR}");
         }
         
+        if (record.getCreateTime() != null) {
+            sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getOccurTime() != null) {
+            sql.SET("occur_time = #{record.occurTime,jdbcType=TIMESTAMP}");
+        }
+        
         if (record.getOccurDate() != null) {
             sql.SET("occur_date = #{record.occurDate,jdbcType=DATE}");
+        }
+        
+        if (record.getBuildTime() != null) {
+            sql.SET("build_time = #{record.buildTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdateTime() != null) {
+            sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getNotifyTime() != null) {
@@ -460,6 +501,10 @@ public class McdCoePOSqlProvider {
             sql.SET("nofund_reason = #{record.nofundReason,jdbcType=VARCHAR}");
         }
         
+        if (record.getRootCause() != null) {
+            sql.SET("root_cause = #{record.rootCause,jdbcType=VARCHAR}");
+        }
+        
         if (record.getMcdId() != null) {
             sql.SET("mcd_id = #{record.mcdId,jdbcType=INTEGER}");
         }
@@ -479,7 +524,11 @@ public class McdCoePOSqlProvider {
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("coe_id = #{record.coeId,jdbcType=INTEGER}");
         sql.SET("brief = #{record.brief,jdbcType=VARCHAR}");
+        sql.SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
+        sql.SET("occur_time = #{record.occurTime,jdbcType=TIMESTAMP}");
         sql.SET("occur_date = #{record.occurDate,jdbcType=DATE}");
+        sql.SET("build_time = #{record.buildTime,jdbcType=TIMESTAMP}");
+        sql.SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
         sql.SET("notify_time = #{record.notifyTime,jdbcType=TIMESTAMP}");
         sql.SET("find_time = #{record.findTime,jdbcType=TIMESTAMP}");
         sql.SET("location_time = #{record.locationTime,jdbcType=TIMESTAMP}");
@@ -520,6 +569,7 @@ public class McdCoePOSqlProvider {
         sql.SET("line = #{record.line,jdbcType=VARCHAR}");
         sql.SET("custom_level = #{record.customLevel,jdbcType=VARCHAR}");
         sql.SET("nofund_reason = #{record.nofundReason,jdbcType=VARCHAR}");
+        sql.SET("root_cause = #{record.rootCause,jdbcType=VARCHAR}");
         sql.SET("mcd_id = #{record.mcdId,jdbcType=INTEGER}");
         sql.SET("mcd_name = #{record.mcdName,jdbcType=INTEGER}");
         
@@ -540,8 +590,24 @@ public class McdCoePOSqlProvider {
             sql.SET("brief = #{brief,jdbcType=VARCHAR}");
         }
         
+        if (record.getCreateTime() != null) {
+            sql.SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getOccurTime() != null) {
+            sql.SET("occur_time = #{occurTime,jdbcType=TIMESTAMP}");
+        }
+        
         if (record.getOccurDate() != null) {
             sql.SET("occur_date = #{occurDate,jdbcType=DATE}");
+        }
+        
+        if (record.getBuildTime() != null) {
+            sql.SET("build_time = #{buildTime,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdateTime() != null) {
+            sql.SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
         }
         
         if (record.getNotifyTime() != null) {
@@ -702,6 +768,10 @@ public class McdCoePOSqlProvider {
         
         if (record.getNofundReason() != null) {
             sql.SET("nofund_reason = #{nofundReason,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getRootCause() != null) {
+            sql.SET("root_cause = #{rootCause,jdbcType=VARCHAR}");
         }
         
         if (record.getMcdId() != null) {
