@@ -96,7 +96,7 @@ public class TestDiscountScenes extends TestDPLogin {
         orderCheck.maitonOrder(1,createOrderResponse);
 
         //订单生成diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01生成订单diff");
+        //differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01生成订单diff");
 
         //3、支付
         CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
@@ -111,7 +111,7 @@ public class TestDiscountScenes extends TestDPLogin {
         orderCheck.maitonOrder(2,maitonQueryOrderResponse);
 
         //支付成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
+        //differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
 
        //支付结果页
         try {
@@ -160,7 +160,7 @@ public class TestDiscountScenes extends TestDPLogin {
         orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
+        //differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
 
     }
 }

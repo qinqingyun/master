@@ -145,6 +145,7 @@ public class TestMTDiscountAndCouponZeroOrder extends TestDPLogin {
 
 
         //下单后平台校验
+        Thread.sleep(3000);
         JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_hui_mt_CouponZeroOrder");
         JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
         checkLoop.getPlatformStatus(1,neworderid,verifyRequest,null);
@@ -155,9 +156,6 @@ public class TestMTDiscountAndCouponZeroOrder extends TestDPLogin {
 
 
         //3、支付
-//        CashierPay cashierPay = CashierPay.builder().payToken(payToken).token(mtToken).tradeNo(tradeNo).build();
-//        boolean payret = cashierPay.orderPay();
-//        Assert.assertTrue(payret, tradeNo + "订单支付失败");
         CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
 
         //平台支付成功校验

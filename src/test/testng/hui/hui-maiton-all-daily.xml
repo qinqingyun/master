@@ -13,6 +13,9 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder"/>
+
         </classes>
     </test>
     <test name="以新为主">
@@ -27,11 +30,12 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
-
         </classes>
     </test>
 

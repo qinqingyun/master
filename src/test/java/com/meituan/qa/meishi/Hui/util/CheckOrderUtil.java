@@ -6,9 +6,6 @@ import com.meituan.toolchain.mario.util.MtraceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import java.util.List;
-
-
-
 /**
  * Created by buyuqi on 05/06/2020.
  */
@@ -17,9 +14,9 @@ public class CheckOrderUtil extends TestBase {
 
     //调用老的交易平台接口校验订单状态是否是支付成功
     public static void checkOldOrderSystem(int flag,QueryOrderResponse maitonQueryOrderResponse){
-        log.info("*************开始校验老交易平台*************");
         if (IS_CHECK_OLD_ORDER_SYSTEM) {
-            MtraceUtil.generatTrace("老交易平台校验");
+            log.info("*************开始校验老交易系统*************");
+            MtraceUtil.generatTrace("老交易系统校验");
                 Assert.assertTrue(maitonQueryOrderResponse != null,"maitonQueryOrderResponse为空");
                 if (flag==1){
                     log.info("下单状态校验");
@@ -32,13 +29,12 @@ public class CheckOrderUtil extends TestBase {
                 }
                 if(flag==3){
                     log.info("退款状态校验");
-                    //Assert.assertEquals(maitonQueryOrderResponse.getOrderDTO().getOrderStatus().intValue(),30);
                     List<Integer> requestSet = Lists.newArrayList(30,50);
                     Assert.assertTrue(requestSet.contains(maitonQueryOrderResponse.getOrderDTO().getOrderStatus().intValue()),"退款状态校验失败");
 
                 }
-            }
-        log.info("*******************老交易平台校验通过****************");
+            log.info("*******************老交易系统校验通过****************");
+        }
     }
 
 

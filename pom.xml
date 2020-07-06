@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.dianping</groupId>
             <artifactId>hui-order-api</artifactId>
-            <version>1.5.1</version>
+            <version>1.5.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.dianping.hui</groupId>
