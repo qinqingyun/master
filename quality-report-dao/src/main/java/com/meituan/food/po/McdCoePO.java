@@ -11,7 +11,15 @@ public class McdCoePO implements Serializable {
 
     private String brief;
 
+    private Date createTime;
+
+    private Date occurTime;
+
     private Date occurDate;
+
+    private Date buildTime;
+
+    private Date updateTime;
 
     private Date notifyTime;
 
@@ -93,6 +101,8 @@ public class McdCoePO implements Serializable {
 
     private String nofundReason;
 
+    private String rootCause;
+
     private Integer mcdId;
 
     private Integer mcdName;
@@ -123,12 +133,44 @@ public class McdCoePO implements Serializable {
         this.brief = brief;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getOccurTime() {
+        return occurTime;
+    }
+
+    public void setOccurTime(Date occurTime) {
+        this.occurTime = occurTime;
+    }
+
     public Date getOccurDate() {
         return occurDate;
     }
 
     public void setOccurDate(Date occurDate) {
         this.occurDate = occurDate;
+    }
+
+    public Date getBuildTime() {
+        return buildTime;
+    }
+
+    public void setBuildTime(Date buildTime) {
+        this.buildTime = buildTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Date getNotifyTime() {
@@ -451,6 +493,14 @@ public class McdCoePO implements Serializable {
         this.nofundReason = nofundReason;
     }
 
+    public String getRootCause() {
+        return rootCause;
+    }
+
+    public void setRootCause(String rootCause) {
+        this.rootCause = rootCause;
+    }
+
     public Integer getMcdId() {
         return mcdId;
     }
@@ -482,7 +532,11 @@ public class McdCoePO implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCoeId() == null ? other.getCoeId() == null : this.getCoeId().equals(other.getCoeId()))
             && (this.getBrief() == null ? other.getBrief() == null : this.getBrief().equals(other.getBrief()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getOccurTime() == null ? other.getOccurTime() == null : this.getOccurTime().equals(other.getOccurTime()))
             && (this.getOccurDate() == null ? other.getOccurDate() == null : this.getOccurDate().equals(other.getOccurDate()))
+            && (this.getBuildTime() == null ? other.getBuildTime() == null : this.getBuildTime().equals(other.getBuildTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getNotifyTime() == null ? other.getNotifyTime() == null : this.getNotifyTime().equals(other.getNotifyTime()))
             && (this.getFindTime() == null ? other.getFindTime() == null : this.getFindTime().equals(other.getFindTime()))
             && (this.getLocationTime() == null ? other.getLocationTime() == null : this.getLocationTime().equals(other.getLocationTime()))
@@ -523,6 +577,7 @@ public class McdCoePO implements Serializable {
             && (this.getLine() == null ? other.getLine() == null : this.getLine().equals(other.getLine()))
             && (this.getCustomLevel() == null ? other.getCustomLevel() == null : this.getCustomLevel().equals(other.getCustomLevel()))
             && (this.getNofundReason() == null ? other.getNofundReason() == null : this.getNofundReason().equals(other.getNofundReason()))
+            && (this.getRootCause() == null ? other.getRootCause() == null : this.getRootCause().equals(other.getRootCause()))
             && (this.getMcdId() == null ? other.getMcdId() == null : this.getMcdId().equals(other.getMcdId()))
             && (this.getMcdName() == null ? other.getMcdName() == null : this.getMcdName().equals(other.getMcdName()));
     }
@@ -534,7 +589,11 @@ public class McdCoePO implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCoeId() == null) ? 0 : getCoeId().hashCode());
         result = prime * result + ((getBrief() == null) ? 0 : getBrief().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getOccurTime() == null) ? 0 : getOccurTime().hashCode());
         result = prime * result + ((getOccurDate() == null) ? 0 : getOccurDate().hashCode());
+        result = prime * result + ((getBuildTime() == null) ? 0 : getBuildTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getNotifyTime() == null) ? 0 : getNotifyTime().hashCode());
         result = prime * result + ((getFindTime() == null) ? 0 : getFindTime().hashCode());
         result = prime * result + ((getLocationTime() == null) ? 0 : getLocationTime().hashCode());
@@ -575,6 +634,7 @@ public class McdCoePO implements Serializable {
         result = prime * result + ((getLine() == null) ? 0 : getLine().hashCode());
         result = prime * result + ((getCustomLevel() == null) ? 0 : getCustomLevel().hashCode());
         result = prime * result + ((getNofundReason() == null) ? 0 : getNofundReason().hashCode());
+        result = prime * result + ((getRootCause() == null) ? 0 : getRootCause().hashCode());
         result = prime * result + ((getMcdId() == null) ? 0 : getMcdId().hashCode());
         result = prime * result + ((getMcdName() == null) ? 0 : getMcdName().hashCode());
         return result;
@@ -589,7 +649,11 @@ public class McdCoePO implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", coeId=").append(coeId);
         sb.append(", brief=").append(brief);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", occurTime=").append(occurTime);
         sb.append(", occurDate=").append(occurDate);
+        sb.append(", buildTime=").append(buildTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", notifyTime=").append(notifyTime);
         sb.append(", findTime=").append(findTime);
         sb.append(", locationTime=").append(locationTime);
@@ -630,6 +694,7 @@ public class McdCoePO implements Serializable {
         sb.append(", line=").append(line);
         sb.append(", customLevel=").append(customLevel);
         sb.append(", nofundReason=").append(nofundReason);
+        sb.append(", rootCause=").append(rootCause);
         sb.append(", mcdId=").append(mcdId);
         sb.append(", mcdName=").append(mcdName);
         sb.append(", serialVersionUID=").append(serialVersionUID);

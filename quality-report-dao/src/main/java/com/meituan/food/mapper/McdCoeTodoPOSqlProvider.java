@@ -36,6 +36,10 @@ public class McdCoeTodoPOSqlProvider {
             sql.VALUES("coe_id", "#{coeId,jdbcType=INTEGER}");
         }
         
+        if (record.getOrgName() != null) {
+            sql.VALUES("org_name", "#{orgName,jdbcType=VARCHAR}");
+        }
+        
         if (record.getOnesId() != null) {
             sql.VALUES("ones_id", "#{onesId,jdbcType=INTEGER}");
         }
@@ -87,6 +91,7 @@ public class McdCoeTodoPOSqlProvider {
             sql.SELECT("id");
         }
         sql.SELECT("coe_id");
+        sql.SELECT("org_name");
         sql.SELECT("ones_id");
         sql.SELECT("ones_link");
         sql.SELECT("ones_title");
@@ -120,6 +125,10 @@ public class McdCoeTodoPOSqlProvider {
         
         if (record.getCoeId() != null) {
             sql.SET("coe_id = #{record.coeId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
         }
         
         if (record.getOnesId() != null) {
@@ -172,6 +181,7 @@ public class McdCoeTodoPOSqlProvider {
         
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("coe_id = #{record.coeId,jdbcType=INTEGER}");
+        sql.SET("org_name = #{record.orgName,jdbcType=VARCHAR}");
         sql.SET("ones_id = #{record.onesId,jdbcType=INTEGER}");
         sql.SET("ones_link = #{record.onesLink,jdbcType=VARCHAR}");
         sql.SET("ones_title = #{record.onesTitle,jdbcType=VARCHAR}");
@@ -194,6 +204,10 @@ public class McdCoeTodoPOSqlProvider {
         
         if (record.getCoeId() != null) {
             sql.SET("coe_id = #{coeId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getOrgName() != null) {
+            sql.SET("org_name = #{orgName,jdbcType=VARCHAR}");
         }
         
         if (record.getOnesId() != null) {

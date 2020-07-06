@@ -8,6 +8,8 @@ public class McdCoeTodoPO implements Serializable {
 
     private Integer coeId;
 
+    private String orgName;
+
     private Integer onesId;
 
     private String onesLink;
@@ -44,6 +46,14 @@ public class McdCoeTodoPO implements Serializable {
 
     public void setCoeId(Integer coeId) {
         this.coeId = coeId;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 
     public Integer getOnesId() {
@@ -140,6 +150,7 @@ public class McdCoeTodoPO implements Serializable {
         McdCoeTodoPO other = (McdCoeTodoPO) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCoeId() == null ? other.getCoeId() == null : this.getCoeId().equals(other.getCoeId()))
+            && (this.getOrgName() == null ? other.getOrgName() == null : this.getOrgName().equals(other.getOrgName()))
             && (this.getOnesId() == null ? other.getOnesId() == null : this.getOnesId().equals(other.getOnesId()))
             && (this.getOnesLink() == null ? other.getOnesLink() == null : this.getOnesLink().equals(other.getOnesLink()))
             && (this.getOnesTitle() == null ? other.getOnesTitle() == null : this.getOnesTitle().equals(other.getOnesTitle()))
@@ -158,6 +169,7 @@ public class McdCoeTodoPO implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCoeId() == null) ? 0 : getCoeId().hashCode());
+        result = prime * result + ((getOrgName() == null) ? 0 : getOrgName().hashCode());
         result = prime * result + ((getOnesId() == null) ? 0 : getOnesId().hashCode());
         result = prime * result + ((getOnesLink() == null) ? 0 : getOnesLink().hashCode());
         result = prime * result + ((getOnesTitle() == null) ? 0 : getOnesTitle().hashCode());
@@ -179,6 +191,7 @@ public class McdCoeTodoPO implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", coeId=").append(coeId);
+        sb.append(", orgName=").append(orgName);
         sb.append(", onesId=").append(onesId);
         sb.append(", onesLink=").append(onesLink);
         sb.append(", onesTitle=").append(onesTitle);
