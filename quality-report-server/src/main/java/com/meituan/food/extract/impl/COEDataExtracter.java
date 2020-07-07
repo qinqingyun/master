@@ -363,7 +363,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                     if (instance != null) {
                         String label = ((JSONObject) instance).getJSONObject("custom_template").getString("label");
                         String value = ((JSONObject) instance).getString("value");
-                        if (value != null) {
+                        if (value != null&& !"".equals(value)) {
                             if (label.equals("业务线")) {
                                 po.setLineOfBusiness(value);
                             } else if (label.equals("到餐订单损失量")||label.equals("订单损失量")) {
