@@ -6,6 +6,7 @@ import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.LoadCashier;
@@ -15,12 +16,16 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.qa.meishi.util.MethodAnotation;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.PayNotifyMockRequest;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.*;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
@@ -76,13 +81,24 @@ public class TestMTShopPromo_New extends TestDPLogin {
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
     @Parameters({ "DoubleWriteMode" })
+    //String  doubleWriteMode = "NEW";
     @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     @MethodAnotation(author = "byq", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
     public void ms_c_hui_mt_shopPromo(String  doubleWriteMode)  throws Exception {
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(mtUserId+"_1");
-        if( doubleWriteMode.equals("OLD"))
+        PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(mtUserId + "_1");
+            payNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            Tracer.putContext("PAY_MOCK","TRUE");
+        }
+        if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(mtUserId+"_1");
+            payNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
 
         String id = "120000901026380";
         DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(mtToken,mtClient,"ms_c_hui_gethuipromodesk_01",id);
@@ -138,7 +154,16 @@ public class TestMTShopPromo_New extends TestDPLogin {
         orderCheck.maitonOrder(1,createOrderResponse);
 
         //3、支付
-        CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
+        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
+        Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        payNotifyMockRequest.setTradeNo(tradeNo);
+        payNotifyMockRequest.setOrderId(orderId);
+        payNotifyMockRequest.setAmount(amount);
+        if(doubleWriteMode.equals("OLD")){
+            payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockPay(payNotifyMockRequest);
+
         //平台支付成功校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
         JSONObject payVerifyRequest= payOrderRequest.getJSONObject("params");
@@ -156,9 +181,6 @@ public class TestMTShopPromo_New extends TestDPLogin {
         String orderDetail = checkLoop.getOrderDetail(orderId,mtToken,"MT","ms_c_huiFullProcess_101_huiMaitonOrderMT");
         Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
 
-        // 直接发起退款
-//        String renfundOrderStatus = checkLoop.getOrderRefundDetail(orderId,mtToken);
-//        Assert.assertEquals(renfundOrderStatus,"true","订单退款失败");
         //直接退款
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -171,6 +193,15 @@ public class TestMTShopPromo_New extends TestDPLogin {
         log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponseresponse));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponseresponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
+
+        //退款mock
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
 
         //退款后平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
