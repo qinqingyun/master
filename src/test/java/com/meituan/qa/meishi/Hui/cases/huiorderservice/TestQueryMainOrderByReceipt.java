@@ -28,10 +28,12 @@ public class TestQueryMainOrderByReceipt {
     @PigeonAPI(url = "http://service.dianping.com/huiOrderService/QueryMainOrder4MTService_1.0.0")
     QueryMainOrder4MTService queryMainOrder4MTService;
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
-    @MethodAnotation(author = "byq", createTime = "20200702", des = "")
+    @MethodAnotation(author = "byq", createTime = "20200702", des = "查询单个订单信息")
     public void ms_c_queryMainOrderByReceipt_01(JSONObject request, JSONObject expect) throws Exception {
+        //TODO:这个接口数据不能写死，测试数据要构造清楚
         QueryMainOrderByReceiptRequest receiptRequest  = JSON.parseObject(request.toString(), QueryMainOrderByReceiptRequest.class);
         QueryOrdersResponse queryOrdersResponse = queryMainOrder4MTService.queryMainOrderByReceipt(receiptRequest);
+        Assert.assertTrue(queryOrdersResponse != null,"根据单一订单查询结果为空");
         //Tracer.putContext("SWIMLANE","3792-izitw");
     }
 }
