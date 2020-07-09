@@ -13,8 +13,8 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
 
         </classes>
     </test>
@@ -30,15 +30,15 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromoZeroOrder"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTDiscountAndCouponZeroOrder"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpSpayScenes"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestSpayOriginalScenes"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
         </classes>
     </test>
-
+    <parameter name="maxRetries" value="5"/>
 </suite>
