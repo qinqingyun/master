@@ -28,9 +28,9 @@ import java.math.BigDecimal;
 public class TestCreateOrder extends TestDPLogin {
     @PigeonAPI(url = "com.dianping.hui.openbusiness.order.service.EcomOrderCreateService")
     EcomOrderCreateService ecomOrderCreateService;
-    //String  doubleWriteMode="OLD";
-    @Parameters({ "DoubleWriteMode" })
-    @BeforeClass
+    String  doubleWriteMode="NEW";
+    //@Parameters({ "DoubleWriteMode" })
+    //@BeforeClass
     void updateUserId(String doubleWriteMode) throws Exception {
         if( doubleWriteMode.equals("NEW")){
             LionUtil.setUserWriteList(mtUserId+"_1");
@@ -63,6 +63,7 @@ public class TestCreateOrder extends TestDPLogin {
     @MethodAnotation(author = "byq", createTime = "20200529", des = "点评侧正常下单")
     public void ms_c_createOrder_02(JSONObject request, JSONObject expect) throws Exception {
         EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
+        updateUserId("NEW");
         ecomOrderCreateReq.setUserId(Long.valueOf(dpUserId));
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
