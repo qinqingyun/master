@@ -55,27 +55,10 @@ public class AllDDCoePushEctracter {
 
         getOrgCoeContext(orgCoeContext,mcdCoePOList);
 
+        getOverdueTodo(orgCoeContext);
+
         List<Long> daxiangIdList = orgDaxiangPOMapper.selectAllDaxiangId();
         for (Long daxiangId : daxiangIdList) {
-/*
-            String context="";
-
-            List<Integer> orgIdList = orgDaxiangPOMapper.selectByDaxiangId(daxiangId);
-            for (int integer : orgIdList) {
-                OrgMcdIdPO orgMcdIdPO = orgMcdIdPOMapper.selectByOrgId(integer);
-                String orgName = orgMcdIdPO.getOrgName();
-                String orgContext=orgCoeContext.get(orgName);
-                if (orgContext!=null){
-                    context=context+"\n"+orgCoeContext.get(orgName);
-                }
-            }
-            if (!context.equals("")){
-                if (!daxiangPushMap.keySet().contains(daxiangId)){
-                    daxiangPushMap.put(daxiangId,context);
-                }else {
-                    daxiangPushMap.put(daxiangId,daxiangPushMap.get(daxiangId)+"\n"+context);
-                }
-            }*/
 
             CoePushDataVO daxiangPushDataVO=new CoePushDataVO();
             daxiangPushDataVO.newVO();
@@ -101,7 +84,7 @@ public class AllDDCoePushEctracter {
                 }
             }
 
-            if (daxiangPushDataVO.getAllCount()!=0){
+            if (daxiangPushDataVO.getAllCount()!=0||daxiangPushDataVO.getOverdueTodoCount()!=0){
                 daxiangPushMap.put(daxiangId,daxiangPushDataVO);
             }
         }
@@ -115,6 +98,11 @@ public class AllDDCoePushEctracter {
             }else {
                 text=text+"不存在未完善的COE，为你的团队点赞哦👍";
             }
+            if (vo.getOverdueTodoCount()!=0){
+                text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
+            }else {
+                text=text+"不存在逾期未完成的TODO，为你的团队点赞哦👍";
+            }
             DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
         }
     }
@@ -127,12 +115,11 @@ public class AllDDCoePushEctracter {
                 CoePushDataVO coePushDataVO=new CoePushDataVO();
                 coePushDataVO.newVO();
                 coeContext(mcdCoePO,coePushDataVO);
-                coePushDataVO.setCoeMessage(orgName+"\n"+coePushDataVO.getCoeMessage());
+                coePushDataVO.setCoeMessage(orgName+"共"+"\n"+coePushDataVO.getCoeMessage());
                 orgCoeContext.put(orgName,coePushDataVO);
             }else{
                 coeContext(mcdCoePO,orgCoeContext.get(orgName));
                 orgCoeContext.put(orgName,orgCoeContext.get(orgName));
-
             }
         }
 
@@ -190,5 +177,33 @@ public class AllDDCoePushEctracter {
         long time2 = cal.getTimeInMillis();
         long between_days=(time2-time1)/(1000*3600*24);
         return Integer.parseInt(String.valueOf(between_days));
+    }
+
+    public void getOverdueTodo(Map<String,CoePushDataVO> orgCoeContext){
+        List<Integer> coeList = mcdCoeTodoPOMapper.selectOverdueCoeIdList();
+        for (Integer coeId : coeList) {
+            McdCoePO po = mcdCoePOMapper.selectByCoeId(coeId);
+            List<McdCoeTodoPO> mcdCoeTodoPOS = mcdCoeTodoPOMapper.selectOverdueByCoeId(coeId);
+            int overdueCount=mcdCoeTodoPOS.size();
+            String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
+            for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
+                text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
+            }
+
+            String orgName="美团/到店事业群/平台技术部/" +po.getOrgName();
+            if (orgCoeContext.keySet().contains(orgName)){
+                CoePushDataVO vo = orgCoeContext.get(orgName);
+                vo.setOverdueTodoCount(overdueCount);
+                vo.setOverdueTodo(text);
+                orgCoeContext.put(orgName,vo);
+            }else {
+                CoePushDataVO vo=new CoePushDataVO();
+                vo.newVO();
+                vo.setOverdueTodoCount(overdueCount);
+                vo.setOverdueTodo(text);
+                orgCoeContext.put(orgName,vo);
+            }
+
+        }
     }
 }

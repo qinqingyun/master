@@ -90,6 +90,30 @@ public interface McdCoeTodoPOMapper {
     })
     McdCoeTodoPO selectByPrimaryKey(Integer id);
 
+    @Select({
+            "select",
+            "id, coe_id, org_name, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, ",
+            "owner_mis, owner_name, start_date, actual_date",
+            "from mcd_todo_list",
+            "where coe_id = #{id,jdbcType=INTEGER} and is_delay=true"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="ones_id", property="onesId", jdbcType=JdbcType.INTEGER),
+            @Result(column="ones_link", property="onesLink", jdbcType=JdbcType.VARCHAR),
+            @Result(column="ones_title", property="onesTitle", jdbcType=JdbcType.VARCHAR),
+            @Result(column="is_finish", property="isFinish", jdbcType=JdbcType.BIT),
+            @Result(column="is_delay", property="isDelay", jdbcType=JdbcType.BIT),
+            @Result(column="dealline", property="dealline", jdbcType=JdbcType.DATE),
+            @Result(column="owner_mis", property="ownerMis", jdbcType=JdbcType.VARCHAR),
+            @Result(column="owner_name", property="ownerName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="start_date", property="startDate", jdbcType=JdbcType.DATE),
+            @Result(column="actual_date", property="actualDate", jdbcType=JdbcType.DATE)
+    })
+    List<McdCoeTodoPO> selectOverdueByCoeId(Integer id);
+
     @UpdateProvider(type=McdCoeTodoPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") McdCoeTodoPO record, @Param("example") McdCoeTodoPOExample example);
 
@@ -129,6 +153,15 @@ public interface McdCoeTodoPOMapper {
 
     })
     List<Integer> selectOnesIdList();
+
+    @Select({
+            "select distinct coe_id from mcd_todo_list where is_delay=1"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+
+    })
+    List<Integer> selectOverdueCoeIdList();
 
 
 
