@@ -28,7 +28,6 @@ import java.math.BigDecimal;
 public class TestCreateOrder extends TestDPLogin {
     @PigeonAPI(url = "com.dianping.hui.openbusiness.order.service.EcomOrderCreateService")
     EcomOrderCreateService ecomOrderCreateService;
-    //String  doubleWriteMode="OLD";
     @Parameters({ "DoubleWriteMode" })
     @BeforeClass
     void updateUserId(String doubleWriteMode) throws Exception {
