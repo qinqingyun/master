@@ -28,10 +28,7 @@ public class TestQueryMainOrder extends TestBase {
     public void ms_c_queryMainOrder_01(JSONObject request, JSONObject expect){
         QueryMainOrderPageRequest queryMainOrderPageRequest = JSON.parseObject(request.toString(), QueryMainOrderPageRequest.class);
         queryMainOrderPageRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
-        //queryMainOrderPageRequest.setEndTime(huiOrderApi.getEndTimeDate());
-        Date date = new Date();
-        date.setTime(1594296000000l);
-        queryMainOrderPageRequest.setEndTime(date);
+        queryMainOrderPageRequest.setEndTime(huiOrderApi.getEndTimeDate());
         log.info("入参：{}",JSON.toJSONString(queryMainOrderPageRequest));
         QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
