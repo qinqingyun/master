@@ -64,11 +64,12 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                     daxiangPushDataVO.setS3Conut(daxiangPushDataVO.getS3Conut()+coePushDataVO.getS3Conut());
                     daxiangPushDataVO.setS4Count(daxiangPushDataVO.getS4Count()+coePushDataVO.getS4Count());
                     daxiangPushDataVO.setS9Count(daxiangPushDataVO.getS9Count()+coePushDataVO.getS9Count());
+                    daxiangPushDataVO.setECount(daxiangPushDataVO.getECount()+coePushDataVO.getECount());
                     daxiangPushDataVO.setOtherCount(daxiangPushDataVO.getOtherCount()+coePushDataVO.getOtherCount());
                     daxiangPushDataVO.setAllCount(daxiangPushDataVO.getAllCount()+coePushDataVO.getAllCount());
                     daxiangPushDataVO.setIncompleteCount(daxiangPushDataVO.getIncompleteCount()+coePushDataVO.getIncompleteCount());
                     daxiangPushDataVO.setOverdueTodoCount(daxiangPushDataVO.getOverdueTodoCount()+coePushDataVO.getOverdueTodoCount());
-                    daxiangPushDataVO.setCoeMessage(daxiangPushDataVO.getCoeMessage()+coePushDataVO.getCoeMessage());
+                    daxiangPushDataVO.setCoeMessage(daxiangPushDataVO.getCoeMessage()+orgName+"共"+coePushDataVO.getAllCount()+"个"+coePushDataVO.getCoeMessage());
                     daxiangPushDataVO.setIncompleteMessage(daxiangPushDataVO.getIncompleteMessage()+coePushDataVO.getIncompleteMessage());
                     daxiangPushDataVO.setOverdueTodo(daxiangPushDataVO.getOverdueTodo()+coePushDataVO.getOverdueTodo());
 
@@ -82,17 +83,39 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
 
         for(Long key:daxiangPushMap.keySet()){
             CoePushDataVO vo = daxiangPushMap.get(key);
-            String text="共新增"+vo.getAllCount()+"个COE，其中S1-"+vo.getS1Conut()+"个，S2-"+vo.getS2Conut()+"个，S3-"+vo.getS3Conut()+"个，S4-"+vo.getS4Count()+"个，S9-"+vo.getS9Count()+"个，其他-"+vo.getOtherCount()+"个\n\n";
+            String text="共新增"+vo.getAllCount()+"个COE，其中";
+            if (vo.getS1Conut()!=0){
+               text=text+"S1-"+vo.getS1Conut()+"个 ";
+            }
+            if (vo.getS2Conut()!=0){
+                text=text+"S2-"+vo.getS2Conut()+"个 ";
+            }
+            if (vo.getS3Conut()!=0){
+                text=text+"S3-"+vo.getS3Conut()+"个 ";
+            }
+            if (vo.getS4Count()!=0){
+                text=text+"S4-"+vo.getS4Count()+"个 ";
+            }
+            if (vo.getS9Count()!=0){
+                text=text+"S9-"+vo.getS9Count()+"个 ";
+            }
+            if (vo.getECount()!=0){
+                text=text+"E-"+vo.getECount()+"个 ";
+            }
+            if (vo.getOtherCount()!=0){
+                text=text+"未填写-"+vo.getOtherCount()+"个 ";
+            }
+            text=text+"\n\n";
             text=text+vo.getCoeMessage()+"\n截止目前COE的SOP落地情况如下：\n";
             if (vo.getIncompleteCount()!=0){
-                text=text+"问题发生1周内未完善的COE共"+vo.getIncompleteCount()+"个，请及时完善，明细如下:\n"+vo.getIncompleteMessage();
+                text=text+"问题发生超1周未完善的COE共"+vo.getIncompleteCount()+"个，请及时完善，明细如下:\n"+vo.getIncompleteMessage();
             }else {
                 text=text+"不存在未完善的COE，为你的团队点赞哦👍";
             }
             if (vo.getOverdueTodoCount()!=0){
-                text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
+                text=text+"\n\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
             }else {
-                text=text+"不存在逾期未完成的TODO，为你的团队点赞哦👍";
+                text=text+"\n\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
             }
             DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
         }
@@ -106,7 +129,7 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                 CoePushDataVO coePushDataVO=new CoePushDataVO();
                 coePushDataVO.newVO();
                 coeContext(mcdCoePO,coePushDataVO);
-                coePushDataVO.setCoeMessage(orgName+"共"+"\n"+coePushDataVO.getCoeMessage());
+                coePushDataVO.setCoeMessage("\n"+coePushDataVO.getCoeMessage());
                 orgCoeContext.put(orgName,coePushDataVO);
             }else{
                 coeContext(mcdCoePO,orgCoeContext.get(orgName));
@@ -133,6 +156,8 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                 coePushDataVO.setS4Count(coePushDataVO.getS4Count()+1);
             }else if (level.equals("S9")){
                 coePushDataVO.setS9Count(coePushDataVO.getS9Count()+1);
+            }else if (level.equals("E")){
+                coePushDataVO.setECount(coePushDataVO.getECount()+1);
             }else {
                 coePushDataVO.setOtherCount(coePushDataVO.getOtherCount()+1);
             }
@@ -182,7 +207,7 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                 log.info("这条COE的链接为{}",po.getCoeLink());
                 log.info("这条COE的定级为{}",po.getLevel());
                 log.info("这条COE的逾期TODO个数为{}",overdueCount);
-                String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
+                String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期TODO共"+overdueCount+"个：\n";
                 for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
                     text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
                 }

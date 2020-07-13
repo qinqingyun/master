@@ -9,6 +9,7 @@ public class CoePushDataVO {
    private int s3Conut;
    private int s4Count;
    private int s9Count;
+   private int eCount;
    private int otherCount;
    private int allCount;
    private String orgName;
@@ -24,6 +25,7 @@ public class CoePushDataVO {
        this.setS3Conut(0);
        this.setS4Count(0);
        this.setS9Count(0);
+       this.setECount(0);
        this.setOtherCount(0);
        this.setAllCount(0);
        this.setIncompleteCount(0);
