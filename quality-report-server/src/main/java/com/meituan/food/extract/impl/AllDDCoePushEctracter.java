@@ -176,11 +176,11 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
         for (Integer coeId : coeList) {
             McdCoePO po = mcdCoePOMapper.selectByCoeId(coeId);
             List<McdCoeTodoPO> mcdCoeTodoPOS = mcdCoeTodoPOMapper.selectOverdueByCoeId(coeId);
-            int overdueCount=0;
-            if (mcdCoeTodoPOS!=null){
-                overdueCount=mcdCoeTodoPOS.size();
-            }
-            log.info("这条COE的定级为{}，标题为{},链接为{},逾期TODO个数为{}",po.getLevel(),po.getBrief(),po.getCoeLink(),overdueCount);
+            int overdueCount=mcdCoeTodoPOS.size();
+            log.info("这条COE的标题为{}",po.getBrief());
+            log.info("这条COE的链接为{}",po.getCoeLink());
+            log.info("这条COE的定级为{}",po.getLevel());
+            log.info("这条COE的逾期TODO个数为{}",overdueCount);
             String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
             for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
                 text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
