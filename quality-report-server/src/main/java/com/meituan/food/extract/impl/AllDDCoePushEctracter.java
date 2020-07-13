@@ -136,6 +136,7 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
             }
         }else {
             coePushDataVO.setOtherCount(coePushDataVO.getOtherCount()+1);
+            mcdCoePO.setLevel("未填写");
         }
         coePushDataVO.setAllCount(coePushDataVO.getAllCount()+1);
         coePushDataVO.setCoeMessage(coePushDataVO.getCoeMessage()+"△【"+mcdCoePO.getLevel()+"-["+mcdCoePO.getBrief()+"|"+mcdCoePO.getCoeLink()+"]】"+"\n");
