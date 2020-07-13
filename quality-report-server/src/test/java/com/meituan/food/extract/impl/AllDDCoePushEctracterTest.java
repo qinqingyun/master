@@ -23,6 +23,5 @@ public class AllDDCoePushEctracterTest {
 
     @Test
     public void pushData() throws ParseException {
-        allDDCoePushEctracter.pushData();
     }
 }

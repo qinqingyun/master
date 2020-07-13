@@ -1,27 +1,25 @@
 package com.meituan.food.extract.impl;
 
+import com.meituan.food.extract.IAllDDCoePushEctract;
 import com.meituan.food.mapper.McdCoePOMapper;
 import com.meituan.food.mapper.McdCoeTodoPOMapper;
 import com.meituan.food.mapper.OrgDaxiangPOMapper;
 import com.meituan.food.mapper.OrgMcdIdPOMapper;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoeTodoPO;
-import com.meituan.food.po.McdCoeTodoPOExample;
 import com.meituan.food.po.OrgMcdIdPO;
 import com.meituan.food.utils.DaXiangUtils;
-import org.apache.lucene.analysis.sinks.TeeSinkTokenFilter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
-public class AllDDCoePushEctracter {
+public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
 
     @Resource
     public McdCoePOMapper mcdCoePOMapper;
@@ -38,16 +36,9 @@ public class AllDDCoePushEctracter {
     @Resource
     public OrgMcdIdPOMapper orgMcdIdPOMapper;
 
-    public void pushData() throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Override
+    public void pushData(Date firstDate, Date secondDate,String firstDayStr,String secondDayStr) throws ParseException {
 
-        LocalDate firstDay=LocalDate.now().minusDays(30);
-        String firstDayStr = firstDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Date firstDate = sdf.parse(firstDayStr +" 00:00:00");
-
-        LocalDate secondDay=LocalDate.now().minusDays(1);
-        String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Date secondDate = sdf.parse(secondDayStr +" 23:59:59");
         Map<String,CoePushDataVO> orgCoeContext=new HashMap<>();
         Map<Long,CoePushDataVO> daxiangPushMap=new HashMap<>();
 
