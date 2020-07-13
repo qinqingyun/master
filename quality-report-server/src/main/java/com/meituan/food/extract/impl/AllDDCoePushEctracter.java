@@ -175,31 +175,32 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
         List<Integer> coeList = mcdCoeTodoPOMapper.selectOverdueCoeIdList();
         for (Integer coeId : coeList) {
             McdCoePO po = mcdCoePOMapper.selectByCoeId(coeId);
-            List<McdCoeTodoPO> mcdCoeTodoPOS = mcdCoeTodoPOMapper.selectOverdueByCoeId(coeId);
-            int overdueCount=mcdCoeTodoPOS.size();
-            log.info("这条COE的标题为{}",po.getBrief());
-            log.info("这条COE的链接为{}",po.getCoeLink());
-            log.info("这条COE的定级为{}",po.getLevel());
-            log.info("这条COE的逾期TODO个数为{}",overdueCount);
-            String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
-            for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
-                text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
-            }
+            if(po!=null){
+                List<McdCoeTodoPO> mcdCoeTodoPOS = mcdCoeTodoPOMapper.selectOverdueByCoeId(coeId);
+                int overdueCount=mcdCoeTodoPOS.size();
+                log.info("这条COE的标题为{}",po.getBrief());
+                log.info("这条COE的链接为{}",po.getCoeLink());
+                log.info("这条COE的定级为{}",po.getLevel());
+                log.info("这条COE的逾期TODO个数为{}",overdueCount);
+                String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
+                for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
+                    text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
+                }
 
-            String orgName="美团/到店事业群/平台技术部/" +po.getOrgName();
-            if (orgCoeContext.keySet().contains(orgName)){
-                CoePushDataVO vo = orgCoeContext.get(orgName);
-                vo.setOverdueTodoCount(overdueCount);
-                vo.setOverdueTodo(text);
-                orgCoeContext.put(orgName,vo);
-            }else {
-                CoePushDataVO vo=new CoePushDataVO();
-                vo.newVO();
-                vo.setOverdueTodoCount(overdueCount);
-                vo.setOverdueTodo(text);
-                orgCoeContext.put(orgName,vo);
+                String orgName="美团/到店事业群/平台技术部/" +po.getOrgName();
+                if (orgCoeContext.keySet().contains(orgName)){
+                    CoePushDataVO vo = orgCoeContext.get(orgName);
+                    vo.setOverdueTodoCount(overdueCount);
+                    vo.setOverdueTodo(text);
+                    orgCoeContext.put(orgName,vo);
+                }else {
+                    CoePushDataVO vo=new CoePushDataVO();
+                    vo.newVO();
+                    vo.setOverdueTodoCount(overdueCount);
+                    vo.setOverdueTodo(text);
+                    orgCoeContext.put(orgName,vo);
+                }
             }
-
         }
     }
 }
