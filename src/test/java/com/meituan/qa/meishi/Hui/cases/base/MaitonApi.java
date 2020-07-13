@@ -14,6 +14,7 @@ import com.meituan.toolchain.mario.login.model.LoginType;
 import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
@@ -31,11 +32,12 @@ import static java.lang.Boolean.TRUE;
  * Created by buyuqi on 2020/5/29.
  */
 @Slf4j
-public class MaitonApi {
+@Data
+public class MaitonApi{
     public String envpath;
     private  String dpTokenNew = "";
     private  static String mtTokenNew = "";
-    private  String mtUserIdNew = "";
+    public   String mtUserIdNew = "";
     private  String username = "user1";
     public  String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
     public  String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
@@ -60,13 +62,11 @@ public class MaitonApi {
 //            return null;
 //        dpTokenNew = dpcUser.getToken();
 
-
         MTCUser mtUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, username);
         if( mtUser == null ||  StringUtil.isBlank(mtUser.getToken()))
             return null;
         mtTokenNew = mtUser.getToken();
         mtUserIdNew = String.valueOf(mtUser.getId());
-
         return "登录成功";
     }
 

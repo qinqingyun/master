@@ -19,8 +19,8 @@ import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
  */
 public class TestBase {
     public static ThriftApi thriftApi = MarioProxyUtil.create(ThriftApi.class);
-    public static MaitonApi maitonApi = MarioProxyUtil.create(MaitonApi.class);
     public static TestCheckLoop checkLoop = MarioProxyUtil.create(TestCheckLoop.class);
+    public static MaitonApi maitonApi = MarioProxyUtil.create(MaitonApi.class);
     protected static String doubleWriteMode;
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM= false;
@@ -33,6 +33,10 @@ public class TestBase {
     public void beforeSuite() {
         maitonApi.userLogin();
     }
+
+//    public MaitonApi getMaitonApi(){
+//        return MarioProxyUtil.create(MaitonApi.class);
+//    }
 
 //    @BeforeTest
 //    public void beforeTest() throws Exception {

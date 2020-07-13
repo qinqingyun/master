@@ -7,7 +7,12 @@ import com.dianping.hui.common.enums.RefundFlowTypeEnum;
 import com.dianping.mopayprocess.refundflow.request.DirectRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
+import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
+import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueOption;
+import com.dianping.unified.coupon.issue.api.request.UnifiedCouponIssueRequest;
+import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.meituan.nibtp.trade.client.buy.enums.BizSpaceId;
 import com.meituan.nibtp.trade.client.buy.enums.OrderResultCodeEnum;
 import com.meituan.nibtp.trade.client.buy.response.QueryOrderMappingRes;
@@ -17,8 +22,12 @@ import com.meituan.qa.meishi.Hui.util.CheckOrderType;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.annotation.ThriftAPI;
+import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
 import org.stringtemplate.v4.ST;
+
+import java.util.Optional;
 
 /**
  * Created by buyuqi on 2020/5/29.
@@ -29,6 +38,10 @@ public class ThriftApi {
     OrderMappingService orderMappingService;
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0",desc = "退款rpc服务")
     RefundFlowService refundFlowService;
+    @ThriftAPI(appkey = "com.sankuai.web.campaign.assigncard")
+    MaitonHongbaoTService.Iface maitonHongbaoTService;
+    @PigeonAPI(url = "http://service.dianping.com/UnifiedCouponIssueTrustRemoteService/UnifiedCouponIssueTrustService_1.0.0_pigeontest")
+    private UnifiedCouponIssueTrustService unifiedCouponIssueTrustService;
 
     /**
      * 新老订单映射
@@ -97,5 +110,38 @@ public class ThriftApi {
             return "127.0.0.1";
         }
         return ip;
+    }
+    /**
+     * 商家券发券接口
+     *
+     */
+    public MaitonHongbaoTResponse setShopPromo(Long userId,Integer poiId) throws TException {
+        MaitonHongbaoTRequest maitonHongbaoTRequest = new MaitonHongbaoTRequest();
+        maitonHongbaoTRequest.setPlatform(Platform.MT);
+        maitonHongbaoTRequest.setUserId(userId);
+        maitonHongbaoTRequest.setPoiId(poiId);
+        maitonHongbaoTRequest.setAssignChannelTEnum(AssignChannelTEnum.MAITON);
+        maitonHongbaoTRequest.setOrderId(123132131);
+        maitonHongbaoTRequest.setOrderPrice(1);
+        MaitonHongbaoTResponse response = maitonHongbaoTService.assignMaitonHongbao(maitonHongbaoTRequest);
+        return response;
+    }
+    /**
+     * 平台券发券接口
+     *
+     */
+    public UnifiedCouponIssueResponse setCouponPromo(Long userId,Integer couponId){
+        UnifiedCouponIssueRequest couponIssueRequest = new UnifiedCouponIssueRequest();
+        couponIssueRequest.setUserType("MT");
+        couponIssueRequest.setUnifiedCouponGroupIdList(Lists.newArrayList());
+        couponIssueRequest.setCouponGroupIdList(Lists.newArrayList(couponId));
+        couponIssueRequest.setOperator("qa-system");
+        couponIssueRequest.setUserId(userId);
+
+        UnifiedCouponIssueOption option = new UnifiedCouponIssueOption();
+        option.setCreditType(0);
+        option.setNotifyType(0);
+        UnifiedCouponIssueResponse unifiedCouponIssueResponse = unifiedCouponIssueTrustService.issueTrustCoupon(couponIssueRequest, option);
+        return unifiedCouponIssueResponse;
     }
 }
