@@ -2,6 +2,7 @@ package com.meituan.food.job.impl;
 
 import com.meituan.food.extract.IAllDDCoePushEctract;
 import com.meituan.food.job.IWeekAllDDCoePushJob;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
+@Component
 public class WeekAllDDCoePushJobImpl implements IWeekAllDDCoePushJob {
 
     @Resource
