@@ -9,6 +9,7 @@ import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoeTodoPO;
 import com.meituan.food.po.OrgMcdIdPO;
 import com.meituan.food.utils.DaXiangUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Component
 public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
 
@@ -175,6 +177,7 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
             McdCoePO po = mcdCoePOMapper.selectByCoeId(coeId);
             List<McdCoeTodoPO> mcdCoeTodoPOS = mcdCoeTodoPOMapper.selectOverdueByCoeId(coeId);
             int overdueCount=mcdCoeTodoPOS.size();
+            log.info("这条COE的定级为{}，标题为{},链接为{},逾期TODO个数为{}",po.getLevel(),po.getBrief(),po.getCoeLink(),overdueCount);
             String text="△【"+po.getLevel()+"-["+po.getBrief()+"|"+po.getCoeLink()+"]]逾期Todo共"+overdueCount+"个：\n";
             for (McdCoeTodoPO mcdCoeTodoPO : mcdCoeTodoPOS) {
                 text=text+"●["+mcdCoeTodoPO.getOnesTitle()+"|"+mcdCoeTodoPO.getOnesLink()+"]"+"\n";
