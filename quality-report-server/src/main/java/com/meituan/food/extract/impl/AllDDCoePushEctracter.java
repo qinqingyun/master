@@ -69,7 +69,9 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                     daxiangPushDataVO.setAllCount(daxiangPushDataVO.getAllCount()+coePushDataVO.getAllCount());
                     daxiangPushDataVO.setIncompleteCount(daxiangPushDataVO.getIncompleteCount()+coePushDataVO.getIncompleteCount());
                     daxiangPushDataVO.setOverdueTodoCount(daxiangPushDataVO.getOverdueTodoCount()+coePushDataVO.getOverdueTodoCount());
-                    daxiangPushDataVO.setCoeMessage(daxiangPushDataVO.getCoeMessage()+orgName+"共"+coePushDataVO.getAllCount()+"个"+coePushDataVO.getCoeMessage());
+                    if (coePushDataVO.getAllCount()>0){
+                        daxiangPushDataVO.setCoeMessage(daxiangPushDataVO.getCoeMessage()+orgName+"共"+coePushDataVO.getAllCount()+"个"+coePushDataVO.getCoeMessage());
+                    }
                     daxiangPushDataVO.setIncompleteMessage(daxiangPushDataVO.getIncompleteMessage()+coePushDataVO.getIncompleteMessage());
                     daxiangPushDataVO.setOverdueTodo(daxiangPushDataVO.getOverdueTodo()+coePushDataVO.getOverdueTodo());
 
