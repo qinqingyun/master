@@ -126,8 +126,8 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
                 }else {
                     text=text+"\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
                 }
+                DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
             }
-
         }
     }
 
