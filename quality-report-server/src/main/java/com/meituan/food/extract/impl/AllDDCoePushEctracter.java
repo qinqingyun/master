@@ -83,41 +83,51 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
 
         for(Long key:daxiangPushMap.keySet()){
             CoePushDataVO vo = daxiangPushMap.get(key);
-            String text="共新增"+vo.getAllCount()+"个COE，其中";
-            if (vo.getS1Conut()!=0){
-               text=text+"S1-"+vo.getS1Conut()+"个 ";
-            }
-            if (vo.getS2Conut()!=0){
-                text=text+"S2-"+vo.getS2Conut()+"个 ";
-            }
-            if (vo.getS3Conut()!=0){
-                text=text+"S3-"+vo.getS3Conut()+"个 ";
-            }
-            if (vo.getS4Count()!=0){
-                text=text+"S4-"+vo.getS4Count()+"个 ";
-            }
-            if (vo.getS9Count()!=0){
-                text=text+"S9-"+vo.getS9Count()+"个 ";
-            }
-            if (vo.getECount()!=0){
-                text=text+"E-"+vo.getECount()+"个 ";
-            }
-            if (vo.getOtherCount()!=0){
-                text=text+"未填写-"+vo.getOtherCount()+"个 ";
-            }
-            text=text+"\n\n";
-            text=text+vo.getCoeMessage()+"\n截止目前COE的SOP落地情况如下：\n";
-            if (vo.getIncompleteCount()!=0){
-                text=text+"问题发生超1周未完善的COE共"+vo.getIncompleteCount()+"个，请及时完善，明细如下:\n"+vo.getIncompleteMessage();
+            if (vo.getAllCount()!=0){
+                String text="共新增"+vo.getAllCount()+"个COE，其中";
+                if (vo.getS1Conut()!=0){
+                    text=text+"S1-"+vo.getS1Conut()+"个 ";
+                }
+                if (vo.getS2Conut()!=0){
+                    text=text+"S2-"+vo.getS2Conut()+"个 ";
+                }
+                if (vo.getS3Conut()!=0){
+                    text=text+"S3-"+vo.getS3Conut()+"个 ";
+                }
+                if (vo.getS4Count()!=0){
+                    text=text+"S4-"+vo.getS4Count()+"个 ";
+                }
+                if (vo.getS9Count()!=0){
+                    text=text+"S9-"+vo.getS9Count()+"个 ";
+                }
+                if (vo.getECount()!=0){
+                    text=text+"E-"+vo.getECount()+"个 ";
+                }
+                if (vo.getOtherCount()!=0){
+                    text=text+"未填写-"+vo.getOtherCount()+"个 ";
+                }
+                text=text+"\n\n";
+                text=text+vo.getCoeMessage()+"\n截止目前COE的SOP落地情况如下：\n";
+                if (vo.getIncompleteCount()!=0){
+                    text=text+"问题发生超1周未完善的COE共"+vo.getIncompleteCount()+"个，请及时完善，明细如下:\n"+vo.getIncompleteMessage();
+                }else {
+                    text=text+"不存在未完善的COE，为你的团队点赞哦👍\n";
+                }
+                if (vo.getOverdueTodoCount()!=0){
+                    text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
+                }else {
+                    text=text+"\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
+                }
+                DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
             }else {
-                text=text+"不存在未完善的COE，为你的团队点赞哦👍\n";
+                String text="无新增COE\n";
+                if (vo.getOverdueTodoCount()!=0){
+                    text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
+                }else {
+                    text=text+"\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
+                }
             }
-            if (vo.getOverdueTodoCount()!=0){
-                text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
-            }else {
-                text=text+"\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
-            }
-            DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
+
         }
     }
 
