@@ -110,12 +110,12 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
             if (vo.getIncompleteCount()!=0){
                 text=text+"问题发生超1周未完善的COE共"+vo.getIncompleteCount()+"个，请及时完善，明细如下:\n"+vo.getIncompleteMessage();
             }else {
-                text=text+"不存在未完善的COE，为你的团队点赞哦👍";
+                text=text+"不存在未完善的COE，为你的团队点赞哦👍\n";
             }
             if (vo.getOverdueTodoCount()!=0){
-                text=text+"\n\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
+                text=text+"\n逾期未完成的TODO共"+vo.getOverdueTodoCount()+"个，请及时跟进，明细如下：\n"+vo.getOverdueTodo();
             }else {
-                text=text+"\n\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
+                text=text+"\n不存在逾期未完成的TODO，为你的团队点赞哦👍";
             }
             DaXiangUtils.pushToPerson("群ID："+key+"\n您关注的组织架构在"+firstDayStr+"~"+secondDayStr+"期间的COE情况如下：\n"+text,"guomengyao");
         }
