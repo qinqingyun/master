@@ -89,5 +89,11 @@ public class Btest {
         String id= detailOptional.get().id;
         log.info("发券接口返回======="+ id);
     }
+    @Test
+    public void test(){
+    Long a = Long.valueOf("97224769");
+    long b = a%10000;
+        System.out.println(b);
+    }
 }
 

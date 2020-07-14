@@ -30,15 +30,15 @@ public class TestQueryMainOrder extends TestBase {
         queryMainOrderPageRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
         queryMainOrderPageRequest.setEndTime(huiOrderApi.getEndTimeDate());
         log.info("入参：{}",JSON.toJSONString(queryMainOrderPageRequest));
-        QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
-        log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
+//        QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
+//        log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
         Tracer.setSwimlane("buyuqi-rjgoi");
         QueryOrderPageResponse swimlaneQueryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
         Tracer.setSwimlane("");
         log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderPageResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderPageResponse),JSON.toJSONString(queryOrderPageResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+//        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderPageResponse),JSON.toJSONString(queryOrderPageResponse));
+//        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
+//        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200703", des = "参数mtShopIds，传空list，预期结果返回时间段内所有门店的orderId")
