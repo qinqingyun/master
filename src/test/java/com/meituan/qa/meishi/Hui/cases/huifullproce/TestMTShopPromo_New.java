@@ -157,7 +157,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
         //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
         Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
         payNotifyMockRequest.setTradeNo(tradeNo);
-        payNotifyMockRequest.setOrderId(orderId);
+        payNotifyMockRequest.setOrderId(neworderid);
         payNotifyMockRequest.setAmount(amount);
         if(doubleWriteMode.equals("OLD")){
             payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
