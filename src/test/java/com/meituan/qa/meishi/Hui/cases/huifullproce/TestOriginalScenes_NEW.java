@@ -57,7 +57,7 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    //String  doubleWriteMode = "NEW";
+    //String  doubleWriteMode = "OLD";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "qqy", createTime = "2019-09-06", updateTime = "2019-09-06", des =
@@ -109,13 +109,13 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
         //2、支付
         Long amount = maitonQueryOrderResponse.getOrderDTO().getCurrentAmount().longValue() * 100;
         payNotifyMockRequest.setTradeNo(tradeNo);
-        payNotifyMockRequest.setOrderId(orderId);
+        payNotifyMockRequest.setOrderId(neworderid);
         payNotifyMockRequest.setAmount(amount);
         if(doubleWriteMode.equals("OLD")){
             payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
         }
         PayMockUtil.mockPay(payNotifyMockRequest);
-        CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
+        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
 
         //支付后平台校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform_consum");
