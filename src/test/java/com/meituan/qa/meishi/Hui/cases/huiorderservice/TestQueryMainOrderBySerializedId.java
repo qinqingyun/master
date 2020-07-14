@@ -38,9 +38,9 @@ public class TestQueryMainOrderBySerializedId extends TestBase {
         QueryOrderResponse swimlaneQueryOrderResponse = huiOrderLoopCheck.queryMainOrderBySerializedId(serializedId);
         log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderResponse));
         Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderResponse),JSON.toJSONString(queryOrderResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),"SUCCEED","数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+//        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderResponse),JSON.toJSONString(queryOrderResponse));
+//        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
+//        Assert.assertEquals(orderDiff.getDiffStatusEnum(),"SUCCEED","数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
     }
     @Test(groups = {"P1"},dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "buyuqi",createTime = "2020-07-07",des = "serializedId：不传入")
