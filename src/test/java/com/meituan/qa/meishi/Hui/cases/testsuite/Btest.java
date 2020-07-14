@@ -73,10 +73,6 @@ public class Btest {
 //        refundFlowService.appealRefund(request);
 
 
-        Long a = Long.valueOf("559869592");
-        long b = a%13;
-        System.out.println(b);
-
     }
     @Test
     public void faquantest() throws TException {

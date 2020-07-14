@@ -4,6 +4,8 @@ import com.dianping.hui.base.business.enums.OperationSourceCode;
 import com.dianping.hui.common.enums.RefundFlowPlatformEnum;
 import com.dianping.hui.common.enums.RefundFlowTargetEnum;
 import com.dianping.hui.common.enums.RefundFlowTypeEnum;
+import com.dianping.hui.order.response.QueryOrderResponse;
+import com.dianping.hui.order.shard.service.QueryMainOrder4MTService;
 import com.dianping.mopayprocess.refundflow.request.DirectRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
@@ -37,6 +39,8 @@ public class ThriftApi {
     RefundFlowService refundFlowService;
     @ThriftAPI(desc = "unity平台diff工具", appkey = "com.sankuai.nibscp.unity.validation", interfaceName = "com.meituan.nibscp.unity.validation.api.service.DiffService")
     DiffService diffService;
+    @PigeonAPI(url = "http://service.dianping.com/huiOrderService/QueryMainOrder4MTService_1.0.0")
+    QueryMainOrder4MTService queryMainOrder4MTService;
     /**
      * unity平台买单数据diff
      *
@@ -118,5 +122,12 @@ public class ThriftApi {
             return "127.0.0.1";
         }
         return ip;
+    }
+    /**
+     * 老系统订单查询
+     */
+    public QueryOrderResponse getMaidonOrder(String orderId) {
+        QueryOrderResponse queryOrderResponse = queryMainOrder4MTService.queryMainOrderByOrderId(Long.valueOf(orderId));
+        return queryOrderResponse;
     }
 }

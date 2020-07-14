@@ -64,7 +64,7 @@ public class Atest extends TestDPLogin {
         request.setIp("10.21.21.2");
         request.setDesc("直接退款");
         request.setOperator("29060740");
-        request.setOrderId(4809848809972785494l);
+        request.setOrderId(4818856010183808342l);
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         //request.setSuperRefund(1); 超级退款
         request.setType(RefundFlowTypeEnum.AGREE.getCode());

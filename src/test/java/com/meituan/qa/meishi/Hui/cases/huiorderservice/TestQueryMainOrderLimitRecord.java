@@ -36,10 +36,10 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
     public void ms_c_queryMainOrderLimitRecord_01(JSONObject request, JSONObject expect){
         QueryMainOrderLimitRequest queryMainOrderLimitRequest  = JSON.parseObject(request.toString(), QueryMainOrderLimitRequest.class);
         queryMainOrderLimitRequest.setMaxSize(Integer.MAX_VALUE);
-        //queryMainOrderLimitRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
-        Date date = new Date();
-        date.setTime(1594368000000l);
-        queryMainOrderLimitRequest.setBeginTime(date);
+        queryMainOrderLimitRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
+//        Date date = new Date();
+//        date.setTime(1594368000000l);
+//        queryMainOrderLimitRequest.setBeginTime(date);
         queryMainOrderLimitRequest.setEndTime(huiOrderApi.getEndTimeDate());
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
@@ -67,7 +67,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         Tracer.setSwimlane("");
         DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
         log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),"SUCCEED","数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数mtShopIds，传空list，预期结果返回时间段内所有门店的orderId")
