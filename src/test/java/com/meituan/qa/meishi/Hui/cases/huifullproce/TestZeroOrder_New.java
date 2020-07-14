@@ -62,13 +62,13 @@ public class TestZeroOrder_New extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    String  doubleWriteMode="NEW";
+    //String  doubleWriteMode="NEW";
 
-    //@Parameters({ "DoubleWriteMode" })
+    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "byq", createTime = "2019-12-13",  des = "预定金0元单场景")
 
-    public void ms_c_resvZeroScenes_01() throws Exception{
+    public void ms_c_resvZeroScenes_01(String  doubleWriteMode) throws Exception{
         log.info("ms_c_resvZeroScenes_01走老走新的状态{}",doubleWriteMode);
         if( doubleWriteMode.equals("NEW"))
             LionUtil.setUserWriteList(mtUserId+"_1");
