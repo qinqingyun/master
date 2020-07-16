@@ -136,6 +136,5 @@ public class TestdpDiscountScenes_New extends TestDPLogin {
         TimeUnit.SECONDS.sleep(2);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(rejectRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","拒绝退款失败");
-
     }
 }

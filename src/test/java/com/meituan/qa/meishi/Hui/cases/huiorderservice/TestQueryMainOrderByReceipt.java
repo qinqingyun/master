@@ -26,6 +26,7 @@ public class TestQueryMainOrderByReceipt extends TestBase {
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200702", des = "查询某一订单信息")
     public void ms_c_queryMainOrderByReceipt_01(JSONObject request, JSONObject expect) throws Exception {
+        //TODO:这个接口数据不能写死，测试数据要构造清楚
         QueryMainOrderByReceiptRequest receiptRequest  = JSON.parseObject(request.toString(), QueryMainOrderByReceiptRequest.class);
         log.info("入参：{}",JSON.toJSONString(receiptRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderByReceipt(receiptRequest);

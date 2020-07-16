@@ -87,7 +87,7 @@ public class TestQueryMainOrder extends TestBase {
         log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
         Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size()==0,"开始时间晚于结束时间，查询结果返回不为空");
     }
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class, enabled = false)
     @MethodAnotation(author = "byq", createTime = "20200703", des = "参数pageSize：传0")
     public void ms_c_queryMainOrder_07(JSONObject request, JSONObject expect){
         QueryMainOrderPageRequest queryMainOrderPageRequest = JSON.parseObject(request.toString(), QueryMainOrderPageRequest.class);
