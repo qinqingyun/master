@@ -37,20 +37,11 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         QueryMainOrderLimitRequest queryMainOrderLimitRequest  = JSON.parseObject(request.toString(), QueryMainOrderLimitRequest.class);
         queryMainOrderLimitRequest.setMaxSize(Integer.MAX_VALUE);
         queryMainOrderLimitRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
-//        Date date = new Date();
-//        date.setTime(1594368000000l);
-//        queryMainOrderLimitRequest.setBeginTime(date);
         queryMainOrderLimitRequest.setEndTime(huiOrderApi.getEndTimeDate());
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),"SUCCEED","数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
     @Test(groups = {"P1"},dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "buyuqi",createTime = "2020-07-08",des = "参数maxSize：传0")
@@ -61,13 +52,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() == 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数mtShopIds，传空list，预期结果返回时间段内所有门店的orderId")
@@ -78,13 +63,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数mtShopIds，传无买单订单的门店")
@@ -95,13 +74,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() == 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数orderStatusList：传空list")
@@ -112,13 +85,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数refundStatusList：传空list")
@@ -129,13 +96,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数schemeIdList：传空list")
@@ -146,13 +107,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：传0，endTime传0")
@@ -161,13 +116,7 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() == 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：时间晚于endTime")
@@ -178,12 +127,6 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrdersResponse swimlanQueryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
-        log.info("结果返回：{}",JSON.toJSONString(swimlanQueryOrdersResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlanQueryOrdersResponse),JSON.toJSONString(queryOrdersResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() == 0);
     }
 }

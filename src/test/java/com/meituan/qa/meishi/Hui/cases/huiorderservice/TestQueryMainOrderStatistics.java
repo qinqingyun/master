@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
+
 import static com.meituan.nibscp.unity.validation.api.enums.DiffStatusEnum.SUCCEED;
 
 @ClassAnnotation(author = "buyuqi",depart = "C",apiName = "", type = "pigeon",des="商家后台聚合信息查询")
@@ -32,13 +34,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1 );
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数mtShopIds，传空list，预期结果返回时间段内所有门店的orderId")
@@ -49,13 +45,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1 );
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数mtShopIds，传无买单服务的门店，预期结果返回null")
@@ -66,13 +56,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数schemeIdList，传空list，预期结果返回时间段内所有合同的orderId")
@@ -83,13 +67,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：传0,endTime：传0")
@@ -100,11 +78,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
         Tracer.setSwimlane("buyuqi-rjgoi");
         QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 0 );
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：时间晚于endTime")
@@ -115,13 +89,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数orderStatusList：传空list")
@@ -132,13 +100,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1 );
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数refundStatusList：传空list")
@@ -149,12 +111,6 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderStatisticsResponse swimlaneQueryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
-        Tracer.setSwimlane("");
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderStatisticsResponse));
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderStatisticsResponse),JSON.toJSONString(queryOrderStatisticsResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1 );
     }
 }

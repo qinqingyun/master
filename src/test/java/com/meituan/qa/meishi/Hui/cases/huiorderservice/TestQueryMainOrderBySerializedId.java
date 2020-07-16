@@ -34,13 +34,9 @@ public class TestQueryMainOrderBySerializedId extends TestBase {
         log.info("入参：{}",serializedId);
         QueryOrderResponse queryOrderResponse = huiOrderLoopCheck.queryMainOrderBySerializedId(serializedId);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderResponse));
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderResponse swimlaneQueryOrderResponse = huiOrderLoopCheck.queryMainOrderBySerializedId(serializedId);
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderResponse));
-        Tracer.setSwimlane("");
-//        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderResponse),JSON.toJSONString(queryOrderResponse));
-//        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-//        Assert.assertEquals(orderDiff.getDiffStatusEnum(),"SUCCEED","数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
+        //Tracer.setSwimlane("buyuqi-rjgoi");
+        Assert.assertTrue(queryOrderResponse.getOrderDTO() != null);
+
     }
     @Test(groups = {"P1"},dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "buyuqi",createTime = "2020-07-07",des = "serializedId：不传入")
@@ -50,12 +46,5 @@ public class TestQueryMainOrderBySerializedId extends TestBase {
         QueryOrderResponse queryOrderResponse = huiOrderLoopCheck.queryMainOrderBySerializedId(serializedId);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderResponse));
         Assert.assertTrue(queryOrderResponse == null);
-        Tracer.setSwimlane("buyuqi-rjgoi");
-        QueryOrderResponse swimlaneQueryOrderResponse = huiOrderLoopCheck.queryMainOrderBySerializedId(serializedId);
-        log.info("结果返回：{}",JSON.toJSONString(swimlaneQueryOrderResponse));
-        Tracer.setSwimlane("");
-        DiffResponse orderDiff = thriftApi.getOrderDiff(JSON.toJSONString(swimlaneQueryOrderResponse),JSON.toJSONString(queryOrderResponse));
-        log.info("数据diff结果:{}",JSON.toJSONString(orderDiff));
-        Assert.assertEquals(orderDiff.getDiffStatusEnum(),SUCCEED,"数据diff未成功"+JSON.toJSONString(orderDiff.getDiffResultItemDTOList()));
     }
 }
