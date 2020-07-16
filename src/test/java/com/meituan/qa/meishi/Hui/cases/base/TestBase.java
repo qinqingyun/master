@@ -1,6 +1,9 @@
 package com.meituan.qa.meishi.Hui.cases.base;
 
 import com.meituan.qa.meishi.Hui.cases.huifullproce.TestCheckLoop;
+import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderApi;
+import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderLoopCheck;
+import com.meituan.qa.meishi.Hui.cases.scene.LoopCheckUtil;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
 import com.meituan.toolchain.mario.config.ConfigMange;
@@ -20,7 +23,10 @@ import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
 public class TestBase {
     public static ThriftApi thriftApi = MarioProxyUtil.create(ThriftApi.class);
     public static MaitonApi maitonApi = MarioProxyUtil.create(MaitonApi.class);
-    public static TestCheckLoop checkLoop = MarioProxyUtil.create(TestCheckLoop.class);
+    public static LoopCheckUtil loopCheck = MarioProxyUtil.create(LoopCheckUtil.class);
+    public static HuiOrderLoopCheck huiOrderLoopCheck = MarioProxyUtil.create(HuiOrderLoopCheck.class);
+    public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
+
     protected static String doubleWriteMode;
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM= false;
