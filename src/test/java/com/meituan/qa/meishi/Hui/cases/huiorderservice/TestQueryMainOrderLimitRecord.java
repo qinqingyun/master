@@ -127,6 +127,6 @@ public class TestQueryMainOrderLimitRecord extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderLimitRequest));
         QueryOrdersResponse queryOrdersResponse = huiOrderLoopCheck.queryMainOrderLimitRecord(queryMainOrderLimitRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrdersResponse));
-        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() == 0);
+        Assert.assertTrue(queryOrdersResponse.getOrderDTOs().size() > 0);
     }
 }
