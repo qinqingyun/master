@@ -87,7 +87,7 @@ public class TestQueryMainOrderStatistics extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderStatistics(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
-        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 0);
+        Assert.assertTrue(queryOrderStatisticsResponse.getMerchantAmountSum().compareTo(BigDecimal.ZERO) == 1);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数orderStatusList：传空list")
