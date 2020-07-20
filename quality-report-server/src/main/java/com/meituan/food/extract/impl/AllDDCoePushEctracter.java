@@ -86,7 +86,7 @@ public class AllDDCoePushEctracter implements IAllDDCoePushEctract {
         for(Long key:daxiangPushMap.keySet()){
             CoePushDataVO vo = daxiangPushMap.get(key);
             if (vo.getAllCount()!=0){
-                String text="共新增"+vo.getAllCount()+"个COE，其中";
+                String text="共新增"+vo.getAllCount()+"个COE，其中定级";
                 if (vo.getS1Conut()!=0){
                     text=text+"S1-"+vo.getS1Conut()+"个 ";
                 }
