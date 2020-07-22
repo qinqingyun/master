@@ -509,7 +509,7 @@ public interface McdCoePOMapper {
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
             "root_cause, mcd_id, mcd_name",
             "from mcd_coe_list",
-            "where  (capital_loss>0  or order_loss>0 or coupon_loss>0) and available=true  and create_time>='2020-06-03 13:51:09'"
+            "where  (capital_loss>0  or order_loss>0 or coupon_loss>0) and available=true  and create_time>='2020-07-23 00:00:00'"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
