@@ -96,7 +96,7 @@ public class TestQueryMainOrder extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderPageRequest));
         QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
-        Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size()>0,"参数pageSize：传0，查询结果records返回为空");
+        Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size()>0,"参数pageSize：传0，查询结果records返回为空,兜底未生效");
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200703", des = "参数pageSize：传极大值，查询结果正常返回")
@@ -110,7 +110,7 @@ public class TestQueryMainOrder extends TestBase {
         Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size() == 0);
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
-    @MethodAnotation(author = "byq", createTime = "20200708", des = "参数pageNo：传0，返回结果为null")
+    @MethodAnotation(author = "byq", createTime = "20200708", des = "参数pageNo：传0，返回结果正常")
     public void ms_c_queryMainOrder_09(JSONObject request, JSONObject expect){
         QueryMainOrderPageRequest queryMainOrderPageRequest = JSON.parseObject(request.toString(), QueryMainOrderPageRequest.class);
         queryMainOrderPageRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
@@ -118,7 +118,7 @@ public class TestQueryMainOrder extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderPageRequest));
         QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
-        Assert.assertTrue(queryOrderPageResponse.getPageModel() != null,"参数pageNo：传0，返回结果为null");
+        Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size() > 0,"参数pageNo：传0，返回结果为null,兜底未生效");
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数pageNo：传大于最大分页值。数据最大2页，传3，records为空")
