@@ -11,6 +11,7 @@ import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueOption;
 import com.dianping.unified.coupon.issue.api.request.UnifiedCouponIssueRequest;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.google.common.collect.Lists;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.LoadCashier;
 import com.meituan.qa.meishi.Hui.domain.OrderCheck;
@@ -19,11 +20,15 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.qa.meishi.util.MethodAnotation;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.PayNotifyMockRequest;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -47,15 +52,22 @@ public class TestDpMerchantPromo_New extends TestDPLogin {
 
     @PigeonAPI(url = "http://service.dianping.com/UnifiedCouponIssueTrustRemoteService/UnifiedCouponIssueTrustService_1.0.0_pigeontest")
     private UnifiedCouponIssueTrustService unifiedCouponIssueTrustService;
-
+    //String  doubleWriteMode = "OLD";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_hui_DpMerchantPromo(String  doubleWriteMode) throws Exception {
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(mtUserId+"_1");
-        if( doubleWriteMode.equals("OLD"))
-            LionUtil.setUserBlackList(mtUserId+"_1");
+    public void ms_c_hui_DpMerchantPromo(String doubleWriteMode) throws Exception {
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(dpUserId + "_0");
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            Tracer.putContext("PAY_MOCK","TRUE");
+        }
+        if( doubleWriteMode.equals("OLD")){
+            LionUtil.setUserBlackList(dpUserId+"_0");
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
 
         //0.平台券查询 userid  9007199254760212  Dp151
         String couponid = "15849785805690212000001";
@@ -153,14 +165,23 @@ public class TestDpMerchantPromo_New extends TestDPLogin {
         DirectRefundResponse response = huiRefund.superRefund();
         log.info("获取退款结果:{}", JSON.toJSONString(response));
 
-        //平台侧退款校验
-        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform_02");
-        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
+        //退款mock
+        Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
 
         //买单侧退款校验
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
         orderCheck.maitonOrder(3,refundOrderResponse);
 
+        //平台侧退款校验
+        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform_02");
+        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
     }
 }

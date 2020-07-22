@@ -6,6 +6,7 @@ import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.LoadCashier;
@@ -15,12 +16,15 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.qa.meishi.util.MethodAnotation;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.*;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
@@ -70,15 +74,20 @@ public class TestDPShopPromo_New extends TestDPLogin {
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
     @Parameters({ "DoubleWriteMode" })
-    //String  doubleWriteMode = "NEW";
+    //String  doubleWriteMode = "OLD";
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
     public void ms_c_hui_dp_shopPromo(String  doubleWriteMode) throws Exception {
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(mtUserId+"_1");
-        if( doubleWriteMode.equals("OLD"))
-            LionUtil.setUserBlackList(mtUserId+"_1");
-
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")){
+            LionUtil.setUserWriteList(dpUserId+"_0");
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+        }
+        if( doubleWriteMode.equals("OLD")){
+            LionUtil.setUserBlackList(dpUserId+"_0");
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
         String id = "120000904211812";
         DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(dpToken,dpClient,"ms_c_dpshopScenes_platform_01",id);
         if(deskCoupon == null){
@@ -181,13 +190,22 @@ public class TestDPShopPromo_New extends TestDPLogin {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponseresponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
 
+        //退款mock
+        Long amount = maitonQueryOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
+
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+        orderCheck.maitonOrder(3,refundOrderResponse);
+
         //平台校验已消费退款
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
-
-//        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-//        orderCheck.maitonOrder(3,refundOrderResponse);
-
     }
 }
