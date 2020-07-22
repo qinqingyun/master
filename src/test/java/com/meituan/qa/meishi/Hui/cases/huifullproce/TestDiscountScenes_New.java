@@ -130,7 +130,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         //3、支付
         Long amount = createOrderResponse.getOrderDTO().getCurrentAmount().longValue() * 100;
         payNotifyMockRequest.setTradeNo(tradeNo);
-        payNotifyMockRequest.setOrderId(orderId);
+        payNotifyMockRequest.setOrderId(neworderid);
         payNotifyMockRequest.setAmount(amount);
         if(doubleWriteMode.equals("OLD")){
             payNotifyMockRequest.setOutNo("DPHUI-"+orderId);

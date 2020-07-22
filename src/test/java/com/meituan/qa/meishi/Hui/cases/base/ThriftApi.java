@@ -4,6 +4,8 @@ import com.dianping.hui.base.business.enums.OperationSourceCode;
 import com.dianping.hui.common.enums.RefundFlowPlatformEnum;
 import com.dianping.hui.common.enums.RefundFlowTargetEnum;
 import com.dianping.hui.common.enums.RefundFlowTypeEnum;
+import com.dianping.hui.order.response.QueryOrderResponse;
+import com.dianping.hui.order.shard.service.QueryMainOrder4MTService;
 import com.dianping.mopayprocess.refundflow.request.DirectRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
@@ -13,11 +15,16 @@ import com.dianping.unified.coupon.issue.api.request.UnifiedCouponIssueRequest;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.meituan.mtrace.Tracer;
+import com.meituan.nibscp.unity.validation.api.request.JsonDiffRequest;
+import com.meituan.nibscp.unity.validation.api.response.DiffResponse;
+import com.meituan.nibscp.unity.validation.api.service.DiffService;
 import com.meituan.nibtp.trade.client.buy.enums.BizSpaceId;
 import com.meituan.nibtp.trade.client.buy.enums.OrderResultCodeEnum;
 import com.meituan.nibtp.trade.client.buy.response.QueryOrderMappingRes;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
+import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderType;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
@@ -28,6 +35,8 @@ import org.apache.thrift.TException;
 import org.stringtemplate.v4.ST;
 
 import java.util.Optional;
+import static com.meituan.nibscp.unity.common.api.enums.MigrationBizTypeEnum.FOOD_BUY;
+
 
 /**
  * Created by buyuqi on 2020/5/29.
@@ -42,6 +51,24 @@ public class ThriftApi {
     MaitonHongbaoTService.Iface maitonHongbaoTService;
     @PigeonAPI(url = "http://service.dianping.com/UnifiedCouponIssueTrustRemoteService/UnifiedCouponIssueTrustService_1.0.0_pigeontest")
     private UnifiedCouponIssueTrustService unifiedCouponIssueTrustService;
+    @ThriftAPI(desc = "unity平台diff工具", appkey = "com.sankuai.nibscp.unity.validation", interfaceName = "com.meituan.nibscp.unity.validation.api.service.DiffService")
+    DiffService diffService;
+    @PigeonAPI(url = "http://service.dianping.com/huiOrderService/QueryMainOrder4MTService_1.0.0")
+    QueryMainOrder4MTService queryMainOrder4MTService;
+    /**
+     * unity平台买单数据diff
+     *
+     */
+    public DiffResponse getOrderDiff(String newData,String oldData) {
+        JsonDiffRequest jsonDiffRequest = new JsonDiffRequest();
+        jsonDiffRequest.setMigrationBizTypeEnum(FOOD_BUY);
+        jsonDiffRequest.setIdentity("food_buy.normal.supply.default-8");
+        jsonDiffRequest.setTraceId(Tracer.id());
+        jsonDiffRequest.setNewJsonData(newData);
+        jsonDiffRequest.setOldJsonData(oldData);
+        DiffResponse response = diffService.diff(jsonDiffRequest);
+        return response;
+    }
 
     /**
      * 新老订单映射
@@ -86,7 +113,7 @@ public class ThriftApi {
      * 直接退款
      *
      */
-    public DirectRefundResponse superRefund(String ip, String orderId) {
+    public DirectRefundResponse superRefund(String ip, OrderModel orderModel) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
         // 直接发起退款
@@ -96,7 +123,7 @@ public class ThriftApi {
         request.setIp(optionalIP(ip));
         request.setDesc("直接退款");
         request.setOperator("qa-autocase");
-        request.setOrderId(Long.valueOf(orderId));
+        request.setOrderId(Long.valueOf(orderModel.getOrderId()));
         request.setTarget(RefundFlowTargetEnum.CUSTOM_SERVICE.getCode());
         //request.setSuperRefund(1); 超级退款
         request.setType(RefundFlowTypeEnum.AGREE.getCode());
@@ -130,7 +157,7 @@ public class ThriftApi {
      * 平台券发券接口
      *
      */
-    public UnifiedCouponIssueResponse setCouponPromo(Long userId,Integer couponId){
+    public UnifiedCouponIssueResponse setCouponPromo(Long userId,Integer couponId) {
         UnifiedCouponIssueRequest couponIssueRequest = new UnifiedCouponIssueRequest();
         couponIssueRequest.setUserType("MT");
         couponIssueRequest.setUnifiedCouponGroupIdList(Lists.newArrayList());
@@ -143,5 +170,13 @@ public class ThriftApi {
         option.setNotifyType(0);
         UnifiedCouponIssueResponse unifiedCouponIssueResponse = unifiedCouponIssueTrustService.issueTrustCoupon(couponIssueRequest, option);
         return unifiedCouponIssueResponse;
+    }
+    /**
+    *
+     * 老系统订单查询
+     */
+    public QueryOrderResponse getMaidonOrder(String orderId) {
+        QueryOrderResponse queryOrderResponse = queryMainOrder4MTService.queryMainOrderByOrderId(Long.valueOf(orderId));
+        return queryOrderResponse;
     }
 }

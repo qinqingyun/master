@@ -70,6 +70,7 @@ public class TestDPShopPromo_New extends TestDPLogin {
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
     @Parameters({ "DoubleWriteMode" })
+    //String  doubleWriteMode = "NEW";
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
     public void ms_c_hui_dp_shopPromo(String  doubleWriteMode) throws Exception {

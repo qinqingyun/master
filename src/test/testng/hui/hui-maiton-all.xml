@@ -1,4 +1,4 @@
-<suite name="testSuite" parallel="true" thread-count="8">
+<suite name="testSuite" parallel="true" thread-count="10">
     <parameter name="team_id" value="179"/>
     <!--设置双写标识-->
     <test name="以老为主">
@@ -38,6 +38,13 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderLimitRecord"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderStatistics"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderSummary"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderByReceipt"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="5"/>

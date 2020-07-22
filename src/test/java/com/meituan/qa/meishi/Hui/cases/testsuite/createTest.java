@@ -25,34 +25,34 @@ import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
 public class createTest extends TestBase{
     @Test()
     public void testCreate() throws Exception {
-        List<String> orderCreateResult = new ArrayList();
-        OrderCheck orderCheck=new OrderCheck();
-        String caseId = "ms_c_4Verify_mtloadUnifiedCashier_05";
-        String platformPath="/platformPath";
-
-        orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,MTApp);
-        String payToken = orderCreateResult.get(0);
-        String tradeNo = orderCreateResult.get(1);
-        String orderId = orderCreateResult.get(2);
-        String serializedId = orderCreateResult.get(3);
-        log.info("创单成功！orderId = " + orderId + " serializedId = " + serializedId + " tradeNo = " + tradeNo
-                + " payToken = " + payToken);
-
-        // 新老订单映射
-        MappingOrderIds mappingOrderIds=checkLoop.getMappingOrderIds(orderId);
-        String neworderid= mappingOrderIds.getNewOrderId();
-        String oldorderid= mappingOrderIds.getOldOrderId();
-
-        // 平台下单校验
-        JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform");
-        JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
-        checkLoop.getPlatformStatus(1,neworderid,verifyRequest,null);
-
-        //买单侧下单校验
-        QueryOrderResponse maitonQueryOrderResponse=checkLoop.getMaitonOrder(1,oldorderid);
-        CheckOrderUtil.checkOldOrderSystem(1,maitonQueryOrderResponse);
-
-        //2、支付
+//        List<String> orderCreateResult = new ArrayList();
+//        OrderCheck orderCheck=new OrderCheck();
+//        String caseId = "ms_c_4Verify_mtloadUnifiedCashier_05";
+//        String platformPath="/platformPath";
+//
+//        orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,MTApp);
+//        String payToken = orderCreateResult.get(0);
+//        String tradeNo = orderCreateResult.get(1);
+//        String orderId = orderCreateResult.get(2);
+//        String serializedId = orderCreateResult.get(3);
+//        log.info("创单成功！orderId = " + orderId + " serializedId = " + serializedId + " tradeNo = " + tradeNo
+//                + " payToken = " + payToken);
+//
+//        // 新老订单映射
+//        MappingOrderIds mappingOrderIds=loopCheck.getMappingOrderIds(orderId);
+//        String neworderid= mappingOrderIds.getNewOrderId();
+//        String oldorderid= mappingOrderIds.getOldOrderId();
+//
+//        // 平台下单校验
+//        JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform");
+//        JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
+//        loopCheck.getPlatformStatus(1,neworderid,verifyRequest,null);
+//
+//        //买单侧下单校验
+//        QueryOrderResponse maitonQueryOrderResponse=loopCheck.getMaitonOrder(1,oldorderid);
+//        CheckOrderUtil.checkOldOrderSystem(1,maitonQueryOrderResponse);
+//
+//        //2、支付
 //        maitonApi.orderPay(payToken, tradeNo, MTApp);
 //
 //        //支付后平台校验
