@@ -7,6 +7,7 @@ import com.meituan.qa.meishi.Hui.cases.base.TestBase;
 import com.meituan.qa.meishi.Hui.domain.PlatformCheckInfo;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
+import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import com.sankuai.nibqa.trade.api.dto.ValidResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,8 @@ import java.util.List;
 @Slf4j
 public class LoopCheckUtil extends TestBase {
     @LoopCheck(desc = "原价买单创建订单,无需加载优惠台", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public List uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum)  {
-        List orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,sourceEnum);
+    public OrderModel uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum)  {
+        OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,sourceEnum);
         return orderCreateResult;
     }
     @LoopCheck(desc = "查询新老订单ID映射轮询", interval = 500, timeout = 500 * 30) // 每间隔500ms请求一次，共10s
@@ -59,5 +60,15 @@ public class LoopCheckUtil extends TestBase {
             }
         }
         return queryOrderResponse;
+    }
+    @LoopCheck(desc = "支付结果页轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public String getPayResultPage(String caseId, OrderSourceEnum sourceEnum,String serializedId)  {
+        String queryMopayStatus = maitonApi.queryMopayStatus(caseId, sourceEnum, serializedId);
+        return queryMopayStatus;
+    }
+    @LoopCheck(desc = "订单详情页轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public String getOrderDetail(String caseId,OrderSourceEnum sourceEnum,String orderId)  {
+        String orderDetail = maitonApi.MtOrderDetail(caseId, sourceEnum, orderId);
+        return orderDetail;
     }
 }

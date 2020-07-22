@@ -1,7 +1,13 @@
 package com.meituan.qa.meishi.Hui.util;
+import com.alibaba.fastjson.JSONObject;
 import com.beust.jcommander.internal.Lists;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
+import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
+import com.meituan.qa.meishi.Hui.entity.OrderStatusEnum;
+import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
+import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.util.MtraceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
@@ -11,7 +17,12 @@ import java.util.List;
  */
 @Slf4j
 public class CheckOrderUtil extends TestBase {
-
+    public static void checkOldOrderSystem(MappingOrderIds mappingOrderIds,OrderStatusEnum orderStatusEnum) throws Exception {
+        if(IS_CHECK_OLD_ORDER_SYSTEM) {
+            QueryOrderResponse queryOrderResponse=loopCheck.getMaitonOrder(orderStatusEnum.getStatusName(),mappingOrderIds.getNewOrderId());
+            checkOldOrderSystem(orderStatusEnum.getStatusName(),queryOrderResponse);
+        }
+    }
     //调用老的交易平台接口校验订单状态是否是支付成功
     public static void checkOldOrderSystem(int flag,QueryOrderResponse maitonQueryOrderResponse){
         if (IS_CHECK_OLD_ORDER_SYSTEM) {
@@ -36,17 +47,31 @@ public class CheckOrderUtil extends TestBase {
             log.info("*******************老交易系统校验通过****************");
         }
     }
-
-
-    //调用新交易平台接口校验订单状态是否是支付成功
-//    public static void checkNewOrderSystem(OrderModel orderModel, TradeVerifyTypeEnum verifyType) throws Exception{
-//        log.info("****************开始校验新交易平台****************");
-//        if (IS_CHECK_NEW_ORDER_SYSTEM) {
-//            MtraceUtil.generatTrace("校验新交易平台");
-//            PlatformCheckInfo.PlatformCheckInfo(Long.valueOf(orderModel.getOrderId()),verifyType, orderModel.getExpect());
-//        }
-//        log.info("****************新交易平台校验成功****************");
-//    }
+    public static void checkNewPlarform(String platformPath, String platformCaseId, MappingOrderIds mappingOrderIds, OrderStatusEnum orderStatusEnum) throws Exception {
+        if(IS_CHECK_NEW_ORDER_SYSTEM) {
+            JSONObject createOrderRequest = DBDataProvider.getRequest(platformPath, platformCaseId);
+            JSONObject verifyRequest= createOrderRequest.getJSONObject("params");
+            loopCheck.getPlatformStatus(orderStatusEnum.getStatusName(),mappingOrderIds.getNewOrderId(),verifyRequest,null);
+        }
+    }
+    public static MappingOrderIds checkOrderMapping(OrderModel orderModel) throws Exception {
+        MappingOrderIds mappingOrderIds=new MappingOrderIds();
+        if(MainSystem.equals("OLD_MAIN") || MainSystem.equals("NEW_MAIN")){
+            mappingOrderIds = loopCheck.getMappingOrderIds(orderModel.getOrderId());
+        }else {
+            mappingOrderIds.setNewOrderId(orderModel.getOrderId());
+            mappingOrderIds.setOldOrderId(orderModel.getOrderId());
+        }
+        return mappingOrderIds;
+    }
+    public static void checkPayOrderResultPage(String caseId, OrderSourceEnum orderSourceEnum, OrderModel orderModel) throws Exception {
+        String statusMsg = loopCheck.getPayResultPage(caseId, orderSourceEnum, orderModel.getSerializedId());
+        Assert.assertEquals(statusMsg,"支付成功","支付结果页状态：支付失败或支付中");
+    }
+    public static void checkOrderDetail(String caseId, OrderSourceEnum orderSourceEnum, OrderModel orderModel) throws Exception {
+        String orderDetail = loopCheck.getOrderDetail(caseId, orderSourceEnum, orderModel.getOrderId());
+        Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
+    }
 
 
 

@@ -1,9 +1,11 @@
 package com.meituan.qa.meishi.Hui.cases.base;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
+import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
@@ -14,6 +16,7 @@ import com.meituan.toolchain.mario.login.model.LoginType;
 import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
@@ -31,17 +34,19 @@ import static java.lang.Boolean.TRUE;
  * Created by buyuqi on 2020/5/29.
  */
 @Slf4j
-public class MaitonApi {
+@Data
+public class MaitonApi{
     public String envpath;
     private  String dpTokenNew = "";
     private  static String mtTokenNew = "";
-    private  String mtUserIdNew = "";
+    public   String mtUserIdNew = "";
     private  String username = "user1";
     public  String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
     public  String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
     public  String dpClient = "MApi 1.1(dpscope 10.16.0 appstore; iPhone 12.3.2 iPhone10,2; a0d0)";
     public  String mClient="Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1";
     UserModel userModel = new UserModel();
+    OrderModel orderModel = new OrderModel();
     //Loopcheck重试次数和时间
     static final int interval = 1000;
     static final int timeout = 10000;
@@ -60,13 +65,11 @@ public class MaitonApi {
 //            return null;
 //        dpTokenNew = dpcUser.getToken();
 
-
         MTCUser mtUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, username);
         if( mtUser == null ||  StringUtil.isBlank(mtUser.getToken()))
             return null;
         mtTokenNew = mtUser.getToken();
         mtUserIdNew = String.valueOf(mtUser.getId());
-
         return "登录成功";
     }
 
@@ -94,14 +97,14 @@ public class MaitonApi {
      * PayApi obj = new PayApi("cashier.qa.pay.test.sankuai.com");//点评侧域名
      *
      */
-    public void orderPay(String payToken,String tradeNo,OrderSourceEnum sourceEnum) throws Exception {
+    public void orderPay(OrderModel orderModel,OrderSourceEnum sourceEnum) throws Exception {
         replaceUserInfo(sourceEnum);
         String payHost = ConfigMange.getValue("env.api.meishi.hui.pay");
         PayApi obj = new PayApi(payHost);
         Map<String, String> params = new HashMap<String, String>();
         params.put("type", "2");  //type {0:绑卡，1:余额 2.支付宝} 建议用余额支付
-        params.put("tradeno", tradeNo);
-        params.put("pay_token", payToken);
+        params.put("tradeno", orderModel.getTradeNo());
+        params.put("pay_token", orderModel.getPayToken());
         //params.put("pay_password", passWord); //设置支付密码http://payc.fsp.test.sankuai.com/rstpwd/index.htm
         params.put("token", userModel.getToken()); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
         //params.put("nb_app", "...");//非必传，默认值是group
@@ -132,18 +135,18 @@ public class MaitonApi {
      * 美团点评根据不同token和useragent区分平台
      */
     //无需加载优惠平台接口
-    public List uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum){
+    public OrderModel uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum){
         //替换token
         replaceUserInfo(sourceEnum);
         return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,0,"",null);
     }
     //需要加载优惠平台接口，提供获取的couponofferid
-    public List uniCashierCreateOrder(String caseId,int coupOfferId,OrderSourceEnum sourceEnum){
+    public OrderModel uniCashierCreateOrder(String caseId,int coupOfferId,OrderSourceEnum sourceEnum){
         //替换token
         replaceUserInfo(sourceEnum);
         return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,coupOfferId,"",null);
     }
-    public List uniCashierCreateOrder(String token, String userAgent, String caseid, int coupOfferId, String dpDealString, Map<String,Object> receipt){
+    public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, int coupOfferId, String dpDealString, Map<String,Object> receipt){
         // 生成新Trace
         TracerUtil.initAndLogTrace();
 
@@ -183,6 +186,7 @@ public class MaitonApi {
             request.getJSONObject("body").put("dpdealstring",dpDealString);
             request.getJSONObject("body").put("shopdealstring",offerIdStr);
         }
+        String payAmount = JSON.toJSONString(request.getJSONObject("body").get("useramount"));
         log.info("请求参数request:{}",request);
         ResponseMap response = null;
         try {
@@ -194,7 +198,6 @@ public class MaitonApi {
         if(response.getStatusCode() != 200){
             return null;
         }
-        List result = new ArrayList<String>();
         try {
             payToken = response.getValueByJsonPath("$.PayToken");
             tradeNo = response.getValueByJsonPath("$.Tradeno");
@@ -213,11 +216,12 @@ public class MaitonApi {
             log.info("创单失败");
             return null;
         }
-        result.add(payToken);
-        result.add(tradeNo);
-        result.add(orderId.toString());
-        result.add(serializedId);
-        return result;
+        orderModel.setOrderId(orderId.toString());
+        orderModel.setPayToken(payToken);
+        orderModel.setTradeNo(tradeNo);
+        orderModel.setSerializedId(serializedId);
+        orderModel.setPayAmount(payAmount);
+        return orderModel;
     }
     /**
      * APP加载优惠台接口，接口文档：
@@ -255,7 +259,7 @@ public class MaitonApi {
      * APP支付结果，接口文档：
      *
      */
-    public String queryMopayStatus(String caseId,OrderSourceEnum sourceEnum,String orderId) {
+    public String queryMopayStatus(String caseId,OrderSourceEnum sourceEnum,String serializedId) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
         //替换token
@@ -265,11 +269,11 @@ public class MaitonApi {
         request.getJSONObject("headers").put("pragma-newtoken", userModel.getToken());
         request.getJSONObject("headers").put("User-Agent", userModel.getUserAgent());
         request.getJSONObject("headers").put("pragma-os", userModel.getUserAgent());
-        request.getJSONObject("params").put("serializedid", orderId);
+        request.getJSONObject("params").put("serializedid", serializedId);
         ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.host", request);
         JSONObject response= (JSONObject) DBDataProvider.getExpectResponse(queryMopayStatusUrl, caseId);
         if (responseMap == null) {
-            log.error("querymopaystatus error:{}", orderId);
+            log.error("querymopaystatus error:{}", serializedId);
             return null;
         }
         log.info("query order result:{}", responseMap.getResponseBody());

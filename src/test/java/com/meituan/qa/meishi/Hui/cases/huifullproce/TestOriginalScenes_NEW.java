@@ -149,7 +149,6 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(response));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //退款mock
-
         refundNotifyMockRequest.setAmount(amount);
         refundNotifyMockRequest.setOrderId(neworderid);
         refundNotifyMockRequest.setTradeNo(tradeNo);

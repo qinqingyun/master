@@ -78,7 +78,7 @@ public class HuiOrderApi {
      */
     public Date getBeginTimeDate(){
         long current = System.currentTimeMillis();
-        long zeroTime = current/(1000*3600*24)*(1000*3600*24) - TimeZone.getDefault().getRawOffset();
+        long zeroTime = current/(1000*3600*24)*(1000*3600*24) - TimeZone.getDefault().getRawOffset() - 86400000;
         Date date = new Date();
         date.setTime(zeroTime);
         return date;
