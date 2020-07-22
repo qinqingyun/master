@@ -22,6 +22,6 @@ public class COETdDataExtracterTest {
 
     @Test
     public void getCOETdData() throws ParseException {
-        coeTdDataExtracter.getCOETdData("2020-06-15","2020-07-09");
+        coeTdDataExtracter.getCOETdData("2020-07-15","2020-07-22");
     }
 }
