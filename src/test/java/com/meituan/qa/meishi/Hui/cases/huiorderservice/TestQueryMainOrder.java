@@ -85,7 +85,7 @@ public class TestQueryMainOrder extends TestBase {
         log.info("入参：{}",JSON.toJSONString(queryMainOrderPageRequest));
         QueryOrderPageResponse queryOrderPageResponse = huiOrderLoopCheck.queryMainOrder(queryMainOrderPageRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderPageResponse));
-        Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size()>0,"开始时间晚于结束时间，查询结果返回不为空");
+        Assert.assertTrue(queryOrderPageResponse.getPageModel().getRecords().size()>0,"开始时间晚于结束时间，查询结果返回为空");
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200703", des = "参数pageSize：传0")

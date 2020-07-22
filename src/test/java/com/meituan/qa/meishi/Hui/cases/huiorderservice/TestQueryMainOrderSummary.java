@@ -80,8 +80,8 @@ public class TestQueryMainOrderSummary extends TestBase {
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：时间晚于endTime")
     public void ms_c_queryMainOrderSummary_06(JSONObject request, JSONObject expect){
         QueryMainOrderBaseRequest queryMainOrderBaseRequest = JSON.parseObject(request.toString(), QueryMainOrderBaseRequest.class);
-        queryMainOrderBaseRequest.setBeginTime(huiOrderApi.getBeginTimeDate());
-        queryMainOrderBaseRequest.setEndTime(huiOrderApi.getEndTimeDate());
+        queryMainOrderBaseRequest.setBeginTime(huiOrderApi.getEndTimeDate());
+        queryMainOrderBaseRequest.setEndTime(huiOrderApi.getBeginTimeDate());
         log.info("入参：{}",JSON.toJSONString(queryMainOrderBaseRequest));
         QueryOrderStatisticsResponse queryOrderStatisticsResponse = huiOrderLoopCheck.queryMainOrderSummary(queryMainOrderBaseRequest);
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));

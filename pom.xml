@@ -66,6 +66,16 @@
             <artifactId>jacoco-live-api</artifactId>
             <version>0.0.2-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.dianping.lion</groupId>
+            <artifactId>lion-client</artifactId>
+            <version>0.8.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sankuai.meituan</groupId>
+            <artifactId>mtconfig-client</artifactId>
+            <version>2.0.1</version>
+        </dependency>
         <!--买单业务-->
         <dependency>
             <groupId>com.dianping</groupId>
