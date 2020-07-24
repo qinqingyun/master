@@ -143,7 +143,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 pushStr = pushStr + "\n\n△【" + "[" + mcdCoePO.getBrief() + "|" + mcdCoePO.getCoeLink() + "]" + "】";
                 pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "\n● 责任人:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
                 for (Long daxiangId : daxiangIds) {
-                    DaXiangUtils.pushToPerson( pushStr, "guomengyao");
+                    DaXiangUtils.pushToPerson( pushStr, "guomengyao","yuan.ding");
                     DaXiangUtils.pushToRoom( pushStr, daxiangId);
 
                 }
@@ -170,11 +170,11 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                         pushText=pushText+"\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId="+po.getCoeId()+"]";
                         if (business.equals("住宿") ) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/atp.jsp#/\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao");
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
                             DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
                         } else if (business.equals("门票")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/dual.jsp#/apt_trip\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao");
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
                             DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
                         } else if (business.equals("到餐") || business.equals("收单")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
@@ -182,7 +182,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                             DaXiangUtils.pushToPerson(pushText,"wangjianming02");
                         } else if (business.equals("到综")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n地址：https://km.sankuai.com/page/259031052\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao");
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
                             DaXiangUtils.pushToPerson(pushText,"yuan.ding");
                         }
                     }
