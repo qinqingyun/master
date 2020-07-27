@@ -1,30 +1,36 @@
 package com.meituan.qa.meishi.Hui.cases.testsuite;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.dianping.lion.client.ConfigRepository;
 import com.dianping.lion.client.Lion;
+import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
+import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
 import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueOption;
 import com.dianping.unified.coupon.issue.api.request.UnifiedCouponIssueRequest;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.google.common.collect.Lists;
+import com.meituan.qa.meishi.Hui.cases.base.TestBase;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
 import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.sankuai.meituan.config.MtConfigClient;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by buyuqi on 2019/12/17.
  */
 //申请退款接口
 @Slf4j
-public class Btest {
+public class Btest extends TestBase {
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
     @ThriftAPI(appkey = "com.sankuai.web.campaign.assigncard")
@@ -156,6 +162,14 @@ public class Btest {
         client.init();
         Map<String, String> allKeyValues = client.getAllKeyValues();
         log.info("结果返回：{}",JSON.toJSONString(allKeyValues));
+    }
+    @Test void refund(){
+//        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund("qa-autocase", orderModel, maitonApi.getUserModel());
+//        log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
+//        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund("qa-autocase", orderModel);
+//        log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
+//        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
+//        Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
     }
 }
 

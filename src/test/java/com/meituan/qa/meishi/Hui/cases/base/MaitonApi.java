@@ -3,15 +3,18 @@ package com.meituan.qa.meishi.Hui.cases.base;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
+import com.dianping.hui.order.response.QueryOrderResponse;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
+import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import com.meituan.toolchain.mario.config.ConfigMange;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.login.LoginUtil;
+import com.meituan.toolchain.mario.login.model.DPCUser;
 import com.meituan.toolchain.mario.login.model.LoginType;
 import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
@@ -22,12 +25,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.meituan.qa.meishi.Hui.cases.base.TestBase.MainSystem;
+import static com.meituan.qa.meishi.Hui.cases.base.TestBase.thriftApi;
+import static com.meituan.qa.meishi.Hui.util.TestDPLogin.dpUserId;
+import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
 import static java.lang.Boolean.TRUE;
 
 /**
@@ -59,7 +67,7 @@ public class MaitonApi{
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
     public String userLogin(){
-        envpath = ConfigMange.getValue("testData");
+//        envpath = ConfigMange.getValue("testData");
 //        DPCUser dpcUser = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, username);
 //        if( dpcUser == null ||  StringUtil.isBlank(dpcUser.getToken()))
 //            return null;
@@ -73,7 +81,6 @@ public class MaitonApi{
         return "登录成功";
     }
 
-
     //替换token
     public void replaceUserInfo(OrderSourceEnum sourceEnum){
 
@@ -85,6 +92,7 @@ public class MaitonApi{
             case MTApp:
                 userModel.setToken(mtTokenNew);
                 userModel.setUserAgent(mtClientNew);
+                userModel.setUserId(mtUserIdNew);
                 break;
         }
 
@@ -216,6 +224,8 @@ public class MaitonApi{
             log.info("创单失败");
             return null;
         }
+        QueryOrderResponse maidonOrder = thriftApi.getMaidonOrder(orderId.toString());
+        orderModel.setSchemeId(String.valueOf(maidonOrder.getOrderDTO().getSchemeId()));
         orderModel.setOrderId(orderId.toString());
         orderModel.setPayToken(payToken);
         orderModel.setTradeNo(tradeNo);

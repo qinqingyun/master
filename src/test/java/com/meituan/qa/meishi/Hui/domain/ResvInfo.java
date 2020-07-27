@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
 import com.google.common.collect.Lists;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.toolchain.mario.config.ConfigMange;
 import com.meituan.toolchain.mario.data.db.DBUtil;
@@ -23,6 +24,7 @@ import com.sankuai.meituan.resv.order.thrift.service.RemoteResvOrderService;
 import com.sankuai.meituan.resv.trade.idl.TResvTradeService;
 import com.sankuai.meituan.resv.trade.idl.exception.ResvTradeException;
 import com.sankuai.meituan.resv.trade.idl.model.*;
+import com.sankuai.nibqa.trade.payMock.params.request.PayNotifyMockRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 
@@ -48,6 +50,7 @@ public class ResvInfo {
     TResvIGoodsService.Iface tResvIGoodsService;
     TResvTradeService.Iface tResvTradeService;
     RemoteResvOrderService remoteResvOrderService;
+    PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
 
     //1。获取预订sku
     public Integer getBookableTime(Integer platform) throws TException, InternalTException {
@@ -102,8 +105,14 @@ public class ResvInfo {
             log.info(e.getMessage());
             return null;
         }
-        //Assert.assertEquals(response.getStatus(),ResvOrderEnum.待支付);
-        resvPay(response);
+        //支付mock
+//        Long amount = 10000l;
+//        payNotifyMockRequest.setTradeNo(response.preTradeNo);
+//        payNotifyMockRequest.setOrderId(String.valueOf(response.getSucceedOrderId()));
+//        payNotifyMockRequest.setAmount(amount);
+//        payNotifyMockRequest.setOutNo("DPHUI-");
+//        PayMockUtil.mockPay(payNotifyMockRequest);
+        //resvPay(response);
         return response;
     }
     //3。商家接单

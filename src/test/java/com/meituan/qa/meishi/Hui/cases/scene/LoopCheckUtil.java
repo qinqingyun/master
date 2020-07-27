@@ -20,6 +20,11 @@ public class LoopCheckUtil extends TestBase {
         OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,sourceEnum);
         return orderCreateResult;
     }
+    @LoopCheck(desc = "折扣买单创建订单,需加载优惠台", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public OrderModel uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum,int coupOfferId)  {
+        OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,coupOfferId,sourceEnum);
+        return orderCreateResult;
+    }
     @LoopCheck(desc = "查询新老订单ID映射轮询", interval = 500, timeout = 500 * 30) // 每间隔500ms请求一次，共10s
     public MappingOrderIds getMappingOrderIds(String orderId) throws Exception {
         MappingOrderIds mappingOrderIds = thriftApi.getMappingOrderIds(orderId);
@@ -70,5 +75,10 @@ public class LoopCheckUtil extends TestBase {
     public String getOrderDetail(String caseId,OrderSourceEnum sourceEnum,String orderId)  {
         String orderDetail = maitonApi.MtOrderDetail(caseId, sourceEnum, orderId);
         return orderDetail;
+    }
+    @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public Integer loadUnifiedCashier(String caseId,OrderSourceEnum sourceEnum)  {
+        Integer couponOfferId = maitonApi.loadUnifiedCashier(caseId, sourceEnum);
+        return couponOfferId;
     }
 }

@@ -6,14 +6,10 @@ import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderLoopCheck;
 import com.meituan.qa.meishi.Hui.cases.scene.LoopCheckUtil;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
-import com.meituan.toolchain.mario.config.ConfigMange;
-import com.meituan.toolchain.mario.login.LoginUtil;
-import com.meituan.toolchain.mario.login.model.LoginType;
-import com.meituan.toolchain.mario.login.model.MTCUser;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.internal.StringUtil;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
 import static com.meituan.qa.meishi.Hui.util.TestDPLogin.dpUserId;
@@ -32,15 +28,15 @@ public class TestBase {
     public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
     protected static String doubleWriteMode;
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "OLD_MAIN";
+    public static String MainSystem = "NEW_MAIN";
     //#是否校验老订单系统
-    public static boolean IS_CHECK_OLD_ORDER_SYSTEM= false;
+    public static boolean IS_CHECK_OLD_ORDER_SYSTEM= true;
     //是否进行db数据diff
     public static boolean IS_CHECK_DB_RECORD=true;
     //#是否校验新订单系统
     public static boolean IS_CHECK_NEW_ORDER_SYSTEM = true;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void beforeSuite() {
         maitonApi.userLogin();
     }
@@ -48,7 +44,6 @@ public class TestBase {
     @BeforeTest(alwaysRun = true)
     public void beforeTest(ITestContext context) {
         String main = context.getCurrentXmlTest().getParameter("main");
-
         if (main != null) {
             MainSystem = main;
         }
@@ -58,9 +53,6 @@ public class TestBase {
                 IS_CHECK_OLD_ORDER_SYSTEM = true;
                 break;
             case "OLD_MAIN":
-                IS_CHECK_NEW_ORDER_SYSTEM = true;
-                IS_CHECK_OLD_ORDER_SYSTEM = true;
-                break;
             case "NEW_MAIN":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
                 IS_CHECK_OLD_ORDER_SYSTEM = true;
@@ -90,17 +82,17 @@ public class TestBase {
                 return "单写老";
         }
     }
+
     @BeforeTest
     public void beforeTest() throws Exception {
         // 判断并改写双写模式
         if( MainSystem.equals("NEW_MAIN")){
-            LionUtil.setUserWriteList(mtUserId+"_1");
+            LionUtil.setUserWriteList(maitonApi.getMtUserIdNew()+"_1");
             LionUtil.setUserWriteList(dpUserId+"_0");
         }
-        if( MainSystem.equals("OLD_MAIN")){
-            LionUtil.setUserBlackList(mtUserId+"_1");
-            LionUtil.setUserWriteList(dpUserId+"_0");
+        if( MainSystem.equals("OLD_MAIN") || MainSystem.equals("OLD_ONLY")){
+            LionUtil.setUserBlackList(maitonApi.getMtUserIdNew()+"_1");
+            LionUtil.setUserBlackList(dpUserId+"_0");
         }
     }
-
 }

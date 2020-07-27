@@ -1,12 +1,17 @@
 package com.meituan.qa.meishi.Hui.cases.base;
 
+import com.alibaba.fastjson.JSON;
 import com.dianping.hui.base.business.enums.OperationSourceCode;
 import com.dianping.hui.common.enums.RefundFlowPlatformEnum;
 import com.dianping.hui.common.enums.RefundFlowTargetEnum;
 import com.dianping.hui.common.enums.RefundFlowTypeEnum;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.hui.order.shard.service.QueryMainOrder4MTService;
+import com.dianping.mopayprocess.refundflow.request.AgreeRefundRequest;
+import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
 import com.dianping.mopayprocess.refundflow.request.DirectRefundRequest;
+import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
+import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
@@ -25,6 +30,7 @@ import com.meituan.nibtp.trade.client.buy.response.QueryOrderMappingRes;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
+import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderType;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
 import com.meituan.toolchain.mario.annotation.PigeonAPI;
@@ -139,9 +145,66 @@ public class ThriftApi {
         return ip;
     }
     /**
-     * 商家券发券接口
+     * 用户申请退款
      *
      */
+    public ApplyRefundResponse applyRefund(String ip, OrderModel orderModel, UserModel userModel) {
+        // 生成新Trace
+        TracerUtil.initAndLogTrace();
+        ApplyRefundRequest request = new ApplyRefundRequest();
+        request.setApp(1);
+        request.setCreditPlatform(1);
+        request.setLoginType(1);
+        request.setMobile("17610420086");
+        request.setUa("ua-test");
+        request.setOrderId(Long.valueOf(orderModel.getOrderId()));
+        request.setDesc("test nib apply");
+        request.setOrderTime(System.currentTimeMillis());
+        request.setFingerprint("finger");
+        request.setUuid("uuid");
+        request.setOperator(optionalIP(ip));
+        request.setOrderSource(0);
+        request.setPlatform(1);
+        request.setIp(optionalIP(ip));
+        request.setReason("付款错误");
+        request.setDesc("付款错误");
+        request.setTarget(RefundFlowTargetEnum.USER.getCode());
+        request.setType(RefundFlowTypeEnum.APPLY.getCode());
+        // 原路
+        request.setRouter(1);
+        request.setUserId(Long.valueOf(userModel.getUserId()));
+        System.out.println(JSON.toJSONString(request));
+        ApplyRefundResponse applyRefundResponse = refundFlowService.applyRefund(request);
+        return applyRefundResponse;
+    }
+    /**
+     * 商家同意退款
+     *
+     */
+    public AgreeRefundResponse agreeRefund(String ip, OrderModel orderModel) {
+        // 生成新Trace
+        TracerUtil.initAndLogTrace();
+
+        AgreeRefundRequest request = new AgreeRefundRequest();
+        request.setReason("同意退款");
+        request.setIp(optionalIP(ip));
+        request.setDesc("同意退款desc");
+        request.setOperator(optionalIP(ip));
+        request.setOrderId(Long.valueOf(orderModel.getOrderId()));
+        request.setTarget(RefundFlowTargetEnum.MERCHANT.getCode());
+        request.setPlatform(RefundFlowPlatformEnum.ECOM.getCode());
+        String ret = JSON.toJSONString(request);
+        System.out.println(ret);
+        AgreeRefundResponse agreeRefundResponse = refundFlowService.agreeRefund(request);
+        if (agreeRefundResponse.getErrCode() == 0) {
+            agreeRefundResponse.setIsSuccess(true);
+        }
+        return agreeRefundResponse;
+    }
+        /**
+         * 商家券发券接口
+         *
+         */
     public MaitonHongbaoTResponse setShopPromo(Long userId,Integer poiId) throws TException {
         MaitonHongbaoTRequest maitonHongbaoTRequest = new MaitonHongbaoTRequest();
         maitonHongbaoTRequest.setPlatform(Platform.MT);
