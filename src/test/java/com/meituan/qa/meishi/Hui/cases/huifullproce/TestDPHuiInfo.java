@@ -1,5 +1,6 @@
 package com.meituan.qa.meishi.Hui.cases.huifullproce;
 
+import com.alibaba.fastjson.JSON;
 import com.dianping.discountcenter.dto.BizCouponConfig;
 import com.dianping.discountcenter.request.QueryBizCouponRequest;
 import com.dianping.discountcenter.service.BizCouponAcquireService;
@@ -72,8 +73,9 @@ public class TestDPHuiInfo {
         huiCouponReq.setShopIds(shopIdList);
         huiCouponReq.setCreditContext(creditMap);
         Map<Integer, List<HuiCouponDTO>> req = huiSearchService.loadHuiCouponsByShops(huiCouponReq);
+        log.info("列表页买单信息：{}", JSON.toJSONString(req));
         String couponDesc = req.get(shopIdList.get(0)).get(0).getCouponDiscount().getCouponDesc();
-        log.info(couponDesc);
+        log.info("买单优惠信息：{}",couponDesc);
         Assert.assertTrue(couponDesc.contains("每满10减5元"));
 
         /**2.详情买单信息校验**/
