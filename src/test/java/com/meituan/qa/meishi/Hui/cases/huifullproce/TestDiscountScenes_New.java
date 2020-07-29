@@ -83,6 +83,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
             payNotifyMockRequest.setScene(Scene.NEW_MAIN);
             refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
             Tracer.putContext("PAY_MOCK","TRUE");
+            Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
         }
         if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(mtUserId+"_1");
