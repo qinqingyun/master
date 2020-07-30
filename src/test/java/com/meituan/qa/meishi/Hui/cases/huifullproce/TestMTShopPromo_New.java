@@ -84,7 +84,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     @MethodAnotation(author = "byq", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_hui_mt_shopPromo(String  doubleWriteMode )  throws Exception {
+    public void ms_c_hui_mt_shopPromo(String  doubleWriteMode)  throws Exception {
         PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
         RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
         if( doubleWriteMode.equals("NEW")) {
