@@ -126,7 +126,7 @@ public class ThriftApi {
         DirectRefundRequest request = new DirectRefundRequest();
         request.setSuperRefund(0);
         request.setReason("直接退款");
-        request.setIp(optionalIP(ip));
+        request.setIp("127.0.0.1");
         request.setDesc("直接退款");
         request.setOperator("qa-autocase");
         request.setOrderId(Long.valueOf(orderModel.getOrderId()));
@@ -138,12 +138,12 @@ public class ThriftApi {
         DirectRefundResponse response = refundFlowService.refund(request);
         return response;
     }
-    private String optionalIP(String ip) {
-        if (Strings.isNullOrEmpty(ip)) {
-            return "127.0.0.1";
-        }
-        return ip;
-    }
+//    private String optionalIP(String ip) {
+//        if (Strings.isNullOrEmpty(ip)) {
+//            return "127.0.0.1";
+//        }
+//        return ip;
+//    }
     /**
      * 用户申请退款
      *
@@ -162,10 +162,10 @@ public class ThriftApi {
         request.setOrderTime(System.currentTimeMillis());
         request.setFingerprint("finger");
         request.setUuid("uuid");
-        request.setOperator(optionalIP(ip));
+        request.setOperator("127.0.0.1");
         request.setOrderSource(0);
         request.setPlatform(1);
-        request.setIp(optionalIP(ip));
+        request.setIp("127.0.0.1");
         request.setReason("付款错误");
         request.setDesc("付款错误");
         request.setTarget(RefundFlowTargetEnum.USER.getCode());
@@ -187,9 +187,9 @@ public class ThriftApi {
 
         AgreeRefundRequest request = new AgreeRefundRequest();
         request.setReason("同意退款");
-        request.setIp(optionalIP(ip));
+        request.setIp("127.0.0.1");
         request.setDesc("同意退款desc");
-        request.setOperator(optionalIP(ip));
+        request.setOperator("127.0.0.1");
         request.setOrderId(Long.valueOf(orderModel.getOrderId()));
         request.setTarget(RefundFlowTargetEnum.MERCHANT.getCode());
         request.setPlatform(RefundFlowPlatformEnum.ECOM.getCode());
