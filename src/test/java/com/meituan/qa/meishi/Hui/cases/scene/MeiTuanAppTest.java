@@ -98,10 +98,10 @@ public class MeiTuanAppTest extends TestBase {
         //10.商户订单详情页校验
         //11.商户订单中心推送校验
         //12.用户申请退款校验
-        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund("qa-autocase", orderModel, maitonApi.getUserModel());
+        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel());
         log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
         TimeUnit.SECONDS.sleep(1);
-        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund("qa-autocase", orderModel);
+        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel());
         log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
         TimeUnit.SECONDS.sleep(1);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));

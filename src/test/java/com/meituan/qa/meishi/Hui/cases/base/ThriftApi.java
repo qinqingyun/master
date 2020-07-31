@@ -138,17 +138,11 @@ public class ThriftApi {
         DirectRefundResponse response = refundFlowService.refund(request);
         return response;
     }
-//    private String optionalIP(String ip) {
-//        if (Strings.isNullOrEmpty(ip)) {
-//            return "127.0.0.1";
-//        }
-//        return ip;
-//    }
     /**
      * 用户申请退款
      *
      */
-    public ApplyRefundResponse applyRefund(String ip, OrderModel orderModel, UserModel userModel) {
+    public ApplyRefundResponse applyRefund(OrderModel orderModel, UserModel userModel) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
         ApplyRefundRequest request = new ApplyRefundRequest();
@@ -162,7 +156,7 @@ public class ThriftApi {
         request.setOrderTime(System.currentTimeMillis());
         request.setFingerprint("finger");
         request.setUuid("uuid");
-        request.setOperator("127.0.0.1");
+        request.setOperator(userModel.getUserId());
         request.setOrderSource(0);
         request.setPlatform(1);
         request.setIp("127.0.0.1");
@@ -173,7 +167,7 @@ public class ThriftApi {
         // 原路
         request.setRouter(1);
         request.setUserId(Long.valueOf(userModel.getUserId()));
-        System.out.println(JSON.toJSONString(request));
+        log.info("申请退款参数：{}",JSON.toJSONString(request));
         ApplyRefundResponse applyRefundResponse = refundFlowService.applyRefund(request);
         return applyRefundResponse;
     }
@@ -181,7 +175,7 @@ public class ThriftApi {
      * 商家同意退款
      *
      */
-    public AgreeRefundResponse agreeRefund(String ip, OrderModel orderModel) {
+    public AgreeRefundResponse agreeRefund(OrderModel orderModel,UserModel userModel) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
 
@@ -189,7 +183,7 @@ public class ThriftApi {
         request.setReason("同意退款");
         request.setIp("127.0.0.1");
         request.setDesc("同意退款desc");
-        request.setOperator("127.0.0.1");
+        request.setOperator(userModel.getUserId());
         request.setOrderId(Long.valueOf(orderModel.getOrderId()));
         request.setTarget(RefundFlowTargetEnum.MERCHANT.getCode());
         request.setPlatform(RefundFlowPlatformEnum.ECOM.getCode());
