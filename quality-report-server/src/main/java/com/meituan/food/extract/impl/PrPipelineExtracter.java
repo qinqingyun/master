@@ -139,16 +139,18 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         for(String strKey:resp.getJSONObject("data").keySet()) {
             //一个key，还必须遍历。。
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
-
-
             JSONObject repos = data.getJSONObject("children");
             for (String strKey2 : repos.keySet()) {
-
+//                if(strKey2=="ssh://git@git.sankuai.com/web/order.git"){
+//                    log.info("调试");
+//                }
                 if (!strKey2.contains("ssh")) {//还继续向下分组情况260/262/296
                     JSONObject repos2 = repos.getJSONObject(strKey2).getJSONObject("children");
                     //遍历组织下所有仓库
                     for (String strKey3 : repos2.keySet()) {
-
+//                        if(strKey3=="ssh://git@git.sankuai.com/web/order.git"){
+//                            log.info("调试");
+//                        }
                         PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
                         pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
                         pipelinePrAutoPO.setDirectionName(data.getString("label"));
@@ -164,6 +166,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                         pipelinePrAutoPO.setRepo(strKey3);
                         pipelinePrAutoPO.setPriority(onePro.getString("priority"));
                         pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
+                        pipelinePrAutoPO.setCov_detail(getPRTimes.getCov_detail());
 
                         if (onePro.getBoolean("isAutoTest") != null) {
                             if (onePro.getBoolean("isAutoTest")) {
@@ -201,6 +204,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     pipelinePrAutoPO.setRepo(strKey2);
                     pipelinePrAutoPO.setPriority(onePro.getString("priority"));
                     pipelinePrAutoPO.setGroup_name(pipelinePrAutoPO.getDepartment_id());
+                    pipelinePrAutoPO.setCov_detail(getPRTimes.getCov_detail());
 
                     if (onePro.getBoolean("isAutoTest") != null) {
 
@@ -228,11 +232,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
 
     public PipelinePrAutoPO getPRTimes(String repo,LocalDate today){
-        if(repo=="ssh://git@git.sankuai.com/nib/consumer-process.git"){
-            String test="";
-        }
-
-
+//        if(repo=="ssh://git@git.sankuai.com/web/order.git"){
+//            String test="";
+//        }
         PipelinePrAutoPO prBuild = new PipelinePrAutoPO();
 
         int prTimes = 0;
@@ -255,10 +257,12 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     prAutoBuild = getAutoTimes(repos.getJSONObject(i).getString("traceId"));
                     auto_times+=prAutoBuild.getAuto_times();
                     auto_success_times+=prAutoBuild.getAuto_success_times();
+
                     if (lastPRTag==0&&prAutoBuild.getTotalCase()!=null&&prAutoBuild.getTotalCase()>0){
                         //覆盖率默认一天最后一次覆盖率和总数
                         prBuild.setCoverage(prAutoBuild.getCoverage());
                         prBuild.setTotalCase(prAutoBuild.getTotalCase());
+                        prBuild.setCov_detail(prAutoBuild.getCov_detail());
                         lastPRTag++;
                     }
                 }
@@ -268,6 +272,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         prBuild.setTimes(prTimes);
         prBuild.setAuto_times(auto_times);
         prBuild.setAuto_success_times(auto_success_times);
+
 
 
         return prBuild;
@@ -281,30 +286,31 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         JSONObject resp = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         JSONObject prInfo = resp.getJSONObject("data");
         if (prInfo!=null&&prInfo.getJSONObject("stageResultMap").size()!=0&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试")!=null){//todo
-                boolean autoSuccessTag = "SUCCESS".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
-                boolean autoFailedTag = "FAILED".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
+            boolean autoSuccessTag = "SUCCESS".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
+            boolean autoFailedTag = "FAILED".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
             String cov="";
-                if (autoSuccessTag==true) {
+                if (autoSuccessTag==true||autoFailedTag==true) {
                     autoPrTimes++;
                     autoSuccessPrTimes++;
-                        int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");;
-                        prBuild.setTotalCase(passedNum);
-                        if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
-                            cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
-                        }
-                        prBuild.setCoverage(cov);
-                }else if (autoFailedTag==true){
-                    autoPrTimes++;
                     int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");
                     int failedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("failedNum");
-                    prBuild.setTotalCase(passedNum+failedNum);//自动化总数
-                    if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率")!=null&&prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size()!=0) {
+                    prBuild.setTotalCase(passedNum);
+                    prBuild.setTotalCase(passedNum + failedNum);//自动化总数
+
+                    if (prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率") != null && prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").size() != 0) {
+                        String aoto_detail = "";
+                        JSONArray covDetail = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports");
+                        for (int i = 0; i < covDetail.size(); i++) {
+                            aoto_detail += covDetail.getJSONObject(i).getString("plusLabel");
+                            aoto_detail += ":";
+                            aoto_detail += covDetail.getJSONObject(i).getString("lineCoveragePercentStr");
+                            aoto_detail += ";";
+                        }
+                        prBuild.setCov_detail(aoto_detail);
                         cov = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试覆盖率").getJSONArray("jacocoLiveReports").getJSONObject(0).getString("lineCoveragePercentStr");
                     }
-                        prBuild.setCoverage(cov);
-
+                    prBuild.setCoverage(cov);
                 }
-
         }
         prBuild.setAuto_times(autoPrTimes);
         prBuild.setAuto_success_times(autoSuccessPrTimes);
