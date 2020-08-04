@@ -139,22 +139,18 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         for(String strKey:resp.getJSONObject("data").keySet()) {
             //一个key，还必须遍历。。
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
-
-
             JSONObject repos = data.getJSONObject("children");
             for (String strKey2 : repos.keySet()) {
-                if(strKey2=="ssh://git@git.sankuai.com/web/order.git"){
-                    log.info("xxx");
-                }
-
+//                if(strKey2=="ssh://git@git.sankuai.com/web/order.git"){
+//                    log.info("调试");
+//                }
                 if (!strKey2.contains("ssh")) {//还继续向下分组情况260/262/296
                     JSONObject repos2 = repos.getJSONObject(strKey2).getJSONObject("children");
                     //遍历组织下所有仓库
                     for (String strKey3 : repos2.keySet()) {
-                        if(strKey3=="ssh://git@git.sankuai.com/web/order.git"){
-                            log.info("xxx");
-                        }
-
+//                        if(strKey3=="ssh://git@git.sankuai.com/web/order.git"){
+//                            log.info("调试");
+//                        }
                         PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
                         pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
                         pipelinePrAutoPO.setDirectionName(data.getString("label"));
@@ -236,11 +232,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
 
 
     public PipelinePrAutoPO getPRTimes(String repo,LocalDate today){
-        if(repo=="ssh://git@git.sankuai.com/web/order.git"){
-            String test="";
-        }
-
-
+//        if(repo=="ssh://git@git.sankuai.com/web/order.git"){
+//            String test="";
+//        }
         PipelinePrAutoPO prBuild = new PipelinePrAutoPO();
 
         int prTimes = 0;
