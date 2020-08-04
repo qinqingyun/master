@@ -21,6 +21,10 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
+/*
+* 场景：点评、美团创建订单接口 ， 给 >= 7.8.1 版本的APP专用 （底层调用Unicashier接口） 之前版本，请查看 MOpayAction
+* */
+
 @ClassAnnotation(author = "zhenyumin",depart = "C",apiName = "",type = "mapi", des = "点评、美团创建订单，给 >= 7.8.1 版本的APP专用")
 @Slf4j
 @HTTPAPI(apiPath = "hui/unicashiercreateorder.bin")
@@ -37,7 +41,6 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
     public void ms_c_unicashiercreateorderaction_01(JSONObject request, JSONObject expect){
 
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
-
         log.info("入参：{}", JSON.toJSONString(request));
 
         ResponseMap response = hmwLoop.createOrderLoopQuery(mtToken,mtClient,request);      // mtToken,mtClient来自继承的类TestDPLogin
@@ -118,6 +121,56 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         // 校验返回结果
         createOrderAssert(response,path_list,"原价");
     }
+/*
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin", createTime = "2020-08-03",updateTime = "2020-08-03",des = "useramount字段缺失")
+    public void ms_c_unicashiercreateorderaction_05(JSONObject request, JSONObject expect){
+        log.info("入参：{}", JSON.toJSONString(request));
+
+        ResponseMap response = hmwLoop.getLoopQuery(mtToken,mtClient,request);      // mtToken,mtClient来自继承的类TestDPLogin
+        log.info("结果返回：{}",JSON.toJSONString(response));
+
+        // 校验返回结果
+        AssertUtil.assertJsonPathValueEquals(response,"缺少必要参数!","$.Content");
+    }
+
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin", createTime = "2020-08-03",updateTime = "2020-08-03",des = "originamount字段缺失")
+    public void ms_c_unicashiercreateorderaction_06(JSONObject request, JSONObject expect){
+        log.info("入参：{}", JSON.toJSONString(request));
+
+        ResponseMap response = hmwLoop.getLoopQuery(mtToken,mtClient,request);      // mtToken,mtClient来自继承的类TestDPLogin
+        log.info("结果返回：{}",JSON.toJSONString(response));
+
+        // 校验返回结果
+        AssertUtil.assertJsonPathValueEquals(response,"缺少必要参数!","$.Content");
+    }
+
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin", createTime = "2020-08-03",updateTime = "2020-08-03",des = "shopid字段缺失")
+    public void ms_c_unicashiercreateorderaction_07(JSONObject request, JSONObject expect){
+        log.info("入参：{}", JSON.toJSONString(request));
+
+        ResponseMap response = hmwLoop.getLoopQuery(mtToken,mtClient,request);      // mtToken,mtClient来自继承的类TestDPLogin
+        log.info("结果返回：{}",JSON.toJSONString(response));
+
+        // 校验返回结果
+        AssertUtil.assertJsonPathValueEquals(response,"缺少必要参数!","$.Content");
+    }
+
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin", createTime = "2020-08-03",updateTime = "2020-08-03",des = "nodiscountamount字段缺失")
+    public void ms_c_unicashiercreateorderaction_08(JSONObject request, JSONObject expect){
+        log.info("入参：{}", JSON.toJSONString(request));
+
+        ResponseMap response = hmwLoop.getLoopQuery(mtToken,mtClient,request);      // mtToken,mtClient来自继承的类TestDPLogin
+        log.info("结果返回：{}",JSON.toJSONString(response));
+
+        // 校验返回结果
+        AssertUtil.assertJsonPathValueEquals(response,"缺少必要参数!","$.Content");
+    }
+
+ */
 
 
     /**
