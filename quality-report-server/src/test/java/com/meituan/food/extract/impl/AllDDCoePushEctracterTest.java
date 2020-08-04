@@ -12,16 +12,16 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 
 import static org.junit.Assert.*;
+
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationLoader.class)
-public class COETdDataExtracterTest {
+public class AllDDCoePushEctracterTest {
 
     @Resource
-    private COETdDataExtracter coeTdDataExtracter;
+    public AllDDCoePushEctracter allDDCoePushEctracter;
 
     @Test
-    public void getCOETdData() throws ParseException {
-        coeTdDataExtracter.getCOETdData("2020-07-15","2020-07-22");
+    public void pushData() throws ParseException {
     }
 }

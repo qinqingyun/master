@@ -71,6 +71,21 @@ public interface OrgDaxiangPOMapper {
     })
     List<Long> selectByOrgId(@Param("id") int id);
 
+    @Select({
+            "select org_id",
+            "from org_daxiang_table",
+            "where daxiang_id= #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="org_id", property="orgId", jdbcType=JdbcType.INTEGER)
+    })
+    List<Integer> selectByDaxiangId(@Param("id") Long id);
+
+    @Select({
+            "select distinct daxiang_id from org_daxiang_table"
+    })
+    List<Long> selectAllDaxiangId();
+
     @UpdateProvider(type=OrgDaxiangPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") OrgDaxiangPO record, @Param("example") OrgDaxiangPOExample example);
 

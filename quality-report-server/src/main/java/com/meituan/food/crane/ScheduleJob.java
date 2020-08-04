@@ -119,6 +119,9 @@ public class ScheduleJob {
     @Resource
     private IOneHourJob oneHourJob;
 
+    @Resource
+    private IWeekAllDDCoePushJob weekAllDDCoePushJob;
+
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -341,5 +344,15 @@ public class ScheduleJob {
     @Crane("one.day.tppipeline.job")
     public void tppipeline() throws TException, MDMThriftException {
         iOneDayTpPipelineJob.sync();
+    }
+
+    @Crane("one.week.push.coe.job")
+    public void weekPushCOE() throws ParseException {
+        weekAllDDCoePushJob.sync();
+    }
+
+    @Crane("one.month.push.coe.job")
+    public void monthPushCOE() throws ParseException {
+        weekAllDDCoePushJob.syncForMonth();
     }
 }

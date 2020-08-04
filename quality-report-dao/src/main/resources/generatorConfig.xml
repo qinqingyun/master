@@ -9,8 +9,8 @@
     <!-- !!!! Driver Class Path !!!! -->
     <!--<classPathEntry location="/Users/wuqifang/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>  -->
     <!--<classPathEntry location="/Users/jiaxiaoqi/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>-->
-   <!-- <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>-->
-    <classPathEntry location="/Users/qinqingyun/.m2/repository/mysql/mysql-connector-java/6.0.5/mysql-connector-java-6.0.5.jar"/>
+    <classPathEntry location="/Users/guomengyao/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <!--<classPathEntry location="/Users/qinqingyun/.m2/repository/mysql/mysql-connector-java/6.0.5/mysql-connector-java-6.0.5.jar"/>-->
 <!--
 <classPathEntry location="/Users/hanye/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
 -->
@@ -141,7 +141,10 @@
                <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="mcd_coe_list" domainObjectName="McdCoePO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>-->
-        <table tableName="mcd_todo_list" domainObjectName="McdCoeTodoPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+        <!--<table tableName="mcd_todo_list" domainObjectName="McdCoeTodoPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+               <!--enableUpdateByExample="true"/>-->
+
+        <table tableName="coe_atp_status_table" domainObjectName="CoeAtpPO" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
 
 

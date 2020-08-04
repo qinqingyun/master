@@ -24,16 +24,19 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
 
         Map<String, String> pushList = new HashMap<>();
 
-        String dateString = "2020-06-01";
-        Date inceptionDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        LocalDate secondDay=LocalDate.now().minusDays(7);
+        String dateString = "2020-06-01 00:00:00";
+        Date inceptionDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+
+        LocalDate secondDay=LocalDate.now().minusDays(8);
         String secondDayStr = secondDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Date secondDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(secondDayStr);
+   //     Date secondDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(secondDayStr);
+        Date firstEndDate = sdf.parse(secondDayStr +" 23:59:59");
 
 
         //超过一周的提醒
-        List<McdCoePO> mcdCoePOList = mcdCoePOMapper.selectByTwoDate(inceptionDate, secondDayDate);
+        List<McdCoePO> mcdCoePOList = mcdCoePOMapper.selectByTwoDate(inceptionDate, firstEndDate);
 
         for (McdCoePO mcdCoePO : mcdCoePOList) {
             if (!(pushList.keySet().contains(mcdCoePO.getOwnerMis()))) {
@@ -53,7 +56,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu","yuan.ding");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
@@ -61,10 +64,14 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         Map<String, String> remindPushList = new HashMap<>();
         LocalDate remindDay=LocalDate.now().minusDays(5);
         String remindDayStr = remindDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Date remindDayDate = new SimpleDateFormat("yyyy-MM-dd").parse(remindDayStr);
+        Date startDate = sdf.parse(remindDayStr +" 00:00:00");
+        Date endDate = sdf.parse(remindDayStr +" 23:59:59");
+
 
         //创建3天后提醒
-        List<McdCoePO> threeDayCoePoiList=mcdCoePOMapper.selectByDate(remindDayDate);
+     //   List<McdCoePO> threeDayCoePoiList=mcdCoePOMapper.selectByDate(startDate,endDate);
+        List<McdCoePO> threeDayCoePoiList=mcdCoePOMapper.selectByTwoDate(startDate,endDate);
+
         for (McdCoePO po : threeDayCoePoiList) {
             if (!(remindPushList.keySet().contains(po.getOwnerMis()))) {
                 String content = po.getOwnerName() + "同学：您负责的COE创建超过3天啦，请及时补充完整。问题如下：";
@@ -81,7 +88,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : remindPushList.keySet()) {
-            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","ting.liu");
+            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","ting.liu","yuan.ding");
             DaXiangUtils.pushToPerson(remindPushList.get(key), key);
         }
 
@@ -114,7 +121,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
             index++;
         }
         if (index != 0) {
-            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象咨询郭孟瑶(guomengyao)）";
+            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象联系郭孟瑶(guomengyao)）";
             pushList.put(mcdCoePO.getOwnerMis(), content);
         }
     }
