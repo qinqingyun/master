@@ -166,11 +166,11 @@ public class TestdpOriginalScence_New extends TestDPLogin {
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
         //平台退款校验
-        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_dpOriginalScenes_platform_consum");
-        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        log.info("新平台退款订单id{}",neworderid);
-        //checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,dpUserIdByq);
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5021293686");
+//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_dpOriginalScenes_platform_consum");
+//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+//        log.info("新平台退款订单id{}",neworderid);
+//        //checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,dpUserIdByq);
+//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5021293686");
 
         //买单侧退款校验  回放流量退款订单id传newid  需要排查
         log.info("老系统退款订单id{}",oldorderid);

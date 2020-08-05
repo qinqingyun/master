@@ -204,8 +204,8 @@ public class TestDPShopPromo_New extends TestDPLogin {
         orderCheck.maitonOrder(3,refundOrderResponse);
 
         //平台校验已消费退款
-        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
-        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
+//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
+//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
     }
 }
