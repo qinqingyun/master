@@ -53,7 +53,9 @@ public class createTest extends TestBase{
 //        CheckOrderUtil.checkOldOrderSystem(1,maitonQueryOrderResponse);
 //
 //        //2、支付
-//        maitonApi.orderPay(payToken, tradeNo, MTApp);
+
+        CreateOrderUtil.orderPay("c3a43924718d0a04b2bb4d56c9205eae", "20080510100000000004307416590740", "e9moU411-HnvMgOvpQexp2rNCKoAAAAACe4BABk0Qd0VzZK5I2mzjVzYIgW-vr431UL7NUgGHPoXCkV-ZQ0c5eLA3QSw-_8oa6UTcw");
+        //maitonApi.orderPay("c3a43924718d0a04b2bb4d56c9205eae", "20080510100000000004307416590740", MTApp);
 //
 //        //支付后平台校验
 //        JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform");

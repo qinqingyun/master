@@ -102,8 +102,8 @@ public class Btest {
     }
     @Test
     public void test(){
-    Long a = Long.valueOf("80028738986");
-    long b = a%10000;
+    Long a = Long.valueOf("740");
+    long b = a%128;
         System.out.println(b);
     }
     @Test
