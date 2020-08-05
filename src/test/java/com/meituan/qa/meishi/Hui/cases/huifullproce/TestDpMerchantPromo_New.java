@@ -180,8 +180,8 @@ public class TestDpMerchantPromo_New extends TestDPLogin {
         orderCheck.maitonOrder(3,refundOrderResponse);
 
         //平台侧退款校验
-//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform_02");
-//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
+        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform_02");
+        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,"5000050967");
     }
 }
