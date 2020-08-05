@@ -142,22 +142,22 @@ public class TestDiscountScenes extends TestDPLogin {
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
 
 
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            log.error(e.toString());
-        }
+//        try {
+//            TimeUnit.SECONDS.sleep(1);
+//        } catch (InterruptedException e) {
+//            log.error(e.toString());
+//        }
 
-        //平台校验已消费退款
-        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
-        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-
-        //退款后平台校验
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
-
-        //退款后买单侧校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-        orderCheck.maitonOrder(3,refundOrderResponse);
+//        //平台校验已消费退款
+//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
+//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+//
+//        //退款后平台校验
+//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
+//
+//        //退款后买单侧校验
+//        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+//        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
         //differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
