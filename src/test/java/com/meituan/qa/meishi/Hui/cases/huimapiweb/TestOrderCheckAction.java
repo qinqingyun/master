@@ -29,12 +29,12 @@ public class TestOrderCheckAction extends TestDPLogin {
     public void ms_c_ordercheckaction_01(JSONObject request, JSONObject expect){
         log.info("入参：{}",JSONObject.toJSONString(request));
 
-        ResponseMap responseMap = loopCheck.getLoopQuery(mtToken,mtClient,request);
+        ResponseMap responseMap = loopCheck.getLoopQuery(mtToken,mtClient,request);           // 美团用户
         log.info("返回结果：{}",JSONObject.toJSONString(responseMap));
 
         AssertUtil.assertNotNull(responseMap);
         AssertUtil.assertHttp200(responseMap);
-        AssertUtil.assertJsonPathValueEquals(responseMap,20,"$.Status","Status不为20，不进行弹窗提示！");
+        AssertUtil.assertJsonPathValueEquals(responseMap,20,"$.Status","Status不为20，未进行弹窗提示！");
         AssertUtil.assertEquals(responseMap.getJSONArrayByJsonPath("$.RichMessage").size(), 3, "返回结果中字段RichMessage的大小不为3");
     }
 /*
@@ -51,19 +51,20 @@ public class TestOrderCheckAction extends TestDPLogin {
         AssertUtil.assertJsonPathValueEquals(responseMap,10,"$.Status","Status不为10，未通过check！");
     }
 
-        @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
-    @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-拒绝生成订单，未通过check")
-    public void ms_c_ordercheckaction_02(JSONObject request, JSONObject expect){
-        log.info("入参：{}",JSONObject.toJSONString(request));
+ */
 
-        ResponseMap responseMap = loopCheck.orderCheckLoopQuery(mtToken,mtClient,request);
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-(点评侧)用户与门店不在同一位置，弹窗提示")
+    public void ms_c_ordercheckaction_101(JSONObject request, JSONObject expect){
+
+        log.info("入参：{}",JSONObject.toJSONString(request));
+        ResponseMap responseMap = loopCheck.getLoopQuery(dpToken,dpClient,request);          // 点评用户
         log.info("返回结果：{}",JSONObject.toJSONString(responseMap));
 
         AssertUtil.assertNotNull(responseMap);
         AssertUtil.assertHttp200(responseMap);
-        AssertUtil.assertJsonPathValueEquals(responseMap,30,"$.Status","Status不为10，未通过check！");
+        AssertUtil.assertJsonPathValueEquals(responseMap,20,"$.Status","Status不为20，未进行弹窗提示！");
+        AssertUtil.assertEquals(responseMap.getJSONArrayByJsonPath("$.RichMessage").size(), 3, "返回结果中字段RichMessage的大小不为3");
     }
-
- */
 
 }

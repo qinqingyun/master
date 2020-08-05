@@ -63,6 +63,7 @@ public class HuiMapiWebLoopCheck {
             return null;
         }
     }
+
 /*
     @LoopCheck(desc = "统一收银台接口", interval = 500, timeout = 500*10)
     public ResponseMap loadUnifiedCashierLoopQuery(String token,String userAgent,JSONObject request){

@@ -34,7 +34,23 @@ public class TestLoadUnifiedCashierAction extends TestDPLogin {
     public void ms_c_loadunifiedcashieraction_01(JSONObject request,JSONObject expect)throws Exception {
         log.info("入参：{}",JSONObject.toJSONString(request));
 
-        ResponseMap responseMap = hmwLoop.getLoopQuery(mtToken,mtClient,request);
+        ResponseMap responseMap = hmwLoop.getLoopQuery(mtToken,mtClient,request);              // 美团用户
+        log.info("返回结果：{}",JSONObject.toJSONString(responseMap));
+
+        // 校验
+        AssertUtil.assertNotNull(responseMap);
+        AssertUtil.assertHttp200(responseMap,"HTTP code不是200！");
+        JSONObject couponProducts = responseMap.getJSONObjectByJsonPath("$.CouponProducts[0]");
+        AssertUtil.assertNotNull(couponProducts.get("CouponId"),"CouponId为空");
+        AssertUtil.assertTrue(couponProducts.getIntValue("ProductType")>0,"ProductType小于0");
+    }
+
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "zhenyumin",createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例：(点评侧)进入收银台")
+    public void ms_c_loadunifiedcashieraction_101(JSONObject request,JSONObject expect)throws Exception {
+        log.info("入参：{}",JSONObject.toJSONString(request));
+
+        ResponseMap responseMap = hmwLoop.getLoopQuery(dpToken,dpClient,request);      // 点评用户
         log.info("返回结果：{}",JSONObject.toJSONString(responseMap));
 
         // 校验
