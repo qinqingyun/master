@@ -4,7 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
 import com.dianping.hui.order.response.QueryOrderResponse;
+import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
+import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
+import com.meituan.qa.meishi.Hui.dto.UseCard;
+import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
+import com.meituan.qa.meishi.Hui.dto.cashier.MaitonCashier;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
@@ -19,23 +24,24 @@ import com.meituan.toolchain.mario.login.model.LoginType;
 import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
+import com.meituan.toolchain.mario.util.MtraceUtil;
+import com.sankuai.meituan.resv.deposit.enums.SourceEnum;
+import com.sankuai.nibqa.trade.api.dto.PayInfoDTO;
+import com.sankuai.nibqa.trade.api.dto.VerifyDataRequest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.util.Strings;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.*;
 
-import static com.meituan.qa.meishi.Hui.cases.base.TestBase.MainSystem;
 import static com.meituan.qa.meishi.Hui.cases.base.TestBase.thriftApi;
-import static com.meituan.qa.meishi.Hui.util.TestDPLogin.dpUserId;
-import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
 import static java.lang.Boolean.TRUE;
 
 /**
@@ -105,8 +111,7 @@ public class MaitonApi{
      * PayApi obj = new PayApi("cashier.qa.pay.test.sankuai.com");//点评侧域名
      *
      */
-    public void orderPay(OrderModel orderModel,OrderSourceEnum sourceEnum) throws Exception {
-        replaceUserInfo(sourceEnum);
+    public void orderPay(OrderModel orderModel) throws Exception {
         String payHost = ConfigMange.getValue("env.api.meishi.hui.pay");
         PayApi obj = new PayApi(payHost);
         Map<String, String> params = new HashMap<String, String>();
@@ -143,18 +148,22 @@ public class MaitonApi{
      * 美团点评根据不同token和useragent区分平台
      */
     //无需加载优惠平台接口
-    public OrderModel uniCashierCreateOrder(String caseId, OrderSourceEnum sourceEnum){
-        //替换token
-        replaceUserInfo(sourceEnum);
-        return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,0,"",null);
+    public OrderModel uniCashierCreateOrder(String caseId) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,null,null,null,0);
     }
-    //需要加载优惠平台接口，提供获取的couponofferid
-    public OrderModel uniCashierCreateOrder(String caseId,int coupOfferId,OrderSourceEnum sourceEnum){
-        //替换token
-        replaceUserInfo(sourceEnum);
-        return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,coupOfferId,"",null);
+    //需要加载优惠平台接口，下单使用买单优惠
+    public OrderModel uniCashierCreateOrder(String caseId,CouponProduct couponProduct) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,couponProduct,null,null,0);
     }
-    public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, int coupOfferId, String dpDealString, Map<String,Object> receipt){
+    //需要加载优惠平台接口，下单使用优惠券场景
+    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct, DeskCoupon deskcoupon) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, couponProduct, deskcoupon, null, 0);
+    }
+    //无需加载优惠平台接口,下单使用预订金
+    public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,null,null,resvOrderId,0);
+    }
+    public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, CouponProduct couponProduct, DeskCoupon deskcoupon, String receipt,Integer isZero) throws UnsupportedEncodingException {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
 
@@ -162,9 +171,10 @@ public class MaitonApi{
         String tradeNo;
         Long orderId;
         String serializedId;
+        String shopdealstring;
 
         JSONObject request = new JSONObject();
-        String offerIdStr = "";
+
         try{
             request = DBDataProvider.getRequest(appCreateOrderUrl, caseid);
         }catch (Exception e){
@@ -175,30 +185,43 @@ public class MaitonApi{
         request.getJSONObject("headers").put("pragma-newtoken",token);
         request.getJSONObject("headers").put("User-Agent",userAgent);
         request.getJSONObject("headers").put("pragma-os",userAgent);
+        JSONObject body = request.getJSONObject("body");
 
         Map<String,String> param = new HashMap<>();
-        if(coupOfferId > 0){
-            offerIdStr = "{\"dealGroupId\":0,\"dealId\":0,\"needBuyDealCount\":0,\"useDealCount\":0,\"couponList\":[{\"productType\":201,\"couponId\":"+ coupOfferId +",\"ticketId\":\"0\"}]}";
-            param.put("shopdealstring",offerIdStr);
+        if (couponProduct != null) {
+            shopdealstring = "{\"dealGroupId\":0,\"dealId\":0,\"needBuyDealCount\":0,\"useDealCount\":0,\"couponList\":[{\"productType\":" + couponProduct.getProductType() + ",\"couponId\":" + couponProduct.getCouponID() + ",\"ticketId\":\"0\"}]}";
+            param.put("shopdealstring",shopdealstring);
+            request.getJSONObject("body").put("shopdealstring",shopdealstring);
         }
-        if(!dpDealString.isEmpty()){
-            param.put("dpdealstring",dpDealString);
-        }
+        if (deskcoupon != null) {
+            if (!Strings.isNullOrEmpty(deskcoupon.getCipher())) {
+                body.put("dpdealstring", URLEncoder.encode(deskcoupon.getCipher(), "utf-8"));
+            }
+            if(isZero ==1) {
+                body.put("useramount", "0");
+            }else {
+                BigDecimal couponAmount = BigDecimal.valueOf(deskcoupon.getAmount());
+                if (BigDecimal.ZERO.compareTo(couponAmount) < 0) {
+                    BigDecimal userAmount = body.getBigDecimal("originamount").subtract(couponAmount);
+                    if(userAmount.compareTo(BigDecimal.ZERO) == 0){
+                        body.put("useramount", "0");
+                    }else {
+                        body.put("useramount", String.valueOf(userAmount));
+                    }
 
+                }
+            }
+        }
         if(receipt != null){
-            param.put("receipt",(String)receipt.get("couponCode"));
-            param.put("bizorderid",(String)receipt.get("orderid"));
-        }
-
-        if(coupOfferId > 0 || !dpDealString.isEmpty() || receipt != null){
-            request.getJSONObject("body").put("dpdealstring",dpDealString);
-            request.getJSONObject("body").put("shopdealstring",offerIdStr);
+            request.getJSONObject("body").put("bizorderid",receipt);
+            request.getJSONObject("body").put("bookrecordid",receipt);
         }
         String payAmount = JSON.toJSONString(request.getJSONObject("body").get("useramount"));
-        log.info("请求参数request:{}",request);
+        log.info("买单创建订单请求参数request:{}",request.toString());
         ResponseMap response = null;
         try {
             response = DBCaseRequestUtil.post("env.api.meishi.hui.host", request);
+            log.info("买单创建订单结果返回response:{}",response.toString());
         }catch (Exception e){
             log.error("下单接口请求失败，异常为：{}",e.getMessage());
             return null;
@@ -216,13 +239,11 @@ public class MaitonApi{
             return null;
         }
         //如果是预定金0元单，tradeNo==null
-        if (tradeNo == null) {
-            log.info("创单失败");
-            return null;
-        }
-        if (payToken == null) {
-            log.info("创单失败");
-            return null;
+        if(receipt == null){
+            if (tradeNo == null || payToken == null ) {
+                log.info("创单失败：tradeNo为null或者payToken为null");
+                return null;
+            }
         }
         QueryOrderResponse maidonOrder = thriftApi.getMaidonOrder(orderId.toString());
         orderModel.setSchemeId(String.valueOf(maidonOrder.getOrderDTO().getSchemeId()));
@@ -237,13 +258,10 @@ public class MaitonApi{
      * APP加载优惠台接口，接口文档：
      *
      */
-    public int loadUnifiedCashier(String caseId,OrderSourceEnum sourceEnum){
+    public Optional<CouponProduct> loadUnifiedCashier(String caseId){
         // 生成新Trace
         TracerUtil.initAndLogTrace();
-        //替换token
-        replaceUserInfo(sourceEnum);
         JSONObject request = new JSONObject();
-        JSONObject expect = new JSONObject();
         try{
             request = DBDataProvider.getRequest(loadunifiedcashierUrl, caseId);
         }catch (Exception e){
@@ -254,26 +272,23 @@ public class MaitonApi{
         request.getJSONObject("headers").put("pragma-os",userModel.getUserAgent());
         request.getJSONObject("headers").put("pragma-dpid","-8765947759983332911");
         ResponseMap response = DBCaseRequestUtil.get("env.api.meishi.hui.host", request);
-        ArrayList<String> keyList = new ArrayList<String>(){{add("Title");}};
-        if (!response.toString().contains("CouponProducts")){
-            return 0;
+        log.info("加载优惠台接口返回loadunifiedcashier:code:{}, body:{}", response.getStatusCode(), response.getResponseBody());
+        MaitonCashier maitonCashier = JSON.parseObject(response.getResponseBody(), MaitonCashier.class);
+        log.info("优惠台返回结果{}", JSON.toJSONString(maitonCashier));
+        if (maitonCashier == null) {
+            return Optional.empty();
         }
-        if(("[]").equals(response.getValueByJsonPath("$.CouponProducts"))){
-            return 0;
-        }else {
-            return response.getValueByJsonPath("$.CouponProducts[0].CouponId");
-        }
+        log.info("优惠台返回第一个方案信息:{}", maitonCashier.getCouponProducts().stream().findFirst());
+        return maitonCashier.getCouponProducts().stream().findFirst();
     }
 
     /**
      * APP支付结果，接口文档：
      *
      */
-    public String queryMopayStatus(String caseId,OrderSourceEnum sourceEnum,String serializedId) {
+    public String queryMopayStatus(String caseId,String serializedId) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
-        //替换token
-        replaceUserInfo(sourceEnum);
         JSONObject request = DBDataProvider.getRequest(queryMopayStatusUrl, caseId);
         request.getJSONObject("headers").put("pragma-token", userModel.getToken());
         request.getJSONObject("headers").put("pragma-newtoken", userModel.getToken());
@@ -297,11 +312,9 @@ public class MaitonApi{
      * APP订单详情页，接口文档：
      *
      */
-    public String MtOrderDetail(String caseId,OrderSourceEnum sourceEnum,String orderId) {
+    public String MtOrderDetail(String caseId,String orderId) {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
-        //替换token
-        replaceUserInfo(sourceEnum);
 
         ResponseMap responseMap=null;
 
@@ -334,6 +347,21 @@ public class MaitonApi{
         orderDetailCheck.setTotalAmount(totalAmount);
         return orderDetailCheck;
     }
+    /**
+     * 获取用户优惠券信息
+     */
+    public DeskCoupon getShopCouponCipher(String hongbaoid,String caseId){
+        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.getToken()).useCardflag(UseCard.USE_MERCHANT_CARD).client(userModel.getUserAgent()).caseid(caseId).build();
+        DeskCoupon deskCoupon ;
+        try {
+            deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+        }catch (RuntimeException e){
+            e.getMessage();
+            return null;
+        }
+        return deskCoupon;
+    }
+
 
 
 }

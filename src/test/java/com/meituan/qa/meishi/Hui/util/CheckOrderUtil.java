@@ -65,12 +65,12 @@ public class CheckOrderUtil extends TestBase {
         }
         return mappingOrderIds;
     }
-    public static void checkPayOrderResultPage(String caseId, OrderSourceEnum orderSourceEnum, OrderModel orderModel) throws Exception {
-        String statusMsg = loopCheck.getPayResultPage(caseId, orderSourceEnum, orderModel.getSerializedId());
+    public static void checkPayOrderResultPage(String caseId, OrderModel orderModel) throws Exception {
+        String statusMsg = loopCheck.getPayResultPage(caseId, orderModel.getSerializedId());
         Assert.assertEquals(statusMsg,"支付成功","支付结果页状态：支付失败或支付中");
     }
-    public static void checkOrderDetail(String caseId, OrderSourceEnum orderSourceEnum, OrderModel orderModel) throws Exception {
-        String orderDetail = loopCheck.getOrderDetail(caseId, orderSourceEnum, orderModel.getOrderId());
+    public static void checkOrderDetail(String caseId, OrderModel orderModel) throws Exception {
+        String orderDetail = loopCheck.getOrderDetail(caseId, orderModel.getOrderId());
         Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
     }
 

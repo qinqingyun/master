@@ -50,7 +50,6 @@ public class ResvInfo {
     TResvIGoodsService.Iface tResvIGoodsService;
     TResvTradeService.Iface tResvTradeService;
     RemoteResvOrderService remoteResvOrderService;
-    PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
 
     //1。获取预订sku
     public Integer getBookableTime(Integer platform) throws TException, InternalTException {
@@ -105,14 +104,8 @@ public class ResvInfo {
             log.info(e.getMessage());
             return null;
         }
-        //支付mock
-//        Long amount = 10000l;
-//        payNotifyMockRequest.setTradeNo(response.preTradeNo);
-//        payNotifyMockRequest.setOrderId(String.valueOf(response.getSucceedOrderId()));
-//        payNotifyMockRequest.setAmount(amount);
-//        payNotifyMockRequest.setOutNo("DPHUI-");
-//        PayMockUtil.mockPay(payNotifyMockRequest);
-        //resvPay(response);
+        //支付
+        resvPay(response);
         return response;
     }
     //3。商家接单

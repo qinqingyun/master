@@ -1,0 +1,13 @@
+<suite name="testSuite" parallel="true" thread-count="8">
+    <!--设置双写标识-->
+    <test name="以新为主">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtDiscountTest"/>
+            </methods>
+        </classes>
+    </test>
+
+</suite>

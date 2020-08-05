@@ -28,7 +28,7 @@ public class TestBase {
     public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
     protected static String doubleWriteMode;
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "NEW_MAIN";
+    public static String MainSystem = "OLD_ONLY";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM= true;
     //是否进行db数据diff
@@ -43,7 +43,7 @@ public class TestBase {
 
     @BeforeTest(alwaysRun = true)
     public void beforeTest(ITestContext context) {
-        String main = context.getCurrentXmlTest().getParameter("main");
+        String main = context.getCurrentXmlTest().getParameter("DoubleWriteMode");
         if (main != null) {
             MainSystem = main;
         }
@@ -84,9 +84,9 @@ public class TestBase {
     }
 
     @BeforeTest
-    public void beforeTest() throws Exception {
+    public void beforeTestSetUserForLion() throws Exception {
         // 判断并改写双写模式
-        if( MainSystem.equals("NEW_MAIN")){
+        if( MainSystem.equals("NEW_MAIN")|| MainSystem.equals("NEW_ONLY")){
             LionUtil.setUserWriteList(maitonApi.getMtUserIdNew()+"_1");
             LionUtil.setUserWriteList(dpUserId+"_0");
         }
