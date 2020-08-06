@@ -21,7 +21,7 @@ public class TestGetMOPayPromosInfoAction extends TestDPLogin {
     private HuiMapiWebLoopCheck hmpLoopCheck = new HuiMapiWebLoopCheck();
 //    private String dp_userAgent = "MApi 1.3 (dpscope 10.32.0 appstore; iPhone 12.2 iPhone10,1; a0d0)";
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-获取POI页买单优惠")
     public void ms_c_getMOPayPromosInfoAction_01(JSONObject request, JSONObject expect){
 
@@ -41,7 +41,7 @@ public class TestGetMOPayPromosInfoAction extends TestDPLogin {
 
     }
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-(点评侧)获取POI页买单优惠")
     public void ms_c_getMOPayPromosInfoAction_101(JSONObject request, JSONObject expect){
 

@@ -29,7 +29,7 @@ public class TestLoadUnifiedCashierAction extends TestDPLogin {
 
     private HuiMapiWebLoopCheck hmwLoop = new HuiMapiWebLoopCheck();
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例：进入收银台")
     public void ms_c_loadunifiedcashieraction_01(JSONObject request,JSONObject expect)throws Exception {
         log.info("入参：{}",JSONObject.toJSONString(request));
@@ -45,7 +45,7 @@ public class TestLoadUnifiedCashierAction extends TestDPLogin {
         AssertUtil.assertTrue(couponProducts.getIntValue("ProductType")>0,"ProductType小于0");
     }
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例：(点评侧)进入收银台")
     public void ms_c_loadunifiedcashieraction_101(JSONObject request,JSONObject expect)throws Exception {
         log.info("入参：{}",JSONObject.toJSONString(request));

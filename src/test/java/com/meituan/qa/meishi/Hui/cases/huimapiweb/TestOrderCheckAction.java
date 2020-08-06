@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 public class TestOrderCheckAction extends TestDPLogin {
     private HuiMapiWebLoopCheck loopCheck = new HuiMapiWebLoopCheck();
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-用户与门店不在同一位置，弹窗提示")
     public void ms_c_ordercheckaction_01(JSONObject request, JSONObject expect){
         log.info("入参：{}",JSONObject.toJSONString(request));
@@ -53,7 +53,7 @@ public class TestOrderCheckAction extends TestDPLogin {
 
  */
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-(点评侧)用户与门店不在同一位置，弹窗提示")
     public void ms_c_ordercheckaction_101(JSONObject request, JSONObject expect){
 

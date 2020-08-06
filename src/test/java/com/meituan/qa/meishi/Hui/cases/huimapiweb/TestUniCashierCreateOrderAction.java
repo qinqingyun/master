@@ -37,7 +37,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
     @ThriftAPI(appkey = "com.sankuai.web.campaign.assigncard")
     MaitonHongbaoTService.Iface maitonHongbaoTService;
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-07-29",updateTime = "2020-07-31",des = "正确用例-使用折扣买单")
     public void ms_c_unicashiercreateorderaction_01(JSONObject request, JSONObject expect){
 
@@ -52,7 +52,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
     }
 
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-07-31",updateTime = "2020-07-31",des = "正确用例-使用满减方案买单")
     public void ms_c_unicashiercreateorderaction_02(JSONObject request, JSONObject expect){
 
@@ -66,7 +66,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         createOrderAssert(response,path_list,"满减");
     }
 /*
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-07-31",updateTime = "2020-08-05",des = "正确用例-使用商家抵用券买单")
     public void ms_c_unicashiercreateorderaction_03(JSONObject request, JSONObject expect) throws TException {
 
@@ -117,7 +117,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
  */
 
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-07-31",updateTime = "2020-07-31",des = "正确用例-原价买单")
     public void ms_c_unicashiercreateorderaction_04(JSONObject request, JSONObject expect){
 
@@ -131,7 +131,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         createOrderAssert(response,path_list,"原价");
     }
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-(点评侧)使用折扣买单")
     public void ms_c_unicashiercreateorderaction_101(JSONObject request, JSONObject expect){
 
@@ -146,7 +146,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
     }
 
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-(点评侧)使用满减方案买单")
     public void ms_c_unicashiercreateorderaction_102(JSONObject request, JSONObject expect){
 
@@ -160,7 +160,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         createOrderAssert(response,path_list,"满减");
     }
 /*
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-(点评侧)使用商家抵用券买单")
     public void ms_c_unicashiercreateorderaction_103(JSONObject request, JSONObject expect) throws TException {
 
@@ -203,7 +203,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
     }
  */
 
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-(点评侧)原价买单")
     public void ms_c_unicashiercreateorderaction_104(JSONObject request, JSONObject expect){
 

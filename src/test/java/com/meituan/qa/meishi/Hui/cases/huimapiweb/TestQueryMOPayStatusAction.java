@@ -29,7 +29,7 @@ import java.util.List;
 public class TestQueryMOPayStatusAction extends TestDPLogin {
     private HuiMapiWebLoopCheck loopCheck = new HuiMapiWebLoopCheck();
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-查询订单状态为支付中的订单")
     public void ms_c_querymopaystatusaction_01(JSONObject request,JSONObject expect){
 
@@ -43,7 +43,7 @@ public class TestQueryMOPayStatusAction extends TestDPLogin {
     }
 
     //支付成功
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-查询订单状态为支付成功的订单")
     public void ms_c_querymopaystatusaction_02(JSONObject request,JSONObject expect){
 
@@ -56,7 +56,7 @@ public class TestQueryMOPayStatusAction extends TestDPLogin {
         queryMOPayStatusAssert(responseMap, expect);
     }
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-查询订单状态为已经退款的订单")
     public void ms_c_querymopaystatusaction_03(JSONObject request,JSONObject expect){
 
@@ -69,7 +69,7 @@ public class TestQueryMOPayStatusAction extends TestDPLogin {
        queryMOPayStatusAssert(responseMap,expect);
     }
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-（点评侧）查询订单状态为支付中的订单")
     public void ms_c_querymopaystatusaction_101(JSONObject request,JSONObject expect){
 
@@ -84,7 +84,7 @@ public class TestQueryMOPayStatusAction extends TestDPLogin {
     }
 
     //支付成功
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-（点评侧）查询订单状态为支付成功的订单")
     public void ms_c_querymopaystatusaction_102(JSONObject request,JSONObject expect){
 
@@ -97,7 +97,7 @@ public class TestQueryMOPayStatusAction extends TestDPLogin {
         queryMOPayStatusAssert(responseMap, expect);
     }
 
-    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata",dataProviderClass = DBDataProvider.class,groups = "P1")
     @MethodAnotation(author = "zhenyumin", createTime = "2020-08-05",updateTime = "2020-08-05",des = "正确用例-（点评侧）查询订单状态为已经退款的订单")
     public void ms_c_querymopaystatusaction_103(JSONObject request,JSONObject expect){
 
