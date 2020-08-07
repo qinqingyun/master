@@ -129,12 +129,6 @@ public class DutyTableController {
         t.setDutyName("李宇华");
         dutyTablePOMapper.insert(t);
 
-        DutyTablePO u=new DutyTablePO();
-        u.setIsOnDuty(false);
-        u.setDutyMis("hanye03");
-        u.setDutyName("韩晔");
-        dutyTablePOMapper.insert(u);
-
         DutyTablePO w=new DutyTablePO();
         w.setIsOnDuty(false);
         w.setDutyMis("zhangyancui");
@@ -182,24 +176,6 @@ public class DutyTableController {
         k.setDutyMis("sunnaili");
         k.setDutyName("孙乃利");
         dutyTablePOMapper.insert(k);
-
-        DutyTablePO c=new DutyTablePO();
-        c.setIsOnDuty(false);
-        c.setDutyName("贾晓琪");
-        c.setDutyMis("jiaxiaoqi");
-        dutyTablePOMapper.insert(c);
-
-        DutyTablePO e=new DutyTablePO();
-        e.setIsOnDuty(false);
-        e.setDutyName("杨帅");
-        e.setDutyMis("yangshuai07");
-        dutyTablePOMapper.insert(e);
-
-        DutyTablePO f=new DutyTablePO();
-        f.setIsOnDuty(false);
-        f.setDutyMis("konghongwei");
-        f.setDutyName("孔宏伟");
-        dutyTablePOMapper.insert(f);
 
         DutyTablePO h1=new DutyTablePO();
         h1.setIsOnDuty(false);
