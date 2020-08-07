@@ -56,9 +56,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
                         taskName=dirTDs.getString(k);
-                        if(taskName=="15778-6571372"){
-                            log.info("test");
-                        }
                         sum = detail.getInteger("sum");
                         pass = detail.getInteger("pass");
                         failed = detail.getInteger("failed");
