@@ -36,20 +36,24 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         nameMap.put("qinqingyun", "秦庆贇");
         nameMap.put("buyuqi", "部玉琪");
         nameMap.put("wuqifang", "吴启芳");
-        nameMap.put("huangguilin", "黄桂琳");
         nameMap.put("fengchen", "冯辰");
         nameMap.put("tangwenchao", "唐文超");
-        nameMap.put("zhangyancui", "张彦翠");
         nameMap.put("xiongyiping", "熊一平");
         nameMap.put("yingzhixun", "应直巡");
         nameMap.put("chenyunyun", "陈云云");
-        nameMap.put("summer.sun", "孙蒙");
         nameMap.put("bei.guo", "郭贝");
         nameMap.put("liuxiangyi", "刘香怡");
         nameMap.put("zhouke", "周克");
         nameMap.put("feilichao", "费立超");
+
         nameMap.put("honghui.huang", "黄红辉");
-        nameMap.put("huanghonghui", "黄红辉");
+        nameMap.put("kelin03", "柯琳");
+        nameMap.put("yuyuan", "余媛");
+        nameMap.put("tongmeina", "佟美娜");
+        nameMap.put("chenhui18", "陈慧");
+        nameMap.put("summer.sun", "孙蒙");
+        nameMap.put("huangguilin", "黄桂琳");
+        nameMap.put("zhangyancui", "张彦翠");
 
         Calendar yesterday = Calendar.getInstance();
         yesterday.add(Calendar.DATE, -1);
@@ -76,7 +80,7 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
             if (cargoDataPO.getDirection()!=null) {
                 stableList = stableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + "\n";
                 flag++;
-                if (cargoDataPO.getDirection().equals("B端_北京") || cargoDataPO.getDirection().equals("B端_上海")) {
+                if (cargoDataPO.getDirection().equals("B端-基础测试组") || cargoDataPO.getDirection().equals("B端-运营测试组")|| cargoDataPO.getDirection().equals("B端-增值试组")) {
                     bStableList = bStableList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getStableTagPercentage() + "\n";
                     flag_1++;
                 }
@@ -87,7 +91,7 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
             if (cargoDataPO.getAvalibleTotal() != 0 &&cargoDataPO.getDirection()!=null) {
                 avalibleList = avalibleList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + "\n";
                 flag_2++;
-                if (cargoDataPO.getDirection().equals("B端_北京") || cargoDataPO.getDirection().equals("B端_上海")) {
+                if (cargoDataPO.getDirection().equals("B端-基础测试组") || cargoDataPO.getDirection().equals("B端-运营测试组")|| cargoDataPO.getDirection().equals("B端-增值测试组")) {
                     bAvalibleList = bAvalibleList + cargoDataPO.getDirection() + "_" + cargoDataPO.getTag() + ":" + cargoDataPO.getAvalibleTagPercentage() + "\n";
                     flag_3++;
                 }

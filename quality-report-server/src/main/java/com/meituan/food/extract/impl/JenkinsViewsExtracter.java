@@ -135,7 +135,7 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
             return;
         for (JenkinsViewPO jenkinsViewPO : jenkinsViewPOS) {
             log.info("近3日未执行job的信息"+jenkinsViewPO.getUrl());
-            if (jenkinsViewPO.getView().contains("B端") || jenkinsViewPO.getView().contains("商家平台-北京Test环境接口自动化") || jenkinsViewPO.getView().contains ("商家平台-上海Test环境接口自动化")) {
+            if (jenkinsViewPO.getView().contains("基础测试组") || jenkinsViewPO.getView().contains("运营测试组") || jenkinsViewPO.getView().contains ("增值测试组")) {
                 bUnRunJob++;
                 bUnRunJobList.add(jenkinsViewPO.getUrl());
                 bPushStr=bPushStr+"\n"+jenkinsViewPO.getUrl();
