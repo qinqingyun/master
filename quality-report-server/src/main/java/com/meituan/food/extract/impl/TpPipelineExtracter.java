@@ -45,22 +45,25 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                 dirTDs = removeST(dirAll);
             }
             if(dirTDs.size()!=0) {
-                sum=0 ;
-                pass = 0;
-                failed = 0;
-                oneTimePassCount =0;
-                autoRunCountNumberList = 0;
-                taskName="";
-                PipelineTpPO rejectResult = getReason(dirTDs, date);
                 for (int k = 0; k < dirTDs.size(); k++) {
+                    sum=0 ;
+                    pass = 0;
+                    failed = 0;
+                    oneTimePassCount =0;
+                    autoRunCountNumberList = 0;
+                    taskName="";
+                    PipelineTpPO rejectResult = getReason(dirTDs.getString(k), date);
                     JSONObject detail = resp.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                     if (detail != null) {
                         taskName=dirTDs.getString(k);
-                        sum = sum + detail.getInteger("sum");
-                        pass = pass + detail.getInteger("pass");
-                        failed = failed + detail.getInteger("failed");
-                        oneTimePassCount = oneTimePassCount + detail.getInteger("oneTimePassCount");
-                        autoRunCountNumberList = autoRunCountNumberList + (Integer) detail.getJSONArray("lastUseCountNumberList").get(6);
+                        if(taskName=="15778-6571372"){
+                            log.info("test");
+                        }
+                        sum = detail.getInteger("sum");
+                        pass = detail.getInteger("pass");
+                        failed = detail.getInteger("failed");
+                        oneTimePassCount = detail.getInteger("oneTimePassCount");
+                        autoRunCountNumberList = (Integer) detail.getJSONArray("lastUseCountNumberList").get(6);
                     }else {
                         //存在提测任务和提测信息时间不一致情况：task任务在date时间，task信息在date前一天
                         LocalDate yestoday = date.plusDays(-1);
@@ -69,32 +72,36 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                         JSONObject detailYestoday = respYestoday.getJSONObject("data").getJSONObject("detail").getJSONObject("issue").getJSONObject((String) dirTDs.get(k));
                         if (detailYestoday != null) {
                             taskName=dirTDs.getString(k);
-                            sum = sum + detailYestoday.getInteger("sum");
-                            pass = pass + detailYestoday.getInteger("pass");
-                            failed = failed + detailYestoday.getInteger("failed");
-                            oneTimePassCount = oneTimePassCount + detailYestoday.getInteger("oneTimePassCount");
-                            autoRunCountNumberList = autoRunCountNumberList + (Integer) detailYestoday.getJSONArray("lastUseCountNumberList").get(6);
-                            rejectResult = getReason(dirTDs, yestoday);
+                            if(taskName=="15778-6571372"){
+                                log.info("test");
+                            }
+                            sum =  detailYestoday.getInteger("sum");
+                            pass = detailYestoday.getInteger("pass");
+                            failed = detailYestoday.getInteger("failed");
+                            oneTimePassCount = detailYestoday.getInteger("oneTimePassCount");
+                            autoRunCountNumberList = + (Integer) detailYestoday.getJSONArray("lastUseCountNumberList").get(6);
+                            rejectResult = getReason(dirTDs.getString(k), date);
                         }
                     }
+                    PipelineTpPO pipelineTpPO = new PipelineTpPO();
+                    //  记录taskName，为了去重
+                    pipelineTpPO.setDirection_name(taskName);
+                    pipelineTpPO.setDirection_id(Integer.valueOf(directions[i]));
+                    pipelineTpPO.setTask(1);
+                    pipelineTpPO.setSum(sum);
+                    pipelineTpPO.setPass(pass);
+                    pipelineTpPO.setFailed(failed);
+                    pipelineTpPO.setOneTimePassCount(oneTimePassCount);
+                    pipelineTpPO.setAutoRunCountNumberList(autoRunCountNumberList);
+                    //获取自动化case数和提测失败原因
+                    pipelineTpPO.setAllCase(rejectResult.getAllCase());
+                    pipelineTpPO.setRejectReasonString(rejectResult.getRejectReasons().toString());
+                    String descSlip = org.apache.commons.lang.StringUtils.join(rejectResult.getRejectDesc(), "###");
+                    pipelineTpPO.setRejectDescString(descSlip);
+                    pipelineTpPO.setTp_date(date);
+                    pipelineTpMapper.insert(pipelineTpPO);
                 }
-                PipelineTpPO pipelineTpPO = new PipelineTpPO();
-                //  记录taskName，为了去重
-                pipelineTpPO.setDirection_name(taskName);
-                pipelineTpPO.setDirection_id(Integer.valueOf(directions[i]));
-                pipelineTpPO.setTask(dirTDs.size());
-                pipelineTpPO.setSum(sum);
-                pipelineTpPO.setPass(pass);
-                pipelineTpPO.setFailed(failed);
-                pipelineTpPO.setOneTimePassCount(oneTimePassCount);
-                pipelineTpPO.setAutoRunCountNumberList(autoRunCountNumberList);
-                //获取自动化case数和提测失败原因
-                pipelineTpPO.setAllCase(rejectResult.getAllCase());
-                pipelineTpPO.setRejectReasonString(rejectResult.getRejectReasons().toString());
-                String descSlip = org.apache.commons.lang.StringUtils.join(rejectResult.getRejectDesc(), "###");
-                pipelineTpPO.setRejectDescString(descSlip);
-                pipelineTpPO.setTp_date(date);
-                pipelineTpMapper.insert(pipelineTpPO);
+
             }
         }
     }
@@ -109,13 +116,12 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
         return dirs;
     }
 
-    public PipelineTpPO getReason(JSONArray issueKey,LocalDate date){
+    public PipelineTpPO getReason(String issueKey,LocalDate date){
         PipelineTpPO pipelineTpPO=new PipelineTpPO();
         String param="";
         JSONObject resp = new JSONObject();
         String url = "http://qa.sankuai.com/cq/cq/pipeline/data/detail";
-        for(int j = 0 ;j<issueKey.size();j++){
-            param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"issueKey\":\""+issueKey.get(j)+"\"}";
+            param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"issueKey\":\""+issueKey+"\"}";
             resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
             Integer haveCase = resp.getJSONObject("data").getJSONArray("atCountList").size();
             if (haveCase!=0){//提测被删=0？
@@ -186,8 +192,6 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
                         }
                     }
                 }
-
-        }
         return pipelineTpPO;
     }
 
