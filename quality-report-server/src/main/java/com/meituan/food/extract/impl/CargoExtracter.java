@@ -251,7 +251,7 @@ public class CargoExtracter implements IOneDayCargoExtract {
             direct.put("yuxiaodei", "B端-基础测试组");
 
             direct.put("huangguilin", "B端-运营测试组");
-            direct.put("zhangtyancui", "B端-运营测试组");
+            direct.put("zhangyancui", "B端-运营测试组");
 
             direct.put("bei.guo", "B端-增值测试组");
             direct.put("kelin03", "B端-增值测试组");
