@@ -234,7 +234,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                                     coePO.setBusiness("C端服务端");
                                 }
                             }
-                            if (!(org==126&&department.equals("dianping.travelsh"))){
+                            if (!(org==126&&"dianping.travelsh".equals(department))){
                                 coeListPOMapper.insert(coePO);
                             }
                         }
