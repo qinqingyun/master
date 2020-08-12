@@ -88,7 +88,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                  McdCoePO coePO = new McdCoePO();
                  getBaseInfo(o, coePO);
 
-                 if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
+                 if (!coePO.getOrgName().contains("餐饮解决方案")) {
                      getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
                  }
 
@@ -111,7 +111,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                      mcdCoePOMapper.updateByPrimaryKey(coePO);
 
                  } else {
-                     if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
+                     if (!coePO.getOrgName().contains("餐饮解决方案")) {
                          coePO.setBuildTime(new Date());
                          coePO.setUpdateTime(new Date());
                          mcdCoePOMapper.insert(coePO);
