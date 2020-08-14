@@ -2,6 +2,8 @@ package com.meituan.food.mapper;
 
 import com.meituan.food.po.CoeAtpPO;
 import com.meituan.food.po.CoeAtpPOExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
@@ -31,9 +33,11 @@ public interface CoeAtpPOMapper {
 
     @Insert({
         "insert into coe_atp_status_table (id, coe_id, ",
-        "is_push)",
+        "is_push, first_push_date, ",
+        "push_text, receiver)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
-        "#{isPush,jdbcType=BIT})"
+        "#{isPush,jdbcType=BIT}, #{firstPushDate,jdbcType=DATE}, ",
+        "#{pushText,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR})"
     })
     int insert(CoeAtpPO record);
 
@@ -44,30 +48,28 @@ public interface CoeAtpPOMapper {
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-        @Result(column="is_push", property="isPush", jdbcType=JdbcType.BIT)
+        @Result(column="is_push", property="isPush", jdbcType=JdbcType.BIT),
+        @Result(column="first_push_date", property="firstPushDate", jdbcType=JdbcType.DATE),
+        @Result(column="push_text", property="pushText", jdbcType=JdbcType.VARCHAR),
+        @Result(column="receiver", property="receiver", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeAtpPO> selectByExample(CoeAtpPOExample example);
 
     @Select({
         "select",
-        "id, coe_id, is_push",
+        "id, coe_id, is_push, first_push_date, push_text, receiver",
         "from coe_atp_status_table",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-        @Result(column="is_push", property="isPush", jdbcType=JdbcType.BIT)
+        @Result(column="is_push", property="isPush", jdbcType=JdbcType.BIT),
+        @Result(column="first_push_date", property="firstPushDate", jdbcType=JdbcType.DATE),
+        @Result(column="push_text", property="pushText", jdbcType=JdbcType.VARCHAR),
+        @Result(column="receiver", property="receiver", jdbcType=JdbcType.VARCHAR)
     })
     CoeAtpPO selectByPrimaryKey(Integer id);
-
-    @Select({
-            "select coe_id from coe_atp_status_table where is_push=true"
-    })
-    @Results({
-            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
-    })
-    List<Integer> selectAllCoeList();
 
     @UpdateProvider(type=CoeAtpPOSqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") CoeAtpPO record, @Param("example") CoeAtpPOExample example);
@@ -81,8 +83,36 @@ public interface CoeAtpPOMapper {
     @Update({
         "update coe_atp_status_table",
         "set coe_id = #{coeId,jdbcType=INTEGER},",
-          "is_push = #{isPush,jdbcType=BIT}",
+          "is_push = #{isPush,jdbcType=BIT},",
+          "first_push_date = #{firstPushDate,jdbcType=DATE},",
+          "push_text = #{pushText,jdbcType=VARCHAR},",
+          "receiver = #{receiver,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CoeAtpPO record);
+
+
+    @Select({
+            "select coe_id from coe_atp_status_table"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    List<Integer> selectAllCoeList();
+
+    @Select({
+            "select",
+            "id, coe_id, is_push, first_push_date, push_text, receiver",
+            "from coe_atp_status_table",
+            "where is_push=false and first_push_date< #{firstPushDate,jdbcType=DATE}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+            @Result(column="is_push", property="isPush", jdbcType=JdbcType.BIT),
+            @Result(column="first_push_date", property="firstPushDate", jdbcType=JdbcType.DATE),
+            @Result(column="push_text", property="pushText", jdbcType=JdbcType.VARCHAR),
+            @Result(column="receiver", property="receiver", jdbcType=JdbcType.VARCHAR)
+    })
+    List<CoeAtpPO> selectUnfinishCoeList(Date firstPushDate);
 }

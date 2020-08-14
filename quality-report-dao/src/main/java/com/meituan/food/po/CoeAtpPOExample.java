@@ -1,6 +1,8 @@
 package com.meituan.food.po;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class CoeAtpPOExample {
@@ -102,6 +104,32 @@ public class CoeAtpPOExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -281,6 +309,206 @@ public class CoeAtpPOExample {
 
         public Criteria andIsPushNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_push not between", value1, value2, "isPush");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateIsNull() {
+            addCriterion("first_push_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateIsNotNull() {
+            addCriterion("first_push_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateEqualTo(Date value) {
+            addCriterionForJDBCDate("first_push_date =", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("first_push_date <>", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("first_push_date >", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("first_push_date >=", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateLessThan(Date value) {
+            addCriterionForJDBCDate("first_push_date <", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("first_push_date <=", value, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateIn(List<Date> values) {
+            addCriterionForJDBCDate("first_push_date in", values, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("first_push_date not in", values, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("first_push_date between", value1, value2, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstPushDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("first_push_date not between", value1, value2, "firstPushDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextIsNull() {
+            addCriterion("push_text is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextIsNotNull() {
+            addCriterion("push_text is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextEqualTo(String value) {
+            addCriterion("push_text =", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextNotEqualTo(String value) {
+            addCriterion("push_text <>", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextGreaterThan(String value) {
+            addCriterion("push_text >", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextGreaterThanOrEqualTo(String value) {
+            addCriterion("push_text >=", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextLessThan(String value) {
+            addCriterion("push_text <", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextLessThanOrEqualTo(String value) {
+            addCriterion("push_text <=", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextLike(String value) {
+            addCriterion("push_text like", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextNotLike(String value) {
+            addCriterion("push_text not like", value, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextIn(List<String> values) {
+            addCriterion("push_text in", values, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextNotIn(List<String> values) {
+            addCriterion("push_text not in", values, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextBetween(String value1, String value2) {
+            addCriterion("push_text between", value1, value2, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andPushTextNotBetween(String value1, String value2) {
+            addCriterion("push_text not between", value1, value2, "pushText");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverIsNull() {
+            addCriterion("receiver is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverIsNotNull() {
+            addCriterion("receiver is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverEqualTo(String value) {
+            addCriterion("receiver =", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverNotEqualTo(String value) {
+            addCriterion("receiver <>", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverGreaterThan(String value) {
+            addCriterion("receiver >", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverGreaterThanOrEqualTo(String value) {
+            addCriterion("receiver >=", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverLessThan(String value) {
+            addCriterion("receiver <", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverLessThanOrEqualTo(String value) {
+            addCriterion("receiver <=", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverLike(String value) {
+            addCriterion("receiver like", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverNotLike(String value) {
+            addCriterion("receiver not like", value, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverIn(List<String> values) {
+            addCriterion("receiver in", values, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverNotIn(List<String> values) {
+            addCriterion("receiver not in", values, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverBetween(String value1, String value2) {
+            addCriterion("receiver between", value1, value2, "receiver");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiverNotBetween(String value1, String value2) {
+            addCriterion("receiver not between", value1, value2, "receiver");
             return (Criteria) this;
         }
     }

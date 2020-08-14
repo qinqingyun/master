@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.mapper.*;
+import com.meituan.food.po.CoeAtpPO;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoeTodoPO;
 import com.meituan.food.po.OrgMcdIdPO;
@@ -56,6 +57,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
     @Resource
     private OrgDaxiangPOMapper orgDaxiangPOMapper;
+
+    @Resource
+    private CoeAtpPOMapper coeAtpPOMapper;
 
     @Override
     public void getCOETdData(String firstDayStr, String secondDayStr) throws ParseException {
@@ -145,6 +149,62 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
                 }
 
+            }
+        }
+
+        List<McdCoePO> lossCoePOList = mcdCoePOMapper.selectLossCoe();
+        List<Integer> allCoeList = coeAtpPOMapper.selectAllCoeList();
+
+        if (lossCoePOList != null) {
+            for (McdCoePO po : lossCoePOList) {
+                if (!allCoeList.contains(po.getCoeId())) {
+                    String business = po.getLine();
+                    if (business != null && !business.equals("")) {
+                        String pushText = "";
+                        CoeAtpPO atpPO=new CoeAtpPO();
+                        atpPO.setCoeId(po.getCoeId());
+                        atpPO.setIsPush(false);
+                        Date now =new Date();
+                        atpPO.setFirstPushDate(now);
+                        if (po.getCouponLoss() != null && !po.getCouponLoss().equals("")) {
+                            pushText = pushText + "\n●损失支付间夜/门票/消费券" + po.getCouponLoss() + "张";
+                        } else if (po.getOrderLoss() != null && po.getOrderLoss().compareTo(BigDecimal.ZERO) != 0) {
+                            pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0) + "单";
+                        } else if (po.getCapitalLoss() != null && po.getCapitalLoss().compareTo(BigDecimal.ZERO) != 0) {
+                            pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2) + "元";
+                        }
+                        pushText=pushText+"\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId="+po.getCoeId()+"]";
+                        if (business.equals("住宿") ) {
+                            pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/atp.jsp#/\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
+                            atpPO.setReceiver("chenchaoyi");
+                            atpPO.setPushText(pushText);
+                            coeAtpPOMapper.insert(atpPO);
+                        } else if (business.equals("门票")) {
+                            pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/dual.jsp#/apt_trip\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
+                            atpPO.setReceiver("chenchaoyi");
+                            atpPO.setPushText(pushText);
+                            coeAtpPOMapper.insert(atpPO);
+                        } else if (business.equals("到餐") || business.equals("收单")) {
+                            pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao");
+                            DaXiangUtils.pushToPerson(pushText,"wangjianming02");
+                            atpPO.setReceiver("wangjianming02");
+                            atpPO.setPushText(pushText);
+                            coeAtpPOMapper.insert(atpPO);
+                        } else if (business.equals("到综")) {
+                            pushText = business + "业务下新增有损失的COE，请及时录入ATP\n地址：https://km.sankuai.com/page/259031052\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText,"yuan.ding");
+                            atpPO.setReceiver("yuan.ding");
+                            atpPO.setPushText(pushText);
+                            coeAtpPOMapper.insert(atpPO);
+                        }
+                    }
+                }
             }
         }
 

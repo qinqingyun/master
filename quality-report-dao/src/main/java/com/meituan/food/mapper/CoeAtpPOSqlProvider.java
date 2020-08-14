@@ -40,6 +40,18 @@ public class CoeAtpPOSqlProvider {
             sql.VALUES("is_push", "#{isPush,jdbcType=BIT}");
         }
         
+        if (record.getFirstPushDate() != null) {
+            sql.VALUES("first_push_date", "#{firstPushDate,jdbcType=DATE}");
+        }
+        
+        if (record.getPushText() != null) {
+            sql.VALUES("push_text", "#{pushText,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getReceiver() != null) {
+            sql.VALUES("receiver", "#{receiver,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -52,6 +64,9 @@ public class CoeAtpPOSqlProvider {
         }
         sql.SELECT("coe_id");
         sql.SELECT("is_push");
+        sql.SELECT("first_push_date");
+        sql.SELECT("push_text");
+        sql.SELECT("receiver");
         sql.FROM("coe_atp_status_table");
         applyWhere(sql, example, false);
         
@@ -81,6 +96,18 @@ public class CoeAtpPOSqlProvider {
             sql.SET("is_push = #{record.isPush,jdbcType=BIT}");
         }
         
+        if (record.getFirstPushDate() != null) {
+            sql.SET("first_push_date = #{record.firstPushDate,jdbcType=DATE}");
+        }
+        
+        if (record.getPushText() != null) {
+            sql.SET("push_text = #{record.pushText,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getReceiver() != null) {
+            sql.SET("receiver = #{record.receiver,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -92,6 +119,9 @@ public class CoeAtpPOSqlProvider {
         sql.SET("id = #{record.id,jdbcType=INTEGER}");
         sql.SET("coe_id = #{record.coeId,jdbcType=INTEGER}");
         sql.SET("is_push = #{record.isPush,jdbcType=BIT}");
+        sql.SET("first_push_date = #{record.firstPushDate,jdbcType=DATE}");
+        sql.SET("push_text = #{record.pushText,jdbcType=VARCHAR}");
+        sql.SET("receiver = #{record.receiver,jdbcType=VARCHAR}");
         
         CoeAtpPOExample example = (CoeAtpPOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -108,6 +138,18 @@ public class CoeAtpPOSqlProvider {
         
         if (record.getIsPush() != null) {
             sql.SET("is_push = #{isPush,jdbcType=BIT}");
+        }
+        
+        if (record.getFirstPushDate() != null) {
+            sql.SET("first_push_date = #{firstPushDate,jdbcType=DATE}");
+        }
+        
+        if (record.getPushText() != null) {
+            sql.SET("push_text = #{pushText,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getReceiver() != null) {
+            sql.SET("receiver = #{receiver,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

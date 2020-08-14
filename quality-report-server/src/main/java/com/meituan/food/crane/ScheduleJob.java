@@ -122,6 +122,9 @@ public class ScheduleJob {
     @Resource
     private IWeekAllDDCoePushJob weekAllDDCoePushJob;
 
+    @Resource
+    private IAtpPushJob atpPushJob;
+
     //定时推送专项进度wiki---已暂停使用
     @Crane("one.week.sync.job")
     public void syncOneWeek() {
@@ -354,5 +357,10 @@ public class ScheduleJob {
     @Crane("one.month.push.coe.job")
     public void monthPushCOE() throws ParseException {
         weekAllDDCoePushJob.syncForMonth();
+    }
+
+    @Crane("one.day.push.atp.job")
+    public void pushAtp(){
+       atpPushJob.push();
     }
 }
