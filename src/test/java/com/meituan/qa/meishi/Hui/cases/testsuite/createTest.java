@@ -53,7 +53,7 @@ public class createTest extends TestBase{
 //        CheckOrderUtil.checkOldOrderSystem(1,maitonQueryOrderResponse);
 //
 //        //2、支付
-//        maitonApi.orderPay(payToken, tradeNo, MTApp);
+        //maitonApi.orderPay(payToken, tradeNo, MTApp);
 //
 //        //支付后平台校验
 //        JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform");
