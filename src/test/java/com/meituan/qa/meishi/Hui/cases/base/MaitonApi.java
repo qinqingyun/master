@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
 import com.dianping.hui.order.response.QueryOrderResponse;
+import com.meituan.mtrace.TraceParam;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
@@ -39,6 +41,7 @@ import org.testng.util.Strings;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.meituan.qa.meishi.Hui.cases.base.TestBase.thriftApi;
@@ -51,10 +54,11 @@ import static java.lang.Boolean.TRUE;
 @Data
 public class MaitonApi{
     public String envpath;
-    private  String dpTokenNew = "";
-    private  static String mtTokenNew = "";
-    public   String mtUserIdNew = "";
-    private  String username = "user1";
+    private  String dpToken = "";
+    public   String dpUserId = "";
+    private  static String mtToken = "";
+    public   String mtUserId = "";
+    private  String username = "maitonuser";
     public  String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
     public  String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
     public  String dpClient = "MApi 1.1(dpscope 10.16.0 appstore; iPhone 12.3.2 iPhone10,2; a0d0)";
@@ -70,20 +74,24 @@ public class MaitonApi{
     static String loadunifiedcashierUrl = "hui/loadunifiedcashier.bin"; //双侧加载收银台
     static String queryMopayStatusUrl = "hui/querymopaystatus.bin";  //双侧支付结果接口
     static String mtOrderDetailUrl = "/maiton/order/{orderid}";  //美团订单详情接口
+    static String dpOrderDetailUrl = "/hui/maiton/order";//点评订单详情接口
+
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
     public String userLogin(){
-//        envpath = ConfigMange.getValue("testData");
-//        DPCUser dpcUser = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, username);
-//        if( dpcUser == null ||  StringUtil.isBlank(dpcUser.getToken()))
-//            return null;
-//        dpTokenNew = dpcUser.getToken();
+        envpath = ConfigMange.getValue("testData");
+        DPCUser dpcUser = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, username);
+        if( dpcUser == null ||  StringUtil.isBlank(dpcUser.getToken()))
+            return null;
+        dpToken = dpcUser.getToken();
+        dpUserId = ConfigMange.getValue("maitonuser_DP_C_USER_ID");
+
 
         MTCUser mtUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, username);
         if( mtUser == null ||  StringUtil.isBlank(mtUser.getToken()))
             return null;
-        mtTokenNew = mtUser.getToken();
-        mtUserIdNew = String.valueOf(mtUser.getId());
+        mtToken = mtUser.getToken();
+        mtUserId = String.valueOf(mtUser.getId());
         return "登录成功";
     }
 
@@ -92,13 +100,14 @@ public class MaitonApi{
 
         switch (sourceEnum){
             case DPApp:
-                userModel.setToken(dpTokenNew);
+                userModel.setToken(dpToken);
                 userModel.setUserAgent(dpClient);
+                userModel.setUserId(dpUserId);
                 break;
             case MTApp:
-                userModel.setToken(mtTokenNew);
+                userModel.setToken(mtToken);
                 userModel.setUserAgent(mtClientNew);
-                userModel.setUserId(mtUserIdNew);
+                userModel.setUserId(mtUserId);
                 break;
         }
 
@@ -169,7 +178,7 @@ public class MaitonApi{
 
         String payToken;
         String tradeNo;
-        Long orderId;
+        String orderId;
         String serializedId;
         String shopdealstring;
 
@@ -216,7 +225,6 @@ public class MaitonApi{
             request.getJSONObject("body").put("bizorderid",receipt);
             request.getJSONObject("body").put("bookrecordid",receipt);
         }
-        String payAmount = JSON.toJSONString(request.getJSONObject("body").get("useramount"));
         log.info("买单创建订单请求参数request:{}",request.toString());
         ResponseMap response = null;
         try {
@@ -232,7 +240,7 @@ public class MaitonApi{
         try {
             payToken = response.getValueByJsonPath("$.PayToken");
             tradeNo = response.getValueByJsonPath("$.Tradeno");
-            orderId = (Long) response.getValueByJsonPath("$.OrderId");
+            orderId = response.getValueByJsonPath("$.OrderId");
             serializedId = response.getValueByJsonPath("$.SerializedId");
         } catch (Exception e) {
             log.info("有异常创单失败");
@@ -245,14 +253,26 @@ public class MaitonApi{
                 return null;
             }
         }
-        QueryOrderResponse maidonOrder = thriftApi.getMaidonOrder(orderId.toString());
+        setOrderModel(orderId,payToken,tradeNo,serializedId);
+        return orderModel;
+    }
+    public void setOrderModel(String orderId,String payToken,String tradeNo,String serializedId){
+        QueryOrderResponse maidonOrder = thriftApi.getMaidonOrder(orderId);
+        String payAmount = maidonOrder.getOrderDTO().getUserAmount().multiply(new BigDecimal(100)).toString();
+        String promoAmount = maidonOrder.getOrderDTO().getPlatformAmount().multiply(new BigDecimal(100)).toString();
+        String merchantAmount = maidonOrder.getOrderDTO().getMerchantDiscountAmount().multiply(new BigDecimal(100)).toString();
+        BigDecimal platformAmountBig = (maidonOrder.getOrderDTO().getPlatformAmount()).subtract(maidonOrder.getOrderDTO().getMerchantDiscountAmount());
+        String platformAmount = platformAmountBig.multiply(new BigDecimal(100)).toString();
+        DecimalFormat decimalFormat = new DecimalFormat("###################.###########");
+        orderModel.setPayAmount(decimalFormat.format(Double.valueOf(platformAmount)));
+        orderModel.setPlatformAmount(decimalFormat.format(Double.valueOf(payAmount)));
+        orderModel.setMerchantAmount(decimalFormat.format(Double.valueOf(merchantAmount)));
+        orderModel.setPromoAmount(decimalFormat.format(Double.valueOf(promoAmount)));
         orderModel.setSchemeId(String.valueOf(maidonOrder.getOrderDTO().getSchemeId()));
-        orderModel.setOrderId(orderId.toString());
+        orderModel.setOrderId(orderId);
         orderModel.setPayToken(payToken);
         orderModel.setTradeNo(tradeNo);
         orderModel.setSerializedId(serializedId);
-        orderModel.setPayAmount(payAmount);
-        return orderModel;
     }
     /**
      * APP加载优惠台接口，接口文档：
@@ -309,8 +329,7 @@ public class MaitonApi{
         return jsonObject.getString("StatusMsg");
     }
     /**
-     * APP订单详情页，接口文档：
-     *
+     * 美团侧APP订单详情页，接口文档：
      */
     public String MtOrderDetail(String caseId,String orderId) {
         // 生成新Trace
@@ -334,6 +353,41 @@ public class MaitonApi{
         return orderDetailinfoContent;
     }
     /**
+     * 点评侧APP订单详情页，接口文档：
+     */
+    public String DpOrderDetail(String caseId,String orderId) {
+        // 生成新Trace
+        TracerUtil.initAndLogTrace();
+        log.info("MTOrderDetail Enter");
+
+        ResponseMap responseMap=null;
+        JSONObject request = new JSONObject();
+        try{
+            request = DBDataProvider.getRequest(dpOrderDetailUrl, caseId);
+        }catch (Exception e){
+            log.info("DBDataProvider.getRequest调用 excepiton", e);
+        }
+        request.getJSONObject("params").put("token",userModel.getToken());
+        request.getJSONObject("params").put("orderId",orderId);
+        request.getJSONObject("params").put("product","dpapp");
+        long currentTime = System.currentTimeMillis();
+        try {
+            responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
+        } catch (Exception e) {
+            log.info("查询订单详情Exception, Request:{}, 耗时: {}",
+                    JSON.toJSONString(request),
+                    System.currentTimeMillis() - currentTime,
+                    e);
+        }
+        String body= responseMap.getResponseBody();
+        OrderDetailCheck  orderDetailinfo = parseHtml(responseMap.getResponseBody());
+        String orderDetailinfoContent = orderDetailinfo.getContent();
+        //Assert.assertEquals(orderDetailinfo.getContent(),"支付成功");
+        // Assert.assertEquals(orderDetailinfo.getTotalAmount(),"消费金额：1.00元");
+        log.info("订单详情页获取状态=======" + orderDetailinfo.getContent()+"原价金额====="+orderDetailinfo.getTotalAmount()+"用户金额====="+orderDetailinfo.getPayAmount());
+        return orderDetailinfoContent;
+    }
+    /**
      * html页面解析
      */
     public OrderDetailCheck parseHtml(String html){
@@ -348,7 +402,7 @@ public class MaitonApi{
         return orderDetailCheck;
     }
     /**
-     * 获取用户优惠券信息
+     * 获取用户商家优惠券信息
      */
     public DeskCoupon getShopCouponCipher(String hongbaoid,String caseId){
         HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.getToken()).useCardflag(UseCard.USE_MERCHANT_CARD).client(userModel.getUserAgent()).caseid(caseId).build();
@@ -361,7 +415,29 @@ public class MaitonApi{
         }
         return deskCoupon;
     }
+    /**
+     * 获取用户平台优惠券信息
+     */
+    public DeskCoupon getPlatformCouponCipher(String hongbaoid,String caseId){
+        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.getToken()).useCardflag(UseCard.USE_PLATFORM_CARD).client(userModel.getUserAgent()).caseid(caseId).build();
+        DeskCoupon deskCoupon ;
+        try {
+            deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+        }catch (RuntimeException e){
+            e.getMessage();
+            return null;
+        }
+        return deskCoupon;
+    }
 
+    /**
+     * pc端商家订单详情
+     */
+    public void getMerchentOrderDetail(){
+        Tracer.serverRecv(new TraceParam(""));
+        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","5002907380");
+
+    }
 
 
 }

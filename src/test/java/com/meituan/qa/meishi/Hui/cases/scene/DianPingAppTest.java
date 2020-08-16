@@ -1,26 +1,18 @@
 package com.meituan.qa.meishi.Hui.cases.scene;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueDetail;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
-import com.meituan.qa.meishi.Hui.domain.ResvInfo;
-import com.meituan.qa.meishi.Hui.domain.ResvOrderId;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
-import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderUtil;
-import com.meituan.qa.meishi.Hui.util.PayMockUtil;
-import com.meituan.qa.meishi.Hui.util.SetTraceUtil;
-import com.sankuai.nibqa.trade.payMock.params.request.PayNotifyMockRequest;
-import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
-import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.MaitonHongbaoTBean;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.MaitonHongbaoTResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
@@ -30,27 +22,30 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPApp;
 import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
-
+import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.退款成功;
 @Slf4j
-public class MeiTuanAppTest extends TestBase {
+public class DianPingAppTest extends TestBase {
     private String platformPath="/platformPath";
-    PayMockUtil payMockUtil = new PayMockUtil();
-    SetTraceUtil setTraceUtil = new SetTraceUtil();
-
-    @Test(groups = "P1",description = "美团app，买单使用原价买单方案->方案选取->下单->支付->商家直退->退款成功")
-    public void mtOriginTest() throws Exception {
-        String creatOrderCaseId = "ms_c_4Verify_mtloadUnifiedCashier_05";
-        String platformCaseId = "ms_c_originalScenes_platform";
+    /**
+     * 用例简介:     买单使用原价买单方案
+     * 数据源:       shopId：65731456
+     * 主要流程:     下单 -> 支付 -> 详情 -> 退款
+     * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：直接退款
+     **/
+    @Test(groups = "P1",description = "点评app，买单使用原价买单方案->方案选取->下单->支付->商家直退->退款成功")
+    public void dpOriginTest() throws Exception {
+        String creatOrderCaseId = "ms_c_dploadUnifiedCashier";
+        String platformCaseId = "ms_c_dpOriginalScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
-        setTraceUtil.setTrace(); //mock相关配置
+        maitonApi.replaceUserInfo(DPApp);
         //1.创建订单
         OrderModel orderModel = loopCheck.uniCashierCreateOrder(creatOrderCaseId);
-        log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        log.info("创单成功！{}:", JSON.toJSONString(orderModel));
         //2.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //3.平台下单校验
@@ -58,8 +53,8 @@ public class MeiTuanAppTest extends TestBase {
         //4.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //5.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //6.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //7.支付后买单校验
@@ -67,7 +62,7 @@ public class MeiTuanAppTest extends TestBase {
         //8.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
         //9.用户订单详情页校验
-        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //10.商户订单详情页校验
         //11.商户订单中心推送校验
         //12.商家直退
@@ -76,23 +71,21 @@ public class MeiTuanAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //14.退款mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //15.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //16.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
     }
-
-    @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
-    public void mtDiscountTest() throws Exception {
-        String loadUnifiedCashier = "ms_c_4Verify_loadUnifiedCashier_02";
-        String creatOrderCaseId = "ms_c_4Verify_uniCashierCreateOrder_03";
-        String platformCaseId = "ms_c_discount_platform_consum";
+    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
+    public void dpDiscountTest() throws Exception {
+        String loadUnifiedCashier = "ms_c__dp_loadUnifiedCashier";
+        String creatOrderCaseId = "ms_c_dp_uniCashierCreateOrde";
+        String platformCaseId = "ms_c_dpdiscount_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
-        setTraceUtil.setTrace(); //mock相关配置
+        maitonApi.replaceUserInfo(DPApp);
         //1.加载优惠台
         CouponProduct couponProduct = loopCheck.loadUnifiedCashier(loadUnifiedCashier);
         log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
@@ -106,8 +99,8 @@ public class MeiTuanAppTest extends TestBase {
         //5.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //6.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //7.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //8.支付后买单校验
@@ -115,7 +108,7 @@ public class MeiTuanAppTest extends TestBase {
         //9.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
         //10.用户订单详情页校验
-        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //11.商户订单详情页校验
         //12.商户订单中心推送校验
         //13.用户申请退款校验
@@ -128,7 +121,7 @@ public class MeiTuanAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //14.退款mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //15.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //16.退款后买单校验
@@ -140,24 +133,23 @@ public class MeiTuanAppTest extends TestBase {
      * 主要流程:     下单 -> 支付 -> 详情 -> 退款
      * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：直接退款；促销方式：使用商家券
      **/
-    @Test(groups = "P1",description = "美团app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
+    @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     public void mtShopPromoTest() throws Exception {
-        String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_01";
-        String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_mtshop";
+        String getHuiPromodeskCaseId= "ms_c_dpshopScenes_platform_01";
+        String loadUnifiedCashier = "ms_c_dpshoploadUnifiedCashier_02";
+        String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_dpshop";
         String platformCaseId = "ms_c_mtshopScenes_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
-        setTraceUtil.setTrace(); //mock相关配置
+        maitonApi.replaceUserInfo(DPApp);
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
-            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel(), 97224769,MTApp);
-            Assert.assertTrue(maitonHongbaoTResponse.data.size()!= 0,"商家发券失败");
+            Assert.assertTrue(false);
+            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel(), 65731456,DPApp);
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
             deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
@@ -176,8 +168,8 @@ public class MeiTuanAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -185,7 +177,7 @@ public class MeiTuanAppTest extends TestBase {
         //11.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
         //12.用户订单详情页校验
-        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //13.商户订单详情页校验
         //14.商户订单中心推送校验
         //15.商家直退
@@ -193,8 +185,8 @@ public class MeiTuanAppTest extends TestBase {
         log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
-        //16.退款回调mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //16.退款mock
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
@@ -206,23 +198,22 @@ public class MeiTuanAppTest extends TestBase {
      * 主要流程:     下单 -> 支付 -> 详情 -> 退款
      * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：直接退款；促销方式：使用红包平台券
      **/
-    @Test(groups = "P1",description = "美团app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
-    public void mtCouponPromoTest() throws Exception {
-        String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
-        String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_mtshop";
+    @Test(groups = "P1",description = "点评app，使用平台优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
+    public void dpCouponPromoTest() throws Exception {
+        String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_03";
+        String loadUnifiedCashier = "ms_c_4Verify_loadUnifiedCashier_05";
+        String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_merchantpromo_02";
         String platformCaseId = "ms_c_mtshopScenes_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
-        setTraceUtil.setTrace(); //mock相关配置
+        maitonApi.replaceUserInfo(DPApp);
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
         DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
-        //2.若没有商家券，调用发券接口发券
+        //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(), 549009064,MTApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(),461937051,DPApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
@@ -249,8 +240,8 @@ public class MeiTuanAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -258,7 +249,7 @@ public class MeiTuanAppTest extends TestBase {
         //11.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
         //12.用户订单详情页校验
-        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //13.商户订单详情页校验
         //14.商户订单中心推送校验
         //15.商家直退
@@ -266,8 +257,8 @@ public class MeiTuanAppTest extends TestBase {
         log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
-        //16.退款回调mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //16.退款mock
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
@@ -303,7 +294,7 @@ public class MeiTuanAppTest extends TestBase {
         //6.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
         //7.用户订单详情页校验
-        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //8.商户订单详情页校验
         //9.商户订单中心推送校验
         //10.商家直退
@@ -317,4 +308,3 @@ public class MeiTuanAppTest extends TestBase {
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
     }
 }
-

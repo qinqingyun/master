@@ -17,6 +17,7 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.UseCard;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
 import com.meituan.qa.meishi.Hui.util.Task;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
@@ -96,11 +97,11 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
         DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk_02", id);
         if (deskCoupon == null) {
             //调用营销接口直接发券
-            MaitonHongbaoTResponse maitonHongbaoTResponse = thriftApi.setShopPromo(mtbyqUserId, poiId);
-            log.info("商家券发券结果：{}", JSON.toJSONString(maitonHongbaoTResponse));
-            Optional<MaitonHongbaoTBean> detailOptional = maitonHongbaoTResponse.data.stream().findFirst();
-            id = detailOptional.get().id;
-            log.info("商家发券Id:{}" + id);
+//            MaitonHongbaoTResponse maitonHongbaoTResponse = thriftApi.setShopPromo(mtbyqUserId, poiId);
+//            log.info("商家券发券结果：{}", JSON.toJSONString(maitonHongbaoTResponse));
+//            Optional<MaitonHongbaoTBean> detailOptional = maitonHongbaoTResponse.data.stream().findFirst();
+//            id = detailOptional.get().id;
+//            log.info("商家发券Id:{}" + id);
         }
         //下单前查询优惠
         deskCoupon = checkLoop.getShopCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk_01", id);
@@ -110,7 +111,7 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
         deskCoupon = checkLoop.getCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk", couponid);
         if (deskCoupon == null) {
             //发平台券券
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(mtbyqUserId, 763075395);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(mtbyqUserId, 763075395, OrderSourceEnum.DPApp);
             log.info("平台券发券结果：{}", JSON.toJSONString(unifiedCouponIssueResponse));
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {

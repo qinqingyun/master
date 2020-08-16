@@ -11,3 +11,4 @@ src/test/logs
 src/test/reports
 test-output/
 src/test/profiles/test/swimlane.properties
+src/test/java/com/meituan/qa/meishi/Hui/cases/TestCase

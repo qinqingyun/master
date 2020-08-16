@@ -93,14 +93,6 @@ public class TestDpMerchantPromo_New extends TestDPLogin {
         CouponProduct couponProduct = loadCashier.parseCouponOfferId().orElse(null);
         HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(dpToken,dpClient,CASEID,couponProduct,deskCoupon,source);
 
-//        HuiCreateOrder createOrder = HuiCreateOrder.builder()
-//                .token(dpToken)
-//                .userAgent(dpClient)
-//                .caseid(CASEID)
-//                .couponProduct(loadCashier.parseCouponOfferId().orElse(null))
-//                .deskcoupon(deskCoupon)
-//                .build();
-//        HuiCreateOrderResult createResult = createOrder.requestCreate();
         String payToken = createResult.getPayToken();
         String serializedId = createResult.getSerializedId();
         String orderId = createResult.getOrderId().toString();

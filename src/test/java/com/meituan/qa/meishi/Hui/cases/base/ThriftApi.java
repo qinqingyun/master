@@ -32,6 +32,7 @@ import com.meituan.nibtp.trade.client.buy.response.QueryOrderMappingRes;
 import com.meituan.nibtp.trade.client.buy.service.OrderMappingService;
 import com.meituan.qa.meishi.Hui.domain.ResvSkuIdAndSkuVersion;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderType;
@@ -231,9 +232,19 @@ public class ThriftApi {
          * 商家券发券接口
          *
          */
-    public MaitonHongbaoTResponse setShopPromo(Long userId,Integer poiId) throws TException {
+    public MaitonHongbaoTResponse setShopPromo(Long userId, Integer poiId, OrderSourceEnum orderSourceEnum) throws TException {
         MaitonHongbaoTRequest maitonHongbaoTRequest = new MaitonHongbaoTRequest();
-        maitonHongbaoTRequest.setPlatform(Platform.MT);
+        switch (orderSourceEnum){
+            case MTApp:
+            case MTWx:
+                maitonHongbaoTRequest.setPlatform(Platform.MT);
+                break;
+            case DPApp:
+            case DPM:
+            case DPWx:
+                maitonHongbaoTRequest.setPlatform(Platform.DP);
+                break;
+        }
         maitonHongbaoTRequest.setUserId(userId);
         maitonHongbaoTRequest.setPoiId(poiId);
         maitonHongbaoTRequest.setAssignChannelTEnum(AssignChannelTEnum.MAITON);
@@ -246,11 +257,21 @@ public class ThriftApi {
      * 平台券发券接口
      *
      */
-    public UnifiedCouponIssueResponse setCouponPromo(Long userId,Integer couponId) {
+    public UnifiedCouponIssueResponse setCouponPromo(Long userId,Integer CouponGroupId, OrderSourceEnum orderSourceEnum) {
         UnifiedCouponIssueRequest couponIssueRequest = new UnifiedCouponIssueRequest();
-        couponIssueRequest.setUserType("MT");
+        switch (orderSourceEnum){
+            case MTApp:
+            case MTWx:
+                couponIssueRequest.setUserType("MT");
+                break;
+            case DPApp:
+            case DPM:
+            case DPWx:
+                couponIssueRequest.setUserType("DP");
+                break;
+        }
         couponIssueRequest.setUnifiedCouponGroupIdList(Lists.newArrayList());
-        couponIssueRequest.setCouponGroupIdList(Lists.newArrayList(couponId));
+        couponIssueRequest.setCouponGroupIdList(Lists.newArrayList(CouponGroupId));
         couponIssueRequest.setOperator("qa-system");
         couponIssueRequest.setUserId(userId);
 

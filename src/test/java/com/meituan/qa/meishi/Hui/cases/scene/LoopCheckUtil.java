@@ -5,19 +5,15 @@ import com.beust.jcommander.internal.Lists;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
-import com.meituan.qa.meishi.Hui.domain.HuiCreateOrder;
-import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
-import com.meituan.qa.meishi.Hui.domain.LoadCashier;
 import com.meituan.qa.meishi.Hui.domain.PlatformCheckInfo;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
-import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
-import com.meituan.qa.meishi.Hui.dto.UseCard;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
+import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
 import com.sankuai.meituan.resv.i.thrift.exception.InternalTException;
 import com.sankuai.meituan.resv.order.thrift.exception.ResvOrderException;
 import com.sankuai.meituan.resv.trade.idl.exception.ResvTradeException;
@@ -28,7 +24,6 @@ import org.apache.thrift.TException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 public class LoopCheckUtil extends TestBase {
@@ -99,8 +94,16 @@ public class LoopCheckUtil extends TestBase {
         return queryMopayStatus;
     }
     @LoopCheck(desc = "订单详情页轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public String getOrderDetail(String caseId,String orderId)  {
-        String orderDetail = maitonApi.MtOrderDetail(caseId,orderId);
+    public String getOrderDetail(String caseId, String orderId, OrderSourceEnum sourceEnum)  {
+        String orderDetail = null;
+        switch (sourceEnum){
+            case DPApp:
+                orderDetail = maitonApi.DpOrderDetail(caseId,orderId);
+                break;
+            case MTApp:
+                orderDetail = maitonApi.MtOrderDetail(caseId,orderId);
+                break;
+        }
         return orderDetail;
     }
     @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
@@ -114,14 +117,23 @@ public class LoopCheckUtil extends TestBase {
         DeskCoupon deskCoupon = maitonApi.getShopCouponCipher(hongbaoid,caseId );
         return deskCoupon;
     }
+    @LoopCheck(desc = "查询优惠券的加密串", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    // 查询平台券的加密串
+    public DeskCoupon getPlatformCouponCipher(String hongbaoid, String caseId ) {
+        DeskCoupon deskCoupon = maitonApi.getPlatformCouponCipher(hongbaoid,caseId );
+        return deskCoupon;
+    }
     @LoopCheck(desc = "发送商家券", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public MaitonHongbaoTResponse setShopPromo(UserModel userModel,Integer poiId) throws TException {
-        MaitonHongbaoTResponse maitonHongbaoTResponse= thriftApi.setShopPromo(Long.valueOf(userModel.getUserId()),poiId);
+    public MaitonHongbaoTResponse setShopPromo(UserModel userModel,Integer poiId,OrderSourceEnum orderSourceEnum) throws TException {
+        MaitonHongbaoTResponse maitonHongbaoTResponse= thriftApi.setShopPromo(Long.valueOf(userModel.getUserId()),poiId,orderSourceEnum);
+        if(maitonHongbaoTResponse.getData().size()==0){
+            return null;
+        }
         return maitonHongbaoTResponse;
     }
     @LoopCheck(desc = "发送平台券", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public UnifiedCouponIssueResponse setCouponPromo(UserModel userModel,Integer couponId) throws TException {
-        UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(Long.valueOf(userModel.getUserId()), couponId);
+    public UnifiedCouponIssueResponse setCouponPromo(UserModel userModel,Integer CouponGroupId, OrderSourceEnum orderSourceEnum) throws TException {
+        UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(Long.valueOf(userModel.getUserId()), CouponGroupId,orderSourceEnum);
         return unifiedCouponIssueResponse;
     }
     //@LoopCheck(desc = "商家券创建订单", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s

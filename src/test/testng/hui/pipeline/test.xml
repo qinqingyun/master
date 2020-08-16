@@ -7,8 +7,8 @@
     <test name="meishiHuiMerchant">
 
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.testsuite.Atest"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.testsuite.Btest"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.TestCase.testsuite.Atest"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.TestCase.testsuite.Btest"/>
 
         </classes>
     </test>

@@ -11,10 +11,6 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-
-import static com.meituan.qa.meishi.Hui.util.TestDPLogin.dpUserId;
-import static com.meituan.qa.meishi.Hui.util.TestDPLogin.mtUserId;
-
 /**
  * Created by buyuqi on 2020/5/29.
  */
@@ -28,7 +24,7 @@ public class TestBase {
     public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
     protected static String doubleWriteMode;
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "OLD_ONLY";
+    public static String MainSystem = "NEW_MAIN";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM= true;
     //是否进行db数据diff
@@ -87,12 +83,12 @@ public class TestBase {
     public void beforeTestSetUserForLion() throws Exception {
         // 判断并改写双写模式
         if( MainSystem.equals("NEW_MAIN")|| MainSystem.equals("NEW_ONLY")){
-            LionUtil.setUserWriteList(maitonApi.getMtUserIdNew()+"_1");
-            LionUtil.setUserWriteList(dpUserId+"_0");
+            LionUtil.setUserWriteList(maitonApi.getMtUserId()+"_1");
+            LionUtil.setUserWriteList(maitonApi.getDpUserId()+"_0");
         }
         if( MainSystem.equals("OLD_MAIN") || MainSystem.equals("OLD_ONLY")){
-            LionUtil.setUserBlackList(maitonApi.getMtUserIdNew()+"_1");
-            LionUtil.setUserBlackList(dpUserId+"_0");
+            LionUtil.setUserBlackList(maitonApi.getMtUserId()+"_1");
+            LionUtil.setUserBlackList(maitonApi.getDpUserId()+"_0");
         }
     }
 }
