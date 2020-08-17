@@ -69,7 +69,7 @@ public class JenkinsViewsExtracter implements IOneDayJenkinsViewsExtract {
             }
         }
 
-        noticeTest();//连续3日未执行自动化，大象推送
+//        noticeTest();//连续3日未执行自动化，大象推送
     }
 
 
