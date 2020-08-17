@@ -89,6 +89,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                  getBaseInfo(o, coePO);
 
                  if (!coePO.getOrgName().contains("餐饮解决方案中心")) {
+
                      getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
                  }
 

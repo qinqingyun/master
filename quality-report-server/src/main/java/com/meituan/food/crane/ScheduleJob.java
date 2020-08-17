@@ -329,6 +329,12 @@ public class ScheduleJob {
     public void oneHourTdJob() throws TException, MDMThriftException, ParseException {
         oneHourJob.extractDataTd4Hour();
     }
+
+    //获取平台技术部周报（组维度）
+    @Crane("one.week.td.job")
+    public void oneWeekTdJob() throws TException, MDMThriftException, ParseException {
+       oneWeekJob.syncTd();
+    }
     //每天集成流水线获取f
     @Crane("one.day.itpipeline.job")
     public void itPipelineJob() throws TException, MDMThriftException {
