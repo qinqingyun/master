@@ -61,7 +61,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu","yuan.ding");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","yuan.ding");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
@@ -93,13 +93,13 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : remindPushList.keySet()) {
-            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","ting.liu","yuan.ding");
+            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","yuan.ding");
             DaXiangUtils.pushToPerson(remindPushList.get(key), key);
         }
 
     }
 
-    public void getPushContext(Map<String, String> pushList, McdCoePO mcdCoePO,int index,String content){
+    public void getPushContext(Map<String, String> pushList, McdCoePO mcdCoePO,int index,String content) throws ParseException {
         if (mcdCoePO.getFminusoTime() == null || mcdCoePO.getLminusfTime() == null || mcdCoePO.getSminushTime() == null || mcdCoePO.getInfluenceTime() == null) {
             content = content + "\n● 时间线不完整";
             index++;
@@ -123,6 +123,17 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         if (mcdCoePO.getNofundReason()==null){
             content = content + "\n● 未填写前期测试未发现原因";
             index++;
+        }
+        if (mcdCoePO.getAffectData()==null){
+            String dateString = "2020-08-18 00:00:00";
+            Date flagDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+            Date findDate = mcdCoePO.getFindDate();
+            if (null!=findDate){
+              if (findDate.compareTo(flagDate)>0){
+                  content = content + "\n● 未填写是否影响数仓";
+                  index++;
+              }
+            }
         }
         if (index != 0) {
             content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象联系郭孟瑶(guomengyao)）";
