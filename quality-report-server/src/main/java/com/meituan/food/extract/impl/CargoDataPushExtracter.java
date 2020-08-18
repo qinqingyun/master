@@ -101,19 +101,15 @@ public class CargoDataPushExtracter implements ICargoDataPushExtract {
         }
 
         if (flag != 0) {
-            DaXiangUtils.pushToPerson(stableList, "guomengyao");
             DaXiangUtils.pushToRoom(stableList, 64013787000l);
         }
         if (flag_1 != 0) {
-            DaXiangUtils.pushToPerson(bStableList, "guomengyao");
             DaXiangUtils.pushToRoom(bStableList, 64013874686l);
         }
         if (flag_2 != 0) {
-            DaXiangUtils.pushToPerson(avalibleList, "guomengyao");
             DaXiangUtils.pushToRoom(avalibleList, 64013787000l);
         }
         if (flag_3 != 0) {
-            DaXiangUtils.pushToPerson(bAvalibleList, "guomengyao");
             DaXiangUtils.pushToRoom(bAvalibleList, 64013874686l);
         }
     }
