@@ -3,7 +3,6 @@ package com.meituan.food.mapper;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.po.McdCoePOExample;
 import java.util.List;
-import java.util.Date;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -16,6 +15,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
+import java.util.*;
 
 public interface McdCoePOMapper {
     @SelectProvider(type=McdCoePOSqlProvider.class, method="countByExample")
@@ -55,7 +55,7 @@ public interface McdCoePOMapper {
         "online_classification, line, ",
         "custom_level, nofund_reason, ",
         "root_cause, mcd_id, ",
-        "mcd_name)",
+        "mcd_name, affect_data)",
         "values (#{id,jdbcType=INTEGER}, #{coeId,jdbcType=INTEGER}, ",
         "#{brief,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
         "#{occurTime,jdbcType=TIMESTAMP}, #{occurDate,jdbcType=DATE}, ",
@@ -80,7 +80,7 @@ public interface McdCoePOMapper {
         "#{onlineClassification,jdbcType=VARCHAR}, #{line,jdbcType=VARCHAR}, ",
         "#{customLevel,jdbcType=VARCHAR}, #{nofundReason,jdbcType=VARCHAR}, ",
         "#{rootCause,jdbcType=VARCHAR}, #{mcdId,jdbcType=INTEGER}, ",
-        "#{mcdName,jdbcType=INTEGER})"
+        "#{mcdName,jdbcType=INTEGER}, #{affectData,jdbcType=VARCHAR})"
     })
     int insert(McdCoePO record);
 
@@ -139,7 +139,8 @@ public interface McdCoePOMapper {
         @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
         @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
         @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-        @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
+        @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER),
+        @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
     })
     List<McdCoePO> selectByExample(McdCoePOExample example);
 
@@ -152,7 +153,7 @@ public interface McdCoePOMapper {
         "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
         "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
         "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
-        "root_cause, mcd_id, mcd_name",
+        "root_cause, mcd_id, mcd_name, affect_data",
         "from mcd_coe_list",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -207,7 +208,8 @@ public interface McdCoePOMapper {
         @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
         @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
         @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-        @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
+        @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER),
+        @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
     })
     McdCoePO selectByPrimaryKey(Integer id);
 
@@ -271,11 +273,11 @@ public interface McdCoePOMapper {
           "nofund_reason = #{nofundReason,jdbcType=VARCHAR},",
           "root_cause = #{rootCause,jdbcType=VARCHAR},",
           "mcd_id = #{mcdId,jdbcType=INTEGER},",
-          "mcd_name = #{mcdName,jdbcType=INTEGER}",
+          "mcd_name = #{mcdName,jdbcType=INTEGER},",
+          "affect_data = #{affectData,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(McdCoePO record);
-
 
     //新增
 
@@ -283,7 +285,7 @@ public interface McdCoePOMapper {
             "select coe_id from mcd_coe_list"
     })
     @Results({
-            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+            @Result(column = "coe_id", property = "coeId", jdbcType = JdbcType.INTEGER)
     })
     List<Integer> selectMcdCoeIdList();
 
@@ -297,69 +299,66 @@ public interface McdCoePOMapper {
             "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
             "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
-            "root_cause, mcd_id, mcd_name",
+            "root_cause, mcd_id, mcd_name,affect_data",
             "from mcd_coe_list",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-            @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
-            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
-            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="handle_time", property="handleTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="solved_time", property="solvedTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="fminuso_time", property="fminusoTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="lminusf_time", property="lminusfTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="sminush_time", property="sminushTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="wiki", property="wiki", jdbcType=JdbcType.VARCHAR),
-            @Result(column="level", property="level", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_name", property="ownerName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_mis", property="ownerMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_name", property="qaName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_mis", property="qaMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="coe_link", property="coeLink", jdbcType=JdbcType.VARCHAR),
-            @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
-            @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
-            @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
-            @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-            @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
-            @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
-            @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_classification", property="onlineClassification", jdbcType=JdbcType.VARCHAR),
-            @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
-            @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
-            @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
-            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
-            @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "coe_id", property = "coeId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "brief", property = "brief", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_time", property = "occurTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_date", property = "occurDate", jdbcType = JdbcType.DATE),
+            @Result(column = "build_time", property = "buildTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "notify_time", property = "notifyTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "find_time", property = "findTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "location_time", property = "locationTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "handle_time", property = "handleTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "solved_time", property = "solvedTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "fminuso_time", property = "fminusoTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "lminusf_time", property = "lminusfTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "sminush_time", property = "sminushTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "wiki", property = "wiki", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "level", property = "level", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_name", property = "ownerName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_mis", property = "ownerMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_name", property = "qaName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_mis", property = "qaMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "coe_link", property = "coeLink", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "category", property = "category", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "rd_share", property = "rdShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "qa_share", property = "qaShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "join_status", property = "joinStatus", jdbcType = JdbcType.BIT),
+            @Result(column = "appearance", property = "appearance", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "sub_category", property = "subCategory", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "all_todo", property = "allTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo", property = "notFinishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "finish_todo", property = "finishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo_task", property = "notFinishTodoTask", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "available", property = "available", jdbcType = JdbcType.BIT),
+            @Result(column = "org_name", property = "orgName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "find_date", property = "findDate", jdbcType = JdbcType.DATE),
+            @Result(column = "finder", property = "finder", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "influence_time", property = "influenceTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "clear_time", property = "clearTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "locator", property = "locator", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "order_loss", property = "orderLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "capital_loss", property = "capitalLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "coupon_loss", property = "couponLoss", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_discovery", property = "onlineDiscovery", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_classification", property = "onlineClassification", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "line", property = "line", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "custom_level", property = "customLevel", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "nofund_reason", property = "nofundReason", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "root_cause", property = "rootCause", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mcd_id", property = "mcdId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "mcd_name", property = "mcdName", jdbcType = JdbcType.INTEGER),
+            @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
     })
     McdCoePO selectByCoeId(Integer id);
 
-
-
-
-
     @Select({
             "select",
             "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
@@ -369,65 +368,140 @@ public interface McdCoePOMapper {
             "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
             "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
-            "root_cause, mcd_id, mcd_name",
+            "root_cause, mcd_id, mcd_name,affect_data",
             "from mcd_coe_list",
-            "where available=1 and create_time >= #{occur,jdbcType=TIMESTAMP} and create_time < #{occur2,jdbcType=TIMESTAMP}"
+            "where available=1 ",
+            "and org_name in",
+            "<foreach collection='org' item='org_name' index='index' open='(' separator=',' close=')'>",
+            "#{org_name,jdbcType=VARCHAR}",
+            "</foreach>",
+            "</script>"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-            @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
-            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
-            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="handle_time", property="handleTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="solved_time", property="solvedTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="fminuso_time", property="fminusoTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="lminusf_time", property="lminusfTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="sminush_time", property="sminushTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="wiki", property="wiki", jdbcType=JdbcType.VARCHAR),
-            @Result(column="level", property="level", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_name", property="ownerName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_mis", property="ownerMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_name", property="qaName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_mis", property="qaMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="coe_link", property="coeLink", jdbcType=JdbcType.VARCHAR),
-            @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
-            @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
-            @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
-            @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-            @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
-            @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
-            @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_classification", property="onlineClassification", jdbcType=JdbcType.VARCHAR),
-            @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
-            @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
-            @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
-            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
-            @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
-    })
-    List<McdCoePO> selectByTwoDate(@Param("occur") Date occur,@Param("occur2") Date occur2);
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "coe_id", property = "coeId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "brief", property = "brief", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_time", property = "occurTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_date", property = "occurDate", jdbcType = JdbcType.DATE),
+            @Result(column = "build_time", property = "buildTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "notify_time", property = "notifyTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "find_time", property = "findTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "location_time", property = "locationTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "handle_time", property = "handleTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "solved_time", property = "solvedTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "fminuso_time", property = "fminusoTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "lminusf_time", property = "lminusfTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "sminush_time", property = "sminushTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "wiki", property = "wiki", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "level", property = "level", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_name", property = "ownerName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_mis", property = "ownerMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_name", property = "qaName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_mis", property = "qaMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "coe_link", property = "coeLink", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "category", property = "category", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "rd_share", property = "rdShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "qa_share", property = "qaShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "join_status", property = "joinStatus", jdbcType = JdbcType.BIT),
+            @Result(column = "appearance", property = "appearance", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "sub_category", property = "subCategory", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "all_todo", property = "allTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo", property = "notFinishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "finish_todo", property = "finishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo_task", property = "notFinishTodoTask", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "available", property = "available", jdbcType = JdbcType.BIT),
+            @Result(column = "org_name", property = "orgName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "find_date", property = "findDate", jdbcType = JdbcType.DATE),
+            @Result(column = "finder", property = "finder", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "influence_time", property = "influenceTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "clear_time", property = "clearTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "locator", property = "locator", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "order_loss", property = "orderLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "capital_loss", property = "capitalLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "coupon_loss", property = "couponLoss", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_discovery", property = "onlineDiscovery", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_classification", property = "onlineClassification", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "line", property = "line", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "custom_level", property = "customLevel", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "nofund_reason", property = "nofundReason", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "root_cause", property = "rootCause", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mcd_id", property = "mcdId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "mcd_name", property = "mcdName", jdbcType = JdbcType.INTEGER),
+            @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
 
+    })
+    List<McdCoePO> selectByDateList(@Param("org") List<String> org);
+
+    @Select({
+            "select",
+            "id, coe_id, brief, create_time, occur_time, occur_date, build_time, update_time, ",
+            "notify_time, find_time, location_time, handle_time, solved_time, fminuso_time, ",
+            "lminusf_time, sminush_time, wiki, level, owner_name, owner_mis, qa_name, qa_mis, ",
+            "coe_link, category, rd_share, qa_share, join_status, appearance, sub_category, ",
+            "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
+            "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
+            "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
+            "root_cause, mcd_id, mcd_name,affect_data",
+            "from mcd_coe_list",
+            "where available=1  and create_time >= #{occur,jdbcType=TIMESTAMP} and create_time < #{occur2,jdbcType=TIMESTAMP}"
+    })
+    @Results({
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "coe_id", property = "coeId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "brief", property = "brief", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_time", property = "occurTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_date", property = "occurDate", jdbcType = JdbcType.DATE),
+            @Result(column = "build_time", property = "buildTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "notify_time", property = "notifyTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "find_time", property = "findTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "location_time", property = "locationTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "handle_time", property = "handleTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "solved_time", property = "solvedTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "fminuso_time", property = "fminusoTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "lminusf_time", property = "lminusfTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "sminush_time", property = "sminushTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "wiki", property = "wiki", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "level", property = "level", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_name", property = "ownerName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_mis", property = "ownerMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_name", property = "qaName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_mis", property = "qaMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "coe_link", property = "coeLink", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "category", property = "category", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "rd_share", property = "rdShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "qa_share", property = "qaShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "join_status", property = "joinStatus", jdbcType = JdbcType.BIT),
+            @Result(column = "appearance", property = "appearance", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "sub_category", property = "subCategory", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "all_todo", property = "allTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo", property = "notFinishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "finish_todo", property = "finishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo_task", property = "notFinishTodoTask", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "available", property = "available", jdbcType = JdbcType.BIT),
+            @Result(column = "org_name", property = "orgName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "find_date", property = "findDate", jdbcType = JdbcType.DATE),
+            @Result(column = "finder", property = "finder", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "influence_time", property = "influenceTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "clear_time", property = "clearTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "locator", property = "locator", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "order_loss", property = "orderLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "capital_loss", property = "capitalLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "coupon_loss", property = "couponLoss", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_discovery", property = "onlineDiscovery", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_classification", property = "onlineClassification", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "line", property = "line", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "custom_level", property = "customLevel", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "nofund_reason", property = "nofundReason", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "root_cause", property = "rootCause", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mcd_id", property = "mcdId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "mcd_name", property = "mcdName", jdbcType = JdbcType.INTEGER),
+            @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
+    })
+    List<McdCoePO> selectByTwoDate(@Param("occur") Date occur, @Param("occur2") Date occur2);
 
 
     @Select({
@@ -439,63 +513,65 @@ public interface McdCoePOMapper {
             "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
             "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
-            "root_cause, mcd_id, mcd_name",
+            "root_cause, mcd_id, mcd_name,affect_data",
             "from mcd_coe_list",
             "where available=1 and create_time >= #{occur,jdbcType=DATE} and create_time <= #{end,jdbcType=DATE}"
     })
     @Results({
-            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-            @Result(column="brief", property="brief", jdbcType=JdbcType.VARCHAR),
-            @Result(column="create_time", property="createTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_time", property="occurTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="occur_date", property="occurDate", jdbcType=JdbcType.DATE),
-            @Result(column="build_time", property="buildTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="notify_time", property="notifyTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="find_time", property="findTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="location_time", property="locationTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="handle_time", property="handleTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="solved_time", property="solvedTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="fminuso_time", property="fminusoTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="lminusf_time", property="lminusfTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="sminush_time", property="sminushTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="wiki", property="wiki", jdbcType=JdbcType.VARCHAR),
-            @Result(column="level", property="level", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_name", property="ownerName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="owner_mis", property="ownerMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_name", property="qaName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="qa_mis", property="qaMis", jdbcType=JdbcType.VARCHAR),
-            @Result(column="coe_link", property="coeLink", jdbcType=JdbcType.VARCHAR),
-            @Result(column="category", property="category", jdbcType=JdbcType.VARCHAR),
-            @Result(column="rd_share", property="rdShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="qa_share", property="qaShare", jdbcType=JdbcType.DECIMAL),
-            @Result(column="join_status", property="joinStatus", jdbcType=JdbcType.BIT),
-            @Result(column="appearance", property="appearance", jdbcType=JdbcType.VARCHAR),
-            @Result(column="sub_category", property="subCategory", jdbcType=JdbcType.VARCHAR),
-            @Result(column="all_todo", property="allTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo", property="notFinishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="finish_todo", property="finishTodo", jdbcType=JdbcType.INTEGER),
-            @Result(column="not_finish_todo_task", property="notFinishTodoTask", jdbcType=JdbcType.VARCHAR),
-            @Result(column="available", property="available", jdbcType=JdbcType.BIT),
-            @Result(column="org_name", property="orgName", jdbcType=JdbcType.VARCHAR),
-            @Result(column="find_date", property="findDate", jdbcType=JdbcType.DATE),
-            @Result(column="finder", property="finder", jdbcType=JdbcType.VARCHAR),
-            @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
-            @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
-            @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
-            @Result(column="coupon_loss", property="couponLoss", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_discovery", property="onlineDiscovery", jdbcType=JdbcType.VARCHAR),
-            @Result(column="online_classification", property="onlineClassification", jdbcType=JdbcType.VARCHAR),
-            @Result(column="line", property="line", jdbcType=JdbcType.VARCHAR),
-            @Result(column="custom_level", property="customLevel", jdbcType=JdbcType.VARCHAR),
-            @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
-            @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
-            @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
+            @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "coe_id", property = "coeId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "brief", property = "brief", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_time", property = "occurTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "occur_date", property = "occurDate", jdbcType = JdbcType.DATE),
+            @Result(column = "build_time", property = "buildTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "notify_time", property = "notifyTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "find_time", property = "findTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "location_time", property = "locationTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "handle_time", property = "handleTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "solved_time", property = "solvedTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "fminuso_time", property = "fminusoTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "lminusf_time", property = "lminusfTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "sminush_time", property = "sminushTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "wiki", property = "wiki", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "level", property = "level", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_name", property = "ownerName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "owner_mis", property = "ownerMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_name", property = "qaName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "qa_mis", property = "qaMis", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "coe_link", property = "coeLink", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "category", property = "category", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "rd_share", property = "rdShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "qa_share", property = "qaShare", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "join_status", property = "joinStatus", jdbcType = JdbcType.BIT),
+            @Result(column = "appearance", property = "appearance", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "sub_category", property = "subCategory", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "all_todo", property = "allTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo", property = "notFinishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "finish_todo", property = "finishTodo", jdbcType = JdbcType.INTEGER),
+            @Result(column = "not_finish_todo_task", property = "notFinishTodoTask", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "available", property = "available", jdbcType = JdbcType.BIT),
+            @Result(column = "org_name", property = "orgName", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "find_date", property = "findDate", jdbcType = JdbcType.DATE),
+            @Result(column = "finder", property = "finder", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "influence_time", property = "influenceTime", jdbcType = JdbcType.INTEGER),
+            @Result(column = "clear_time", property = "clearTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "locator", property = "locator", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "order_loss", property = "orderLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "capital_loss", property = "capitalLoss", jdbcType = JdbcType.DECIMAL),
+            @Result(column = "coupon_loss", property = "couponLoss", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_discovery", property = "onlineDiscovery", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "online_classification", property = "onlineClassification", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "line", property = "line", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "custom_level", property = "customLevel", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "nofund_reason", property = "nofundReason", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "root_cause", property = "rootCause", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "mcd_id", property = "mcdId", jdbcType = JdbcType.INTEGER),
+            @Result(column = "mcd_name", property = "mcdName", jdbcType = JdbcType.INTEGER),
+            @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
     })
+
     List<McdCoePO> selectByDate(@Param("occur") Date occur,@Param("end") Date end);
 
     @Select({
@@ -507,7 +583,7 @@ public interface McdCoePOMapper {
             "all_todo, not_finish_todo, finish_todo, not_finish_todo_task, available, org_name, ",
             "find_date, finder, influence_time, clear_time, locator, order_loss, capital_loss, ",
             "coupon_loss, online_discovery, online_classification, line, custom_level, nofund_reason, ",
-            "root_cause, mcd_id, mcd_name",
+            "root_cause, mcd_id, mcd_name, affect_data",
             "from mcd_coe_list",
             "where  (capital_loss>0  or order_loss>0 or coupon_loss>0) and available=true  and create_time>='2020-07-23 00:00:00'"
     })
@@ -562,7 +638,8 @@ public interface McdCoePOMapper {
             @Result(column="nofund_reason", property="nofundReason", jdbcType=JdbcType.VARCHAR),
             @Result(column="root_cause", property="rootCause", jdbcType=JdbcType.VARCHAR),
             @Result(column="mcd_id", property="mcdId", jdbcType=JdbcType.INTEGER),
-            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER)
+            @Result(column="mcd_name", property="mcdName", jdbcType=JdbcType.INTEGER),
+            @Result(column="affect_data", property="affectData", jdbcType=JdbcType.VARCHAR)
     })
     List<McdCoePO> selectLossCoe();
 }

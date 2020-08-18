@@ -107,6 +107,8 @@ public class McdCoePO implements Serializable {
 
     private Integer mcdName;
 
+    private String affectData;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -517,6 +519,14 @@ public class McdCoePO implements Serializable {
         this.mcdName = mcdName;
     }
 
+    public String getAffectData() {
+        return affectData;
+    }
+
+    public void setAffectData(String affectData) {
+        this.affectData = affectData;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -579,7 +589,8 @@ public class McdCoePO implements Serializable {
             && (this.getNofundReason() == null ? other.getNofundReason() == null : this.getNofundReason().equals(other.getNofundReason()))
             && (this.getRootCause() == null ? other.getRootCause() == null : this.getRootCause().equals(other.getRootCause()))
             && (this.getMcdId() == null ? other.getMcdId() == null : this.getMcdId().equals(other.getMcdId()))
-            && (this.getMcdName() == null ? other.getMcdName() == null : this.getMcdName().equals(other.getMcdName()));
+            && (this.getMcdName() == null ? other.getMcdName() == null : this.getMcdName().equals(other.getMcdName()))
+            && (this.getAffectData() == null ? other.getAffectData() == null : this.getAffectData().equals(other.getAffectData()));
     }
 
     @Override
@@ -637,6 +648,7 @@ public class McdCoePO implements Serializable {
         result = prime * result + ((getRootCause() == null) ? 0 : getRootCause().hashCode());
         result = prime * result + ((getMcdId() == null) ? 0 : getMcdId().hashCode());
         result = prime * result + ((getMcdName() == null) ? 0 : getMcdName().hashCode());
+        result = prime * result + ((getAffectData() == null) ? 0 : getAffectData().hashCode());
         return result;
     }
 
@@ -697,6 +709,7 @@ public class McdCoePO implements Serializable {
         sb.append(", rootCause=").append(rootCause);
         sb.append(", mcdId=").append(mcdId);
         sb.append(", mcdName=").append(mcdName);
+        sb.append(", affectData=").append(affectData);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

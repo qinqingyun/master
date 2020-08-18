@@ -93,6 +93,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                  getBaseInfo(o, coePO);
 
                  if (!coePO.getOrgName().contains("餐饮解决方案")) {
+
                      getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
                  }
 
@@ -477,6 +478,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                                 break;
                             case "前期测试未发现原因":
                                 po.setNofundReason(value);
+                                break;
+                            case "是否影响数仓":
+                                po.setAffectData(value);
                         }
 
                         if (value != null && !"".equals(value)) {

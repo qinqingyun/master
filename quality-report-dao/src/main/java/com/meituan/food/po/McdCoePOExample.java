@@ -3412,6 +3412,76 @@ public class McdCoePOExample {
             addCriterion("mcd_name not between", value1, value2, "mcdName");
             return (Criteria) this;
         }
+
+        public Criteria andAffectDataIsNull() {
+            addCriterion("affect_data is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataIsNotNull() {
+            addCriterion("affect_data is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataEqualTo(String value) {
+            addCriterion("affect_data =", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataNotEqualTo(String value) {
+            addCriterion("affect_data <>", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataGreaterThan(String value) {
+            addCriterion("affect_data >", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataGreaterThanOrEqualTo(String value) {
+            addCriterion("affect_data >=", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataLessThan(String value) {
+            addCriterion("affect_data <", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataLessThanOrEqualTo(String value) {
+            addCriterion("affect_data <=", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataLike(String value) {
+            addCriterion("affect_data like", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataNotLike(String value) {
+            addCriterion("affect_data not like", value, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataIn(List<String> values) {
+            addCriterion("affect_data in", values, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataNotIn(List<String> values) {
+            addCriterion("affect_data not in", values, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataBetween(String value1, String value2) {
+            addCriterion("affect_data between", value1, value2, "affectData");
+            return (Criteria) this;
+        }
+
+        public Criteria andAffectDataNotBetween(String value1, String value2) {
+            addCriterion("affect_data not between", value1, value2, "affectData");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

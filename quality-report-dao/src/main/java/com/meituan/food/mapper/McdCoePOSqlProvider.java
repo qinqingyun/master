@@ -232,6 +232,10 @@ public class McdCoePOSqlProvider {
             sql.VALUES("mcd_name", "#{mcdName,jdbcType=INTEGER}");
         }
         
+        if (record.getAffectData() != null) {
+            sql.VALUES("affect_data", "#{affectData,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -292,6 +296,7 @@ public class McdCoePOSqlProvider {
         sql.SELECT("root_cause");
         sql.SELECT("mcd_id");
         sql.SELECT("mcd_name");
+        sql.SELECT("affect_data");
         sql.FROM("mcd_coe_list");
         applyWhere(sql, example, false);
         
@@ -513,6 +518,10 @@ public class McdCoePOSqlProvider {
             sql.SET("mcd_name = #{record.mcdName,jdbcType=INTEGER}");
         }
         
+        if (record.getAffectData() != null) {
+            sql.SET("affect_data = #{record.affectData,jdbcType=VARCHAR}");
+        }
+        
         applyWhere(sql, example, true);
         return sql.toString();
     }
@@ -572,6 +581,7 @@ public class McdCoePOSqlProvider {
         sql.SET("root_cause = #{record.rootCause,jdbcType=VARCHAR}");
         sql.SET("mcd_id = #{record.mcdId,jdbcType=INTEGER}");
         sql.SET("mcd_name = #{record.mcdName,jdbcType=INTEGER}");
+        sql.SET("affect_data = #{record.affectData,jdbcType=VARCHAR}");
         
         McdCoePOExample example = (McdCoePOExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -780,6 +790,10 @@ public class McdCoePOSqlProvider {
         
         if (record.getMcdName() != null) {
             sql.SET("mcd_name = #{mcdName,jdbcType=INTEGER}");
+        }
+        
+        if (record.getAffectData() != null) {
+            sql.SET("affect_data = #{affectData,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

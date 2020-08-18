@@ -3,6 +3,7 @@ package com.meituan.food.web;
 import com.meituan.food.extract.ICOEDataExtract;
 import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.extract.ICargoDataPushExtract;
+import com.meituan.food.extract.ITdCoeExtract;
 import com.meituan.food.extract.impl.CoeDataPushExtracter;
 import com.meituan.food.mapper.CoeListPOMapper;
 import com.meituan.food.mapper.OrgDaxiangPOMapper;
@@ -18,15 +19,18 @@ import com.sankuai.meituan.org.queryservice.domain.base.Paging;
 import com.sankuai.meituan.org.queryservice.exception.MDMThriftException;
 import com.sankuai.meituan.org.treeservice.domain.EmpHierarchyCond;
 import com.sankuai.meituan.org.treeservice.domain.param.OrgHierarchyCond;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.text.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +43,9 @@ public class CoeController {
 
     @Resource
     private ICOETdDataExtract coeTdDataExtract;
+
+    @Resource
+    private ITdCoeExtract TdCoeExtracter;
 
     @Resource
     private CoeListPOMapper coeListPOMapper;
@@ -70,6 +77,19 @@ public class CoeController {
     public String updateTdHistoryData(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) throws ParseException {
         try {
             coeTdDataExtract.getCOETdData(startDate, endDate);
+        } catch (Exception e) {
+            log.error("updateTdHistoryData error, startDate: {},endDate: {}", startDate, endDate, e);
+        }
+        return "OK!";
+    }
+
+    @GetMapping("/td/extractData4Week")
+    public String extractData4Week(@RequestParam("startDate") String  startDate, @RequestParam("endDate") String endDate) throws ParseException {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd");
+            Date startDate_1 =formatter.parse(startDate);
+            Date endDate_1 =formatter.parse(endDate);
+            TdCoeExtracter.extractData4Week(startDate_1, endDate_1);
         } catch (Exception e) {
             log.error("updateTdHistoryData error, startDate: {},endDate: {}", startDate, endDate, e);
         }
