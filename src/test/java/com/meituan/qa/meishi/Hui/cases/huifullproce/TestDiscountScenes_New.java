@@ -191,9 +191,9 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
         //平台校验已消费退款
-//        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
-//        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-//        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
+        JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
+        JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
+        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
         //退款后买单侧校验
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
