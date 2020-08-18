@@ -1,12 +1,14 @@
 package com.meituan.food.extract.impl;
 
 import com.meituan.food.extract.ICargoDataPushExtract;
+import com.meituan.food.mapper.CoeAtpPOMapper;
 import com.meituan.food.mapper.McdCoePOMapper;
 import com.meituan.food.po.McdCoePO;
 import com.meituan.food.utils.DaXiangUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -18,6 +20,9 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
 
     @Resource
     private McdCoePOMapper mcdCoePOMapper;
+
+    @Resource
+    private CoeAtpPOMapper coeAtpPOMapper;
 
     @Override
     public void pushData() throws ParseException {
@@ -56,7 +61,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","ting.liu","yuan.ding");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
@@ -88,10 +93,9 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : remindPushList.keySet()) {
-            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","ting.liu");
+            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","ting.liu","yuan.ding");
             DaXiangUtils.pushToPerson(remindPushList.get(key), key);
         }
-
 
     }
 

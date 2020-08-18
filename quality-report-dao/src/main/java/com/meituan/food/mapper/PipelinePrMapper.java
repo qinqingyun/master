@@ -67,8 +67,8 @@ public interface PipelinePrMapper {
     int insert(PipelinePrPO record);
 
     @Insert({
-            "insert into pipeline_pr_repo_data (id,department_id, department_name, repo,priority,isAutoOn, totalCase,passes,coverage,pr_times,auto_date,times,auto_times,auto_success_times)",
-            "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{passes,jdbcType=DECIMAL},#{coverage,jdbcType=VARCHAR},#{pr_times,jdbcType=INTEGER},#{auto_date,jdbcType=DATE},#{times,jdbcType=INTEGER},#{auto_times,jdbcType=INTEGER},#{auto_success_times,jdbcType=INTEGER})"
+            "insert into pipeline_pr_repo_data (id,department_id, department_name, repo,priority,isAutoOn, totalCase,passes,coverage,pr_times,auto_date,times,auto_times,auto_success_times,cov_detail)",
+            "values (#{id,jdbcType=INTEGER},#{department_id,jdbcType=INTEGER},#{directionName,jdbcType=VARCHAR},#{repo,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},#{isAutoOn,jdbcType=INTEGER}, #{totalCase,jdbcType=INTEGER},#{passes,jdbcType=DECIMAL},#{coverage,jdbcType=VARCHAR},#{pr_times,jdbcType=INTEGER},#{auto_date,jdbcType=DATE},#{times,jdbcType=INTEGER},#{auto_times,jdbcType=INTEGER},#{auto_success_times,jdbcType=INTEGER},#{cov_detail,jdbcType=VARCHAR})"
     })
     int insertRepo(PipelinePrAutoPO record);
 

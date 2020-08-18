@@ -220,7 +220,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                                 cNewCoe++;
                                 coePO.setBusiness("C端客户端");
                             }else if(coePO.getOrgName().contains("业务后台研发组")||coePO.getOrgName().contains("交易")||coePO.getOrgName().contains("营销")){
-                                if (!(org==126&&department.equals("dianping.travelsh"))){
+                                if (!(org==126&&"dianping.travelsh".equals(department))){
                                     cServerPushStr = cServerPushStr + "\n\n△【" + "[" + coePO.getBrief() + "|" + coePO.getCoeLink() + "]" + "】";
                                     String minorOrgParh;
                                     if (orgPath.contains("业务后台研发组")) {
@@ -234,7 +234,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                                     coePO.setBusiness("C端服务端");
                                 }
                             }
-                            if (!(org==126&&department.equals("dianping.travelsh"))){
+                            if (!(org==126&&"dianping.travelsh".equals(department))){
                                 coeListPOMapper.insert(coePO);
                             }
                         }

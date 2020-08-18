@@ -212,6 +212,7 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
         srvListForTDC.add("meituan.travel.dsg.hubble");
         srvListForTDC.add("meituan.travel.dsg.portal");
         srvListForTDC.add("meituan.nibmkt.dcbp.mpmktmember-api");
+        srvListForTDC.add("meituan.nibtp.promotioncard.foodtrade-rebate-qrcode");
 
         for (String s : srvListForTDC) {
             AppkeyListPO po = new AppkeyListPO();
@@ -225,7 +226,12 @@ public class GetAppkeyListExtracter implements IGetAppkeyList {
                 po.setAppkey(appkeyName);
                 if (s.equals("meituan.nibmkt.dcbp.mpmktmember-api")){
                     po.setOwt("meituan.nibmkt");
-                    po.setOwt("meituan.nibmkt.dcbp");
+                    po.setPdl("meituan.nibmkt.dcbp");
+                    po.setDepartmentId(1);
+                    po.setDepartmentId2(1);
+                }else if (s.equals("meituan.nibtp.promotioncard.foodtrade-rebate-qrcode")) {
+                    po.setOwt("meituan.nibtp");
+                    po.setPdl("meituan.nibtp.promotioncard");
                     po.setDepartmentId(1);
                     po.setDepartmentId2(1);
                 }else {

@@ -15,6 +15,17 @@ public class PipelinePrAutoPO implements Serializable {
     private Integer department_id;
     private String group_name;
 
+    public String getCov_detail() {
+        return cov_detail;
+    }
+
+    public void setCov_detail(String cov_detail) {
+        this.cov_detail = cov_detail;
+    }
+
+    private String cov_detail;
+
+
 
     public String getGroup_name() {
         return group_name;
