@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="TestMeishiHuiCreateOrderTest" thread-count="4">
-        <!--设置双写标识-->
+<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="4">
+    <!--设置双写标识-->
         <test name="以老为主">
             <parameter name="DoubleWriteMode" value="OLD"/>
             <classes>
