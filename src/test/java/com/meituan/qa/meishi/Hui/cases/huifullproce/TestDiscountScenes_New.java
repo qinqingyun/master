@@ -69,12 +69,12 @@ public class TestDiscountScenes_New extends TestDPLogin  {
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
 
-    String  doubleWriteMode = "NEW";
+//    String  doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
     @MethodAnotation(author = "byq", createTime = "2020-01-13", updateTime = "2020-01-13", des =
             "普通下单(全单折)")
-    public void ms_c_discountScenes_01() throws Exception {
+    public void ms_c_discountScenes_01(String  doubleWriteMode) throws Exception {
 
         PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
         RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
