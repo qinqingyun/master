@@ -399,7 +399,7 @@ public interface CoeListPOMapper {
 
     @Update({
             "update coe_list",
-            "set order_loss = #{order,jdbcType=INTEGER}",
+            "set order_loss = #{order,jdbcType=DECIMAL}",
             "where coe_id = #{id,jdbcType=INTEGER}"
     })
     @Results({
