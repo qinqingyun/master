@@ -15,7 +15,7 @@
         <classes>
             <!--<class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaCreateOrder"/>-->
             <!--链路-->
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes"/>
             <!--<class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMoriginalScenes"/>-->
         </classes>
     </test>
