@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -171,9 +172,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                             pushText = pushText + "\n●损失支付间夜/门票/消费券" + po.getCouponLoss() + "张";
                         } else if (po.getOrderLoss() != null && po.getOrderLoss().compareTo(BigDecimal.ZERO) != 0) {
                             log.info("这条有订单损失的COE是: {}",po.getCoeLink());
-                            pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0) + "单";
+                            pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0,BigDecimal.ROUND_HALF_UP) + "单";
                         } else if (po.getCapitalLoss() != null && po.getCapitalLoss().compareTo(BigDecimal.ZERO) != 0) {
-                            pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2) + "元";
+                            pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2,BigDecimal.ROUND_HALF_UP) + "元";
                         }
                         pushText=pushText+"\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId="+po.getCoeId()+"]";
                         if (business.equals("住宿") ) {

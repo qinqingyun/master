@@ -292,7 +292,7 @@ public interface CoeListPOMapper {
             @Result(column="influence_time", property="influenceTime", jdbcType=JdbcType.INTEGER),
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR)
     })
@@ -347,7 +347,7 @@ public interface CoeListPOMapper {
             @Result(column="clear_time", property="clearTime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="node_two_org", property="nodeTwoOrg", jdbcType=JdbcType.VARCHAR),
             @Result(column="locator", property="locator", jdbcType=JdbcType.VARCHAR),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER),
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="capital_loss", property="capitalLoss", jdbcType=JdbcType.DECIMAL),
             @Result(column="line_of_business", property="lineOfBusiness", jdbcType=JdbcType.VARCHAR),
             @Result(column="business", property="business", jdbcType=JdbcType.VARCHAR)
@@ -404,7 +404,7 @@ public interface CoeListPOMapper {
     })
     @Results({
             @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
-            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.INTEGER)
+            @Result(column="order_loss", property="orderLoss", jdbcType=JdbcType.DECIMAL)
     })
     int updateOrder(@Param("id") Integer id,@Param("order") Integer order);
 
