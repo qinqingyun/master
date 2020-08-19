@@ -170,6 +170,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                         if (po.getCouponLoss() != null && !po.getCouponLoss().equals("")) {
                             pushText = pushText + "\n●损失支付间夜/门票/消费券" + po.getCouponLoss() + "张";
                         } else if (po.getOrderLoss() != null && po.getOrderLoss().compareTo(BigDecimal.ZERO) != 0) {
+                            log.info("这条有订单损失的COE是: {}",po.getCoeLink());
                             pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0) + "单";
                         } else if (po.getCapitalLoss() != null && po.getCapitalLoss().compareTo(BigDecimal.ZERO) != 0) {
                             pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2) + "元";

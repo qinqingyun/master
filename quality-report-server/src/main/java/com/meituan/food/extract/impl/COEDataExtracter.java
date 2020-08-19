@@ -367,7 +367,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                             if (label.equals("业务线")) {
                                 po.setLineOfBusiness(value);
                             } else if (label.equals("到餐订单损失量")||label.equals("订单损失量")) {
-                                po.setOrderLoss(Integer.valueOf(value));
+                                po.setOrderLoss(new BigDecimal(value));
                             } else if (label.equals("资金损失（元）")) {
                                 po.setCapitalLoss(new BigDecimal(value));
                             }

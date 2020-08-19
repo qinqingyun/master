@@ -177,7 +177,7 @@ public class CoeListPOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.VALUES("order_loss", "#{orderLoss,jdbcType=INTEGER}");
+            sql.VALUES("order_loss", "#{orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
@@ -408,7 +408,7 @@ public class CoeListPOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+            sql.SET("order_loss = #{record.orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
@@ -468,7 +468,7 @@ public class CoeListPOSqlProvider {
         sql.SET("clear_time = #{record.clearTime,jdbcType=TIMESTAMP}");
         sql.SET("node_two_org = #{record.nodeTwoOrg,jdbcType=VARCHAR}");
         sql.SET("locator = #{record.locator,jdbcType=VARCHAR}");
-        sql.SET("order_loss = #{record.orderLoss,jdbcType=INTEGER}");
+        sql.SET("order_loss = #{record.orderLoss,jdbcType=DECIMAL}");
         sql.SET("capital_loss = #{record.capitalLoss,jdbcType=DECIMAL}");
         sql.SET("line_of_business = #{record.lineOfBusiness,jdbcType=VARCHAR}");
         sql.SET("business = #{record.business,jdbcType=VARCHAR}");
@@ -627,7 +627,7 @@ public class CoeListPOSqlProvider {
         }
         
         if (record.getOrderLoss() != null) {
-            sql.SET("order_loss = #{orderLoss,jdbcType=INTEGER}");
+            sql.SET("order_loss = #{orderLoss,jdbcType=DECIMAL}");
         }
         
         if (record.getCapitalLoss() != null) {
