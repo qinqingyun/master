@@ -178,7 +178,7 @@ public class MaitonApi{
 
         String payToken;
         String tradeNo;
-        String orderId;
+        Long orderId;
         String serializedId;
         String shopdealstring;
 
@@ -253,7 +253,7 @@ public class MaitonApi{
                 return null;
             }
         }
-        setOrderModel(orderId,payToken,tradeNo,serializedId);
+        setOrderModel(orderId.toString(),payToken,tradeNo,serializedId);
         return orderModel;
     }
     public void setOrderModel(String orderId,String payToken,String tradeNo,String serializedId){
@@ -264,8 +264,8 @@ public class MaitonApi{
         BigDecimal platformAmountBig = (maidonOrder.getOrderDTO().getPlatformAmount()).subtract(maidonOrder.getOrderDTO().getMerchantDiscountAmount());
         String platformAmount = platformAmountBig.multiply(new BigDecimal(100)).toString();
         DecimalFormat decimalFormat = new DecimalFormat("###################.###########");
-        orderModel.setPayAmount(decimalFormat.format(Double.valueOf(platformAmount)));
-        orderModel.setPlatformAmount(decimalFormat.format(Double.valueOf(payAmount)));
+        orderModel.setPayAmount(decimalFormat.format(Double.valueOf(payAmount)));
+        orderModel.setPlatformAmount(decimalFormat.format(Double.valueOf(platformAmount)));
         orderModel.setMerchantAmount(decimalFormat.format(Double.valueOf(merchantAmount)));
         orderModel.setPromoAmount(decimalFormat.format(Double.valueOf(promoAmount)));
         orderModel.setSchemeId(String.valueOf(maidonOrder.getOrderDTO().getSchemeId()));

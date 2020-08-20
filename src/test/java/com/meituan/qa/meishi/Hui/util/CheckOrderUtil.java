@@ -65,24 +65,29 @@ public class CheckOrderUtil extends TestBase {
         JSONObject productjsonObject = productInfoDTOList.getJSONObject(0);
         productjsonObject.put("productId",orderModel.getSchemeId());
         //动态替换下单时的商家/平台承担金额 payInfoDTOList
-        JSONArray payInfoDTOList = verifyRequest.getJSONArray("payInfoDTOList");
-        JSONObject payjsonObject = payInfoDTOList.getJSONObject(0);
-        productjsonObject.put("amount",orderModel.getPayAmount());
-        JSONArray promoInfoDTOList = payjsonObject.getJSONArray("promoInfoDTOList");
-        JSONObject promoInfoJsonObject = promoInfoDTOList.getJSONObject(0);
-        promoInfoJsonObject.put("amount",orderModel.getPromoAmount());
-        promoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
-        promoInfoJsonObject.put("fromPlatform",orderModel.getPlatformAmount());
+//        JSONArray payInfoDTOList = verifyRequest.getJSONArray("payInfoDTOList");
+//        JSONObject payjsonObject = payInfoDTOList.getJSONObject(0);
+//        productjsonObject.put("amount",orderModel.getPayAmount());
+//        JSONArray promoInfoDTOList = payjsonObject.getJSONArray("promoInfoDTOList");
+//        if(promoInfoDTOList!=null){
+//            JSONObject promoInfoJsonObject = promoInfoDTOList.getJSONObject(0);
+//            promoInfoJsonObject.put("amount",orderModel.getPromoAmount());
+//            promoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
+//            promoInfoJsonObject.put("fromPlatform",orderModel.getPlatformAmount());
+//        }
+
         //动态替换退款时的商家/平台承担金额 refundInfoDTOList
-        JSONArray refundInfoDTOList = verifyRequest.getJSONArray("refundInfoDTOList");
-        JSONObject refundJsonObject = refundInfoDTOList.getJSONObject(0);
-        productjsonObject.put("amount",orderModel.getPayAmount());
-        productjsonObject.put("fromMerchant",orderModel.getPayAmount());
-        JSONArray refundPromoInfoDTOList = refundJsonObject.getJSONArray("promoInfoDTOList");
-        JSONObject refundPromoInfoJsonObject = refundPromoInfoDTOList.getJSONObject(0);
-        refundPromoInfoJsonObject.put("amount",orderModel.getPromoAmount());
-        refundPromoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
-        refundPromoInfoJsonObject.put("fromPlatform",orderModel.getPlatformAmount());
+//        JSONArray refundInfoDTOList = verifyRequest.getJSONArray("refundInfoDTOList");
+//        JSONObject refundJsonObject = refundInfoDTOList.getJSONObject(0);
+//        productjsonObject.put("amount",orderModel.getPayAmount());
+//        productjsonObject.put("fromMerchant",orderModel.getPayAmount());
+//        JSONArray refundPromoInfoDTOList = refundJsonObject.getJSONArray("promoInfoDTOList");
+//        if(refundPromoInfoDTOList!=null){
+//            JSONObject refundPromoInfoJsonObject = refundPromoInfoDTOList.getJSONObject(0);
+//            refundPromoInfoJsonObject.put("amount", orderModel.getPromoAmount());
+//            refundPromoInfoJsonObject.put("fromMerchant", orderModel.getMerchantAmount());
+//            refundPromoInfoJsonObject.put("fromPlatform", orderModel.getPlatformAmount());
+//        }
     }
     public static MappingOrderIds checkOrderMapping(OrderModel orderModel) throws Exception {
         MappingOrderIds mappingOrderIds=new MappingOrderIds();

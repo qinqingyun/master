@@ -58,8 +58,8 @@ public class MeiTuanAppTest extends TestBase {
         //4.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //5.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //6.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //7.支付后买单校验
@@ -76,7 +76,7 @@ public class MeiTuanAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //14.退款mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //15.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //16.退款后买单校验
@@ -176,8 +176,8 @@ public class MeiTuanAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -194,7 +194,7 @@ public class MeiTuanAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //16.退款回调mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
