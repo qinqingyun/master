@@ -65,7 +65,7 @@ public class TestZeroOrder extends TestDPLogin {
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
 
-    @Test(groups = "P1",description = "美团app，预定金0元单：预订下单10元订金->支付->商家操作到店->买单使用订金减至0元->下单->退款",enabled = false)
+    @Test(groups = "P1",description = "美团app，预定金0元单：预订下单10元订金->支付->商家操作到店->买单使用订金减至0元->下单->退款")
     @MethodAnotation(author = "byq", createTime = "2019-12-13",  des = "预定金0元单场景")
 
     public void ms_c_resvZeroScenes_01() throws Exception{
