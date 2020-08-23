@@ -331,7 +331,7 @@ public class TdCoeExtracter implements ITdCoeExtract {
 
         Map<String, Map<String, ArrayList<COETodoVo>>> orgCoeTodoInfo = new HashMap<>();
 
-        List<McdCoePO> coelist = mcdCoePOMapper.selectByDate(firstDate, secondDate);
+        List<McdCoePO> coelist = mcdCoePOMapper.selectByTwoDate(firstDate, secondDate);
 
         Iterator<McdCoePO> iterator = coelist.iterator();
         while (iterator.hasNext()) {

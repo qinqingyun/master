@@ -79,7 +79,7 @@ public class CoeListPO implements Serializable {
 
     private String locator;
 
-    private Integer orderLoss;
+    private BigDecimal orderLoss;
 
     private BigDecimal capitalLoss;
 
@@ -110,7 +110,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setBrief(String brief) {
-        this.brief = brief == null ? null : brief.trim();
+        this.brief = brief;
     }
 
     public Date getOccurDate() {
@@ -190,7 +190,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setWiki(String wiki) {
-        this.wiki = wiki == null ? null : wiki.trim();
+        this.wiki = wiki;
     }
 
     public String getLevel() {
@@ -198,7 +198,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setLevel(String level) {
-        this.level = level == null ? null : level.trim();
+        this.level = level;
     }
 
     public String getOwnerName() {
@@ -206,7 +206,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName == null ? null : ownerName.trim();
+        this.ownerName = ownerName;
     }
 
     public String getOwnerMis() {
@@ -214,7 +214,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setOwnerMis(String ownerMis) {
-        this.ownerMis = ownerMis == null ? null : ownerMis.trim();
+        this.ownerMis = ownerMis;
     }
 
     public String getQaName() {
@@ -222,7 +222,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setQaName(String qaName) {
-        this.qaName = qaName == null ? null : qaName.trim();
+        this.qaName = qaName;
     }
 
     public String getQaMis() {
@@ -230,7 +230,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setQaMis(String qaMis) {
-        this.qaMis = qaMis == null ? null : qaMis.trim();
+        this.qaMis = qaMis;
     }
 
     public String getCoeLink() {
@@ -238,7 +238,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setCoeLink(String coeLink) {
-        this.coeLink = coeLink == null ? null : coeLink.trim();
+        this.coeLink = coeLink;
     }
 
     public String getCategory() {
@@ -246,7 +246,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category == null ? null : category.trim();
+        this.category = category;
     }
 
     public BigDecimal getRdShare() {
@@ -278,7 +278,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setAppearance(String appearance) {
-        this.appearance = appearance == null ? null : appearance.trim();
+        this.appearance = appearance;
     }
 
     public String getSubCategory() {
@@ -286,7 +286,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory == null ? null : subCategory.trim();
+        this.subCategory = subCategory;
     }
 
     public Integer getAllTodo() {
@@ -318,7 +318,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setNotFinishTodoTask(String notFinishTodoTask) {
-        this.notFinishTodoTask = notFinishTodoTask == null ? null : notFinishTodoTask.trim();
+        this.notFinishTodoTask = notFinishTodoTask;
     }
 
     public Boolean getAvailable() {
@@ -334,7 +334,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setOrgName(String orgName) {
-        this.orgName = orgName == null ? null : orgName.trim();
+        this.orgName = orgName;
     }
 
     public Date getFindDate() {
@@ -350,7 +350,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setFinder(String finder) {
-        this.finder = finder == null ? null : finder.trim();
+        this.finder = finder;
     }
 
     public Integer getInfluenceTime() {
@@ -374,7 +374,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setNodeTwoOrg(String nodeTwoOrg) {
-        this.nodeTwoOrg = nodeTwoOrg == null ? null : nodeTwoOrg.trim();
+        this.nodeTwoOrg = nodeTwoOrg;
     }
 
     public String getLocator() {
@@ -382,14 +382,14 @@ public class CoeListPO implements Serializable {
     }
 
     public void setLocator(String locator) {
-        this.locator = locator == null ? null : locator.trim();
+        this.locator = locator;
     }
 
-    public Integer getOrderLoss() {
+    public BigDecimal getOrderLoss() {
         return orderLoss;
     }
 
-    public void setOrderLoss(Integer orderLoss) {
+    public void setOrderLoss(BigDecimal orderLoss) {
         this.orderLoss = orderLoss;
     }
 
@@ -406,7 +406,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setLineOfBusiness(String lineOfBusiness) {
-        this.lineOfBusiness = lineOfBusiness == null ? null : lineOfBusiness.trim();
+        this.lineOfBusiness = lineOfBusiness;
     }
 
     public String getBusiness() {
@@ -414,7 +414,7 @@ public class CoeListPO implements Serializable {
     }
 
     public void setBusiness(String business) {
-        this.business = business == null ? null : business.trim();
+        this.business = business;
     }
 
     @Override
