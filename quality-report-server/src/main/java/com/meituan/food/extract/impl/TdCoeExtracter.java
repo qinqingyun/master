@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+
 /**
  * @author qinqingyun
  * @date 2020/7/27 1:20 PM
@@ -36,7 +37,7 @@ public class TdCoeExtracter implements ITdCoeExtract {
 
 
     private String tableOneHead = "<table data-bordercolor=\\\"#cccccc\\\" data-diff-id=\\\"ct-diff-id-XkDWM2UF\\\"><tbody><tr data-row-diff-id=\\\"ct-tr-diff-id-iqQAkeMN\\\"><th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-uGxBg17w\\\"><p data-diff-id=\\\"ct-diff-id-uPD68DMQ\\\">组织结构</p></th><th data-colwidth=\\\"68\\\" width=\\\"68\\\" data-cell-diff-id=\\\"ct-cell-diff-id-hoxuigSv\\\"><p data-diff-id=\\\"ct-diff-id-t0Xy2F1A\\\">S1</p></th><th data-colwidth=\\\"68\\\" width=\\\"68\\\" data-cell-diff-id=\\\"ct-cell-diff-id-V2C5NfVu\\\"><p data-diff-id=\\\"ct-diff-id-TsYVx4mH\\\">S2</p></th><th data-colwidth=\\\"68\\\" width=\\\"68\\\" data-cell-diff-id=\\\"ct-cell-diff-id-2KWhu6DH\\\"><p data-diff-id=\\\"ct-diff-id-Xnkgawuq\\\">S3</p></th><th data-colwidth=\\\"68\\\" width=\\\"68\\\" data-cell-diff-id=\\\"ct-cell-diff-id-nc4pRMia\\\"><p data-diff-id=\\\"ct-diff-id-svHR20sw\\\">S4</p></th><th data-colwidth=\\\"68\\\" width=\\\"68\\\" data-cell-diff-id=\\\"ct-cell-diff-id-495wK1E7\\\"><p data-diff-id=\\\"ct-diff-id-MeM72csQ\\\">S9</p></th><th data-colwidth=\\\"78\\\" width=\\\"78\\\" data-cell-diff-id=\\\"ct-cell-diff-id-eWAQxCEN\\\"><p data-diff-id=\\\"ct-diff-id-rSsCFekH\\\">事件</p></th><th data-colwidth=\\\"135\\\" width=\\\"135\\\" style=\\\"background-color: rgb(250, 219, 22);\\\" data-cell-diff-id=\\\"ct-cell-diff-id-wMGPPi0z\\\"><p data-diff-id=\\\"ct-diff-id-AB18paat\\\"><strong><span style=\\\"color: rgb(0, 0, 0)\\\">新增COE汇总</span></strong></p></th><th data-colwidth=\\\"151\\\" width=\\\"151\\\" style=\\\"background-color: rgb(250, 140, 23);\\\" data-cell-diff-id=\\\"ct-cell-diff-id-CGDQzJHV\\\"><p data-diff-id=\\\"ct-diff-id-PZUcwo3g\\\">超1周未完善COE数</p></th><th data-colwidth=\\\"172\\\" width=\\\"172\\\" style=\\\"background-color: rgb(250, 84, 29);\\\" data-cell-diff-id=\\\"ct-cell-diff-id-JDumS4OL\\\"><p data-diff-id=\\\"ct-diff-id-sW0K0yf0\\\">逾期未完成Todo数</p></th></tr>";
-    private String tableTwoHead = "<table data-diff-id=\\\"ct-diff-id-vX99VVqe\\\"><tbody><tr data-row-diff-id=\\\"ct-tr-diff-id-Allmbr99\\\"><th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Er325NcT\\\"><p data-diff-id=\\\"ct-diff-id-oXaKN5Vp\\\">组织结构</p></th><th data-colwidth=\\\"120\\\" width=\\\"120\\\" data-cell-diff-id=\\\"ct-cell-diff-id-5LUcN4cQ\\\"><p data-diff-id=\\\"ct-diff-id-qXpa6rMa\\\">COE标题</p></th><th data-colwidth=\\\"95\\\" width=\\\"95\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Pq5CMLQS\\\"><p data-diff-id=\\\"ct-diff-id-93yLcolz\\\">级别</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-IirlvFeB\\\"><p data-diff-id=\\\"ct-diff-id-HqoCfpow\\\">发生时间</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-bwiFH4Pn\\\"><p data-diff-id=\\\"ct-diff-id-xeYFPWSJ\\\">COE负责人</p></th><th data-colwidth=\\\"262\\\" width=\\\"262\\\" data-cell-diff-id=\\\"ct-cell-diff-id-wUPRUffq\\\"><p data-diff-id=\\\"ct-diff-id-xnzsuP41\\\">时间线</p></th><th data-colwidth=\\\"262\\\" width=\\\"262\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Mc49bgaK\\\"><p data-diff-id=\\\"ct-diff-id-63QBlETJ\\\">详细信息（留空由业务跟进即可）</p></th></tr>";
+    private String tableTwoHead = "<table data-diff-id=\\\"ct-diff-id-vX99VVqe\\\"><tbody><tr data-row-diff-id=\\\"ct-tr-diff-id-Allmbr99\\\"><th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Er325NcT\\\"><p data-diff-id=\\\"ct-diff-id-oXaKN5Vp\\\">组织结构</p></th><th data-colwidth=\\\"120\\\" width=\\\"120\\\" data-cell-diff-id=\\\"ct-cell-diff-id-5LUcN4cQ\\\"><p data-diff-id=\\\"ct-diff-id-qXpa6rMa\\\">COE标题</p></th><th data-colwidth=\\\"95\\\" width=\\\"95\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Pq5CMLQS\\\"><p data-diff-id=\\\"ct-diff-id-93yLcolz\\\">级别</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-IirlvFeB\\\"><p data-diff-id=\\\"ct-diff-id-HqoCfpow\\\">发生时间</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-bwiFH4Pn\\\"><p data-diff-id=\\\"ct-diff-id-xeYFPWSJ\\\">COE负责人</p></th><th data-colwidth=\\\"262\\\" width=\\\"262\\\" data-cell-diff-id=\\\"ct-cell-diff-id-wUPRUffq\\\"><p data-diff-id=\\\"ct-diff-id-xnzsuP41\\\">时间线</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Mc49bgaK\\\"><p data-diff-id=\\\"ct-diff-id-63QBlETJ\\\">详细信息（留空由业务跟进即可）</p></th></tr>";
     private String tableThreeHead = "<table data-diff-id=\\\"ct-diff-id-IqGRPQ7S\\\"><tbody><tr data-row-diff-id=\\\"ct-tr-diff-id-Allmbr99\\\"><th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Er325NcT\\\"><p data-diff-id=\\\"ct-diff-id-51e0jlCz\\\">组织结构</p></th><th data-colwidth=\\\"120\\\" width=\\\"120\\\" data-cell-diff-id=\\\"ct-cell-diff-id-5LUcN4cQ\\\"><p data-diff-id=\\\"ct-diff-id-hu6TRTyf\\\">COE标题</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-ppZ4yBEA\\\"><p data-diff-id=\\\"ct-diff-id-oRLr40On\\\">COE创建时间</p></th><th data-colwidth=\\\"133\\\" width=\\\"133\\\" data-cell-diff-id=\\\"ct-cell-diff-id-alh5WVRf\\\"><p data-diff-id=\\\"ct-diff-id-8VgZVLQr\\\">截止今日（天）</p></th><th data-colwidth=\\\"109\\\" width=\\\"109\\\" data-cell-diff-id=\\\"ct-cell-diff-id-OhwMleJN\\\"><p data-diff-id=\\\"ct-diff-id-BW8dYFq9\\\">COE负责人</p></th><th data-colwidth=\\\"350\\\" width=\\\"350\\\" data-cell-diff-id=\\\"ct-cell-diff-id-pwm0Uswb\\\"><p data-diff-id=\\\"ct-diff-id-VQL6NeUW\\\">未填写信息</p></th></tr>";
     private String tableFourHead = "<table data-diff-id=\\\"ct-diff-id-bHmyutQW\\\"><tbody><tr data-row-diff-id=\\\"ct-tr-diff-id-Allmbr99\\\"><th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-Er325NcT\\\"><p data-diff-id=\\\"ct-diff-id-GXp5MVBe\\\">组织结构</p></th><th data-colwidth=\\\"120\\\" width=\\\"120\\\" data-cell-diff-id=\\\"ct-cell-diff-id-5LUcN4cQ\\\"><p data-diff-id=\\\"ct-diff-id-qSQLkRmd\\\">COE标题</p></th><th data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-ppZ4yBEA\\\"><p data-diff-id=\\\"ct-diff-id-4JDj1dD1\\\">Todo</p></th><th data-colwidth=\\\"117\\\" width=\\\"117\\\" data-cell-diff-id=\\\"ct-cell-diff-id-rFcTS5os\\\"><p data-diff-id=\\\"ct-diff-id-B7JSTP8y\\\">Todo跟进人</p></th><th data-colwidth=\\\"133\\\" width=\\\"133\\\" data-cell-diff-id=\\\"ct-cell-diff-id-alh5WVRf\\\"><p data-diff-id=\\\"ct-diff-id-m5FvIE5y\\\">预计完成时间</p></th><th data-colwidth=\\\"109\\\" width=\\\"109\\\" data-cell-diff-id=\\\"ct-cell-diff-id-OhwMleJN\\\"><p data-diff-id=\\\"ct-diff-id-gZdReNwv\\\">逾期天数</p></th></tr>";
 
@@ -148,9 +149,9 @@ public class TdCoeExtracter implements ITdCoeExtract {
 
 
         String th_1 = "<tr data-row-diff-id=\\\"ct-tr-diff-id-TrqpWsS1\\\">";
-        String th_2 = "<th data-colwidth=\\\"121\\\" width=\\\"160\\\" data-cell-diff-id=\\\"ct-cell-diff-id-pWjFEUWg\\\"><p data-diff-id=\\\"ct-diff-id-R0nWL7RV\\\">";
+        String th_2 = "<th data-colwidth=\\\"121\\\" width=\\\"121\\\" data-cell-diff-id=\\\"ct-cell-diff-id-pWjFEUWg\\\"><p data-diff-id=\\\"ct-diff-id-R0nWL7RV\\\">";
         String th_3 = "<td data-colwidth=\\\"262\\\" width=\\\"262\\\" data-cell-diff-id=\\\"ct-cell-diff-id-CTgpyVOu\\\"><p data-diff-id=\\\"ct-diff-id-H0gDCfbY\\\">";
-        String th_4 = "<td data-colwidth=\\\"108\\\" width=\\\"108\\\" data-cell-diff-id=\\\"ct-cell-diff-id-CTgpyVOu\\\"><p data-diff-id=\\\"ct-diff-id-H0gDCfbY\\\">";
+        String th_4 = "<td data-colwidth=\\\"100\\\" width=\\\"100\\\" data-cell-diff-id=\\\"ct-cell-diff-id-CTgpyVOu\\\"><p data-diff-id=\\\"ct-diff-id-H0gDCfbY\\\">";
         String subtile = "<h3 id=\\\"RkQKgGqR\\\" class=\\\"ct-heading\\\" data-diff-id=\\\"ct-diff-id-4zwkAwjw\\\">新增COE明细</h3>";
         body += subtile + tableHead;
 
@@ -232,89 +233,91 @@ public class TdCoeExtracter implements ITdCoeExtract {
     public Map<String, List<String>> setOrgName() {
         Map<String, List<String>> org_name = new HashMap<>();
         List<String> org_1 = new ArrayList<>();
-        org_1.add("平台业务研发中心/结算平台研发组/到综研发组");
+        org_1.add("平台业务研发部/结算平台研发组/到综研发组");
         org_name.put("到综结算", org_1);
         List<String> org_2 = new ArrayList<>();
-        org_2.add("平台业务研发中心/供应链平台研发组/到综研发组");
+        org_2.add("平台业务研发部/供应链平台研发组/到综研发组");
         org_name.put("到综供应链", org_2);
         List<String> org_3 = new ArrayList<>();
-        org_3.add("平台业务研发中心/商品平台研发组/到综研发组");
+        org_3.add("平台业务研发部/商品平台研发组/到综研发组");
         org_name.put("到综商品", org_3);
         List<String> org_4 = new ArrayList<>();
-        org_4.add("平台业务研发中心/销售支持平台研发组/到综研发组");
+        org_4.add("平台业务研发部/销售支持平台研发组/到综研发组");
         org_name.put("到综CRM", org_4);
         List<String> org_5 = new ArrayList<>();
-        org_5.add("平台业务研发中心/销售支持平台研发组/平台研发组");
+        org_5.add("平台业务研发部/销售支持平台研发组/平台研发组");
         org_name.put("CRM平台", org_5);
         List<String> org_6 = new ArrayList<>();
-        org_6.add("平台业务研发中心/销售支持平台研发组/住宿门票研发组");
+        org_6.add("平台业务研发部/销售支持平台研发组/住宿门票研发组");
+        org_6.add("平台业务研发部/销售支持平台研发组/住宿门票研发组/运营管理组");
         org_name.put("酒旅CRM", org_6);
 
         List<String> org_7 = new ArrayList<>();
-        org_7.add("平台业务研发中心/结算平台研发组/住宿门票研发组");
-        org_7.add("平台业务研发中心/结算平台研发组/到餐研发组");
-        org_7.add("平台业务研发中心/结算平台研发组/平台研发组");
-        org_7.add("平台业务研发中心/结算平台研发组/到综研发组");
+        org_7.add("平台业务研发部/结算平台研发组/住宿门票研发组");
+        org_7.add("平台业务研发部/结算平台研发组/到餐研发组");
+        org_7.add("平台业务研发部/结算平台研发组/平台研发组");
+        org_7.add("平台业务研发部/结算平台研发组/到综研发组");
         org_name.put("到店结算", org_7);
 
         List<String> org_8 = new ArrayList<>();
-        org_8.add("平台业务研发中心/营销平台研发组");
+        org_8.add("平台业务研发部/营销平台研发组");
 
         org_name.put("营销平台", org_8);
         List<String> org_9 = new ArrayList<>();
-        org_9.add("平台业务研发中心/商家平台研发组/到餐研发组");
-        org_9.add("平台业务研发中心/商家平台研发组/到综研发组");
-        org_9.add("平台业务研发中心/商家平台研发组/基础平台研发组");
-        org_9.add("平台业务研发中心/商家平台研发组/运营平台研发组");
-        org_9.add("平台业务研发中心/商家平台研发组/增值平台研发组");
+        org_9.add("平台业务研发部/商家平台研发组/到餐研发组");
+        org_9.add("平台业务研发部/商家平台研发组/到综研发组");
+        org_9.add("平台业务研发部/商家平台研发组/基础平台研发组");
+        org_9.add("平台业务研发部/商家平台研发组/运营平台研发组");
+        org_9.add("平台业务研发部/商家平台研发组/增值平台研发组");
         org_name.put("商家平台", org_9);
 
         List<String> org_10 = new ArrayList<>();
-        org_10.add("平台业务研发中心/交易平台研发组/到餐研发组");
+        org_10.add("平台业务研发部/交易平台研发组/到餐研发组");
         org_name.put("到餐交易方向", org_10);
         List<String> org_11 = new ArrayList<>();
-        org_11.add("平台业务研发中心/客户平台研发组/基础平台研发组");
-        org_11.add("平台业务研发中心/客户平台研发组/到餐客户研发组");
-        org_11.add("平台业务研发中心/客户平台研发组/住宿门票客户研发组");
-        org_11.add("平台业务研发中心/客户平台研发组/到综客户研发组");
-        org_11.add("平台业务研发中心/门店信息研发组/基础信息研发组");
-        org_11.add("平台业务研发中心/门店信息研发组/业务支持研发组");
-        org_11.add("到店餐饮研发中心/业务后台研发组/渠道门店组");
+        org_11.add("平台业务研发部/客户平台研发组/基础平台研发组");
+        org_11.add("平台业务研发部/客户平台研发组/到餐客户研发组");
+        org_11.add("平台业务研发部/客户平台研发组/住宿门票客户研发组");
+        org_11.add("平台业务研发部/客户平台研发组/到综客户研发组");
+        org_11.add("平台业务研发部/门店信息研发组/基础信息研发组");
+        org_11.add("平台业务研发部/门店信息研发组/业务支持研发组");
+        org_11.add("到店餐饮研发部/业务后台研发组/渠道门店组");
         org_name.put("客户平台", org_11);
 
         List<String> org_13 = new ArrayList<>();
-        org_13.add("到店餐饮研发中心/业务前端研发组");
+        org_13.add("到店餐饮研发部/业务前端研发组");
         org_name.put("到餐业务前端", org_13);
 
         List<String> org_14 = new ArrayList<>();
-        org_14.add("到店餐饮研发中心/业务后台研发组/套代运营组");
-        org_14.add("到店餐饮研发中心/业务后台研发组/信息平台组");
+        org_14.add("到店餐饮研发部/业务后台研发组/套代运营组");
+        org_14.add("到店餐饮研发部/业务后台研发组/信息平台组");
         org_name.put("到餐信息方向", org_14);
 
         List<String> org_15 = new ArrayList<>();
-        org_15.add("平台业务研发中心/营销平台研发组/到餐研发组");
+        org_15.add("平台业务研发部/营销平台研发组/到餐研发组");
         org_name.put("到餐营销方向", org_15);
 
         List<String> org_16 = new ArrayList<>();
-        org_16.add("到店综合研发中心/业务后端开发组/到综教育及亲子技术组");
-        org_16.add("到店综合研发中心/业务后端开发组/到综丽人及医美技术组");
-        org_16.add("到店综合研发中心/业务后端开发组/到综Life Event技术组");
-        org_16.add("到店综合研发中心/业务后端开发组/到综休闲娱乐技术组");
-        org_16.add("到店综合研发中心/业务后端开发组/到综平台产品技术组/综合Saas技术组");
-        org_16.add("到店综合研发中心/数据应用开发组/应用开发组");
+        org_16.add("到店综合研发部/业务后端开发组/到综教育及亲子技术组");
+        org_16.add("到店综合研发部/业务后端开发组/到综丽人及医美技术组");
+        org_16.add("到店综合研发部/业务后端开发组/到综丽人及医美技术组/丽人用户技术组");
+        org_16.add("到店综合研发部/业务后端开发组/到综Life Event技术组");
+        org_16.add("到店综合研发部/业务后端开发组/到综休闲娱乐技术组");
+        org_16.add("到店综合研发部/业务后端开发组/到综平台产品技术组/综合Saas技术组");
+        org_16.add("到店综合研发部/数据应用开发组/应用开发组");
         org_name.put("到综业务", org_16);
 
 
         List<String> org_17 = new ArrayList<>();
-        org_17.add("住宿门票研发中心");
+        org_17.add("住宿门票研发部");
         org_name.put("住宿门票业务", org_17);
 
         List<String> org_18 = new ArrayList<>();
-        org_18.add("平台业务研发中心/交易平台研发组/到综研发组");
+        org_18.add("平台业务研发部/交易平台研发组/到综研发组");
         org_name.put("到综交易", org_18);
 
         List<String> org_19 = new ArrayList<>();
-        org_19.add("平台业务研发中心/交易平台研发组/平台支持组");
+        org_19.add("平台业务研发部/交易平台研发组/平台支持组");
         org_name.put("交易平台", org_19);
         return org_name;
     }
@@ -330,7 +333,6 @@ public class TdCoeExtracter implements ITdCoeExtract {
 
         List<McdCoePO> coelist = mcdCoePOMapper.selectByTwoDate(firstDate, secondDate);
 
-
         Iterator<McdCoePO> iterator = coelist.iterator();
         while (iterator.hasNext()) {
             McdCoePO mcdCoePO = iterator.next();
@@ -341,45 +343,55 @@ public class TdCoeExtracter implements ITdCoeExtract {
         }
 
 
-        //编写第一模块
+          //编写第一模块
+          log.info("需要校验的coe的数据:{}",coelist.toString());
 
-        getOrgCoeContext(orgCoeContext, coelist);
-        getIneligibleCoe(orgCoeContext, firstDate, secondDate, org);
-        getIneligibleCoeTodo(orgCoeContext, firstDate, secondDate, org);
-        combineBody_1(tableOneHead, orgCoeContext);
+          getOrgCoeContext(orgCoeContext, coelist);
+          getIneligibleCoe(orgCoeContext, firstDate, secondDate, org);
+          getIneligibleCoeTodo(orgCoeContext, firstDate, secondDate, org);
+          combineBody_1(tableOneHead, orgCoeContext);
 
-        //编写第二模块
-        getOrgCoeInfo(orgCoeInfo, coelist);
-        combineBody_2(tableTwoHead, orgCoeInfo);
+          //编写第二模块
+          getOrgCoeInfo(orgCoeInfo, coelist);
+          combineBody_2(tableTwoHead, orgCoeInfo);
 
-        //编写第三模块
-        getOrgIneligibleCoe(orgCoeIneligibleInfo, firstDate, secondDate, org);
-        combineBody_3(tableThreeHead, orgCoeIneligibleInfo);
+          //编写第三模块
+          getOrgIneligibleCoe(orgCoeIneligibleInfo, firstDate, secondDate, org);
+          combineBody_3(tableThreeHead, orgCoeIneligibleInfo);
 
-        //编写第四模块
-        getTodoInfo(orgCoeTodoInfo, org);
-        combineBody_4(tableFourHead, orgCoeTodoInfo);
+          //编写第四模块
+          getTodoInfo(orgCoeTodoInfo, org);
+          combineBody_4(tableFourHead, orgCoeTodoInfo);
+
+          String ssoid=SsoUtils.getSsoId();
+          log.info("线上的SSOID:{}",ssoid);
+          JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid="+ssoid));
+          Long contentId = jsonObject.getLong("data");
+
+          JSONObject param = new JSONObject();
+          param.put("linkedContent", "");
+
+          JSONObject params = new JSONObject();
+
+          params.put("body", body);//combineBody
+          params.put("parentId", "378665201");// 周报父目录
+          params.put("bodyText", "测试内容" + contentId);
+          params.put("contentId", contentId);
+          params.put("whatUpdate", "");
+
+          params.put("title", kmTitle);
+          JSONObject resp = HttpUtils.doPost(url, params.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
 
 
-        JSONObject jsonObject = HttpUtils.doGet(content_url, JSONObject.class, ImmutableMap.of("Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
-        Long contentId = jsonObject.getLong("data");
-
-        JSONObject param = new JSONObject();
-        param.put("linkedContent", "");
-
-        JSONObject params = new JSONObject();
-
-        params.put("body", body);//combineBody
-        params.put("parentId", "398494562");//122541012  258410650
-        params.put("bodyText", "测试内容" + contentId);
-        params.put("contentId", contentId);
-        params.put("whatUpdate", "");
-
-        params.put("title", kmTitle);
-        JSONObject resp = HttpUtils.doPost(url, params.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", "com.sankuai.it.ead.citadel_ssoid=" + SsoUtils.getSsoId()));
 
 
-    }
+
+
+
+       }
+
+
+
 
 
     //COE的汇总数据
@@ -672,8 +684,14 @@ public class TdCoeExtracter implements ITdCoeExtract {
                 String orgName = po.getOrgName();
                 if (orgCoeContext.keySet().contains(orgName)) {
                     CoePushDataVO vo = orgCoeContext.get(orgName);
+                    vo.setOverdueTodoCount(vo.getOverdueTodoCount()+overdueCount);
+                    orgCoeContext.put(orgName, vo);
+                }
+                else{
+                    CoePushDataVO vo=new CoePushDataVO();
                     vo.setOverdueTodoCount(overdueCount);
                     orgCoeContext.put(orgName, vo);
+
                 }
             }
         }

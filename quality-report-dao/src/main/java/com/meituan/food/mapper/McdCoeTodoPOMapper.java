@@ -97,7 +97,7 @@ public interface McdCoeTodoPOMapper {
             "id, coe_id, org_name, ones_id, ones_link, ones_title, is_finish, is_delay, dealline, ",
             "owner_mis, owner_name, start_date, actual_date",
             "from mcd_todo_list",
-            "where coe_id = #{id,jdbcType=INTEGER} and is_delay=true"
+            "where coe_id = #{id,jdbcType=INTEGER} and is_delay=1"
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.INTEGER, id = true),
