@@ -438,6 +438,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
         getTodoList(coePO, coeId);
 
+        log.info("这条COE的链接是:https://coe.mws.sankuai.com/detail/{}",coeId);
         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
         if (incidentDetail!=null){
