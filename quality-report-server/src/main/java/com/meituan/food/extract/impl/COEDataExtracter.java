@@ -97,11 +97,15 @@ public class COEDataExtracter implements ICOEDataExtract {
             for (Object o : inflowtIncidentsArray) {
                 CoeListPO coePO=new CoeListPO();
                 getBaseInfo(o,coePO);
-                String orgPath=coePO.getOrgName();
-                if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
-                    coePO.setCategory("第三方");
-                    coePO.setSubCategory("第三方");
-                    coePO.setBusiness("第三方");
+                try {
+                    String orgPath=coePO.getOrgName();
+                    if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
+                        coePO.setCategory("第三方");
+                        coePO.setSubCategory("第三方");
+                        coePO.setBusiness("第三方");
+                    }
+                }catch (NullPointerException e){
+                   log.warn("空指针"+e.getMessage());
                 }
 
                 /*
