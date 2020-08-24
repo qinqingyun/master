@@ -441,8 +441,12 @@ public class COEDataExtracter implements ICOEDataExtract {
         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
         if (!incidentDetail.isEmpty()){
-            String orgPath = incidentDetail.getString("org_path");
-            getShortOrgName(orgPath, coePO);
+            try {
+                String orgPath = incidentDetail.getString("org_path");
+                getShortOrgName(orgPath, coePO);
+            }catch (NullPointerException e){
+                log.error("空指针：https://coe.mws.sankuai.com/detail/"+coeId+"\n");
+            }
         }
         getOther(coeId, coePO);
     }
