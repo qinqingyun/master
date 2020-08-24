@@ -6,6 +6,7 @@ import com.meituan.food.extract.ICargoDataPushExtract;
 import com.meituan.food.extract.ITdCoeExtract;
 import com.meituan.food.extract.impl.CoeDataPushExtracter;
 import com.meituan.food.mapper.CoeListPOMapper;
+import com.meituan.food.mapper.McdCoePOMapper;
 import com.meituan.food.mapper.OrgDaxiangPOMapper;
 import com.meituan.food.mapper.OrgMcdIdPOMapper;
 import com.meituan.food.po.OrgDaxiangPO;
@@ -61,6 +62,9 @@ public class CoeController {
 
     @Resource
     private OrgService orgService;
+
+    @Resource
+    private McdCoePOMapper mcdCoePOMapper;
 
     @GetMapping("/update")
     public String updateHistoryData(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) throws ParseException {
@@ -224,5 +228,14 @@ public class CoeController {
             return "更新成功";
         }
         return "更新失败";
+    }
+
+    @GetMapping("/delete/td")
+    public String deleteTdCoe(@RequestParam("coeId") int coeId){
+        int flag = mcdCoePOMapper.deleteByCoeId(coeId);
+        if (flag == 1) {
+            return "删除成功";
+        }
+        return "删除失败";
     }
 }

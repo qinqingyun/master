@@ -30,6 +30,15 @@ public interface McdCoePOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from mcd_coe_list",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER)
+    })
+    int deleteByCoeId(Integer id);
+
     @Insert({
         "insert into mcd_coe_list (id, coe_id, ",
         "brief, create_time, ",
