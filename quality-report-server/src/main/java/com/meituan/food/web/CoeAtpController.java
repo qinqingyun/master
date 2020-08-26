@@ -21,7 +21,7 @@ public class CoeAtpController {
         CoeAtpPO po=new CoeAtpPO();
         po.setCoeId(coeId);
         po.setIsPush(true);
-        atpPOMapper.insert(po);
+        atpPOMapper.updateByCoeId(coeId);
         return "OK!";
     }
 
