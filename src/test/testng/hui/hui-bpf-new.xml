@@ -1,7 +1,25 @@
 <suite name="testSuite" parallel="true" thread-count="8">
     <!--设置双写标识-->
-    <test name="以新为主">
-        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+<!--    <test name="单写新">-->
+<!--        <parameter name="DoubleWriteMode" value="NEW_ONLY"/>-->
+<!--        <classes>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <methods>-->
+<!--                <include name="mtDiscountTest"/>-->
+<!--            </methods>-->
+<!--        </classes>-->
+<!--    </test>-->
+<!--    <test name="以新为主">-->
+<!--        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>-->
+<!--        <classes>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <methods>-->
+<!--                <include name="mtDiscountTest"/>-->
+<!--            </methods>-->
+<!--        </classes>-->
+<!--    </test>-->
+    <test name="以老为主">
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>

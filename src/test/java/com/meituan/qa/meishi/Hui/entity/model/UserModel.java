@@ -12,5 +12,6 @@ public class UserModel {
     String token;
     String userAgent;
     String userId;
+    String merchantBsid;
     public UserModel(){}
 }

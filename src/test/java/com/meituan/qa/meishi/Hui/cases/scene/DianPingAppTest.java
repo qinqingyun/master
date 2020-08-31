@@ -236,14 +236,14 @@ public class DianPingAppTest extends TestBase {
         //5.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //6.平台下单校验
-        //CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,下单成功);
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,下单成功);
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
         maitonApi.orderPay(orderModel);
         //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
-        //CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
         //11.支付结果页校验
@@ -260,7 +260,7 @@ public class DianPingAppTest extends TestBase {
         //16.退款mock
         //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
-        //CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
     }

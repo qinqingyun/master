@@ -41,7 +41,7 @@ public class TestCouponHuiInfo {
         Map creditMap = new HashMap();
         creditMap.put("uuid","1");
         huiCouponRequest.setClientVersion("v33");
-        List<Integer> shopIdList = Arrays.asList(112274452);
+        List<Integer> shopIdList = Arrays.asList(2517868);
         huiCouponRequest.setShopIds(shopIdList);
         huiCouponRequest.setCreditContext(creditMap);
         Map<Integer, List<HuiCouponDTO>> respList = huiSearchService.loadFirmHuiCouponsByShops(huiCouponRequest);

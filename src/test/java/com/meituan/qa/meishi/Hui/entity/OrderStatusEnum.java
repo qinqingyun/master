@@ -7,7 +7,7 @@ import lombok.Getter;
  * Created by buyuqi on 29/05/2020.
  */
 @Getter
-@TypeDoc(description = "订单来源枚举")
+@TypeDoc(description = "订单状态枚举")
 public enum OrderStatusEnum {
 
     下单成功(1,"下单成功"),

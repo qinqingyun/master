@@ -15,6 +15,7 @@ import com.meituan.qa.meishi.Hui.dto.cashier.MaitonCashier;
 import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
+import com.meituan.qa.meishi.Hui.util.EPassportUtil;
 import com.meituan.qa.meishi.Hui.util.TracerUtil;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
@@ -26,10 +27,7 @@ import com.meituan.toolchain.mario.login.model.LoginType;
 import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
-import com.meituan.toolchain.mario.util.MtraceUtil;
-import com.sankuai.meituan.resv.deposit.enums.SourceEnum;
-import com.sankuai.nibqa.trade.api.dto.PayInfoDTO;
-import com.sankuai.nibqa.trade.api.dto.VerifyDataRequest;
+import com.meituan.toolchain.mario.util.JsonPathUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -58,6 +56,7 @@ public class MaitonApi{
     public   String dpUserId = "";
     private  static String mtToken = "";
     public   String mtUserId = "";
+    public String merchantBsid = "";
     private  String username = "maitonuser";
     public  String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
     public  String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
@@ -75,10 +74,11 @@ public class MaitonApi{
     static String queryMopayStatusUrl = "hui/querymopaystatus.bin";  //双侧支付结果接口
     static String mtOrderDetailUrl = "/maiton/order/{orderid}";  //美团订单详情接口
     static String dpOrderDetailUrl = "/hui/maiton/order";//点评订单详情接口
+    static String merchantDtailUrl = "/hui/orderdetail";//商家订单详情页接口
 
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
-    public String userLogin(){
+    public String userLogin(String username){
         envpath = ConfigMange.getValue("testData");
         DPCUser dpcUser = (DPCUser) LoginUtil.login(LoginType.DP_C_LOGIN, username);
         if( dpcUser == null ||  StringUtil.isBlank(dpcUser.getToken()))
@@ -86,13 +86,22 @@ public class MaitonApi{
         dpToken = dpcUser.getToken();
         dpUserId = ConfigMange.getValue("maitonuser_DP_C_USER_ID");
 
-
         MTCUser mtUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, username);
         if( mtUser == null ||  StringUtil.isBlank(mtUser.getToken()))
             return null;
         mtToken = mtUser.getToken();
         mtUserId = String.valueOf(mtUser.getId());
         return "登录成功";
+    }
+    /**
+     * 商家登录
+     * 获取商家登录token，即bisd
+     */
+    public String merchantLogin() {
+        try {
+            merchantBsid= EPassportUtil.getEPassportToken(111703267);
+        }catch (Exception e){}
+        return merchantBsid;
     }
 
     //替换token
@@ -103,11 +112,13 @@ public class MaitonApi{
                 userModel.setToken(dpToken);
                 userModel.setUserAgent(dpClient);
                 userModel.setUserId(dpUserId);
+                userModel.setMerchantBsid(merchantBsid);
                 break;
             case MTApp:
                 userModel.setToken(mtToken);
                 userModel.setUserAgent(mtClientNew);
                 userModel.setUserId(mtUserId);
+                userModel.setMerchantBsid(merchantBsid);
                 break;
         }
 
@@ -241,7 +252,6 @@ public class MaitonApi{
             payToken = response.getValueByJsonPath("$.PayToken");
             tradeNo = response.getValueByJsonPath("$.Tradeno");
             orderId = response.getValueByJsonPath("$.OrderId");
-            serializedId = response.getValueByJsonPath("$.SerializedId");
         } catch (Exception e) {
             log.info("有异常创单失败");
             return null;
@@ -253,26 +263,32 @@ public class MaitonApi{
                 return null;
             }
         }
-        setOrderModel(orderId.toString(),payToken,tradeNo,serializedId);
+        setOrderModel(orderId.toString(),payToken,tradeNo);
+
         return orderModel;
     }
-    public void setOrderModel(String orderId,String payToken,String tradeNo,String serializedId){
+    public void setOrderModel(String orderId,String payToken,String tradeNo){
         QueryOrderResponse maidonOrder = thriftApi.getMaidonOrder(orderId);
-        String payAmount = maidonOrder.getOrderDTO().getUserAmount().multiply(new BigDecimal(100)).toString();
-        String promoAmount = maidonOrder.getOrderDTO().getPlatformAmount().multiply(new BigDecimal(100)).toString();
-        String merchantAmount = maidonOrder.getOrderDTO().getMerchantDiscountAmount().multiply(new BigDecimal(100)).toString();
-        BigDecimal platformAmountBig = (maidonOrder.getOrderDTO().getPlatformAmount()).subtract(maidonOrder.getOrderDTO().getMerchantDiscountAmount());
-        String platformAmount = platformAmountBig.multiply(new BigDecimal(100)).toString();
+        BigDecimal originAmount = maidonOrder.getOrderDTO().getOriginAmount().multiply(new BigDecimal(100));
+        BigDecimal payAmount = maidonOrder.getOrderDTO().getUserAmount().multiply(new BigDecimal(100));
+        BigDecimal platformAmount = maidonOrder.getOrderDTO().getPlatformAmount().multiply(new BigDecimal(100));
+        BigDecimal merchantAmount = maidonOrder.getOrderDTO().getMerchantDiscountAmount().multiply(new BigDecimal(100));
+        BigDecimal discountAmount = maidonOrder.getOrderDTO().getDiscountAmount().multiply(new BigDecimal(100));
+        BigDecimal allPromoAmount = platformAmount.add(merchantAmount).add(discountAmount);
         DecimalFormat decimalFormat = new DecimalFormat("###################.###########");
-        orderModel.setPayAmount(decimalFormat.format(Double.valueOf(payAmount)));
-        orderModel.setPlatformAmount(decimalFormat.format(Double.valueOf(platformAmount)));
-        orderModel.setMerchantAmount(decimalFormat.format(Double.valueOf(merchantAmount)));
-        orderModel.setPromoAmount(decimalFormat.format(Double.valueOf(promoAmount)));
+
+        orderModel.setOriginAmount(decimalFormat.format(Double.valueOf(originAmount.toString())));
+        orderModel.setPayAmount(decimalFormat.format(Double.valueOf(payAmount.toString())));
+        orderModel.setPlatformAmount(decimalFormat.format(Double.valueOf(platformAmount.toString())));
+        orderModel.setMerchantAmount(decimalFormat.format(Double.valueOf(merchantAmount.toString())));
+        orderModel.setDiscountAmount(decimalFormat.format(Double.valueOf(discountAmount.toString())));
+        orderModel.setPromoAmount(decimalFormat.format(Double.valueOf(allPromoAmount.toString())));
         orderModel.setSchemeId(String.valueOf(maidonOrder.getOrderDTO().getSchemeId()));
         orderModel.setOrderId(orderId);
         orderModel.setPayToken(payToken);
         orderModel.setTradeNo(tradeNo);
-        orderModel.setSerializedId(serializedId);
+        orderModel.setSerializedId(String.valueOf(maidonOrder.getOrderDTO().getSerializedId()));
+        orderModel.setMtShopId(String.valueOf(maidonOrder.getOrderDTO().getMtShopId()));
     }
     /**
      * APP加载优惠台接口，接口文档：
@@ -432,12 +448,34 @@ public class MaitonApi{
 
     /**
      * pc端商家订单详情
+     * 例：https://hui-e.51ping.com/hui/orderdetail?serializedId=HGKPET1Z6RZUB3AND&poiId=97224769
      */
-    public void getMerchentOrderDetail(){
-        Tracer.serverRecv(new TraceParam(""));
-        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","5002907380");
-
+    public ResponseMap getMerchentOrderDetail(String caseId, String serializedId,String mtShopId) {
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(merchantDtailUrl, caseId);
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.params.serializedId",serializedId);
+        JsonPathUtil.setJsonPathVaule(request, "$.params.poiId",mtShopId);
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + userModel.getMerchantBsid());
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.merchant.host", request);
+        return responseMap;
     }
+    /**
+     * 获取case对应的expect信息，包含预期商家订单详情预期结果
+     */
+    public JSONObject getExpect(String caseId){
+        JSONObject expect = null;
+        try {
+            expect = (JSONObject)DBDataProvider.getExpectResponse(appCreateOrderUrl, caseId);
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+        return expect;
+    }
+
 
 
 }

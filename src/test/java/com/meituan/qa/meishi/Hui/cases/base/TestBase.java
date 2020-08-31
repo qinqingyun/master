@@ -8,9 +8,8 @@ import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
+
 /**
  * Created by buyuqi on 2020/5/29.
  */
@@ -31,10 +30,10 @@ public class TestBase {
     public static boolean IS_CHECK_DB_RECORD=true;
     //#是否校验新订单系统
     public static boolean IS_CHECK_NEW_ORDER_SYSTEM = true;
-
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite() {
-        maitonApi.userLogin();
+        //maitonApi.userLogin();
+        maitonApi.merchantLogin();
     }
 
     @BeforeTest(alwaysRun = true)
@@ -52,10 +51,12 @@ public class TestBase {
             case "NEW_MAIN":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
                 IS_CHECK_OLD_ORDER_SYSTEM = true;
+                maitonApi.userLogin("maitonuser");//以新为主、以老为主user
                 break;
             case "NEW_ONLY":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
                 IS_CHECK_OLD_ORDER_SYSTEM = false;
+                maitonApi.userLogin("maitonuseronlynew");//以新为主、以老为主user
                 break;
             default:
                 IS_CHECK_NEW_ORDER_SYSTEM = false;
@@ -86,7 +87,7 @@ public class TestBase {
             LionUtil.setUserWriteList(maitonApi.getMtUserId()+"_1");
             LionUtil.setUserWriteList(maitonApi.getDpUserId()+"_0");
         }
-        if( MainSystem.equals("OLD_MAIN") || MainSystem.equals("OLD_ONLY")){
+        if( MainSystem.equals("OLD_MAIN")){
             LionUtil.setUserBlackList(maitonApi.getMtUserId()+"_1");
             LionUtil.setUserBlackList(maitonApi.getDpUserId()+"_0");
         }

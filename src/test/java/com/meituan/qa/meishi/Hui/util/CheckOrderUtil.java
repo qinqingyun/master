@@ -10,11 +10,15 @@ import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.OrderStatusEnum;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
+import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.MtraceUtil;
-import com.sankuai.meituan.resv.deposit.enums.SourceEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
+
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by buyuqi on 05/06/2020.
  */
@@ -72,7 +76,11 @@ public class CheckOrderUtil extends TestBase {
 //        if(promoInfoDTOList!=null){
 //            JSONObject promoInfoJsonObject = promoInfoDTOList.getJSONObject(0);
 //            promoInfoJsonObject.put("amount",orderModel.getPromoAmount());
-//            promoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
+//            if(orderModel.getMerchantAmount() != "0"){
+//                promoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
+//            }else {
+//                promoInfoJsonObject.put("fromMerchant",orderModel.getDiscountAmount());
+//            }
 //            promoInfoJsonObject.put("fromPlatform",orderModel.getPlatformAmount());
 //        }
 
@@ -85,7 +93,11 @@ public class CheckOrderUtil extends TestBase {
 //        if(refundPromoInfoDTOList!=null){
 //            JSONObject refundPromoInfoJsonObject = refundPromoInfoDTOList.getJSONObject(0);
 //            refundPromoInfoJsonObject.put("amount", orderModel.getPromoAmount());
-//            refundPromoInfoJsonObject.put("fromMerchant", orderModel.getMerchantAmount());
+//            if(orderModel.getMerchantAmount() != "0"){
+//                refundPromoInfoJsonObject.put("fromMerchant",orderModel.getMerchantAmount());
+//            }else {
+//                refundPromoInfoJsonObject.put("fromMerchant",orderModel.getDiscountAmount());
+//            }
 //            refundPromoInfoJsonObject.put("fromPlatform", orderModel.getPlatformAmount());
 //        }
     }
@@ -107,9 +119,37 @@ public class CheckOrderUtil extends TestBase {
         String orderDetail = loopCheck.getOrderDetail(caseId, orderModel.getOrderId(), sourceEnum);
         Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
     }
-
-
-
-
-
+    public static void checkMerchantOrderDetail(String caseId, OrderModel orderModel,OrderStatusEnum orderStatusEnum){
+        ResponseMap merchentOrderDetail = loopCheck.getMerchentOrderDetail("ms_c_orderDetail_001", orderModel.getSerializedId(),orderModel.getMtShopId());
+        log.info("商户订单详情页信息{}",merchentOrderDetail.getResponseBody());
+        JSONObject jsonObject = getHuiOrderDetailVo(merchentOrderDetail.getResponseBody());
+        JSONObject expect = maitonApi.getExpect(caseId);
+        Assert.assertEquals(JsonPath.read(jsonObject, "dealAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.dealAmount").toString(),"商家订单dealAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(jsonObject, "originAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.originAmount").toString(),"商家订单originAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(jsonObject, "discountAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.discountAmount").toString(),"商家订单discountAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(jsonObject, "depositAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.depositAmount").toString(),"商家订单depositAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(jsonObject, "opbVipAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.opbVipAmount").toString(),"商家订单opbVipAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(jsonObject, "maitonAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.maitonAmount").toString(),"商家订单maitonAmount金额与预期不符");
+        switch (orderStatusEnum){
+            case 支付成功:
+                Assert.assertEquals(JsonPath.read(jsonObject, "orderStatusStr"),"已支付","商家订单状态与预期不符");
+                break;
+            case 退款成功:
+                Assert.assertEquals(JsonPath.read(jsonObject, "orderStatusStr"),"已退款","商家订单状态与预期不符");
+        }
+    }
+    public static JSONObject getHuiOrderDetailVo(String merchantOrderDetail){
+        JSONObject jsonObject = null;
+        Pattern pattern = Pattern.compile("huiOrderDetailVo:.*}");
+        Matcher matcher = pattern.matcher(merchantOrderDetail);
+        if(matcher.find()){
+            String group = matcher.group();
+            group = group.substring(group.indexOf("{"));
+            jsonObject = JSONObject.parseObject(group);
+            if(jsonObject == null){
+                Assert.assertTrue(false,"查询商家订单详情，未查询到信息");
+            }
+        }
+        return jsonObject;
+    }
 }
