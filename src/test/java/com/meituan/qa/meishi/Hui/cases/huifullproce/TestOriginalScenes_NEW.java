@@ -57,13 +57,13 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    String  doubleWriteMode = "OLD";
-    //@Parameters({ "DoubleWriteMode" })
+    //String  doubleWriteMode = "OLD";
+    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，买单使用原价买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     @MethodAnotation(author = "qqy", createTime = "2019-09-06", updateTime = "2019-09-06", des =
             "普通下单(原价)")
 
-    public void ms_c_originalScenes_01() throws Exception{
+    public void ms_c_originalScenes_01(String  doubleWriteMode) throws Exception{
         PayNotifyMockRequest payNotifyMockRequest = new PayNotifyMockRequest();
         RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
         if( doubleWriteMode.equals("NEW")) {

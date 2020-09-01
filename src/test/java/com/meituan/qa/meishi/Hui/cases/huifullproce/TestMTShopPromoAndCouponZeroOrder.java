@@ -84,11 +84,11 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
-    String doubleWriteMode = "NEW";
-    //@Parameters({ "DoubleWriteMode" })
+    //String doubleWriteMode = "NEW";
+    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_hui_mt_ShopPromoZeroOrder()  throws Exception {
+    public void ms_c_hui_mt_ShopPromoZeroOrder(String doubleWriteMode)  throws Exception {
         if (doubleWriteMode.equals("NEW"))
             LionUtil.setUserWriteList(mtbyqUserId + "_1");
         if (doubleWriteMode.equals("OLD"))
