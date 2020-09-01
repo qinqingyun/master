@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.ICOETdDataExtract;
 import com.meituan.food.mapper.*;
-import com.meituan.food.po.CoeAtpPO;
-import com.meituan.food.po.McdCoePO;
-import com.meituan.food.po.McdCoeTodoPO;
-import com.meituan.food.po.OrgMcdIdPO;
+import com.meituan.food.po.*;
 import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
 import com.sankuai.meituan.org.opensdk.service.OrgService;
@@ -68,8 +65,10 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         //配置coe入参
         String org = "44254";
         JSONObject inflowtParams = new JSONObject();
-        inflowtParams.put("occur_start", firstDayStr);
+        inflowtParams.put("occur_start", "2019-01-01");
         inflowtParams.put("occur_end", secondDayStr);
+        inflowtParams.put("create_start", firstDayStr);
+        inflowtParams.put("create_end", secondDayStr);
         inflowtParams.put("page", 1);
         inflowtParams.put("page_size", 100000);
         inflowtParams.put("sort", "desc");
@@ -78,6 +77,10 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         inflowtParams.put("org", org);
 
         List<McdCoePO> mcdCoePOList = new ArrayList<>();
+        List<Integer> coeList=new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startDate = sdf.parse(firstDayStr +" 00:00:00");
+        Date endDate = sdf.parse(secondDayStr +" 23:59:59");
 
 
         //获取coe列表数据-到店数据
@@ -97,6 +100,8 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
                      getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
                  }
+
+                 coeList.add(coePO.getCoeId());
 
                  List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
 
@@ -124,13 +129,17 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                          mcdCoePOList.add(coePO);
                      }
                  }
-
             }
-
-
         }
 
-        if (mcdCoePOList.size() != 0) {
+        List<McdCoePO> coePOS = mcdCoePOMapper.selectByTwoDate(startDate, endDate);
+        for (McdCoePO po : coePOS) {
+            if (!coeList.contains(po.getCoeId())){
+                mcdCoePOMapper.deleteByCoeId(po.getCoeId());
+            }
+        }
+
+   /*     if (mcdCoePOList.size() != 0) {
             for (McdCoePO mcdCoePO : mcdCoePOList) {
                 String orgName = mcdCoePO.getOrgName();
                 Integer orgId = orgMcdIdPOMapper.selectOrgIdByOrgName("美团/到店事业群/平台技术部/" + orgName);
@@ -152,9 +161,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 }
 
             }
-        }
+        }*/
 
-        List<McdCoePO> lossCoePOList = mcdCoePOMapper.selectLossCoe();
+ /*       List<McdCoePO> lossCoePOList = mcdCoePOMapper.selectLossCoe();
         List<Integer> allCoeList = coeAtpPOMapper.selectAllCoeList();
 
         if (lossCoePOList != null) {
@@ -209,7 +218,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     }
                 }
             }
-        }
+        }*/
 
 
        /* //获取第三方coe数据的入参
@@ -270,6 +279,13 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         }
 
 */
+
+        List<Integer> notFinishTODO = mcdCoeTodoPOMapper.selectNotFinishTODO();
+        if (notFinishTODO.size()!=0){
+            for (Integer integer : notFinishTODO) {
+                getTodoList(new McdCoePO(),integer,"");
+            }
+        }
 
     }
 
@@ -386,6 +402,8 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
         int todoCount = 0;
+
+        List<Integer> onesList=new ArrayList<>();
         String taskLink = "";
         if (coeImproArr.size() != 0) {
             coePO.setAllTodo(coeImproArr.size());
@@ -431,11 +449,20 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     todoPo.setId(existToDoPo.getId());
                     mcdCoeTodoPOMapper.updateByPrimaryKey(todoPo);
                 }
+                onesList.add(onesId);
             }
         }
         coePO.setNotFinishTodo(todoCount);
         coePO.setFinishTodo(doneCount);
         coePO.setNotFinishTodoTask(taskLink);
+
+        List<Integer> dbOnesIdList = mcdCoeTodoPOMapper.selectByCoeId(coeId);
+        for (Integer ones : dbOnesIdList) {
+            if (!onesList.contains(ones)){
+                mcdCoeTodoPOMapper.deleteByOnesId(ones);
+            }
+        }
+
     }
 
     //获取case对应的组织架构节点(平台技术部子节点)
