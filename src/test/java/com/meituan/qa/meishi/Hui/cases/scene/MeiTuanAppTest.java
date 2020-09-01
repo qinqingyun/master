@@ -219,9 +219,10 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     public void mtCouponPromoTest() throws Exception {
+        String caseId = "mtCouponPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_shoppromo";
+        //String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_shoppromo";
         String platformCaseId = "ms_c_merchantPromo_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
@@ -252,7 +253,7 @@ public class MeiTuanAppTest extends TestBase {
         //CouponProduct couponProduct = loopCheck.loadUnifiedCashier(loadUnifiedCashier);
         //log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
         //4.创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(creatOrderCaseId,null,deskCoupon);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //5.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
@@ -272,6 +273,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //13.商户订单详情页校验
+        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -284,6 +286,8 @@ public class MeiTuanAppTest extends TestBase {
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+        //19.退款后商户订单详情页校验
+        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用预订金支付，0元单
@@ -293,7 +297,8 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     public void mtResvZeroTest() throws Exception {
-        String creatOrderCaseId = "ms_MT_resv_uniCashierCreateOrder_01";
+        String caseId = "mtResvZeroTest";
+        //String creatOrderCaseId = "ms_MT_resv_uniCashierCreateOrder_01";
         String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
@@ -304,7 +309,7 @@ public class MeiTuanAppTest extends TestBase {
         String resvMaitonOrderId = resvOrderId.toString();
         log.info("预订订单:{}", resvMaitonOrderId);
         //2.使用预定金创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(creatOrderCaseId,resvMaitonOrderId);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //3.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
@@ -317,6 +322,7 @@ public class MeiTuanAppTest extends TestBase {
         //7.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //8.商户订单详情页校验
+        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //9.商户订单中心推送校验
         //10.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -327,6 +333,8 @@ public class MeiTuanAppTest extends TestBase {
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //12.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+        //13.退款后商户订单详情校验
+        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
 }
 

@@ -460,6 +460,7 @@ public class MaitonApi{
         JsonPathUtil.setJsonPathVaule(request, "$.params.serializedId",serializedId);
         JsonPathUtil.setJsonPathVaule(request, "$.params.poiId",mtShopId);
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + userModel.getMerchantBsid());
+        log.info("商家订单详情查询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.merchant.host", request);
         return responseMap;
     }

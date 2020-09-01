@@ -23,7 +23,7 @@ public class TestBase {
     public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
     protected static String doubleWriteMode;
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "NEW_ONLY";
+    public static String MainSystem = "NEW_MAIN";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM= true;
     //是否进行db数据diff
