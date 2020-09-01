@@ -152,7 +152,6 @@ public class MeiTuanAppTest extends TestBase {
         String caseId = "mtShopPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_01";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        //String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_mtshop";
         String platformCaseId = "ms_c_mtshopScenes_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
@@ -222,7 +221,6 @@ public class MeiTuanAppTest extends TestBase {
         String caseId = "mtCouponPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        //String creatOrderCaseId = "ms_c_hui_unicashiercreateorder_shoppromo";
         String platformCaseId = "ms_c_merchantPromo_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
@@ -298,7 +296,6 @@ public class MeiTuanAppTest extends TestBase {
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     public void mtResvZeroTest() throws Exception {
         String caseId = "mtResvZeroTest";
-        //String creatOrderCaseId = "ms_MT_resv_uniCashierCreateOrder_01";
         String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
