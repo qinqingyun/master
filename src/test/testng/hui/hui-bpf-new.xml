@@ -9,21 +9,27 @@
 <!--            </methods>-->
 <!--        </classes>-->
 <!--    </test>-->
-<!--    <test name="以新为主">-->
-<!--        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>-->
-<!--        <classes>-->
-<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
-<!--            <methods>-->
-<!--                <include name="mtDiscountTest"/>-->
-<!--            </methods>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="以新为主">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtOriginTest"/>
+                <include name="mtDiscountTest"/>
+                <include name="mtShopPromoTest"/>
+                <include name="mtCouponPromoTest"/>
+                <include name="mtShopPromoZeroTest"/>
+                <include name="mtCouponPromoZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
+        </classes>
+    </test>
     <test name="以老为主">
         <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>
-                <include name="mtDiscountTest"/>
+                <include name="mtOriginTest"/>
             </methods>
         </classes>
     </test>

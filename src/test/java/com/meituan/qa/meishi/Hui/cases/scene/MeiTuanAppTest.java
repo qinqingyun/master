@@ -376,8 +376,8 @@ public class MeiTuanAppTest extends TestBase {
         //6.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //7.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //8.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //9.支付后买单校验

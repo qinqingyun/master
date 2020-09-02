@@ -48,15 +48,18 @@ public class TestBase {
                 IS_CHECK_OLD_ORDER_SYSTEM = true;
                 break;
             case "OLD_MAIN":
+                IS_CHECK_NEW_ORDER_SYSTEM = true;
+                IS_CHECK_OLD_ORDER_SYSTEM = true;
+                maitonApi.userLogin("maitonuseroldmain");//以老为主user
             case "NEW_MAIN":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
                 IS_CHECK_OLD_ORDER_SYSTEM = true;
-                maitonApi.userLogin("maitonuser");//以新为主、以老为主user
+                maitonApi.userLogin("maitonuser");//以新为主user
                 break;
             case "NEW_ONLY":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
                 IS_CHECK_OLD_ORDER_SYSTEM = false;
-                maitonApi.userLogin("maitonuseronlynew");//以新为主、以老为主user
+                maitonApi.userLogin("maitonuseronlynew");//单写新user
                 break;
             default:
                 IS_CHECK_NEW_ORDER_SYSTEM = false;
