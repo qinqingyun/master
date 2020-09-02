@@ -176,8 +176,8 @@ public class MaitonApi{
         return uniCashierCreateOrder(userModel.getToken(),userModel.getUserAgent(),caseId,couponProduct,null,null,0);
     }
     //需要加载优惠平台接口，下单使用优惠券场景
-    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct, DeskCoupon deskcoupon) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, couponProduct, deskcoupon, null, 0);
+    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct, DeskCoupon deskcoupon,Integer isZero) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, couponProduct, deskcoupon, null, isZero);
     }
     //无需加载优惠平台接口,下单使用预订金
     public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {

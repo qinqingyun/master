@@ -165,7 +165,7 @@ public class DianPingAppTest extends TestBase {
 //        CouponProduct couponProduct = loopCheck.loadUnifiedCashier(loadUnifiedCashier);
 //        log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
         //4.创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //5.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
@@ -240,7 +240,7 @@ public class DianPingAppTest extends TestBase {
         //CouponProduct couponProduct = loopCheck.loadUnifiedCashier(loadUnifiedCashier);
         //log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
         //4.创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //5.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
