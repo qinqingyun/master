@@ -139,7 +139,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
             }
         }
 
-   /*     if (mcdCoePOList.size() != 0) {
+        if (mcdCoePOList.size() != 0) {
             for (McdCoePO mcdCoePO : mcdCoePOList) {
                 String orgName = mcdCoePO.getOrgName();
                 Integer orgId = orgMcdIdPOMapper.selectOrgIdByOrgName("美团/到店事业群/平台技术部/" + orgName);
@@ -161,9 +161,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 }
 
             }
-        }*/
+        }
 
- /*       List<McdCoePO> lossCoePOList = mcdCoePOMapper.selectLossCoe();
+        List<McdCoePO> lossCoePOList = mcdCoePOMapper.selectLossCoe();
         List<Integer> allCoeList = coeAtpPOMapper.selectAllCoeList();
 
         if (lossCoePOList != null) {
@@ -218,7 +218,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     }
                 }
             }
-        }*/
+        }
 
 
        /* //获取第三方coe数据的入参
