@@ -332,12 +332,12 @@ public class COEDataExtracter implements ICOEDataExtract {
         if (orgPath.contains("平台技术部/")) {
             String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
             coePO.setOrgName(subOrgPath);
-            subOrgPath = subOrgPath.substring(subOrgPath.indexOf("/") + 1, subOrgPath.indexOf("/", subOrgPath.indexOf("/") + 1));
-            coePO.setNodeTwoOrg(subOrgPath);
+           /* subOrgPath = subOrgPath.substring(subOrgPath.indexOf("/") + 1, subOrgPath.indexOf("/", subOrgPath.indexOf("/") + 1));
+            coePO.setNodeTwoOrg(subOrgPath);*/
 
         } else {
             String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
-            coePO.setNodeTwoOrg(subOrgPath);
+          //  coePO.setNodeTwoOrg(subOrgPath);
             coePO.setOrgName(subOrgPath);
         }
     }
