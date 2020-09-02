@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.*;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
@@ -19,6 +20,7 @@ import com.sankuai.meituan.resv.i.thrift.service.TResvIGoodsService;
 import com.sankuai.meituan.resv.order.thrift.service.RemoteResvOrderService;
 import com.sankuai.meituan.resv.trade.idl.TResvTradeService;
 import com.sankuai.mptrade.datatoolapi.service.DataCompareAssistService;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -33,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * Modified:    buyuqi
  * Date:        2019-12-06
  * 用例简介:     买单使用预订金支付，0元单
- * 数据源:       poiId：6207656
+ * 数据源:       poiId：95191712
  * 主要流程:     预订订单生成 -> 查询优惠台 -> 下单 -> 详情 -> 退款
  * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：极速退款
  **/
@@ -70,11 +72,6 @@ public class TestZeroOrder_New extends TestDPLogin {
 
     public void ms_c_resvZeroScenes_01(String  doubleWriteMode) throws Exception{
         log.info("ms_c_resvZeroScenes_01走老走新的状态{}",doubleWriteMode);
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(mtUserId+"_1");
-        if( doubleWriteMode.equals("OLD"))
-            LionUtil.setUserBlackList(mtUserId+"_1");
-
         DifferentRecord differentRecord = new DifferentRecord(dataCompareAssistService,invokeTaskServiceI);
         //0、预订金订单下单
         ResvOrderId resvOrder = new ResvOrderId();
@@ -89,6 +86,13 @@ public class TestZeroOrder_New extends TestDPLogin {
         String resvMaitonOrderId = resvOrderId.toString();
         log.info("预订订单:{}", resvOrderId);
 
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(mtUserId + "_1");
+            Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
+        }
+        if( doubleWriteMode.equals("OLD")){
+            LionUtil.setUserBlackList(mtUserId+"_1");
+        }
         //预定金买单下单
         orderCreateResult = checkLoop.uniCashierCreateOrderResv(mtToken,mtClient,"ms_MT_resv_uniCashierCreateOrder_01",resvMaitonOrderId);
         orderId = orderCreateResult.get(0);

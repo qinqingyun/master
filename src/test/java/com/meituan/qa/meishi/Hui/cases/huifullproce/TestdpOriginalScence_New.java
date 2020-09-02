@@ -6,11 +6,13 @@ import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.DifferentRecord;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.OrderCheck;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.qa.meishi.util.LionUtil;
@@ -20,6 +22,8 @@ import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.sankuai.food.jobscheduleapi.service.InvokeTaskServiceI;
 import com.sankuai.mptrade.datatoolapi.service.DataCompareAssistService;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -69,11 +73,18 @@ public class TestdpOriginalScence_New extends TestDPLogin {
     @Test(groups = "P1")
     @MethodAnotation(author = "byq", createTime = "2019-09-06", updateTime = "2019-09-06", des =
             "普通下单(原价)")
-    public void ms_c_dPoriginalScenes(String  doubleWriteMode) throws Exception {
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(dpUserIdByq+"_0");
-        if( doubleWriteMode.equals("OLD"))
+    public void ms_c_dPoriginalScenes(String doubleWriteMode) throws Exception {
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(dpUserIdByq + "_0");
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            Tracer.putContext("PAY_MOCK","TRUE");
+        }
+        if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(dpUserIdByq+"_0");
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
 
         DifferentRecord differentRecord = new DifferentRecord(dataCompareAssistService,invokeTaskServiceI);
         //1、输入金额创建订单（下单）
@@ -144,6 +155,16 @@ public class TestdpOriginalScence_New extends TestDPLogin {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
 
+        //退款mock
+        Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
+
         //平台退款校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_dpOriginalScenes_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
@@ -154,7 +175,7 @@ public class TestdpOriginalScence_New extends TestDPLogin {
         //买单侧退款校验  回放流量退款订单id传newid  需要排查
         log.info("老系统退款订单id{}",oldorderid);
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-//        orderCheck.maitonOrder(3,refundOrderResponse);
+        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //订单退款成功diff
 //        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_dPoriginalScenes订单退款成功diff");

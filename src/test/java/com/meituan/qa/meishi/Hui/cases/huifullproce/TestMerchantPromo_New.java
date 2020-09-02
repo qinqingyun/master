@@ -11,6 +11,7 @@ import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueOption;
 import com.dianping.unified.coupon.issue.api.request.UnifiedCouponIssueRequest;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.google.common.collect.Lists;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.DifferentRecord;
 import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.domain.LoadCashier;
@@ -21,6 +22,7 @@ import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.util.CommonLoginUtil;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.qa.meishi.util.LionUtil;
@@ -30,6 +32,9 @@ import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.sankuai.food.jobscheduleapi.service.InvokeTaskServiceI;
 import com.sankuai.mptrade.datatoolapi.service.DataCompareAssistService;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.PayNotifyMockRequest;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -51,7 +56,6 @@ import java.util.concurrent.TimeUnit;
 @ClassAnnotation(author = "wuanran", depart = "C", des = "平台券")
 @Slf4j
 public class TestMerchantPromo_New extends TestDPLogin {
-
 
     private static String CASEID = "ms_c_hui_unicashiercreateorder_shoppromo";
 
@@ -87,16 +91,22 @@ public class TestMerchantPromo_New extends TestDPLogin {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
-
-    //@Parameters({ "DoubleWriteMode" })
-    String  doubleWriteMode = "NEW";
+    //String  doubleWriteMode = "OLD";
+    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "wuanran", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_merchantPromo() throws Exception{
-        if( doubleWriteMode.equals("NEW"))
-            LionUtil.setUserWriteList(mtUserId+"_1");
-        if( doubleWriteMode.equals("OLD"))
+    public void ms_c_merchantPromo(String  doubleWriteMode) throws Exception{
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(mtUserId + "_1");
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            Tracer.putContext("PAY_MOCK","TRUE");
+        }
+        if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(mtUserId+"_1");
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
         DifferentRecord differentRecord = new DifferentRecord(dataCompareAssistService,invokeTaskServiceI);
 
         //0.平台券查询
@@ -221,6 +231,16 @@ public class TestMerchantPromo_New extends TestDPLogin {
 
         DirectRefundResponse response = huiRefund.superRefund();
         log.info("获取退款结果:{}", JSON.toJSONString(response));
+
+        //退款mock
+        Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
 
         //平台侧退款校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");

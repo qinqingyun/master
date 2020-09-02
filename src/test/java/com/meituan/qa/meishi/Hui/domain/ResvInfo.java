@@ -86,7 +86,7 @@ public class ResvInfo {
             PlaceOrderRequestModel placeOrderRequestModel = new PlaceOrderRequestModel();
             placeOrderRequestModel.setPhoneInterCode("86");
             placeOrderRequestModel.setPlatform(platform);
-            placeOrderRequestModel.setPoiId(6207656);
+            placeOrderRequestModel.setPoiId(95191712);
             placeOrderRequestModel.setBookingTime(bookableTime);
             placeOrderRequestModel.setPosition(0);
             placeOrderRequestModel.setName("test");

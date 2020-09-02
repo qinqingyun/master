@@ -55,7 +55,7 @@ public class TestMMHuiInfo {
         queryBizCouponReq.setDpId("0");
         List<String> respDetail = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(respDetail.toString());
-        Assert.assertTrue(respDetail.toString().contains("原价买单方案"));
+        Assert.assertTrue(respDetail.toString().contains("原价买单"));
     }
 
 }

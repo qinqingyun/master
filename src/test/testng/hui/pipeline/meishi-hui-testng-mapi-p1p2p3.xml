@@ -13,15 +13,15 @@
             </run>
         </groups>
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>-->
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>-->
         </classes>
     </test>
     <test name="以新为主">
@@ -37,15 +37,15 @@
             </run>
         </groups>
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>-->
         </classes>
     </test>
 

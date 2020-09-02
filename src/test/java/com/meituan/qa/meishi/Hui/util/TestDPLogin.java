@@ -1,5 +1,6 @@
 package com.meituan.qa.meishi.Hui.util;
 
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.cases.huifullproce.TestCheckLoop;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
 import com.meituan.toolchain.mario.config.ConfigMange;
@@ -11,12 +12,10 @@ import com.sankuai.nibqa.trade.api.service.TradeVerifyService;
 import com.sankuai.nibqa.trade.api.util.VerifyServiceHander;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 @Slf4j
 public class TestDPLogin {
@@ -75,8 +74,12 @@ public class TestDPLogin {
         dpUserIdByq = ConfigMange.getValue("dp7191_DP_C_USER_ID");
         log.info("dpTokenByq:{}", dpTokenByq);
     }
+    @AfterTest(alwaysRun = true)
+    public void afterTest() {
+        Map<String, String> contexts = Tracer.getAllContext();
+        contexts.forEach((k,v)->{Tracer.clearContext(k);});
 
-
+    }
     @DataProvider(name = "param")
     public static Object[][] test(Method method) throws Exception {
         String methodName = method.getName();

@@ -11,4 +11,9 @@ src/test/logs
 src/test/reports
 test-output/
 src/test/profiles/test/swimlane.properties
+<<<<<<< HEAD
 src/test/java/com/meituan/qa/meishi/Hui/cases/TestCase
+=======
+src/test/java/com/meituan/qa/meishi/Hui/cases/TestCase/
+
+>>>>>>> master
