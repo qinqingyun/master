@@ -285,6 +285,7 @@ public class TestCreateOrder extends TestDPLogin {
     public void ms_c_createOrder_23(JSONObject request, JSONObject expect) throws Exception {
         EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
         ecomOrderCreateReq.setUserId(Long.valueOf(mtUserId));
+        updateUserId("OLD");
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
         log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
