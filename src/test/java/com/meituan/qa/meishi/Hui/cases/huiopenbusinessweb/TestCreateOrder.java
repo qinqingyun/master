@@ -281,14 +281,14 @@ public class TestCreateOrder extends TestDPLogin {
         Assert.assertTrue(createResp.getOrderId() == 0 && createResp.getMaitonBaseResponse().getOutterResultCode().equals("shopType != userType"),"参数错误，下单失败");
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
-    @MethodAnotation(author = "byq", createTime = "20200603", des = "美团侧，fingerPrint不传")
+    @MethodAnotation(author = "byq", createTime = "20200603", des = "美团侧，fingerPrint不传,非必传参数")
     public void ms_c_createOrder_23(JSONObject request, JSONObject expect) throws Exception {
         EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
         ecomOrderCreateReq.setUserId(Long.valueOf(mtUserId));
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
         log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
-        Assert.assertTrue(createResp.getOrderId() == 0 && createResp.getMaitonBaseResponse().getOutterResultCode().equals("风控参数为空"),"参数错误，下单失败");
+        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
     @MethodAnotation(author = "byq", createTime = "20200603", des = "点评侧，ip不传")

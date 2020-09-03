@@ -143,6 +143,7 @@ public class CreateOrderUtil {
             tradeNo = response.getValueByJsonPath("$.Tradeno");
             orderId = (Long) response.getValueByJsonPath("$.OrderId");
             serializedId = response.getValueByJsonPath("$.SerializedId");
+
         } catch (Exception e) {
             log.info("有异常创单失败");
             return null;

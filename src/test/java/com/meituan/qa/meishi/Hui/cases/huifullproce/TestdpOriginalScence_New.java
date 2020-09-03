@@ -175,7 +175,7 @@ public class TestdpOriginalScence_New extends TestDPLogin {
         //买单侧退款校验  回放流量退款订单id传newid  需要排查
         log.info("老系统退款订单id{}",oldorderid);
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-//        orderCheck.maitonOrder(3,refundOrderResponse);
+        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //订单退款成功diff
 //        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_dPoriginalScenes订单退款成功diff");
