@@ -58,7 +58,7 @@ public class TestDPHuiInfo {
         queryBizCouponReq.setDpId("0");
         List<String> resp = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(resp.toString());
-        Assert.assertTrue(resp.toString().contains("全单折"));
+        Assert.assertTrue(resp.toString().contains("[自动化7折]"));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TestDPHuiInfo {
         queryBizCouponReq.setDpId("0");
         List<String> resp = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(resp.toString());
-        Assert.assertTrue(resp.toString().contains("[自动化全单折，勿动]"));
+        Assert.assertTrue(resp.toString().contains("[自动化7折]"));
     }
 
 }
