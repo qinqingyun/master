@@ -117,12 +117,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         LocalDate yesterday = date.plusDays(-1);
         pipelinePrMapper.deleteRepoByDate(yesterday);
         //组织参数参考wiki https://km.sankuai.com/page/201266445-去除252-254-265
-        String param = "{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
+        String param = "{\"value\":\"\",\"key\":\"241\"};{\"value\":\"\",\"key\":\"253\"};{\"value\":\"\",\"key\":\"217\"};{\"value\":\"\",\"key\":\"262\"};{\"value\":\"\",\"key\":\"264\"};{\"value\":\"\",\"key\":\"261\"};{\"value\":\"\",\"key\":\"296\"};{\"value\":\"\",\"key\":\"255\"};{\"value\":\"\",\"key\":\"260\"};{\"value\":\"\",\"key\":\"321\"};{\"value\":\"\",\"key\":\"251\"};{\"value\":\"\",\"key\":\"256\"};{\"value\":\"\",\"key\":\"258\"};{\"value\":\"\",\"key\":\"259\"};{\"value\":\"\",\"key\":\"257\"};{\"value\":\"\",\"key\":\"497\"}";
         List<String> dirList= Arrays.asList(param.split(";"));
         // 遍历每个组织
         List<PipelinePrAutoPO> prDatasArry= new CopyOnWriteArrayList<>();
         long s = System.currentTimeMillis();
-        dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
+//        dirList.parallelStream().forEach(e -> prDatasArry.addAll(insertData(e,date)));
+        dirList.forEach(e -> prDatasArry.addAll(insertData(e,date)));
 //        更新组织下仓库数据
         pipelinePrMapper.deleteDirRepoByDate();
         pipelinePrMapper.insertRepoInfoList(prDatasArry);
@@ -141,16 +142,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
             JSONObject data = resp.getJSONObject("data").getJSONObject(strKey);
             JSONObject repos = data.getJSONObject("children");
             for (String strKey2 : repos.keySet()) {
-//                if(strKey2=="ssh://git@git.sankuai.com/web/order.git"){
-//                    log.info("调试");
-//                }
                 if (!strKey2.contains("ssh")) {//还继续向下分组情况260/262/296
                     JSONObject repos2 = repos.getJSONObject(strKey2).getJSONObject("children");
                     //遍历组织下所有仓库
                     for (String strKey3 : repos2.keySet()) {
-//                        if(strKey3=="ssh://git@git.sankuai.com/web/order.git"){
-//                            log.info("调试");
-//                        }
+                        if(strKey3=="ssh://git@git.sankuai.com/cos/mtscp-group-bd.git"){
+                            log.info("调试");
+                        }
                         PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
                         pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
                         pipelinePrAutoPO.setDirectionName(data.getString("label"));
@@ -190,6 +188,9 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
                     }
 
                 } else {//遍历组织下所有仓库
+                    if(strKey2=="ssh://git@git.sankuai.com/cos/mtscp-group-bd.git"){
+                        log.info("调试");
+                    }
                     PipelinePrAutoPO pipelinePrAutoPO = new PipelinePrAutoPO();
                     pipelinePrAutoPO.setDepartment_id(data.getInteger("direction_id"));
                     pipelinePrAutoPO.setDirectionName(data.getString("label"));
@@ -245,7 +246,7 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
         ZoneId zone = ZoneId.systemDefault();
         Date yesdayDate = Date.from(yesterday.atStartOfDay().atZone(zone).toInstant());
         Date todayDate = Date.from(today.atStartOfDay().atZone(zone).toInstant());
-        String url = "http://qa.sankuai.com/data/pr/build/list?git_addr="+repo+"&startTime="+yesterday+"&endTime="+yesterday;
+        String url = "http://qa.sankuai.com/data/pr/build/list?git_addr="+repo+"&startTime="+yesterday+"&endTime="+today;
         JSONObject resp = HttpUtils.doGet(url, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         JSONArray repos = resp.getJSONArray("data");
         if (repos!=null){
