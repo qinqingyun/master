@@ -46,7 +46,6 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     private static final String coeHistoryUrl = "https://coe.sankuai.com/api/v1.0/incidents/";
 
 
-
     @Resource
     private McdCoePOMapper mcdCoePOMapper;
 
@@ -84,29 +83,29 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         JSONObject Resp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray incidentsArray = Resp.getJSONArray("incidents");
         log.info("coe获取的数量：{}", incidentsArray.size());
-        log.info("开始时间：{}",firstDayStr);
-        log.info("结束时间：{}",secondDayStr);
-        log.info("获取coe的数量：{}",incidentsArray.size());
+        log.info("开始时间：{}", firstDayStr);
+        log.info("结束时间：{}", secondDayStr);
+        log.info("获取coe的数量：{}", incidentsArray.size());
         if (incidentsArray.size() != 0) {
             for (Object o : incidentsArray) {
 
-                 McdCoePO coePO = new McdCoePO();
-                 getBaseInfo(o, coePO);
+                McdCoePO coePO = new McdCoePO();
+                getBaseInfo(o, coePO);
 
-                 if (!coePO.getOrgName().contains("餐饮解决方案")) {
+                if (!coePO.getOrgName().contains("餐饮解决方案")) {
 
-                     getTodoList(coePO, coePO.getCoeId(),coePO.getOrgName());
-                 }
+                    getTodoList(coePO, coePO.getCoeId(), coePO.getOrgName());
+                }
 
-                 List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+                List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
 
-                 if (coeIdList2.contains(coePO.getCoeId())) {
-                     //coeid 存在时，为啥只有修改这几个字段
-                     McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
-                     coePO.setId(coeListPO.getId());
-                     coePO.setAvailable(coeListPO.getAvailable());
-                     coePO.setBuildTime(coeListPO.getBuildTime());
-                     coePO.setUpdateTime(new Date());
+                if (coeIdList2.contains(coePO.getCoeId())) {
+                    //coeid 存在时，为啥只有修改这几个字段
+                    McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
+                    coePO.setId(coeListPO.getId());
+                    coePO.setAvailable(coeListPO.getAvailable());
+                    coePO.setBuildTime(coeListPO.getBuildTime());
+                    coePO.setUpdateTime(new Date());
 /*
                     //获取损失时， 为啥有时间上的对比
                    *//* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*//*
@@ -114,16 +113,16 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     coeListPO.setOrderLoss(coePO.getOrderLoss());
                   *//*  }*/
 
-                     mcdCoePOMapper.updateByPrimaryKey(coePO);
+                    mcdCoePOMapper.updateByPrimaryKey(coePO);
 
-                 } else {
-                     if (!coePO.getOrgName().contains("餐饮解决方案")) {
-                         coePO.setBuildTime(new Date());
-                         coePO.setUpdateTime(new Date());
-                         mcdCoePOMapper.insert(coePO);
-                         mcdCoePOList.add(coePO);
-                     }
-                 }
+                } else {
+                    if (!coePO.getOrgName().contains("餐饮解决方案")) {
+                        coePO.setBuildTime(new Date());
+                        coePO.setUpdateTime(new Date());
+                        mcdCoePOMapper.insert(coePO);
+                        mcdCoePOList.add(coePO);
+                    }
+                }
 
             }
 
@@ -146,8 +145,8 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 pushStr = pushStr + "\n\n△【" + "[" + mcdCoePO.getBrief() + "|" + mcdCoePO.getCoeLink() + "]" + "】";
                 pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "\n● 责任人:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
                 for (Long daxiangId : daxiangIds) {
-                    DaXiangUtils.pushToPerson( pushStr, "guomengyao","yuan.ding");
-                    DaXiangUtils.pushToRoom( pushStr, daxiangId);
+                    DaXiangUtils.pushToPerson(pushStr, "guomengyao", "yuan.ding");
+                    DaXiangUtils.pushToRoom(pushStr, daxiangId);
 
                 }
 
@@ -163,45 +162,45 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     String business = po.getLine();
                     if (business != null && !business.equals("")) {
                         String pushText = "";
-                        CoeAtpPO atpPO=new CoeAtpPO();
+                        CoeAtpPO atpPO = new CoeAtpPO();
                         atpPO.setCoeId(po.getCoeId());
                         atpPO.setIsPush(false);
-                        Date now =new Date();
+                        Date now = new Date();
                         atpPO.setFirstPushDate(now);
                         if (po.getCouponLoss() != null && !po.getCouponLoss().equals("")) {
                             pushText = pushText + "\n●损失支付间夜/门票/消费券" + po.getCouponLoss() + "张";
                         } else if (po.getOrderLoss() != null && po.getOrderLoss().compareTo(BigDecimal.ZERO) != 0) {
-                            log.info("这条有订单损失的COE是: {}",po.getCoeLink());
-                            pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0,BigDecimal.ROUND_HALF_UP) + "单";
+                            log.info("这条有订单损失的COE是: {}", po.getCoeLink());
+                            pushText = pushText + "\n●订单损失" + po.getOrderLoss().setScale(0, BigDecimal.ROUND_HALF_UP) + "单";
                         } else if (po.getCapitalLoss() != null && po.getCapitalLoss().compareTo(BigDecimal.ZERO) != 0) {
-                            pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2,BigDecimal.ROUND_HALF_UP) + "元";
+                            pushText = pushText + "\n●资金损失" + po.getCapitalLoss().setScale(2, BigDecimal.ROUND_HALF_UP) + "元";
                         }
-                        pushText=pushText+"\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId="+po.getCoeId()+"]";
-                        if (business.equals("住宿") ) {
+                        pushText = pushText + "\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId=" + po.getCoeId() + "]";
+                        if (business.equals("住宿")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/atp.jsp#/\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
-                            DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("门票")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/dual.jsp#/apt_trip\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
-                            DaXiangUtils.pushToPerson(pushText,"chenchaoyi");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到餐") || business.equals("收单")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao");
-                            DaXiangUtils.pushToPerson(pushText,"wangjianming02");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao");
+                            DaXiangUtils.pushToPerson(pushText, "wangjianming02");
                             atpPO.setReceiver("wangjianming02");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到综")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n地址：https://km.sankuai.com/page/259031052\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
-                            DaXiangUtils.pushToPerson(pushText,"yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "yuan.ding");
                             atpPO.setReceiver("yuan.ding");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
@@ -335,30 +334,32 @@ public class COETdDataExtracter implements ICOETdDataExtract {
             coePO.setSubCategory(reason.getString("parent"));
         }
 
-         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-                JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
-                String orgPath = incidentDetail.getString("org_path");
 
-      //  getTodoList(coePO, coeId);
+        log.info("需要获取orgname的coeid:{}", coeId);
+
+        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        log.info("访问每个coe的结果:{}", coeDetailResp.toString());
+        JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
+        String orgPath = incidentDetail.getString("org_path");
+
+        //  getTodoList(coePO, coeId);
 
         //coe的创建时间
         JSONObject coeHistoryResp = HttpUtils.doGet(coeHistoryUrl + coeId + "/history", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
-        JSONArray history=coeHistoryResp.getJSONArray("history");
+        JSONArray history = coeHistoryResp.getJSONArray("history");
         List<Object> historyList = new ArrayList<Object>();
-        historyList=JSONObject.parseArray(history.toJSONString(),Object.class);
-        log.info("创建时间对应的coeid：{}",coeId);
-        log.info("historyList 的长度：{}",historyList.size());
+        historyList = JSONObject.parseArray(history.toJSONString(), Object.class);
+        log.info("创建时间对应的coeid：{}", coeId);
+        log.info("historyList 的长度：{}", historyList.size());
 
         //判断历史记录接口中与否有记录存在
-        if(historyList.size()>0){
-            Date time= ( (JSONObject)historyList.get(historyList.size()-1)).getDate("time");
+        if (historyList.size() > 0) {
+            Date time = ((JSONObject) historyList.get(historyList.size() - 1)).getDate("time");
             coePO.setCreateTime(time);
-        }
-        else{
+        } else {
             //历史记录没有数据时，取coe详情中的create_at时间
             coePO.setCreateTime(((JSONObject) o).getDate("create_at"));
         }
-
 
 
         getShortOrgName(orgPath, coePO);
@@ -381,7 +382,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     }
 
     //获取每一个case中的todo项
-    public void getTodoList(McdCoePO coePO, int coeId,String orgName) {
+    public void getTodoList(McdCoePO coePO, int coeId, String orgName) {
         JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
