@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
+import static com.meituan.qa.meishi.Hui.entity.LoginEnum.*;
+
 /**
  * Created by buyuqi on 2020/5/29.
  */
@@ -35,6 +37,22 @@ public class TestBase {
         //maitonApi.userLogin();
         maitonApi.merchantLogin();
     }
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite(ITestContext context) {
+        String main = context.getCurrentXmlTest().getParameter("DoubleWriteMode");
+        if (main != null) {
+            MainSystem = main;
+        }
+        maitonApi.merchantLogin();
+        maitonApi.userLogin("maitonuseronlynew");//单写新
+        maitonApi.replaceUserInfo2(NEW_ONLY);
+        maitonApi.userLogin("maitonuser");//新为主
+        maitonApi.replaceUserInfo2(NEW_MAIN);
+        maitonApi.userLogin("maitonuseroldmain");//老为主
+        maitonApi.replaceUserInfo2(OLD_MAIN);
+        maitonApi.setCurrentUserModel(MainSystem);
+    }
+
 
     @BeforeTest(alwaysRun = true)
     public void beforeTest(ITestContext context) {
