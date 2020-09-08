@@ -31,6 +31,12 @@ public interface McdCoeTodoPOMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from mcd_todo_list",
+            "where ones_id = #{id,jdbcType=INTEGER}"
+    })
+    int deleteByOnesId(Integer id);
+
     @Insert({
             "insert into mcd_todo_list (id, coe_id, ",
             "org_name, ones_id, ",
@@ -157,6 +163,14 @@ public interface McdCoeTodoPOMapper {
     List<Integer> selectOnesIdList();
 
     @Select({
+            "select distinct (coe_id) from mcd_todo_list where is_finish=false"
+    })
+    @Results({
+            @Result(column="coe_id", property="coeId", jdbcType=JdbcType.INTEGER),
+    })
+    List<Integer> selectNotFinishTODO();
+
+    @Select({
             "select distinct coe_id from mcd_todo_list where is_delay=1"
     })
     @Results({
@@ -231,5 +245,13 @@ public interface McdCoeTodoPOMapper {
             @Result(column = "actual_date", property = "actualDate", jdbcType = JdbcType.DATE)
     })
     McdCoeTodoPO selectByOnesId(Integer id);
+
+    @Select({
+            "select ones_id from mcd_todo_list where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column = "ones_id", property = "onesId", jdbcType = JdbcType.INTEGER)
+    })
+    List<Integer> selectByCoeId(Integer id);
 
 }

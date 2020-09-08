@@ -91,6 +91,13 @@ public interface CoeAtpPOMapper {
     })
     int updateByPrimaryKey(CoeAtpPO record);
 
+    @Update({
+            "update coe_atp_status_table",
+            "set is_push = true",
+            "where coe_id = #{id,jdbcType=INTEGER}"
+    })
+    int updateByCoeId(int  id);
+
 
     @Select({
             "select coe_id from coe_atp_status_table"

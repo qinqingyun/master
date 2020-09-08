@@ -97,11 +97,15 @@ public class COEDataExtracter implements ICOEDataExtract {
             for (Object o : inflowtIncidentsArray) {
                 CoeListPO coePO=new CoeListPO();
                 getBaseInfo(o,coePO);
-                String orgPath=coePO.getOrgName();
-                if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
-                    coePO.setCategory("第三方");
-                    coePO.setSubCategory("第三方");
-                    coePO.setBusiness("第三方");
+                try {
+                    String orgPath=coePO.getOrgName();
+                    if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
+                        coePO.setCategory("第三方");
+                        coePO.setSubCategory("第三方");
+                        coePO.setBusiness("第三方");
+                    }
+                }catch (NullPointerException e){
+                   log.warn("空指针"+e.getMessage());
                 }
 
                 /*
@@ -328,12 +332,12 @@ public class COEDataExtracter implements ICOEDataExtract {
         if (orgPath.contains("平台技术部/")) {
             String subOrgPath = orgPath.substring(orgPath.indexOf("平台技术部/") + 6);
             coePO.setOrgName(subOrgPath);
-            subOrgPath = subOrgPath.substring(subOrgPath.indexOf("/") + 1, subOrgPath.indexOf("/", subOrgPath.indexOf("/") + 1));
-            coePO.setNodeTwoOrg(subOrgPath);
+           /* subOrgPath = subOrgPath.substring(subOrgPath.indexOf("/") + 1, subOrgPath.indexOf("/", subOrgPath.indexOf("/") + 1));
+            coePO.setNodeTwoOrg(subOrgPath);*/
 
         } else {
             String subOrgPath = orgPath.substring(orgPath.indexOf("集团/") + 3);
-            coePO.setNodeTwoOrg(subOrgPath);
+          //  coePO.setNodeTwoOrg(subOrgPath);
             coePO.setOrgName(subOrgPath);
         }
     }
@@ -438,11 +442,17 @@ public class COEDataExtracter implements ICOEDataExtract {
 
         getTodoList(coePO, coeId);
 
+        log.info("这条COE的链接是:https://coe.mws.sankuai.com/detail/{}",coeId);
         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
-        String orgPath = incidentDetail.getString("org_path");
-
-        getShortOrgName(orgPath, coePO);
+        if (incidentDetail!=null){
+            try {
+                String orgPath = incidentDetail.getString("org_path");
+                getShortOrgName(orgPath, coePO);
+            }catch (NullPointerException e){
+                log.error("空指针：https://coe.mws.sankuai.com/detail/"+coeId+"\n");
+            }
+        }
         getOther(coeId, coePO);
     }
 }
