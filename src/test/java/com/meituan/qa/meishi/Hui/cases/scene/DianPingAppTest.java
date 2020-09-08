@@ -23,7 +23,6 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPApp;
-import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.退款成功;
 @Slf4j
@@ -116,10 +115,10 @@ public class DianPingAppTest extends TestBase {
         CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //12.商户订单中心推送校验
         //13.用户申请退款校验
-        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel());
+        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
         log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
         TimeUnit.SECONDS.sleep(1);
-        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel());
+        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel().get());
         log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
         TimeUnit.SECONDS.sleep(1);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
@@ -155,7 +154,7 @@ public class DianPingAppTest extends TestBase {
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
             Assert.assertTrue(false);
-            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel(), 65731456,DPApp);
+            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel().get(), 65731456,DPApp);
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
             deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
@@ -222,7 +221,7 @@ public class DianPingAppTest extends TestBase {
         DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(),519477930,DPApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),519477930,DPApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();

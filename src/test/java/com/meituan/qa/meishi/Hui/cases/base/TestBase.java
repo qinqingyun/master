@@ -11,12 +11,11 @@ import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.meituan.qa.meishi.Hui.entity.LoginEnum.*;
-import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
+
+
 
 /**
  * Created by buyuqi on 2020/5/29.
@@ -55,6 +54,7 @@ public class TestBase {
         maitonApi.replaceUserInfo2(OLD_MAIN);
         maitonApi.setCurrentUserModel(MainSystem);
     }
+
 
     @BeforeTest(alwaysRun = true)
     public void beforeTest(ITestContext context) {

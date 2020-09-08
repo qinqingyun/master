@@ -17,9 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SetTraceUtil extends TestBase {
     public void setTrace(){
         switch (MainSystem){
-            case "OLD_ONLY":
-                //Tracer.putContext("PAY_MOCK","TRUE");
-                break;
             case "OLD_MAIN":
                 Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
                 break;

@@ -1,5 +1,6 @@
 package com.meituan.qa.meishi.Hui.entity.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

@@ -3,9 +3,8 @@ package com.meituan.qa.meishi.Hui.cases.base;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
+import com.dianping.hui.common.enums.UserType;
 import com.dianping.hui.order.response.QueryOrderResponse;
-import com.meituan.mtrace.TraceParam;
-import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
@@ -34,7 +33,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.testng.Assert;
-import org.testng.ITestContext;
 import org.testng.util.Strings;
 
 import java.io.UnsupportedEncodingException;
@@ -42,6 +40,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.meituan.qa.meishi.Hui.cases.base.TestBase.thriftApi;
 import static java.lang.Boolean.TRUE;
@@ -58,15 +57,15 @@ public class MaitonApi {
     private static String mtToken = "";
     public String mtUserId = "";
     public String merchantBsid = "";
-    private String username = "maitonuser";
-    public String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
-    public String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
-    public String dpClient = "MApi 1.1(dpscope 10.16.0 appstore; iPhone 12.3.2 iPhone10,2; a0d0)";
-    public String mClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1";
-    UserModel userModel = new UserModel();
-    //ThreadLocal<UserModel> userModelThreadLocal;
-    public Map<LoginEnum, UserModel> userModelMap = new HashMap<>();
-
+    private  String username = "maitonuser";
+    public  String dpWxClient = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.8(0x17000820) NetType/WIFI Language/zh_CN";
+    public  String mtClientNew = "MApi 1.1 (mtscope 10.1.400 appstore; iPhone 11.3.1 iPhone10,3; a0d0)";
+    public  String dpClient = "MApi 1.1(dpscope 10.16.0 appstore; iPhone 12.3.2 iPhone10,2; a0d0)";
+    public  String mClient="Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1";
+    ThreadLocal<UserModel> userModel = new ThreadLocal<>();
+    private LoginEnum doubleWriteModel;
+    Map<String, UserModel> userModelMap = new ConcurrentHashMap();
+    //OrderModel orderModel = new OrderModel();
 
     //Loopcheck重试次数和时间
     static final int interval = 1000;
@@ -109,7 +108,6 @@ public class MaitonApi {
         }
         return merchantBsid;
     }
-
     //替换token
     public void replaceUserInfo2(LoginEnum loginEnum) {
 
@@ -118,34 +116,21 @@ public class MaitonApi {
         userModel.setUserAgent(mtClientNew);
         userModel.setUserId(mtUserId);
         userModel.setMerchantBsid(merchantBsid);
-        userModel.setDpToken(dpToken);
-        userModel.setDpUserId(dpUserId);
-        userModel.setDpUserAgent(dpClient);
-        userModelMap.put(loginEnum, userModel);
-    }
+        userModelMap.put(loginEnum.getText() + "_" + OrderSourceEnum.MTApp.getText(), userModel);
 
+        UserModel dpUserModel = new UserModel();
+        dpUserModel.setToken(dpToken);
+        dpUserModel.setUserId(dpUserId);
+        dpUserModel.setUserAgent(dpClient);
+        userModel.setMerchantBsid(merchantBsid);
+        userModelMap.put(loginEnum.getText() + "_" + OrderSourceEnum.DPApp.getText(), dpUserModel);
+    }
     public void setCurrentUserModel(String main) {
-        this.userModel = userModelMap.get(LoginEnum.getByName(main));
+        this.doubleWriteModel = LoginEnum.getByName(main);
     }
-
-    //替换token
-    public void replaceUserInfo(OrderSourceEnum sourceEnum) {
-        UserModel userModel = new UserModel();
-
-        switch (sourceEnum) {
-            case DPApp:
-                userModel.setToken(dpToken);
-                userModel.setUserAgent(dpClient);
-                userModel.setUserId(dpUserId);
-                userModel.setMerchantBsid(merchantBsid);
-                break;
-            case MTApp:
-                userModel.setToken(mtToken);
-                userModel.setUserAgent(mtClientNew);
-                userModel.setUserId(mtUserId);
-                userModel.setMerchantBsid(merchantBsid);
-                break;
-        }
+    public void replaceUserInfo(OrderSourceEnum sourceEnum){
+        UserModel userModel = userModelMap.get(doubleWriteModel.getText() + "_" + sourceEnum.getText());
+        this.userModel.set(userModel);
     }
 
     /**
@@ -162,7 +147,7 @@ public class MaitonApi {
         params.put("tradeno", orderModel.getTradeNo());
         params.put("pay_token", orderModel.getPayToken());
         //params.put("pay_password", passWord); //设置支付密码http://payc.fsp.test.sankuai.com/rstpwd/index.htm
-        params.put("token", userModel.getToken()); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
+        params.put("token", userModel.get().getToken()); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
         //params.put("nb_app", "...");//非必传，默认值是group
         Boolean payRequest = false;
         for (int i = 0; i < 3; i++) {
@@ -192,22 +177,22 @@ public class MaitonApi {
      */
     //无需加载优惠平台接口
     public OrderModel uniCashierCreateOrder(String caseId) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, null, null, null, 0);
+        return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,null,null,null,0);
     }
 
     //需要加载优惠平台接口，下单使用买单优惠
-    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, couponProduct, null, null, 0);
+    public OrderModel uniCashierCreateOrder(String caseId,CouponProduct couponProduct) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,couponProduct,null,null,0);
     }
 
     //需要加载优惠平台接口，下单使用优惠券场景
-    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct, DeskCoupon deskcoupon, Integer isZero) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, couponProduct, deskcoupon, null, isZero);
+    public OrderModel uniCashierCreateOrder(String caseId, CouponProduct couponProduct, DeskCoupon deskcoupon,Integer isZero) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.get().getToken(), userModel.get().getUserAgent(), caseId, couponProduct, deskcoupon, null, isZero);
     }
 
     //无需加载优惠平台接口,下单使用预订金
     public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.getToken(), userModel.getUserAgent(), caseId, null, null, resvOrderId, 0);
+        return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,null,null,resvOrderId,0);
     }
 
     public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, CouponProduct couponProduct, DeskCoupon deskcoupon, String receipt, Integer isZero) throws UnsupportedEncodingException {
@@ -330,10 +315,10 @@ public class MaitonApi {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        request.getJSONObject("headers").put("pragma-token", userModel.getToken());
-        request.getJSONObject("headers").put("User-Agent", userModel.getUserAgent());
-        request.getJSONObject("headers").put("pragma-os", userModel.getUserAgent());
-        request.getJSONObject("headers").put("pragma-dpid", "-8765947759983332911");
+        request.getJSONObject("headers").put("pragma-token",userModel.get().getToken());
+        request.getJSONObject("headers").put("User-Agent",userModel.get().getUserAgent());
+        request.getJSONObject("headers").put("pragma-os",userModel.get().getUserAgent());
+        request.getJSONObject("headers").put("pragma-dpid","-8765947759983332911");
         ResponseMap response = DBCaseRequestUtil.get("env.api.meishi.hui.host", request);
         log.info("加载优惠台接口返回loadunifiedcashier:code:{}, body:{}", response.getStatusCode(), response.getResponseBody());
         MaitonCashier maitonCashier = JSON.parseObject(response.getResponseBody(), MaitonCashier.class);
@@ -352,10 +337,10 @@ public class MaitonApi {
         // 生成新Trace
         TracerUtil.initAndLogTrace();
         JSONObject request = DBDataProvider.getRequest(queryMopayStatusUrl, caseId);
-        request.getJSONObject("headers").put("pragma-token", userModel.getToken());
-        request.getJSONObject("headers").put("pragma-newtoken", userModel.getToken());
-        request.getJSONObject("headers").put("User-Agent", userModel.getUserAgent());
-        request.getJSONObject("headers").put("pragma-os", userModel.getUserAgent());
+        request.getJSONObject("headers").put("pragma-token", userModel.get().getToken());
+        request.getJSONObject("headers").put("pragma-newtoken", userModel.get().getToken());
+        request.getJSONObject("headers").put("User-Agent", userModel.get().getUserAgent());
+        request.getJSONObject("headers").put("pragma-os", userModel.get().getUserAgent());
         request.getJSONObject("params").put("serializedid", serializedId);
         ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.host", request);
         JSONObject response = (JSONObject) DBDataProvider.getExpectResponse(queryMopayStatusUrl, caseId);
@@ -386,8 +371,8 @@ public class MaitonApi {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        request.getJSONObject("params").put("token", userModel.getToken());
-        request.put("path", request.getString("path").replaceAll("\\{orderid\\}", orderId));
+        request.getJSONObject("params").put("token",userModel.get().getToken());
+        request.put("path",request.getString("path").replaceAll("\\{orderid\\}",orderId));
 
         responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
         String body = responseMap.getResponseBody();
@@ -411,9 +396,9 @@ public class MaitonApi {
         } catch (Exception e) {
             log.info("DBDataProvider.getRequest调用 excepiton", e);
         }
-        request.getJSONObject("params").put("token", userModel.getToken());
-        request.getJSONObject("params").put("orderId", orderId);
-        request.getJSONObject("params").put("product", "dpapp");
+        request.getJSONObject("params").put("token",userModel.get().getToken());
+        request.getJSONObject("params").put("orderId",orderId);
+        request.getJSONObject("params").put("product","dpapp");
         long currentTime = System.currentTimeMillis();
         try {
             responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.dp", request);
@@ -450,9 +435,10 @@ public class MaitonApi {
     /**
      * 获取用户商家优惠券信息
      */
-    public DeskCoupon getShopCouponCipher(String hongbaoid, String caseId) {
-        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.getToken()).useCardflag(UseCard.USE_MERCHANT_CARD).client(userModel.getUserAgent()).caseid(caseId).build();
-        DeskCoupon deskCoupon;
+    public DeskCoupon getShopCouponCipher(String hongbaoid,String caseId){
+        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.get().getToken()).useCardflag(UseCard.USE_MERCHANT_CARD).client(userModel.get().getUserAgent()).caseid(caseId).build();
+        DeskCoupon deskCoupon ;
+
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
         } catch (RuntimeException e) {
@@ -465,9 +451,9 @@ public class MaitonApi {
     /**
      * 获取用户平台优惠券信息
      */
-    public DeskCoupon getPlatformCouponCipher(String hongbaoid, String caseId) {
-        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.getToken()).useCardflag(UseCard.USE_PLATFORM_CARD).client(userModel.getUserAgent()).caseid(caseId).build();
-        DeskCoupon deskCoupon;
+    public DeskCoupon getPlatformCouponCipher(String hongbaoid,String caseId){
+        HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(userModel.get().getToken()).useCardflag(UseCard.USE_PLATFORM_CARD).client(userModel.get().getUserAgent()).caseid(caseId).build();
+        DeskCoupon deskCoupon ;
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
         } catch (RuntimeException e) {
@@ -488,10 +474,10 @@ public class MaitonApi {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        JsonPathUtil.setJsonPathVaule(request, "$.params.serializedId", serializedId);
-        JsonPathUtil.setJsonPathVaule(request, "$.params.poiId", mtShopId);
-        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie", "hui_bsid_https=" + userModel.getMerchantBsid());
-        log.info("商家订单详情查询入参：{}", request);
+        JsonPathUtil.setJsonPathVaule(request, "$.params.serializedId",serializedId);
+        JsonPathUtil.setJsonPathVaule(request, "$.params.poiId",mtShopId);
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + userModel.get().getMerchantBsid());
+        log.info("商家订单详情查询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.merchant.host", request);
         return responseMap;
     }
@@ -508,6 +494,5 @@ public class MaitonApi {
         }
         return expect;
     }
-
 
 }

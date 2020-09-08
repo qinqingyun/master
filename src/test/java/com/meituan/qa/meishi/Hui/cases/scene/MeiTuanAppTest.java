@@ -133,10 +133,10 @@ public class MeiTuanAppTest extends TestBase {
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //12.商户订单中心推送校验
         //13.用户申请退款校验
-        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel());
+        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
         log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
         TimeUnit.SECONDS.sleep(1);
-        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel());
+        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel().get());
         log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
         TimeUnit.SECONDS.sleep(1);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
@@ -167,14 +167,14 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
-            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel(), 97224769,MTApp);
+            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel().get(), 97224769,MTApp);
             Assert.assertTrue(maitonHongbaoTResponse.data.size()!= 0,"商家发券失败");
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
@@ -238,7 +238,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
@@ -246,7 +246,7 @@ public class MeiTuanAppTest extends TestBase {
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
             //549009064
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(),979962070,MTApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),979962070,MTApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
@@ -313,7 +313,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         //1.预订金订单下单
         Integer resvOrderId = loopCheck.getResvOrderId(10);
         String resvMaitonOrderId = resvOrderId.toString();
@@ -362,14 +362,14 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
-            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel(), 97224769,MTApp);
+            MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel().get(), 97224769,MTApp);
             Assert.assertTrue(maitonHongbaoTResponse.data.size()!= 0,"商家发券失败");
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
@@ -430,7 +430,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
@@ -438,7 +438,7 @@ public class MeiTuanAppTest extends TestBase {
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
             //549009064
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(),979962070,MTApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),979962070,MTApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
@@ -517,7 +517,7 @@ public class MeiTuanAppTest extends TestBase {
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
             //549009064
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel(),979962070,MTApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),979962070,MTApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
