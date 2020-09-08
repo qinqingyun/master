@@ -1,7 +1,6 @@
 package com.meituan.qa.meishi.Hui.entity.model;
 
-import com.dianping.hui.common.enums.UserType;
-import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 

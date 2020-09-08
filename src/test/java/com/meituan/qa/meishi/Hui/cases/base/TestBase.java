@@ -32,11 +32,11 @@ public class TestBase {
     public static boolean IS_CHECK_DB_RECORD=true;
     //#是否校验新订单系统
     public static boolean IS_CHECK_NEW_ORDER_SYSTEM = true;
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
-        //maitonApi.userLogin();
-        maitonApi.merchantLogin();
-    }
+//    @BeforeSuite(alwaysRun = true)
+//    public void beforeSuite() {
+//        //maitonApi.userLogin();
+//        maitonApi.merchantLogin();
+//    }
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite(ITestContext context) {
         String main = context.getCurrentXmlTest().getParameter("DoubleWriteMode");
