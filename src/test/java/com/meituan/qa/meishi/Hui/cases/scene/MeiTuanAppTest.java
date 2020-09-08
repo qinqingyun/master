@@ -15,6 +15,7 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
+import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderUtil;
 import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.SetTraceUtil;
@@ -37,11 +38,11 @@ import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
 public class MeiTuanAppTest extends TestBase {
     private String platformPath="/platformPath";
     private String maitonCheckPath = "/maitonCheckPath";
-    PayMockUtil payMockUtil = new PayMockUtil();
-    SetTraceUtil setTraceUtil = new SetTraceUtil();
 
     @Test(groups = "P1",description = "美团app，买单使用原价买单方案->方案选取->下单->支付->商家直退->退款成功")
     public void mtOriginTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtOriginTest";
         String platformCaseId = "ms_c_originalScenes_platform";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
@@ -94,12 +95,15 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
     public void mtDiscountTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String loadUnifiedCashier = "ms_c_4Verify_loadUnifiedCashier_02";
         String caseId = "mtDiscountTest";
         String platformCaseId = "ms_c_discount_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
+        //maitonApi.getUserModel();
         maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.加载优惠台
@@ -126,7 +130,7 @@ public class MeiTuanAppTest extends TestBase {
         //10.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //11.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //12.商户订单中心推送校验
         //13.用户申请退款校验
         ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel());
@@ -144,7 +148,7 @@ public class MeiTuanAppTest extends TestBase {
         //16.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //17.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券
@@ -154,6 +158,8 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     public void mtShopPromoTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtShopPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_01";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
@@ -161,7 +167,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
@@ -199,7 +205,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -213,7 +219,7 @@ public class MeiTuanAppTest extends TestBase {
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用平台券6元
@@ -223,6 +229,8 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用平台优惠券买单：返券->发券->买单使用平台优惠券->下单->支付->极速退款")
     public void mtCouponPromoTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtCouponPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
@@ -230,7 +238,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
@@ -276,7 +284,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -290,7 +298,7 @@ public class MeiTuanAppTest extends TestBase {
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用预订金支付，0元单
@@ -305,7 +313,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         //1.预订金订单下单
         Integer resvOrderId = loopCheck.getResvOrderId(10);
         String resvMaitonOrderId = resvOrderId.toString();
@@ -324,7 +332,7 @@ public class MeiTuanAppTest extends TestBase {
         //7.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //8.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //9.商户订单中心推送校验
         //10.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -336,7 +344,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //13.退款后商户订单详情校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券,0元单
@@ -346,13 +354,15 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付（实付0.01元）->极速退款")
     public void mtShopPromoZeroTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtShopPromoZeroTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_01";
         String platformCaseId = "ms_c_hui_mt_ShopPromoZeroOrder";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
@@ -376,8 +386,8 @@ public class MeiTuanAppTest extends TestBase {
         //6.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //7.支付mock
-        maitonApi.orderPay(orderModel);
-        //payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
         //8.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //9.支付后买单校验
@@ -395,13 +405,13 @@ public class MeiTuanAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //15.退款回调mock
-        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //16.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //17.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //18.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用平台券6元，0元单
@@ -411,6 +421,8 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用平台优惠券买单：返券->发券->买单使用平台优惠券（实付0.01元）->下单->支付->极速退款")
     public void mtCouponPromoZeroTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtCouponPromoZeroTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
@@ -418,7 +430,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
@@ -464,7 +476,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -478,7 +490,7 @@ public class MeiTuanAppTest extends TestBase {
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用全单折买单方案，使用平台券6元，0元单
@@ -488,6 +500,8 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，使用买单方案+平台优惠券买单：加载优惠台->买单使用7折买单方案+平台优惠券（实付0.01元）->下单->支付->极速退款")
     public void mtDiscountAndCouponPromoZeroTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtDiscountAndCouponPromoZeroTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         //String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
@@ -495,7 +509,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        maitonApi.replaceUserInfo(MTApp);
+        //maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
@@ -541,7 +555,7 @@ public class MeiTuanAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,MTApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -555,7 +569,7 @@ public class MeiTuanAppTest extends TestBase {
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
 
 }

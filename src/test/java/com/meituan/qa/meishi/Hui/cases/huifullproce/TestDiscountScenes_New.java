@@ -69,7 +69,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
 
-//    String  doubleWriteMode = "NEW";
+    String  doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
     @MethodAnotation(author = "byq", createTime = "2020-01-13", updateTime = "2020-01-13", des =
@@ -198,8 +198,6 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
-
-
 
         //退款成功订单diff
         differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
