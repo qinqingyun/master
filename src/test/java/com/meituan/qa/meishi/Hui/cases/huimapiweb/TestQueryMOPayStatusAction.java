@@ -10,7 +10,6 @@ import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.AssertUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
