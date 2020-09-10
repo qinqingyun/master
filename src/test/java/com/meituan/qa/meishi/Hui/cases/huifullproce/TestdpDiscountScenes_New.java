@@ -64,7 +64,7 @@ public class TestdpDiscountScenes_New extends TestDPLogin {
 
     String  doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
-    @Test(groups = "P1")
+    @Test(groups = "P1",enabled = false)
     @MethodAnotation(author = "qqy", createTime = "2018-10-21", updateTime = "2018-10-21", des =
             "点评普通下单(全单折)")
     public void ms_c_dPdiscountScenes_01() throws Exception {

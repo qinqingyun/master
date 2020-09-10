@@ -85,7 +85,7 @@ public class MeiTuanAppTest extends TestBase {
         //16.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //17.退款后商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用全单折买单方案

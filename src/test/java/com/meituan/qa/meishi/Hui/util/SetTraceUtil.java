@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
  * 说明：有些特定的操作需要mock直接，在mock平台上配置相应接口或服务的mock，用trace信息来判断是否需要mock
  * 1、老为主退款回调mock：服务：com.sankuai.foodtrade.thriftproxy，接口：ITradeOrderThrift.applyRefund，mock特征值：trace.get("REFUND_OLDMAIN_MOCK")=="TRUE"
  * 2、新为主退款回调mock：服务：com.sankuai.mptrade.domainproxy，接口：ITradeOrderThrift.applyRefund，mock特征值：trace.get("MOCK_APPLY_REFUND")=="TRUE"
- * 3、单写老退款回调mock：服务：
- * 4、单写新退款回调mock：服务：
+ * 3、新为主退款结算mock：服务：com.sankuai.mptrade.domainproxy，接口：ClearCommandService.getSettleAccountInfo，mock特征值：trace.get("MOCK_REFUND_SettleAccount")=="TRUE"
+ * 4、单写新退款结算mock：服务：com.sankuai.mptrade.refund，接口：ClearCommandService.getSettleAccountInfo，mock特征值：trace.get("MOCK_ONLYNEWREFUND_SettleAccount")=="TRUE"
  */
 
 @Slf4j
@@ -22,8 +22,10 @@ public class SetTraceUtil extends TestBase {
                 break;
             case "NEW_MAIN":
                 Tracer.putContext("MOCK_APPLY_REFUND","TRUE");
+                Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
                 break;
             case "NEW_ONLY":
+                Tracer.putContext("MOCK_ONLYNEWREFUND_SettleAccount","TRUE");
                 break;
         }
     }

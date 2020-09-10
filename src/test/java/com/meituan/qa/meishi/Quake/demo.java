@@ -14,7 +14,7 @@ import java.io.CharArrayWriter;
  */
 public class demo {
     public static void main(String[] args) throws Exception {
-        String fileName = "/Users/buyuqi/Desktop/美团侧到综下单_slice_0_20200905183449129.:quake.log";
+        String fileName = "/Users/buyuqi/Desktop/dporder0907.log";
         // 内存流, 作为临时流
         CharArrayWriter tempStream = new CharArrayWriter();
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
@@ -36,7 +36,7 @@ public class demo {
             e.printStackTrace();
         }
 
-        File fileWrite = new File("./quakeNew.log");
+        File fileWrite = new File("/Users/buyuqi/Desktop/dporder0907New.log");
         try (FileWriter fileWriter = new FileWriter(fileWrite)) {
             tempStream.writeTo(fileWriter);
         } catch (Exception e) {

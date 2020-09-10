@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.domain.*;
 import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderMResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.qa.meishi.util.LionUtil;
@@ -18,8 +20,11 @@ import com.meituan.toolchain.mario.annotation.ThriftAPI;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.sankuai.food.jobscheduleapi.service.InvokeTaskServiceI;
 import com.sankuai.mptrade.datatoolapi.service.DataCompareAssistService;
+import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
+import com.sankuai.nibqa.trade.payMock.params.request.RefundNotifyMockRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -48,15 +53,22 @@ public class TestMDiscountScenes extends TestDPLogin {
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
 
-    String  doubleWriteMode="NEW";
-
+    //String  doubleWriteMode="NEW";
+    @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "qinqingyun", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_hui_m_discount_scenes() throws Exception {
-        if( doubleWriteMode.equals("NEW")){
-            LionUtil.setUserWriteList(dpUserId+"_0");
+    public void ms_c_hui_m_discount_scenes(String  doubleWriteMode) throws Exception {
+        RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
+        if( doubleWriteMode.equals("NEW")) {
+            LionUtil.setUserWriteList(dpUserId + "_0");
+            refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+            Tracer.putContext("PAY_MOCK","TRUE");
         }
-        DifferentRecord differentRecord = new DifferentRecord(dataCompareAssistService,invokeTaskServiceI);
+        if( doubleWriteMode.equals("OLD")){
+            LionUtil.setUserBlackList(dpUserId+"_0");
+            refundNotifyMockRequest.setScene(Scene.OLD_MAIN);
+            Tracer.putContext("REFUND_OLDMAIN_MOCK","TRUE");
+        }
         //下单
         String CASEID = "ms_c_ajaxcreateorder_01";
         HuiCreateOrder createOrder = HuiCreateOrder.builder()
@@ -90,9 +102,6 @@ public class TestMDiscountScenes extends TestDPLogin {
         QueryOrderResponse createOrderResponse=checkLoop.getMaitonOrder(1,oldorderid);
         orderCheck.maitonOrder(1,createOrderResponse);
 
-        //订单生成diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_hui_m_discount_scenes生成订单diff");
-
         //2、支付
         CreateOrderUtil.orderPay(payToken, tradeNo, dpToken);
         //平台支付校验
@@ -104,9 +113,6 @@ public class TestMDiscountScenes extends TestDPLogin {
         //买单下单校验
         QueryOrderResponse OrderResponse=checkLoop.getMaitonOrder(2,oldorderid);
         orderCheck.maitonOrder(2,OrderResponse);
-
-        //订单支付成功diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_hui_m_discount_scenes订单支付成功diff");
 
         //3、支付结果页
         try {
@@ -131,6 +137,16 @@ public class TestMDiscountScenes extends TestDPLogin {
         DirectRefundResponse response = huiRefund.superRefund();
         log.info("获取退款结果:{}", JSON.toJSONString(response));
 
+        //退款mock
+        Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
+        refundNotifyMockRequest.setAmount(amount);
+        refundNotifyMockRequest.setOrderId(neworderid);
+        refundNotifyMockRequest.setTradeNo(tradeNo);
+        if(doubleWriteMode.equals("OLD")){
+            refundNotifyMockRequest.setRefundNo("DPHUI-"+orderId);
+        }
+        PayMockUtil.mockRefund(refundNotifyMockRequest);
+
         //退款平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_dpdiscount_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
@@ -140,7 +156,5 @@ public class TestMDiscountScenes extends TestDPLogin {
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
         orderCheck.maitonOrder(3,refundOrderResponse);
 
-        //订单退款成功diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_hui_m_discount_scenes订单退款diff");
     }
 }
