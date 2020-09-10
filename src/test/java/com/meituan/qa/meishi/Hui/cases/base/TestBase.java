@@ -11,6 +11,8 @@ import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
+
+import javax.sound.midi.SysexMessage;
 import java.util.HashMap;
 import java.util.Map;
 import static com.meituan.qa.meishi.Hui.entity.LoginEnum.*;
@@ -41,10 +43,7 @@ public class TestBase {
 
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite(ITestContext context) {
-        String main = context.getCurrentXmlTest().getParameter("DoubleWriteMode");
-        if (main != null) {
-            MainSystem = main;
-        }
+        System.out.println("==============" + Thread.currentThread() + "===============");
         maitonApi.merchantLogin();
         maitonApi.userLogin("maitonuseronlynew");//单写新
         maitonApi.replaceUserInfo2(NEW_ONLY);
@@ -52,7 +51,7 @@ public class TestBase {
         maitonApi.replaceUserInfo2(NEW_MAIN);
         maitonApi.userLogin("maitonuseroldmain");//老为主
         maitonApi.replaceUserInfo2(OLD_MAIN);
-        maitonApi.setCurrentUserModel(MainSystem);
+
     }
 
 
@@ -62,6 +61,7 @@ public class TestBase {
         if (main != null) {
             MainSystem = main;
         }
+        maitonApi.setCurrentUserModel(main);
         switch (MainSystem) {
             case "OLD_MAIN":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
