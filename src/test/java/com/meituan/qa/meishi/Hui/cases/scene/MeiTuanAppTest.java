@@ -509,7 +509,7 @@ public class MeiTuanAppTest extends TestBase {
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
-        //maitonApi.replaceUserInfo(MTApp);
+        maitonApi.replaceUserInfo(MTApp);
         setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";

@@ -31,7 +31,7 @@ public class TestBase {
     protected static String doubleWriteMode;
     public Map<LoginEnum, UserModel> userModelMap = new HashMap<LoginEnum, UserModel>();
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "NEW_ONLY";
+    public static String MainSystem = "NEW_MAIN";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM = true;
     //是否进行db数据diff
@@ -97,16 +97,16 @@ public class TestBase {
         }
     }
 
-    @BeforeTest
-    public void beforeTestSetUserForLion() throws Exception {
-        // 判断并改写双写模式
-        if (MainSystem.equals("NEW_MAIN") || MainSystem.equals("NEW_ONLY")) {
-            LionUtil.setUserWriteList(maitonApi.getMtUserId() + "_1");
-            LionUtil.setUserWriteList(maitonApi.getDpUserId() + "_0");
-        }
-        if (MainSystem.equals("OLD_MAIN")) {
-            LionUtil.setUserBlackList(maitonApi.getMtUserId() + "_1");
-            LionUtil.setUserBlackList(maitonApi.getDpUserId() + "_0");
-        }
-    }
+//    @BeforeSuite
+//    public void beforeTestSetUserForLion() throws Exception {
+//        // 判断并改写双写模式
+//        if (MainSystem.equals("NEW_MAIN") || MainSystem.equals("NEW_ONLY")) {
+//            LionUtil.setUserWriteList(maitonApi.getMtUserId() + "_1");
+//            LionUtil.setUserWriteList(maitonApi.getDpUserId() + "_0");
+//        }
+//        if (MainSystem.equals("OLD_MAIN")) {
+//            LionUtil.setUserBlackList(maitonApi.getMtUserId() + "_1");
+//            LionUtil.setUserBlackList(maitonApi.getDpUserId() + "_0");
+//        }
+//    }
 }

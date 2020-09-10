@@ -279,6 +279,7 @@ public class ThriftApi {
         option.setCreditType(0);
         option.setNotifyType(0);
         UnifiedCouponIssueResponse unifiedCouponIssueResponse = unifiedCouponIssueTrustService.issueTrustCoupon(couponIssueRequest, option);
+        log.info("平台券创建结果：{}",JSONObject.toJSONString(unifiedCouponIssueResponse));
         return unifiedCouponIssueResponse;
     }
     /**
