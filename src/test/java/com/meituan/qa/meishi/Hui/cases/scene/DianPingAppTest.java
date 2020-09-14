@@ -13,6 +13,8 @@ import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.util.CheckOrderUtil;
+import com.meituan.qa.meishi.Hui.util.PayMockUtil;
+import com.meituan.qa.meishi.Hui.util.SetTraceUtil;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.MaitonHongbaoTResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
@@ -36,12 +38,15 @@ public class DianPingAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "点评app，买单使用原价买单方案->方案选取->下单->支付->商家直退->退款成功")
     public void dpOriginTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpOriginTest";
         String platformCaseId = "ms_c_dpOriginalScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.创建订单
         OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId);
         log.info("创单成功！{}:", JSON.toJSONString(orderModel));
@@ -52,8 +57,8 @@ public class DianPingAppTest extends TestBase {
         //4.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //5.支付mock
-        maitonApi.orderPay(orderModel);
-        //payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
         //6.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //7.支付后买单校验
@@ -63,7 +68,7 @@ public class DianPingAppTest extends TestBase {
         //9.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //10.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //11.商户订单中心推送校验
         //12.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -71,16 +76,18 @@ public class DianPingAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //14.退款mock
-        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //15.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //16.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //17.退款后商户订单中心校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
     public void dpDiscountTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpDiscountTest";
         String loadUnifiedCashier = "ms_c__dp_loadUnifiedCashier";
         String platformCaseId = "ms_c_dpdiscount_platform_consum";
@@ -88,6 +95,7 @@ public class DianPingAppTest extends TestBase {
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.加载优惠台
         CouponProduct couponProduct = loopCheck.loadUnifiedCashier(loadUnifiedCashier);
         log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
@@ -101,8 +109,8 @@ public class DianPingAppTest extends TestBase {
         //5.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //6.支付mock
-        maitonApi.orderPay(orderModel);
-        //payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
         //7.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //8.支付后买单校验
@@ -112,7 +120,7 @@ public class DianPingAppTest extends TestBase {
         //10.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //11.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //12.商户订单中心推送校验
         //13.用户申请退款校验
         ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
@@ -124,13 +132,13 @@ public class DianPingAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //14.退款mock
-        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //15.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //16.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //17.退款后商户订单中心校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券
@@ -140,6 +148,8 @@ public class DianPingAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     public void dpShopPromoTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpShopPromoTest";
         String getHuiPromodeskCaseId= "ms_c_dpshopScenes_platform_01";
         String loadUnifiedCashier = "ms_c_dpshoploadUnifiedCashier_02";
@@ -148,6 +158,7 @@ public class DianPingAppTest extends TestBase {
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用商家券
         String shopCouponid = "120000901026380";
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
@@ -173,8 +184,8 @@ public class DianPingAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        maitonApi.orderPay(orderModel);
-        //payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -184,7 +195,7 @@ public class DianPingAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -192,13 +203,13 @@ public class DianPingAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //16.退款mock
-        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单中心校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用平台券6元
@@ -208,6 +219,8 @@ public class DianPingAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "点评app，使用平台优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     public void dpCouponPromoTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpCouponPromoTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk_03";
         String loadUnifiedCashier = "ms_c_4Verify_loadUnifiedCashier_05";
@@ -216,6 +229,7 @@ public class DianPingAppTest extends TestBase {
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.查询用户账号下是否有可用平台券
         String couponId = "23738010020695727";
         DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
@@ -248,8 +262,8 @@ public class DianPingAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        maitonApi.orderPay(orderModel);
-        //payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -259,7 +273,7 @@ public class DianPingAppTest extends TestBase {
         //12.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //13.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //14.商户订单中心推送校验
         //15.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
@@ -267,13 +281,13 @@ public class DianPingAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //16.退款mock
-        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //19.退款后商户订单中心校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
 
 }

@@ -122,7 +122,7 @@ public class MaitonApi {
         dpUserModel.setToken(dpToken);
         dpUserModel.setUserId(dpUserId);
         dpUserModel.setUserAgent(dpClient);
-        userModel.setMerchantBsid(merchantBsid);
+        dpUserModel.setMerchantBsid(merchantBsid);
         userModelMap.put(loginEnum.getText() + "_" + OrderSourceEnum.DPApp.getText(), dpUserModel);
     }
     public void setCurrentUserModel(String main) {

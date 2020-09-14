@@ -5,6 +5,7 @@ import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderApi;
 import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderLoopCheck;
 import com.meituan.qa.meishi.Hui.cases.scene.LoopCheckUtil;
 import com.meituan.qa.meishi.Hui.entity.LoginEnum;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.qa.meishi.util.LionUtil;
 import com.meituan.toolchain.mario.AnnotationProcessor.MarioProxyUtil;
@@ -33,7 +34,7 @@ public class TestBase {
     protected static String doubleWriteMode;
     public Map<LoginEnum, UserModel> userModelMap = new HashMap<LoginEnum, UserModel>();
     //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "NEW_MAIN";
+    public static String MainSystem = "NEW_ONLY";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM = true;
     //是否进行db数据diff
@@ -43,7 +44,6 @@ public class TestBase {
 
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite(ITestContext context) {
-        System.out.println("==============" + Thread.currentThread() + "===============");
         maitonApi.merchantLogin();
         maitonApi.userLogin("maitonuseronlynew");//单写新
         maitonApi.replaceUserInfo2(NEW_ONLY);
@@ -51,7 +51,6 @@ public class TestBase {
         maitonApi.replaceUserInfo2(NEW_MAIN);
         maitonApi.userLogin("maitonuseroldmain");//老为主
         maitonApi.replaceUserInfo2(OLD_MAIN);
-
     }
 
 
@@ -61,7 +60,7 @@ public class TestBase {
         if (main != null) {
             MainSystem = main;
         }
-        maitonApi.setCurrentUserModel(main);
+        maitonApi.setCurrentUserModel(MainSystem);
         switch (MainSystem) {
             case "OLD_MAIN":
                 IS_CHECK_NEW_ORDER_SYSTEM = true;
@@ -97,16 +96,17 @@ public class TestBase {
         }
     }
 
-//    @BeforeSuite
-//    public void beforeTestSetUserForLion() throws Exception {
-//        // 判断并改写双写模式
-//        if (MainSystem.equals("NEW_MAIN") || MainSystem.equals("NEW_ONLY")) {
-//            LionUtil.setUserWriteList(maitonApi.getMtUserId() + "_1");
-//            LionUtil.setUserWriteList(maitonApi.getDpUserId() + "_0");
-//        }
-//        if (MainSystem.equals("OLD_MAIN")) {
-//            LionUtil.setUserBlackList(maitonApi.getMtUserId() + "_1");
-//            LionUtil.setUserBlackList(maitonApi.getDpUserId() + "_0");
-//        }
-//    }
+    @BeforeSuite
+    public void beforeTestSetUserForLion() throws Exception {
+        // 判断并改写双写模式
+        if (MainSystem.equals("NEW_MAIN")) {
+            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
+            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
+        }
+        if (MainSystem.equals("OLD_MAIN")) {
+            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
+            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
+        }
+    }
+
 }
