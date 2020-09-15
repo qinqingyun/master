@@ -28,7 +28,7 @@ public class AtpPushExtracter implements IAtpPushExtract {
         Date date = Date.from(instant);
         List<CoeAtpPO> coeList = coeAtpPOMapper.selectUnfinishCoeList(date);
         for (CoeAtpPO atpPO : coeList) {
-            DaXiangUtils.pushToPerson(atpPO.getReceiver()+":"+atpPO.getPushText(),"guomengyao");
+            DaXiangUtils.pushToPerson(atpPO.getReceiver()+":"+atpPO.getPushText(),"guomengyao","qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(atpPO.getPushText(),atpPO.getReceiver());
         }
     }

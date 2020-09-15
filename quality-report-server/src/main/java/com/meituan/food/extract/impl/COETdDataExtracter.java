@@ -157,7 +157,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 pushStr = pushStr + "\n\n△【" + "[" + mcdCoePO.getBrief() + "|" + mcdCoePO.getCoeLink() + "]" + "】";
                 pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "\n● 责任人:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
                 for (Long daxiangId : daxiangIds) {
-                    DaXiangUtils.pushToPerson(pushStr, "guomengyao", "yuan.ding");
+                    DaXiangUtils.pushToPerson(pushStr, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
                     DaXiangUtils.pushToRoom(pushStr, daxiangId);
 
                 }
@@ -190,29 +190,29 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                         pushText = pushText + "\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId=" + po.getCoeId() + "]";
                         if (business.equals("住宿")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/atp.jsp#/\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("门票")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/dual.jsp#/apt_trip\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到餐") || business.equals("收单")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao");
-                            DaXiangUtils.pushToPerson(pushText, "wangjianming02");
+                            DaXiangUtils.pushToPerson(pushText, "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
+                            DaXiangUtils.pushToPerson(pushText, "wangjianming02","wuqifang","yangchunxia");
                             atpPO.setReceiver("wangjianming02");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到综")) {
 
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n地址：https://service.sankuai.com/#/services/com.sankuai.sre.coe.api/docs/Incidentrestful1988824033/QueryIncidents-1503461554\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao","yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText,"guomengyao","qinqingyun","zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText,"yuan.ding");
 
                             atpPO.setReceiver("yuan.ding");

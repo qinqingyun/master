@@ -61,7 +61,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","yuan.ding");
+            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
@@ -93,7 +93,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : remindPushList.keySet()) {
-            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","yuan.ding");
+            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(remindPushList.get(key), key);
         }
 
@@ -136,7 +136,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
             }
         }
         if (index != 0) {
-            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象联系郭孟瑶(guomengyao)）";
+            content = content + "\n" + "[点此处理|" + mcdCoePO.getCoeLink() + "]        [COE书写规范|https://km.sankuai.com/page/192873360]   （如有疑问请大象联系秦庆贇(qinqingyun)）";
             pushList.put(mcdCoePO.getOwnerMis(), content);
         }
     }
