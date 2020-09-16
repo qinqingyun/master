@@ -109,15 +109,17 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
 
         //2、支付
         Long amount = maitonQueryOrderResponse.getOrderDTO().getCurrentAmount().longValue() * 100;
-        payNotifyMockRequest.setTradeNo(tradeNo);
-        payNotifyMockRequest.setOrderId(neworderid);
-        payNotifyMockRequest.setAmount(amount);
         if(doubleWriteMode.equals("OLD")){
-            payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
+            CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
+        }else {
+            payNotifyMockRequest.setTradeNo(tradeNo);
+            payNotifyMockRequest.setOrderId(neworderid);
+            payNotifyMockRequest.setAmount(amount);
+            if(doubleWriteMode.equals("OLD")){
+                payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
+            }
+            PayMockUtil.mockPay(payNotifyMockRequest);
         }
-        PayMockUtil.mockPay(payNotifyMockRequest);
-        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
-
         //支付后平台校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_originalScenes_platform_consum");
         JSONObject payVerifyRequest= payOrderRequest.getJSONObject("params");
