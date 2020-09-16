@@ -14,12 +14,13 @@ import java.io.CharArrayWriter;
  */
 public class demo {
     public static void main(String[] args) throws Exception {
-        String fileName = "/Users/buyuqi/Desktop/dporder0907.log";
+        String fileName = "/Users/buyuqi/Desktop/点评侧到综下单20200914.log";
         // 内存流, 作为临时流
         CharArrayWriter tempStream = new CharArrayWriter();
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.forEach(s -> {
                 s = s.replaceAll("\"t\":", "\"pragma-token\":");
+                s = s.replaceAll("false", "0");
 //                s = s.replaceAll("\"Referer\":", "\"pragma-uuid\":");
 //                s = s.replaceAll("\"MT-TABLE-ID\":", "\"pragma-dpid\":");
 //                s = s.replaceAll("\"MT-QR-CODE\":", "\"pragma-device\":");
@@ -36,7 +37,7 @@ public class demo {
             e.printStackTrace();
         }
 
-        File fileWrite = new File("/Users/buyuqi/Desktop/dporder0907New.log");
+        File fileWrite = new File("/Users/buyuqi/Desktop/点评侧到综下单20200914New.log");
         try (FileWriter fileWriter = new FileWriter(fileWrite)) {
             tempStream.writeTo(fileWriter);
         } catch (Exception e) {

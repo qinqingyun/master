@@ -27,6 +27,7 @@ import com.meituan.toolchain.mario.login.model.MTCUser;
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
 import com.meituan.toolchain.mario.util.JsonPathUtil;
+import com.meituan.toolchain.mario.util.MtraceUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -87,7 +88,17 @@ public class MaitonApi {
         if (dpcUser == null || StringUtil.isBlank(dpcUser.getToken()))
             return null;
         dpToken = dpcUser.getToken();
-        dpUserId = ConfigMange.getValue("maitonuser_DP_C_USER_ID");
+        switch (username){
+            case "maitonuseronlynew":
+                dpUserId = ConfigMange.getValue("maitonuseronlynew_DP_C_USER_ID");
+                break;
+            case "maitonuser":
+                dpUserId = ConfigMange.getValue("maitonuser_DP_C_USER_ID");
+                break;
+            case "maitonuseroldmain":
+                dpUserId = ConfigMange.getValue("maitonuseroldmain_DP_C_USER_ID");
+                break;
+        }
 
         MTCUser mtUser = (MTCUser) LoginUtil.login(LoginType.MT_C_LOGIN, username);
         if (mtUser == null || StringUtil.isBlank(mtUser.getToken()))
@@ -197,7 +208,7 @@ public class MaitonApi {
 
     public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, CouponProduct couponProduct, DeskCoupon deskcoupon, String receipt, Integer isZero) throws UnsupportedEncodingException {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("App下单请求");
 
         String payToken;
         String tradeNo;
@@ -308,7 +319,7 @@ public class MaitonApi {
      */
     public Optional<CouponProduct> loadUnifiedCashier(String caseId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("App加载优惠台");
         JSONObject request = new JSONObject();
         try {
             request = DBDataProvider.getRequest(loadunifiedcashierUrl, caseId);

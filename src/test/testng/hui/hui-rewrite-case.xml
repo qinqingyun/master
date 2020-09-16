@@ -21,47 +21,47 @@
             </methods>
         </classes>
     </test>
-    <test name="以新为主">
-        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+<!--    <test name="以新为主">-->
+<!--        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>-->
+<!--&lt;!&ndash;        <classes>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <methods>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtOriginTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtDiscountTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtShopPromoTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtCouponPromoTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </methods>&ndash;&gt;-->
+<!--&lt;!&ndash;        </classes>&ndash;&gt;-->
 <!--        <classes>-->
-<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>-->
 <!--            <methods>-->
-<!--                <include name="mtOriginTest"/>-->
-<!--                <include name="mtDiscountTest"/>-->
-<!--                <include name="mtShopPromoTest"/>-->
-<!--                <include name="mtCouponPromoTest"/>-->
+<!--                <include name="dpOriginTest"/>-->
+<!--                <include name="dpDiscountTest"/>-->
+<!--                <include name="dpShopPromoTest"/>-->
+<!--                <include name="dpCouponPromoTest"/>-->
 <!--            </methods>-->
 <!--        </classes>-->
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
-        </classes>
-    </test>
-    <test name="以老为主">
-        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
+<!--    </test>-->
+<!--    <test name="以老为主">-->
+<!--        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>-->
+<!--&lt;!&ndash;        <classes>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <methods>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtOriginTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtDiscountTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtShopPromoTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <include name="mtCouponPromoTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </methods>&ndash;&gt;-->
+<!--&lt;!&ndash;        </classes>&ndash;&gt;-->
 <!--        <classes>-->
-<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>-->
 <!--            <methods>-->
-<!--                <include name="mtOriginTest"/>-->
-<!--                <include name="mtDiscountTest"/>-->
-<!--                <include name="mtShopPromoTest"/>-->
-<!--                <include name="mtCouponPromoTest"/>-->
+<!--                <include name="dpOriginTest"/>-->
+<!--                <include name="dpDiscountTest"/>-->
+<!--                <include name="dpShopPromoTest"/>-->
+<!--                <include name="dpCouponPromoTest"/>-->
 <!--            </methods>-->
 <!--        </classes>-->
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
-        </classes>
-    </test>
+<!--    </test>-->
 
 </suite>
