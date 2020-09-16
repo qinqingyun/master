@@ -130,17 +130,13 @@ public class TestDiscountScenes_New extends TestDPLogin  {
 
         //3、支付
         Long amount = createOrderResponse.getOrderDTO().getCurrentAmount().longValue() * 100;
+        payNotifyMockRequest.setTradeNo(tradeNo);
+        payNotifyMockRequest.setOrderId(neworderid);
+        payNotifyMockRequest.setAmount(amount);
         if(doubleWriteMode.equals("OLD")){
-            CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
-        }else {
-            payNotifyMockRequest.setTradeNo(tradeNo);
-            payNotifyMockRequest.setOrderId(neworderid);
-            payNotifyMockRequest.setAmount(amount);
-            if(doubleWriteMode.equals("OLD")){
-                payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
-            }
-            PayMockUtil.mockPay(payNotifyMockRequest);
+            payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
         }
+        PayMockUtil.mockPay(payNotifyMockRequest);
 
         //支付后平台校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
