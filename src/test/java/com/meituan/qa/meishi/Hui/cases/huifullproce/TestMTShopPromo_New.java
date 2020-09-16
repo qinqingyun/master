@@ -156,17 +156,13 @@ public class TestMTShopPromo_New extends TestDPLogin {
 
         //3、支付
         Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
-        if(doubleWriteMode.equals("OLD")){
-            CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
-        }else {
-            payNotifyMockRequest.setTradeNo(tradeNo);
-            payNotifyMockRequest.setOrderId(neworderid);
-            payNotifyMockRequest.setAmount(amount);
-            if (doubleWriteMode.equals("OLD")) {
-                payNotifyMockRequest.setOutNo("DPHUI-" + orderId);
-            }
-            PayMockUtil.mockPay(payNotifyMockRequest);
+        payNotifyMockRequest.setTradeNo(tradeNo);
+        payNotifyMockRequest.setOrderId(neworderid);
+        payNotifyMockRequest.setAmount(amount);
+        if (doubleWriteMode.equals("OLD")) {
+            payNotifyMockRequest.setOutNo("DPHUI-" + orderId);
         }
+        PayMockUtil.mockPay(payNotifyMockRequest);
 
         //平台支付成功校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
