@@ -89,7 +89,7 @@ public class NewCrashExtracter implements INewCrashExtract {
             } else {
                 List<RestaurantDau> dauList=null;
                 BigDecimal crashRate = null;
-                if (project.getApp().equals("美团")) {
+                if (project.getApp().equals("美团")||project.getApp().equals("点评")) {
                     String crashPartUrl = project.getPlatform() + "&start=" + UrlUtils.encode(firstDayStr) + "&end=" + UrlUtils.encode(lastDayStr) + "&eq=" + UrlUtils.encode(value);
                     JSONObject resp = HttpUtils.doGet(crashUrl + crashPartUrl, JSONObject.class, ImmutableMap.of());
                     JSONArray respArr = resp.getJSONArray("data");
@@ -102,15 +102,17 @@ public class NewCrashExtracter implements INewCrashExtract {
                         po.setDateRange(dateStr);
                         po.setCrashDate(crashJson.getDate("x"));
 
-                        if (project.getOs().equals("iOS")) {
+                        if (project.getApp().equals("美团")&& project.getOs().equals("iOS")) {
                             dauList = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang("ios", "mt_main_app", dayStr, dayStr);
-                        } else {
+                        } else if(project.getApp().equals("美团")&& project.getOs().equals("Android")) {
                             dauList = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang("android", "mt_main_app", dayStr, dayStr);
+                        }else if (project.getApp().equals("点评")&& project.getOs().equals("iOS")){
+                            dauList = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang("ios", "dp_main_app", dayStr, dayStr);
                         }
                     }else {
                         po.setCrash(0);
                     }
-                } else if (project.getApp().equals("点评")) {
+                } /*else if (project.getApp().equals("点评")) {
 
                     JSONObject params = new JSONObject();
                     params.put("start_date", dayStr);
@@ -148,7 +150,7 @@ public class NewCrashExtracter implements INewCrashExtract {
                     }else {
                         dauList = restaurantDauMapper.getDauListByOsPartitionAppAndPartitionDateRang("android", "dp_main_app", dayStr, dayStr);
                     }
-                }
+                }*/
 
                 if (dauList.size() != 0) {
                     long cateringDau = dauList.get(0).getCateringDau();
@@ -227,9 +229,9 @@ public class NewCrashExtracter implements INewCrashExtract {
         BEE_ANDROID("蜜蜂", "Android", "waimai_mfe_bee_android", ""),
         MT_IOS("美团", "iOS", "meituan", "optional_biz_group,group_food"),
         MT_ANDROID("美团", "Android", "android_platform_monitor", "default_bg_bu_chinese,到店事业群-到店餐饮"),
-        DP_IOS("点评", "iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59"),
-        DP_ANDROID("点评", "Android", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59");
-
+//        DP_IOS("点评", "iOS", "widget-7402ba2a-16f2-4dd3-984e-6dc56df381ec", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59"),
+//        DP_ANDROID("点评", "Android", "widget-5d0b1da5-3ff0-48d2-a9af-b94402cb02e5", "dashboard-2fdfb6fd-244a-40ef-b944-851433e68d59");
+        DP_IOS("点评", "iOS", "nova", "optional_channel,DeliciousFood||Hui||HuiCore");
         private String app;
         private String os;
         private String platform;
