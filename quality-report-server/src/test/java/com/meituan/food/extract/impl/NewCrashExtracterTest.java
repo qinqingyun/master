@@ -35,6 +35,6 @@ public class NewCrashExtracterTest {
 
     @Test
     public void syncForDays() throws ParseException {
-        newCrashExtracter.syncForDays(format1.parse("2020-09-17"),format1.parse("2020-09-17"));
+        newCrashExtracter.syncForDays(format1.parse("2020-09-04"),format1.parse("2020-09-05"));
     }
 }

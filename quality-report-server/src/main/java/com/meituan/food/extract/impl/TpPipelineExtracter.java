@@ -35,7 +35,7 @@ public class TpPipelineExtracter  implements IOneDayTpPipelineExtract{
     @Override
     public void UpdateTpPipelineData(LocalDate date) {
         String url = "http://qa.sankuai.com/cq/cq/pipeline/data/portal-union-by-direction";
-        String param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"]}";
+        String param = "{\"start\":\""+date+"\",\"end\":\""+date+"\",\"typeList\":[\"total\"],\"directionList\":[260, 262,264,261,253,254,255,296,321,251,252,256,258,257,259,241,217,497]}";
         JSONObject resp = HttpUtils.doPost(url, param, JSONObject.class, ImmutableMap.of("content-type", "application/json; charset=utf-8", "Cookie", ""));
         pipelineTpMapper.deleteByDate(date);
         for (int i = 0 ; i<directions.length; i++){
