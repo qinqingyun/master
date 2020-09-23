@@ -2,6 +2,7 @@ package com.meituan.qa.meishi.Hui.cases.mtmerchantmopayweb;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meituan.qa.meishi.Hui.util.CommonLoginUtil;
+import com.meituan.qa.meishi.Hui.util.EPassportUtil;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.qa.meishi.util.MethodAnotation;
 import com.meituan.toolchain.mario.annotation.HTTPAPI;
@@ -21,19 +22,21 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 @ClassAnnotation(author = "liukang",depart = "C",apiName = "/hui/orderdetail",
         type = "http",des="商家后台订单查询订单详情页")
 @Slf4j
 @HTTPAPI(apiPath = "/hui/orderdetail")
 public class TestOrderDetail {
-    String bisid = CommonLoginUtil.merchantAPPLogin();
+//    String bisid = CommonLoginUtil.merchantAPPLogin();
+    String bisid = "kzXJmOHVNZew4nsvs9d-oyrj_nhE-LgGHh7XDNo4xYJAuQVrPerQGwsVqNrHt2EIQcOf0fuuGB4p6-3PakR3GA";
     private final Log logger = LogFactory.getLog(this.getClass());
     String apiPath = "/hui/orderdetail";
 
     @Test(groups = {"P3","orderquery"})
     @MethodAnotation(author = "liukang",createTime = "2018-09-29",updateTime = "2018-09-29",des = "订单详情页")
     public void ms_c_orderDetail_01(){
-        ResponseMap response = callService("ms_c_orderDetail_001","HHMS5S1S4TLONKR7Q");
+        ResponseMap response = callService("ms_c_orderDetail_001","HGKPET1Z6RZUB3AND");
         log.info(response.toString());
         JSONObject jsonObject = getContent(response.getResponseBody());
         if(jsonObject == null){

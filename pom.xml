@@ -212,7 +212,6 @@
             <artifactId>unity-validation-api</artifactId>
             <version>0.0.8</version>
         </dependency>
-
     </dependencies>
     <profiles>
         <profile>

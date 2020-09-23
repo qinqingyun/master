@@ -94,15 +94,15 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
         //1.加载优惠台
         LoadCashier mtloadCashier = LoadCashier.builder()
                 .caseId(LOADUNIFIEDCASHIER)
-                .token(mtbyqToken)
+                .token(mtToken)
                 .userAgent(mtClient).build();
         String id = "120000901026380";
-        DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(mtbyqToken,mtClient,"ms_c_hui_gethuipromodesk_02",id);
+        DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(mtToken,mtClient,"ms_c_hui_gethuipromodesk_02",id);
         if(deskCoupon == null) {
             //调用营销接口发商家券
             MaitonHongbaoTRequest maitonHongbaoTRequest = new MaitonHongbaoTRequest();
             maitonHongbaoTRequest.setPlatform(Platform.MT);
-            maitonHongbaoTRequest.setUserId(mtbyqUserId);
+            maitonHongbaoTRequest.setUserId(mtUserId);
             maitonHongbaoTRequest.setPoiId(95191712);
             maitonHongbaoTRequest.setAssignChannelTEnum(AssignChannelTEnum.MAITON);
             maitonHongbaoTRequest.setOrderId(123132131);
@@ -113,12 +113,12 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
             log.info("发券接口返回=======" + id);
 
             //下单前查询优惠
-            HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(mtbyqToken).useCardflag(UseCard.USE_MERCHANT_CARD).client(mtClient).caseid("ms_c_hui_gethuipromodesk_02").build();
+            HuiPromoDesk promoDesk = HuiPromoDesk.builder().mttoken(mtToken).useCardflag(UseCard.USE_MERCHANT_CARD).client(mtClient).caseid("ms_c_hui_gethuipromodesk_02").build();
             deskCoupon = promoDesk.shopCouponCipher(id).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
         }
         //创建订单
         HuiCreateOrder createOrder = HuiCreateOrder.builder()
-                .token(mtbyqToken)
+                .token(mtToken)
                 .userAgent(mtClient)
                 .caseid(CASEID)
                 .couponProduct(mtloadCashier.parseCouponOfferId().orElse(null))
@@ -154,7 +154,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
 
 
         //3、支付
-        CreateOrderUtil.orderPay(payToken, tradeNo, mtbyqToken);
+        CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
 
         //平台支付成功校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_hui_mt_ShopPromoZeroOrder");
@@ -170,13 +170,13 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
         QueryOrderState orderState = QueryOrderState.builder()
                 .caseId("ms_c_huiFullProcess_101_queryMopayStatus")
                 .serializedId(neworderid)
-                .token(mtbyqToken)
+                .token(mtToken)
                 .userAgent(mtClient).build();
         String status = orderState.queryMopayStatus();
         Assert.assertNotNull(status);
 
         //订单详情页
-        OrderDetail orderdetail=OrderDetail.builder().token(mtbyqToken).caseId("ms_c_huiFullProcess_101_huiMaitonOrderMT").orderId(String.valueOf(orderId)).build();
+        OrderDetail orderdetail=OrderDetail.builder().token(mtToken).caseId("ms_c_huiFullProcess_101_huiMaitonOrderMT").orderId(String.valueOf(orderId)).build();
         orderdetail.MtOrderDetail();
 
         //直接退款
@@ -195,7 +195,7 @@ public class TestMTShopPromoZeroOrder extends TestDPLogin {
         //退款后平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_hui_mt_ShopPromoZeroOrder");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtbyqUserId));
+        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
         //买单侧退款后校验
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);

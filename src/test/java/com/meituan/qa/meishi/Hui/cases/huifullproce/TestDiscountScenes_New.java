@@ -171,7 +171,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         HuiRefund huiRefund = HuiRefund.builder().refundFlowService(refundFlowService).orderId(Long.valueOf(orderId)).operator(String.valueOf(mtUserId)).userId(mtUserId).build();
         log.info("执行退款订单id{}",orderId);
         ApplyRefundRequest applyRefundRequest = huiRefund.apply();
-        log.info("申请退款结果:",JSON.toJSONString(applyRefundRequest));
+        log.info("申请退款结果:{}",JSON.toJSONString(applyRefundRequest));
         TimeUnit.SECONDS.sleep(2);
         AgreeRefundResponse agreeRefundResponse = huiRefund.agree();
         log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
@@ -189,14 +189,14 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        //退款后买单侧校验
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+        orderCheck.maitonOrder(3,refundOrderResponse);
+
         //平台校验已消费退款
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
-
-        //退款后买单侧校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
         differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");

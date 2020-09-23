@@ -12,5 +12,14 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
         </classes>
     </test>
+    <test name="以新为主_NEW">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashieroverview"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
+        </classes>
+    </test>
 
 </suite>

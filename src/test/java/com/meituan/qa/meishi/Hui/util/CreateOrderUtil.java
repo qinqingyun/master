@@ -182,7 +182,7 @@ public class CreateOrderUtil {
         request.getJSONObject("headers").put("pragma-os",userAgent);
         request.getJSONObject("body").put("bizorderid",bizOrderId);
         request.getJSONObject("body").put("bookrecordid",bizOrderId);
-        log.info("请求request{}",request);
+        log.info("请求request{}",request.toString());
         /* 先注释掉，预订订单写死数据*/
 //        Map<String,String> param = new HashMap<>();
 //        if(!bizOrderId.isEmpty()){
