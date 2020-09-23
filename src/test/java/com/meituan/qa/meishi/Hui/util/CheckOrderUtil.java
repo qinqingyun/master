@@ -120,22 +120,21 @@ public class CheckOrderUtil extends TestBase {
         Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
     }
     public static void checkMerchantOrderDetail(String caseId, OrderModel orderModel,OrderStatusEnum orderStatusEnum){
-        ResponseMap merchentOrderDetail = loopCheck.getMerchentOrderDetail("ms_c_orderDetail_001", orderModel.getSerializedId(),orderModel.getMtShopId());
-        log.info("商户订单详情页信息{}",merchentOrderDetail.getResponseBody());
-        JSONObject jsonObject = getHuiOrderDetailVo(merchentOrderDetail.getResponseBody());
+        JSONObject merchentOrderDetail = loopCheck.getMerchentOrderDetail("ms_c_orderDetail_001", orderModel.getSerializedId(),orderModel.getMtShopId());
+        log.info("商户订单详情页信息{}",merchentOrderDetail.toString());
         JSONObject expect = maitonApi.getExpect(caseId);
-        Assert.assertEquals(JsonPath.read(jsonObject, "dealAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.dealAmount").toString(),"商家订单dealAmount金额与预期不符");
-        Assert.assertEquals(JsonPath.read(jsonObject, "originAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.originAmount").toString(),"商家订单originAmount金额与预期不符");
-        Assert.assertEquals(JsonPath.read(jsonObject, "discountAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.discountAmount").toString(),"商家订单discountAmount金额与预期不符");
-        Assert.assertEquals(JsonPath.read(jsonObject, "depositAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.depositAmount").toString(),"商家订单depositAmount金额与预期不符");
-        Assert.assertEquals(JsonPath.read(jsonObject, "opbVipAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.opbVipAmount").toString(),"商家订单opbVipAmount金额与预期不符");
-        Assert.assertEquals(JsonPath.read(jsonObject, "maitonAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.maitonAmount").toString(),"商家订单maitonAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "dealAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.dealAmount").toString(),"商家订单dealAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "originAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.originAmount").toString(),"商家订单originAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "discountAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.discountAmount").toString(),"商家订单discountAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "depositAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.depositAmount").toString(),"商家订单depositAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "opbVipAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.opbVipAmount").toString(),"商家订单opbVipAmount金额与预期不符");
+        Assert.assertEquals(JsonPath.read(merchentOrderDetail, "maitonAmount").toString(),JsonPath.read(expect, "merchantDetailCheckInfo.maitonAmount").toString(),"商家订单maitonAmount金额与预期不符");
         switch (orderStatusEnum){
             case 支付成功:
-                Assert.assertEquals(JsonPath.read(jsonObject, "orderStatusStr"),"已支付","商家订单状态与预期不符");
+                Assert.assertEquals(JsonPath.read(merchentOrderDetail, "orderStatusStr"),"已支付","商家订单状态与预期不符");
                 break;
             case 退款成功:
-                Assert.assertEquals(JsonPath.read(jsonObject, "orderStatusStr"),"已退款","商家订单状态与预期不符");
+                Assert.assertEquals(JsonPath.read(merchentOrderDetail, "orderStatusStr"),"已退款","商家订单状态与预期不符");
         }
     }
     public static JSONObject getHuiOrderDetailVo(String merchantOrderDetail){

@@ -14,6 +14,7 @@ import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.qa.meishi.Hui.entity.model.UserModel;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
+import static com.meituan.qa.meishi.Hui.util.CheckOrderUtil.getHuiOrderDetailVo;
 
 import com.meituan.toolchain.mario.model.ResponseMap;
 import com.sankuai.meituan.resv.i.thrift.exception.InternalTException;
@@ -149,12 +150,16 @@ public class LoopCheckUtil extends TestBase {
         }
     }
     @LoopCheck(desc = "获取商家订单详情轮训", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
-    public ResponseMap getMerchentOrderDetail(String caseId, String serializedId,String mtShopId){
+    public JSONObject getMerchentOrderDetail(String caseId, String serializedId,String mtShopId){
         ResponseMap merchentOrderDetail = maitonApi.getMerchentOrderDetail(caseId, serializedId,mtShopId);
         if(merchentOrderDetail.getStatusCode() != 200){
             return null;
         }
-        return merchentOrderDetail;
+        JSONObject merchentOrderJsonObject = getHuiOrderDetailVo(merchentOrderDetail.getResponseBody());
+        if (merchentOrderJsonObject == null){
+            return null;
+        }
+        return merchentOrderJsonObject;
     }
 }
 
