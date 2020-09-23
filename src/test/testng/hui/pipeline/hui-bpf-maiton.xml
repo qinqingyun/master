@@ -1,4 +1,4 @@
-<suite name="testSuite" parallel="true" thread-count="8">
+<suite name="testSuite" parallel="true" thread-count="6">
     <parameter name="team_id" value="179"/>
     <!--设置双写标识-->
     <test name="以老为主">
