@@ -1,6 +1,7 @@
 package com.meituan.qa.meishi.Hui.cases.base;
 
 import com.meituan.qa.meishi.Hui.cases.huifullproce.TestCheckLoop;
+import com.meituan.qa.meishi.Hui.cases.huimweb.HuiMWebApi;
 import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderApi;
 import com.meituan.qa.meishi.Hui.cases.huiorderservice.HuiOrderLoopCheck;
 import com.meituan.qa.meishi.Hui.cases.scene.LoopCheckUtil;
@@ -31,10 +32,12 @@ public class TestBase {
     public static LoopCheckUtil loopCheck = MarioProxyUtil.create(LoopCheckUtil.class);
     public static HuiOrderLoopCheck huiOrderLoopCheck = MarioProxyUtil.create(HuiOrderLoopCheck.class);
     public static HuiOrderApi huiOrderApi = MarioProxyUtil.create(HuiOrderApi.class);
+    public static HuiMWebApi huiMWebApi = MarioProxyUtil.create(HuiMWebApi.class);
+
     protected static String doubleWriteMode;
     public Map<LoginEnum, UserModel> userModelMap = new HashMap<LoginEnum, UserModel>();
-    //OLD_ONLY 单写老  OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
-    public static String MainSystem = "NEW_ONLY";
+    //OLD_MAIN 以老为主双写  NEW_MAIN 以新为主双写  NEW_ONLY 单写新
+    public static String MainSystem = "OLD_MAIN";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM = true;
     //是否进行db数据diff

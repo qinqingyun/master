@@ -168,6 +168,7 @@ public class ThriftApi {
         request.setType(RefundFlowTypeEnum.AGREE.getCode());
         request.setRefundSource(OperationSourceCode.CUSTOMERSERVICE);
         request.setPlatform(RefundFlowPlatformEnum.MIS.getCode());
+        log.info("商家直退入参{}",JSON.toJSONString(request));
         DirectRefundResponse response = refundFlowService.refund(request);
         return response;
     }

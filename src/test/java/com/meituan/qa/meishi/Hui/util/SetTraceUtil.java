@@ -25,7 +25,7 @@ public class SetTraceUtil extends TestBase {
                 Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
                 break;
             case "NEW_ONLY":
-                //Tracer.putContext("MOCK_ONLYNEWREFUND_SettleAccount","TRUE");
+                Tracer.putContext("MOCK_ONLYNEWREFUND_SettleAccount","TRUE");
                 break;
         }
     }
