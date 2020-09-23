@@ -155,13 +155,12 @@ public class TestMTShopPromo_New extends TestDPLogin {
         orderCheck.maitonOrder(1,createOrderResponse);
 
         //3、支付
-        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
         Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
         payNotifyMockRequest.setTradeNo(tradeNo);
         payNotifyMockRequest.setOrderId(neworderid);
         payNotifyMockRequest.setAmount(amount);
-        if(doubleWriteMode.equals("OLD")){
-            payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
+        if (doubleWriteMode.equals("OLD")) {
+            payNotifyMockRequest.setOutNo("DPHUI-" + orderId);
         }
         PayMockUtil.mockPay(payNotifyMockRequest);
 

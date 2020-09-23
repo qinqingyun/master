@@ -137,7 +137,6 @@ public class TestDiscountScenes_New extends TestDPLogin  {
             payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
         }
         PayMockUtil.mockPay(payNotifyMockRequest);
-        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
 
         //支付后平台校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");

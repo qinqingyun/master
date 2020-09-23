@@ -53,11 +53,11 @@ public class TestMDiscountScenes extends TestDPLogin {
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
 
-    String  doubleWriteMode="NEW";
+    //String  doubleWriteMode="NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "qinqingyun", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
-    public void ms_c_hui_m_discount_scenes() throws Exception {
+    public void ms_c_hui_m_discount_scenes(String  doubleWriteMode) throws Exception {
         RefundNotifyMockRequest refundNotifyMockRequest = new RefundNotifyMockRequest();
         if( doubleWriteMode.equals("NEW")) {
             LionUtil.setUserWriteList(dpUserId + "_0");
