@@ -22,6 +22,10 @@ public class HuiMWebApi {
     static String unicashierCouponDescUrl = "/hui/maiton/couponDesc"; //美团APP优惠详情页
     static String ajaxCashierqueryUrl = "/hui/ajax/cashierquery"; //买单收银页按门店活动查询
     static String ajaxCashieroverviewUrl = "/hui/ajax/cashieroverview";//买单收银页总览
+    static String ajaxCashierquerybyorderidUrl = "/hui/ajax/cashierquerybyorderid";//买单收银页订单查询
+    static String ajaxOrderqueryUrl = "/hui/ajax/orderquery";//订单查询页
+    static String ajaxOrderovervieUrl = "/hui/ajax/orderoverview";//全量订单查询总览
+    static String ajaxApplyrefundlistqueryUrl = "/hui/ajax/applyrefundlistquery";//退款待办列表查询
     /**
      * pc端商家订单详情
      * 例：https://hui-e.51ping.com/hui/orderdetail?serializedId=HGKPET1Z6RZUB3AND&poiId=97224769
@@ -124,5 +128,82 @@ public class HuiMWebApi {
         Date date = new Date();
         date.setTime(endTime);
         return date;
+    }
+    /**
+     * 买单收银页-订单查询
+     * 例：https://hui-e.51ping.com/hui/ajax/cashierquerybyorderid
+     * */
+    @LoopCheck(desc = "买单收银页订单查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap ajaxCashierquerybyorderid(String caseId) {
+        maitonApi.replaceUserInfo(MTApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxCashierquerybyorderidUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
+        log.info("买单收银页订单查询入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        return responseMap;
+    }
+    /**
+     * 订单查询页-订单查询
+     * 例：https://hui-e.51ping.com/hui/ajax/orderquery
+     * */
+    @LoopCheck(desc = "订单查询页订单查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap ajaxOrderquery(String caseId) {
+        maitonApi.replaceUserInfo(MTApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxOrderqueryUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
+        request.getJSONObject("body").put("beginTime", getBeginTimeDate());
+        request.getJSONObject("body").put("endTime", getEndTimeDate());
+        log.info("订单查询页订单查询轮询入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        return responseMap;
+    }
+    /**
+     * 全量订单查询-总览
+     * 例：https://hui-e.51ping.com/hui/ajax/orderoverview
+     * */
+    @LoopCheck(desc = "全量订单查询总览轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap ajaxOrderovervie(String caseId) {
+        maitonApi.replaceUserInfo(MTApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxOrderovervieUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
+        request.getJSONObject("body").put("beginTime", getBeginTimeDate());
+        request.getJSONObject("body").put("endTime", getEndTimeDate());
+
+        log.info("全量订单查询总览入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        return responseMap;
+    }
+    /**
+     * 退款待办列表查询
+     * 例：https://hui-e.51ping.com/hui/ajax/applyrefundlistquery
+     * */
+    @LoopCheck(desc = "退款待办列表查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap ajaxApplyrefundlistquery(String caseId) {
+        maitonApi.replaceUserInfo(MTApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxApplyrefundlistqueryUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
+        log.info("退款待办列表查询入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        return responseMap;
     }
 }
