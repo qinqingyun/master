@@ -55,6 +55,10 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxApplyrefundlistquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="5"/>
