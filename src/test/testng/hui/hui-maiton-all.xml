@@ -1,4 +1,4 @@
-<suite name="testSuite" parallel="true" thread-count="10">
+<suite name="testSuite" parallel="true" thread-count="6">
     <parameter name="team_id" value="179"/>
     <!--设置双写标识-->
     <test name="以老为主">
@@ -38,13 +38,23 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-
+        </classes>
+    </test>
+<!--重构后以新为主case-->
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrder"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderLimitRecord"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderStatistics"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderSummary"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderByReceipt"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashieroverview"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="5"/>

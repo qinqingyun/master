@@ -17,6 +17,7 @@ import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderResult;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.UseCard;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.qa.meishi.Hui.util.CreateOrderUtil;
 import com.meituan.qa.meishi.Hui.util.Task;
 import com.meituan.qa.meishi.Hui.util.TestDPLogin;
@@ -83,6 +84,7 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
+    //String doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "buyuqi", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
@@ -96,11 +98,11 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
         DeskCoupon deskCoupon = checkLoop.getShopCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk_02", id);
         if (deskCoupon == null) {
             //调用营销接口直接发券
-            MaitonHongbaoTResponse maitonHongbaoTResponse = thriftApi.setShopPromo(mtbyqUserId, poiId);
-            log.info("商家券发券结果：{}", JSON.toJSONString(maitonHongbaoTResponse));
-            Optional<MaitonHongbaoTBean> detailOptional = maitonHongbaoTResponse.data.stream().findFirst();
-            id = detailOptional.get().id;
-            log.info("商家发券Id:{}" + id);
+//            MaitonHongbaoTResponse maitonHongbaoTResponse = thriftApi.setShopPromo(mtbyqUserId, poiId);
+//            log.info("商家券发券结果：{}", JSON.toJSONString(maitonHongbaoTResponse));
+//            Optional<MaitonHongbaoTBean> detailOptional = maitonHongbaoTResponse.data.stream().findFirst();
+//            id = detailOptional.get().id;
+//            log.info("商家发券Id:{}" + id);
         }
         //下单前查询优惠
         deskCoupon = checkLoop.getShopCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk_01", id);
@@ -110,7 +112,7 @@ public class TestMTShopPromoAndCouponZeroOrder extends TestDPLogin  {
         deskCoupon = checkLoop.getCouponCipher(mtbyqToken, mtClient, "ms_c_hui_gethuipromodesk", couponid);
         if (deskCoupon == null) {
             //发平台券券
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(mtbyqUserId, 763075395);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = thriftApi.setCouponPromo(mtbyqUserId, 763075395, OrderSourceEnum.DPApp);
             log.info("平台券发券结果：{}", JSON.toJSONString(unifiedCouponIssueResponse));
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {

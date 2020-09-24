@@ -41,15 +41,15 @@ public class HuiPromoDesk {
         request.getJSONObject("headers").put("user-agent", client);
         request.getJSONObject("headers").put("pragma-os", client);
         JsonPathUtil.setJsonPathVaule(request, "$.params.token", mttoken);
-        log.info("买单headers======"+request.getJSONObject("headers").toString());
-        log.info("买单request======"+request.toString());
+        log.info("查询商家券信息headers======"+request.getJSONObject("headers").toString());
+        log.info("查询商家券信息request======"+request.toString());
         ResponseMap response = null;
         PromoResponse promoResponse = new PromoResponse();
         JSONObject responseJson = new JSONObject();
         for(int i = 0;i < 3;i++){
             response = DBCaseRequestUtil.get("env.api.meishi.hui.host", request);
             responseJson = JSONObject.parseObject(response.getResponseBody());
-            log.info("gethuipromodesk response:{}", response.getResponseBody());
+            log.info("查询商家券信息response====== {}", response.getResponseBody());
             if(responseJson == null){
                 continue;
             }

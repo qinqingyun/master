@@ -2,7 +2,7 @@
 <suite name="testSuite" parallel="true" thread-count="8">
     <parameter name="team_id" value="179"/>
         <test name="以老为主">
-            <parameter name="DoubleWriteMode" value="OLD"/>
+            <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
             <classes>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
@@ -12,7 +12,7 @@
             </classes>
         </test>
         <test name="以新为主">
-            <parameter name="DoubleWriteMode" value="NEW"/>
+            <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
             <classes>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>

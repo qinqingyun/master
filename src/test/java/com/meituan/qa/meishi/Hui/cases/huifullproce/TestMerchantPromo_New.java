@@ -91,7 +91,7 @@ public class TestMerchantPromo_New extends TestDPLogin {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
-    //String  doubleWriteMode = "OLD";
+    //String  doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "wuanran", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
@@ -117,7 +117,7 @@ public class TestMerchantPromo_New extends TestDPLogin {
             UnifiedCouponIssueRequest couponIssueRequest = new UnifiedCouponIssueRequest();
             couponIssueRequest.setUserType("MT");
             couponIssueRequest.setUnifiedCouponGroupIdList(Lists.newArrayList());
-            couponIssueRequest.setCouponGroupIdList(Lists.newArrayList(549009064));
+            couponIssueRequest.setCouponGroupIdList(Lists.newArrayList(979962070));
             couponIssueRequest.setOperator("qa-system");
             couponIssueRequest.setUserId(mtUserId);
 
@@ -138,10 +138,6 @@ public class TestMerchantPromo_New extends TestDPLogin {
             deskCoupon = checkLoop.getCouponCipher(mtToken,mtClient,"ms_c_hui_gethuipromodesk",couponid);
             Assert.assertTrue(deskCoupon != null,"获取平台券失败，可能原因：调用平台券接口超时或者查券失败");
         }
-        //下单前查询优惠
-//        promoDesk = HuiPromoDesk.builder().mttoken(mtToken).useCardflag(UseCard.USE_PLATFORM_CARD).client(mtClient).caseid("ms_c_hui_gethuipromodesk").build();
-//        DeskCoupon deskCoupon = promoDesk.shopCouponCipher(couponid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
-
         //1、加载优惠台
         LoadCashier loadCashier = LoadCashier.builder()
                 .caseId(LOADUNIFIEDCASHIER)
@@ -149,16 +145,7 @@ public class TestMerchantPromo_New extends TestDPLogin {
                 .userAgent(mtClient).build();
         CouponProduct couponProduct = loadCashier.parseCouponOfferId().orElse(null);
         //创建订单
-//        HuiCreateOrder createOrder = HuiCreateOrder.builder()
-//                .token(mtToken)
-//                .userAgent(mtClient)
-//                .caseid(CASEID)
-//                .couponProduct(loadCashier.parseCouponOfferId().orElse(null))
-//                .deskcoupon(deskCoupon)
-//                .build();
         HuiCreateOrderResult createResult = checkLoop.uniCashierCreateOrder(mtToken,mtClient,CASEID,couponProduct,deskCoupon,source);
-
-//        HuiCreateOrderResult createResult = createOrder.requestCreate();
         String payToken = createResult.getPayToken();
         String serializedId = createResult.getSerializedId();
         String orderId = createResult.getOrderId().toString();
@@ -202,19 +189,10 @@ public class TestMerchantPromo_New extends TestDPLogin {
         //4、支付结果页
         String statusMsg = checkLoop.getOrderState(serializedId,mtToken,mtClient,"ms_c_huiFullProcess_101_queryMopayStatus");
         Assert.assertEquals(statusMsg,"支付成功","支付结果页状态：支付失败或支付中");
-//        QueryOrderState orderState = QueryOrderState.builder()
-//                .caseId("ms_c_huiFullProcess_101_queryMopayStatus")
-//                .serializedId(neworderid)
-//                .token(mtToken)
-//                .userAgent(mtClient).build();
-//        String status = orderState.queryMopayStatus();
-//        Assert.assertNotNull(status);
 
         //订单详情页
         String orderDetail = checkLoop.getOrderDetail(orderId,mtToken,"MT","ms_c_huiFullProcess_101_huiMaitonOrderMT");
         Assert.assertEquals(orderDetail,"支付成功","订单详情页状态未支付成功");
-//        OrderDetail orderdetail=OrderDetail.builder().token(mtToken).caseId("ms_c_huiFullProcess_101_huiMaitonOrderMT").orderId(neworderid).build();
-//        orderdetail.MtOrderDetail();
 
         try {
             TimeUnit.SECONDS.sleep(1);
