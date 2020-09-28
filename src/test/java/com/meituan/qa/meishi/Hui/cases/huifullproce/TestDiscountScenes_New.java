@@ -149,12 +149,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         //增加金额校验
 
         //支付成功订单diff
-//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
-        try {
-            differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
-        }catch (Exception e){
-            log.info("支付成功-调用diff工具异常{}",e.getMessage());
-        }
+        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
 
        //支付结果页
         String statusMsg = checkLoop.getOrderState(serializedId,mtToken,mtClient,"ms_c_huiFullProcess_101_queryMopayStatus");
@@ -204,12 +199,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
         //退款成功订单diff
-//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
-        try {
-            differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
-        }catch (Exception e){
-            log.info("退款成功订单-调用diff工具异常{}",e.getMessage());
-        }
+        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01退款成功订单diff");
     }
 
 }
