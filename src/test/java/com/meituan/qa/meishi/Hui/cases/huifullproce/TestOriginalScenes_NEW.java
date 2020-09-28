@@ -105,7 +105,7 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
         orderCheck.maitonOrder(1,maitonQueryOrderResponse);
 
         //订单生成diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01生成订单diff");
+//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01生成订单diff");
 
         //2、支付
         Long amount = maitonQueryOrderResponse.getOrderDTO().getCurrentAmount().longValue() * 100;
@@ -127,7 +127,7 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
         orderCheck.maitonOrder(2,QueryOrderResponse);
 
         //支付成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01支付成功订单diff");
+//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01支付成功订单diff");
 
         //支付结果页
         String statusMsg = checkLoop.getOrderState(serializedId,mtToken,mtClient,"ms_c_huiFullProcess_101_queryMopayStatus");
@@ -167,7 +167,7 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
         orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01退款成功订单diff");
+//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_originalScenes_01退款成功订单diff");
     }
 
 //    @AfterSuite
