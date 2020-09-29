@@ -53,7 +53,7 @@ public class COEDataExtracter implements ICOEDataExtract {
 
         List<Integer> orgList = new ArrayList<>();
         //   orgList.add(43442);
-        //orgList.add(70); //到店餐饮研发部
+
         // orgList.add(43330);
         orgList.add(105);//到店餐饮研发部/业务数据策略组
         orgList.add(35749);//到店餐饮研发部/业务后台研发组
