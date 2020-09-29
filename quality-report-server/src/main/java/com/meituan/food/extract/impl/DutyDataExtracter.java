@@ -1,11 +1,9 @@
 package com.meituan.food.extract.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.meituan.food.extract.IOneDayDutyDataExtract;
 import com.meituan.food.mapper.DutyTablePOMapper;
 import com.meituan.food.po.DutyTablePO;
 import com.meituan.food.utils.DaXiangUtils;
-import com.meituan.food.utils.HttpUtils;
 import com.sankuai.meituan.attendance.api.HolidayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -65,9 +63,10 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
                 i++;
             }
 
-            DaXiangUtils.pushToPerson(nameList + "轮到你们值班了\n" + content, "guomengyao");
+            DaXiangUtils.pushToPerson(nameList + "轮到你们值班了\n" + content, "zhangyangyang17");
             DaXiangUtils.pushToRoom(nameList + "轮到你们值班了\n" + content, 879074L);
             DaXiangUtils.pushToRoom("本周值班人员：" + nameList, 64013968876L);
+
         }
     }
 

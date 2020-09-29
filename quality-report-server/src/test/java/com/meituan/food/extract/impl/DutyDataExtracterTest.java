@@ -34,5 +34,6 @@ public class DutyDataExtracterTest {
     public void extractData4Day() {
         LocalDate today=LocalDate.now().minusDays(3);
         oneDayDutyDataExtract.extractData4Day(today);
+
     }
 }

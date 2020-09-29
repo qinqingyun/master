@@ -53,20 +53,20 @@ public class COEDataExtracter implements ICOEDataExtract {
 
         List<Integer> orgList = new ArrayList<>();
         //   orgList.add(43442);
-        //orgList.add(70); //到店餐饮研发中心
+
         // orgList.add(43330);
         orgList.add(105);//到店餐饮研发部/业务数据策略组
         orgList.add(35749);//到店餐饮研发部/业务后台研发组
         orgList.add(43281);//到店餐饮研发部/业务前端研发组
         orgList.add(94610);//到店餐饮研发部/业务架构组
-        orgList.add(35756);//平台终端研发组/到店餐饮研发组
+        orgList.add(35756);//平台终端研发组/到餐业务研发组
         orgList.add(53235);//商家平台研发组
         orgList.add(53242);//客户平台研发组
-        orgList.add(42154);//平台业务研发中心 /供应链平台研发组 / 到餐供应链研发组
-        orgList.add(15435);//平台业务研发中心 /销售支持平台研发组 / 到餐销售支持研发组
-        orgList.add(119);//平台业务研发中心 /交易平台研发组 / 餐饮交易技术组
-        orgList.add(126);//平台业务研发中心 /营销平台研发组 / 到餐营销支持组
-        orgList.add(75272);//平台业务研发中心/门店信息研发组
+        orgList.add(42154);//平台业务研发部 /供应链平台研发组 / 到餐供应链研发组
+        orgList.add(15435);//平台业务研发部 /销售支持平台研发组 / 到餐销售支持研发组
+        orgList.add(119);//平台业务研发部 /交易平台研发组 / 餐饮交易技术组
+        orgList.add(126);//平台业务研发部 /营销平台研发组 / 到餐营销支持组
+        orgList.add(75272);//平台业务研发部/门店信息研发组
         orgList.add(13181);//到餐测试组
 
         String bPushStr = "商家平台新增COE：";

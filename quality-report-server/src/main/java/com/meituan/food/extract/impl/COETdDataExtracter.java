@@ -76,10 +76,10 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         inflowtParams.put("org", org);
 
         List<McdCoePO> mcdCoePOList = new ArrayList<>();
-        List<Integer> coeList=new ArrayList<>();
+        List<Integer> coeList = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date startDate = sdf.parse(firstDayStr +" 00:00:00");
-        Date endDate = sdf.parse(secondDayStr +" 23:59:59");
+        Date startDate = sdf.parse(firstDayStr + " 00:00:00");
+        Date endDate = sdf.parse(secondDayStr + " 23:59:59");
 
 
         //获取coe列表数据-到店数据
@@ -91,28 +91,31 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         log.info("获取coe的数量：{}", incidentsArray.size());
         if (incidentsArray.size() != 0) {
             for (Object o : incidentsArray) {
+                if (!((JSONObject) o).getString("brief").contains("红蓝对抗")) {
+                    McdCoePO coePO = new McdCoePO();
+                    JSONObject ceshi = (JSONObject) o;
+                    log.info("每个object的数据:{}", ceshi.toString());
 
-                McdCoePO coePO = new McdCoePO();
-                getBaseInfo(o, coePO);
+                    getBaseInfo(o, coePO);
 
-                if (!coePO.getOrgName().contains("餐饮解决方案")) {
+                    if (!coePO.getOrgName().contains("餐饮解决方案")) {
 
-                    getTodoList(coePO, coePO.getCoeId(), coePO.getOrgName());
-                }
-
-
-                 coeList.add(coePO.getCoeId());
-
-                 List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+                        getTodoList(coePO, coePO.getCoeId(), coePO.getOrgName());
+                    }
 
 
-                if (coeIdList2.contains(coePO.getCoeId())) {
-                    //coeid 存在时，为啥只有修改这几个字段
-                    McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
-                    coePO.setId(coeListPO.getId());
-                    coePO.setAvailable(coeListPO.getAvailable());
-                    coePO.setBuildTime(coeListPO.getBuildTime());
-                    coePO.setUpdateTime(new Date());
+                    coeList.add(coePO.getCoeId());
+
+                    List<Integer> coeIdList2 = mcdCoePOMapper.selectMcdCoeIdList();
+
+
+                    if (coeIdList2.contains(coePO.getCoeId())) {
+                        //coeid 存在时，为啥只有修改这几个字段
+                        McdCoePO coeListPO = mcdCoePOMapper.selectByCoeId(coePO.getCoeId());
+                        coePO.setId(coeListPO.getId());
+                        coePO.setAvailable(coeListPO.getAvailable());
+                        coePO.setBuildTime(coeListPO.getBuildTime());
+                        coePO.setUpdateTime(new Date());
 /*
                     //获取损失时， 为啥有时间上的对比
                    *//* if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {*//*
@@ -120,23 +123,24 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                     coeListPO.setOrderLoss(coePO.getOrderLoss());
                   *//*  }*/
 
-                    mcdCoePOMapper.updateByPrimaryKey(coePO);
+                        mcdCoePOMapper.updateByPrimaryKey(coePO);
 
-                 } else {
-                     if (!coePO.getOrgName().contains("餐饮解决方案")) {
-                         coePO.setBuildTime(new Date());
-                         coePO.setUpdateTime(new Date());
-                         mcdCoePOMapper.insert(coePO);
-                         mcdCoePOList.add(coePO);
-                     }
-                 }
+                    } else {
+                        if (!coePO.getOrgName().contains("餐饮解决方案")) {
+                            coePO.setBuildTime(new Date());
+                            coePO.setUpdateTime(new Date());
+                            mcdCoePOMapper.insert(coePO);
+                            mcdCoePOList.add(coePO);
+                        }
+                    }
 
+                }
             }
         }
 
         List<McdCoePO> coePOS = mcdCoePOMapper.selectByTwoDate(startDate, endDate);
         for (McdCoePO po : coePOS) {
-            if (!coeList.contains(po.getCoeId())){
+            if (!coeList.contains(po.getCoeId())) {
                 mcdCoePOMapper.deleteByCoeId(po.getCoeId());
             }
         }
@@ -157,7 +161,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 pushStr = pushStr + "\n\n△【" + "[" + mcdCoePO.getBrief() + "|" + mcdCoePO.getCoeLink() + "]" + "】";
                 pushStr = pushStr + "\n● 组织：" + mcdCoePO.getOrgName() + "\n● 责任人:" + mcdCoePO.getOwnerName() + "(" + mcdCoePO.getOwnerMis() + ")";
                 for (Long daxiangId : daxiangIds) {
-                    DaXiangUtils.pushToPerson(pushStr, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
+                    DaXiangUtils.pushToPerson(pushStr, "yuan.ding", "qinqingyun", "zhangyangyang17");
                     DaXiangUtils.pushToRoom(pushStr, daxiangId);
 
                 }
@@ -190,30 +194,30 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                         pushText = pushText + "\n[如已录入请点击此处|http://10.41.94.92:8080/atp/update?coeId=" + po.getCoeId() + "]";
                         if (business.equals("住宿")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/atp.jsp#/\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
+                            DaXiangUtils.pushToPerson(pushText, "yuan.ding", "qinqingyun", "zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("门票")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\nATP地址：http://jiudian.sankuai.com/atp/dual.jsp#/apt_trip\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao", "yuan.ding","qinqingyun","zhangyangyang17");
+                            DaXiangUtils.pushToPerson(pushText, "yuan.ding", "qinqingyun", "zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "chenchaoyi");
                             atpPO.setReceiver("chenchaoyi");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到餐") || business.equals("收单")) {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText, "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
-                            DaXiangUtils.pushToPerson(pushText, "wangjianming02","wuqifang","yangchunxia");
+                            DaXiangUtils.pushToPerson(pushText, "yuan.ding", "qinqingyun", "zhangyangyang17");
+                            DaXiangUtils.pushToPerson(pushText, "wangjianming02", "wuqifang", "yangchunxia");
                             atpPO.setReceiver("wangjianming02");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到综")) {
 
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n地址：https://service.sankuai.com/#/services/com.sankuai.sre.coe.api/docs/Incidentrestful1988824033/QueryIncidents-1503461554\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                            DaXiangUtils.pushToPerson(pushText,"guomengyao","qinqingyun","zhangyangyang17");
-                            DaXiangUtils.pushToPerson(pushText,"yuan.ding");
+                            DaXiangUtils.pushToPerson(pushText, "qinqingyun", "zhangyangyang17");
+                            DaXiangUtils.pushToPerson(pushText, "yuan.ding");
 
                             atpPO.setReceiver("yuan.ding");
                             atpPO.setPushText(pushText);
@@ -223,7 +227,6 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                 }
             }
         }
-
 
        /* //获取第三方coe数据的入参
         List<String> inflowt = new ArrayList<>();
@@ -285,9 +288,9 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 */
 
         List<Integer> notFinishTODO = mcdCoeTodoPOMapper.selectNotFinishTODO();
-        if (notFinishTODO.size()!=0){
+        if (notFinishTODO.size() != 0) {
             for (Integer integer : notFinishTODO) {
-                getTodoList(new McdCoePO(),integer,"");
+                getTodoList(new McdCoePO(), integer, "");
             }
         }
 
@@ -409,7 +412,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         int doneCount = 0;
         int todoCount = 0;
 
-        List<Integer> onesList=new ArrayList<>();
+        List<Integer> onesList = new ArrayList<>();
         String taskLink = "";
         if (coeImproArr.size() != 0) {
             coePO.setAllTodo(coeImproArr.size());
@@ -464,7 +467,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
         List<Integer> dbOnesIdList = mcdCoeTodoPOMapper.selectByCoeId(coeId);
         for (Integer ones : dbOnesIdList) {
-            if (!onesList.contains(ones)){
+            if (!onesList.contains(ones)) {
                 mcdCoeTodoPOMapper.deleteByOnesId(ones);
             }
         }

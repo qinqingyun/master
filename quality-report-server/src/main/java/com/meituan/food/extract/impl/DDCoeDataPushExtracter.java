@@ -61,7 +61,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : pushList.keySet()) {
-            DaXiangUtils.pushToPerson(pushList.get(key), "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
+            DaXiangUtils.pushToPerson(pushList.get(key), "yuan.ding","qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(pushList.get(key), key);
         }
 
@@ -93,7 +93,7 @@ public class DDCoeDataPushExtracter implements ICargoDataPushExtract {
         }
 
         for (String key : remindPushList.keySet()) {
-            DaXiangUtils.pushToPerson(remindPushList.get(key), "guomengyao","yuan.ding","qinqingyun","zhangyangyang17");
+            DaXiangUtils.pushToPerson(remindPushList.get(key), "yuan.ding","qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(remindPushList.get(key), key);
         }
 
