@@ -2,6 +2,7 @@ package com.meituan.food.web;
 
 import com.meituan.food.mapper.DutyTablePOMapper;
 import com.meituan.food.po.DutyTablePO;
+import com.meituan.food.utils.DaXiangUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,23 @@ public class DutyTableController {
         po.setDutyName(dutyTablePO.getDutyName());
         dutyTablePOMapper.updateByPrimaryKey(po);
     }
+    @GetMapping("/push")
+    public void pushList(){
+//        DaXiangUtils.pushToPerson( "@施颖竹 @阿丽玛 @孙蒙 @熊一平 @周颖 @孔敏 @全蓬琳 @曹挡挡 轮到你们值班了\n"+"十一假期值班QA须知\n" +
+//                "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
+//                "2、若提报问题自动匹配错误，需值班同学手动拉相关人进群。若提报问题未自动匹配，则需要值班同学手动拉群处理，并将问题编号记录，同步给buyuqi同学\n" +
+//                "3、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。\n" +
+//                "4、值班同学可参考各平台业务对接人引导wiki：https://km.sankuai.com/page/181829982，十一值班名单：https://km.sankuai.com/page/445117380拉取相关同学进群，配合解决问题。","zhangyangyang17");
+        DaXiangUtils.pushToRoom("@施颖竹 @阿丽玛 @孙蒙 @熊一平 @周颖 @孔敏 @全蓬琳 @曹挡挡 轮到你们值班了\n"+"十一假期值班QA须知\n" +
+                "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
+                "2、若提报问题自动匹配错误，需值班同学手动拉相关人进群。若提报问题未自动匹配，则需要值班同学手动拉群处理，并将问题编号记录，同步给buyuqi同学\n" +
+                "3、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。\n" +
+                "4、值班同学可参考各平台业务对接人引导wiki：https://km.sankuai.com/page/181829982，十一值班名单：https://km.sankuai.com/page/445117380拉取相关同学进群，配合解决问题。",64496439038L);
+
+        DaXiangUtils.pushToRoom("十一值班人员：" + "@施颖竹 @阿丽玛 @孙蒙 @熊一平 @周颖 @孔敏 @全蓬琳 @曹挡挡",64013968876L );
+        DaXiangUtils.pushToPerson("十一值班人员：" + "施颖竹 阿丽玛 孙蒙 熊一平 周颖 孔敏 全蓬琳 曹挡挡", "buyuqi");
+    }
+
 
     @GetMapping("/insert")
     public void insertOneGroupData(){
@@ -123,11 +141,11 @@ public class DutyTableController {
         r.setDutyName("费立超");
         dutyTablePOMapper.insert(r);
 
-        DutyTablePO t=new DutyTablePO();
-        t.setIsOnDuty(false);
-        t.setDutyMis("liyuhua");
-        t.setDutyName("李宇华");
-        dutyTablePOMapper.insert(t);
+//        DutyTablePO t=new DutyTablePO();
+//        t.setIsOnDuty(false);
+//        t.setDutyMis("liyuhua");
+//        t.setDutyName("李宇华");
+//        dutyTablePOMapper.insert(t);
 
         DutyTablePO w=new DutyTablePO();
         w.setIsOnDuty(false);
@@ -141,11 +159,11 @@ public class DutyTableController {
         x1.setIsOnDuty(false);
         dutyTablePOMapper.insert(x1);
 
-        DutyTablePO x=new DutyTablePO();
-        x.setDutyMis("guomengyao");
-        x.setDutyName("郭孟瑶");
-        x.setIsOnDuty(false);
-        dutyTablePOMapper.insert(x);
+//        DutyTablePO x=new DutyTablePO();
+//        x.setDutyMis("guomengyao");
+//        x.setDutyName("郭孟瑶");
+//        x.setIsOnDuty(false);
+//        dutyTablePOMapper.insert(x);
 
         DutyTablePO y=new DutyTablePO();
         y.setIsOnDuty(false);
