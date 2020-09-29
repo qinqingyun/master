@@ -53,8 +53,12 @@ public class COEDataExtracter implements ICOEDataExtract {
 
         List<Integer> orgList = new ArrayList<>();
         //   orgList.add(43442);
-        orgList.add(70); //到店餐饮研发中心
+        //orgList.add(70); //到店餐饮研发中心
         // orgList.add(43330);
+        orgList.add(105);//到店餐饮研发部/业务数据策略组
+        orgList.add(35749);//到店餐饮研发部/业务后台研发组
+        orgList.add(43281);//到店餐饮研发部/业务前端研发组
+        orgList.add(94610);//到店餐饮研发部/业务架构组
         orgList.add(35756);//平台终端研发组/到店餐饮研发组
         orgList.add(53235);//商家平台研发组
         orgList.add(53242);//客户平台研发组
@@ -99,7 +103,7 @@ public class COEDataExtracter implements ICOEDataExtract {
                 getBaseInfo(o,coePO);
                 try {
                     String orgPath=coePO.getOrgName();
-                    if (!(orgPath.contains("到店餐饮研发中心") || orgPath.contains("平台业务研发中心/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发中心/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到店餐饮研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
+                    if (!(orgPath.contains("到店餐饮研发部") || orgPath.contains("平台业务研发部/商家平台研发组/增值平台研发组") || orgPath.contains("平台业务研发部/商家平台研发组/客户平台研发组") || orgPath.contains("平台终端研发组/到餐业务研发组") || orgPath.contains("到餐研发组") || orgPath.contains("到店餐饮测试组"))){
                         coePO.setCategory("第三方");
                         coePO.setSubCategory("第三方");
                         coePO.setBusiness("第三方");
