@@ -290,9 +290,13 @@ public class PrPipelineExtracter implements IOneDayPrPipelineExtract {
             boolean autoSuccessTag = "SUCCESS".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
             boolean autoFailedTag = "FAILED".equals(prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getString("pipelineStatusEnum"));
             String cov="";
+//            执行自动化成功或者失败
                 if (autoSuccessTag==true||autoFailedTag==true) {
                     autoPrTimes++;
-                    autoSuccessPrTimes++;
+                    //执行自动化成功
+                    if (autoSuccessTag==true){
+                        autoSuccessPrTimes++;
+                    }
                     int passedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("passedNum");
                     int failedNum = prInfo.getJSONObject("stageResultMap").getJSONObject("自动化测试").getJSONArray("autoTestResults").getJSONObject(0).getInteger("failedNum");
                     prBuild.setTotalCase(passedNum);
