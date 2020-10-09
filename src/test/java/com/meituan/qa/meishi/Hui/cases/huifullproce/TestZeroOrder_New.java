@@ -115,7 +115,7 @@ public class TestZeroOrder_New extends TestDPLogin {
         orderCheck.maitonOrder(2,QueryOrderResponse);
 
         //支付成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_resvZeroScenes_01支付成功订单diff");
+//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_resvZeroScenes_01支付成功订单diff");
 
         //支付结果页
         String statusMsg = checkLoop.getOrderState(serializedId,mtToken,mtClient,"ms_c_huiFullProcess_101_queryMopayStatus");
