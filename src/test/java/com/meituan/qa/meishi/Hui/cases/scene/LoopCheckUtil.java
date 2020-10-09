@@ -24,8 +24,6 @@ import com.sankuai.nibqa.trade.api.dto.ValidResponse;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.MaitonHongbaoTResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
-import org.stringtemplate.v4.ST;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 

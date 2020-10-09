@@ -346,7 +346,8 @@ public class MaitonApi {
      */
     public String queryMopayStatus(String caseId, String serializedId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("支付结果查询请求");
+
         JSONObject request = DBDataProvider.getRequest(queryMopayStatusUrl, caseId);
         request.getJSONObject("headers").put("pragma-token", userModel.get().getToken());
         request.getJSONObject("headers").put("pragma-newtoken", userModel.get().getToken());
@@ -372,7 +373,7 @@ public class MaitonApi {
      */
     public String MtOrderDetail(String caseId, String orderId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("美团app订单详情页查询");
 
         ResponseMap responseMap = null;
 
@@ -397,7 +398,7 @@ public class MaitonApi {
      */
     public String DpOrderDetail(String caseId, String orderId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("点评app订单详情查询");
         log.info("MTOrderDetail Enter");
 
         ResponseMap responseMap = null;

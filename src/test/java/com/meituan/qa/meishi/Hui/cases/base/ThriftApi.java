@@ -43,6 +43,7 @@ import com.meituan.toolchain.mario.config.ConfigMange;
 import com.meituan.toolchain.mario.data.db.DBUtil;
 import com.meituan.toolchain.mario.data.db.client.DBClient;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
+import com.meituan.toolchain.mario.util.MtraceUtil;
 import com.sankuai.meituan.resv.i.thrift.exception.InternalTException;
 import com.sankuai.meituan.resv.i.thrift.model.BookableTimeQueryModel;
 import com.sankuai.meituan.resv.i.thrift.model.TableFullInfoDTO;
@@ -154,7 +155,7 @@ public class ThriftApi {
      */
     public DirectRefundResponse superRefund(String ip, OrderModel orderModel) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("商家操作直退");
         // 直接发起退款
         DirectRefundRequest request = new DirectRefundRequest();
         request.setSuperRefund(0);
