@@ -41,7 +41,7 @@ public class TestMMHuiInfo {
         MHuiCouponRequest mHuiCouponRequest = new MHuiCouponRequest();
         Long userId = (long)0;
         mHuiCouponRequest.setUserId(userId);
-        List<Integer> shopIdList = Arrays.asList(17706326);
+        List<Integer> shopIdList = Arrays.asList(65731456);
         mHuiCouponRequest.setShopIds(shopIdList);
         Map<Integer, List<MHuiCouponDTO>> respList = huiSearchService.loadMSearchHuiCouponsByShops(mHuiCouponRequest);
         String couponDesc = respList.get(shopIdList.get(0)).get(0).getCouponDesc();
@@ -50,7 +50,7 @@ public class TestMMHuiInfo {
 
         /**2.详情买单信息校验**/
         QueryBizCouponRequest queryBizCouponReq  = new QueryBizCouponRequest();
-        queryBizCouponReq.setShopId(17706326);
+        queryBizCouponReq.setShopId(65731456);
         queryBizCouponReq.setUserId(0);
         queryBizCouponReq.setDpId("0");
         List<String> respDetail = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
