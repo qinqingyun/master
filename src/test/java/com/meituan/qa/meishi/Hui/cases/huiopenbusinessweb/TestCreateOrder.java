@@ -2,6 +2,7 @@ package com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.dianping.hui.openbusiness.order.request.EcomOrderCouponOfferReq;
 import com.dianping.hui.openbusiness.order.request.EcomOrderCreateReq;
 import com.dianping.hui.openbusiness.order.request.EcomOrderCreateResp;
 import com.dianping.hui.openbusiness.order.service.EcomOrderCreateService;
@@ -325,6 +326,26 @@ public class TestCreateOrder extends TestDPLogin {
     public void ms_c_createOrder_27(JSONObject request, JSONObject expect) throws Exception {
         EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
         ecomOrderCreateReq.setUserId(Long.valueOf(dpUserId));
+        log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
+        EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
+        log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
+        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+    }
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "byq", createTime = "20201009", des = "点评侧，带有优惠下单,全单折7折")
+    public void ms_c_createOrder_28(JSONObject request, JSONObject expect) throws Exception {
+        EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
+        ecomOrderCreateReq.setUserId(Long.valueOf(dpUserId));
+        log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
+        EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
+        log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
+        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+    }
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "byq", createTime = "20201009", des = "美团侧，带有优惠下单,满减折扣")
+    public void ms_c_createOrder_29(JSONObject request, JSONObject expect) throws Exception {
+        EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
+        ecomOrderCreateReq.setUserId(Long.valueOf(mtUserId));
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
         log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
