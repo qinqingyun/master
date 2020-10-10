@@ -7,7 +7,7 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-<!--            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>-->
+            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
         </classes>
     </test>
 
