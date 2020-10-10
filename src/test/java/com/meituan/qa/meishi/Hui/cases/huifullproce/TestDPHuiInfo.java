@@ -85,7 +85,7 @@ public class TestDPHuiInfo {
         queryBizCouponReq.setDpId("0");
         List<String> resp = bizCouponAcquireService.findAllBizCouponConfigs(queryBizCouponReq).stream().map(BizCouponConfig::getTitle).collect(Collectors.toList());
         log.info(resp.toString());
-        Assert.assertTrue(resp.toString().contains("[满减自动化]"));
+        Assert.assertTrue(resp.toString().contains("[自动化满减]"));
     }
 
     @Test
