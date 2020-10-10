@@ -351,4 +351,24 @@ public class TestCreateOrder extends TestDPLogin {
         log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
         Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
     }
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "byq", createTime = "20201009", des = "点评侧，带有优惠下单,优惠与type不匹配")
+    public void ms_c_createOrder_30(JSONObject request, JSONObject expect) throws Exception {
+        EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
+        ecomOrderCreateReq.setUserId(Long.valueOf(dpUserId));
+        log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
+        EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
+        log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
+        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+    }
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @MethodAnotation(author = "byq", createTime = "20201009", des = "美团侧，带有优惠下单,优惠过期")
+    public void ms_c_createOrder_31(JSONObject request, JSONObject expect) throws Exception {
+        EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
+        ecomOrderCreateReq.setUserId(Long.valueOf(mtUserId));
+        log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
+        EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
+        log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
+        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+    }
 }
