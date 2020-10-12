@@ -49,6 +49,11 @@ public class LoopCheckUtil extends TestBase {
         OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,resvOrderId);
         return orderCreateResult;
     }
+    @LoopCheck(desc = "M站买单创建订单", interval = 1000, timeout = 500 * 10) // 每间隔500ms请求一次，共10s
+    public OrderModel mCreateOrder(String caseId){
+        OrderModel orderCreateResult = maitonApi.mCreateOrder(caseId);
+        return orderCreateResult;
+    }
     @LoopCheck(desc = "查询新老订单ID映射轮询", interval = 500, timeout = 500 * 30) // 每间隔500ms请求一次，共10s
     public MappingOrderIds getMappingOrderIds(String orderId) throws Exception {
         MappingOrderIds mappingOrderIds = thriftApi.getMappingOrderIds(orderId);

@@ -23,13 +23,13 @@ public class GetResvOrderIdForMaiton extends TestBase {
 
     private static void mtLogin(){
         Tracer.serverRecv(new TraceParam(""));
-        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","5002907380");
+        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr",maitonApi.getUserModel().get().getUserId());
         Tracer.getServerTracer().getSpan().getForeverContext().put("uuid","75FC45E70DA7FD7024468E0077DE660951ADFAD5FB298651AFB59400E67CA63F");
         Tracer.putContext("platform", String.valueOf(10));
     }
     private static void dpLogin(){
         Tracer.serverRecv(new TraceParam(""));
-        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","9007199254760212");
+        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr",maitonApi.getUserModel().get().getUserId());
         Tracer.getServerTracer().getSpan().getForeverContext().put("uuid","75FC45E70DA7FD7024468E0077DE660951ADFAD5FB298651AFB59400E67CA63F");
         Tracer.putContext("platform", String.valueOf(20));
     }

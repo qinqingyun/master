@@ -3,10 +3,10 @@ package com.meituan.qa.meishi.Hui.cases.base;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
-import com.dianping.hui.common.enums.UserType;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
+import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderMResult;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
 import com.meituan.qa.meishi.Hui.dto.UseCard;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
@@ -79,6 +79,7 @@ public class MaitonApi {
     static String mtOrderDetailUrl = "/maiton/order/{orderid}";  //美团订单详情接口
     static String dpOrderDetailUrl = "/hui/maiton/order";//点评订单详情接口
     static String merchantDtailUrl = "/hui/orderdetail";//商家订单详情页接口
+    static String mCreateOrderUrl = "hui/cashier/ajaxcreateorder";//M站下单接口
 
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
@@ -205,6 +206,11 @@ public class MaitonApi {
     public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {
         return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,null,null,resvOrderId,0);
     }
+
+    //M站下单接口
+    public OrderModel mCreateOrder(String caseId) {
+        return mCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId);
+     }
 
     public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, CouponProduct couponProduct, DeskCoupon deskcoupon, String receipt, Integer isZero) throws UnsupportedEncodingException {
         // 生成新Trace
@@ -506,5 +512,28 @@ public class MaitonApi {
         }
         return expect;
     }
+    /**
+     * 点评M站下单接口
+     */
+    public OrderModel mCreateOrder(String token, String userAgent, String caseid) {
+        // 生成新Trace
+        MtraceUtil.generatTrace("点评M站下单接口");
 
+        String cookie = "dper=" + token;
+        JSONObject mRequest = DBDataProvider.getRequest(mCreateOrderUrl, caseid);
+        mRequest.getJSONObject("headers").put("pragma-token", token);
+        mRequest.getJSONObject("headers").put("pragma-newtoken", token);
+        mRequest.getJSONObject("headers").put("User-Agent", userAgent);
+        mRequest.getJSONObject("headers").put("Cookie", cookie);
+        ResponseMap response = DBCaseRequestUtil.post("env.api.51ping.host", mRequest);
+        String responseBody = response.getResponseBody();
+        HuiCreateOrderMResult mResult = JSON.parseObject(responseBody, HuiCreateOrderMResult.class);
+        if (mResult == null || mResult.getPayToken() == null || mResult.getTradeNo() == null) {
+            return null;
+        }
+        String url= mResult.getSuccessURL();
+        String orderid= url.substring(url.indexOf('=')+1,url.indexOf('&'));
+        mResult.setPayOrderID(Long.valueOf(orderid));
+        return setOrderModel(orderid, mResult.getPayToken(), mResult.getTradeNo());
+    }
 }

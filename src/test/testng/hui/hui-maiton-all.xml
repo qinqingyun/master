@@ -15,7 +15,6 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-
         </classes>
     </test>
     <test name="以新为主">
