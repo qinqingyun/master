@@ -140,7 +140,7 @@ public class TestCreateOrder extends TestDPLogin {
     @MethodAnotation(author = "byq", createTime = "20200603", des = "美团侧，userAmount不传,originAmount传1.11")
     public void ms_c_createOrder_09(JSONObject request, JSONObject expect) throws Exception {
         EcomOrderCreateReq ecomOrderCreateReq = JSON.parseObject(request.toString(), EcomOrderCreateReq.class);
-        updateUserId("NEW");
+        updateUserId("OLD");
         ecomOrderCreateReq.setUserId(Long.valueOf(mtUserId));
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
