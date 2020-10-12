@@ -220,6 +220,13 @@ public class TestMerchantPromo_New extends TestDPLogin {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            log.error("平台校验已消费退款前延迟2s时异常"+e.toString());
+        }
+
         //平台侧退款校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
