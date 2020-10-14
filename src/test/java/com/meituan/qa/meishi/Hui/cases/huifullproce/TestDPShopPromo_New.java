@@ -205,9 +205,9 @@ public class TestDPShopPromo_New extends TestDPLogin {
 
         // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
         try {
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
-            log.error("平台校验已消费退款前延迟2s时异常："+e.toString());
+            log.error("平台校验已消费退款前延迟5s时异常："+e.toString());
         }
 
         //平台校验已消费退款

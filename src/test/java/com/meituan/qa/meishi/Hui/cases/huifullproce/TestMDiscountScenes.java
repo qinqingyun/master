@@ -147,21 +147,21 @@ public class TestMDiscountScenes extends TestDPLogin {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        //买单侧退款校验
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+        orderCheck.maitonOrder(3,refundOrderResponse);
+
         // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
         try {
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
-            log.error("平台校验已消费退款前延迟2s时异常"+e.toString());
+            log.error("平台校验已消费退款前延迟5s时异常"+e.toString());
         }
 
         //退款平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_dpdiscount_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,dpUserId);
-
-        //买单侧退款校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-        orderCheck.maitonOrder(3,refundOrderResponse);
 
     }
 }
