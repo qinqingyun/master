@@ -95,7 +95,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         inflowtParams.put("inflowt", inflowt);
 
 
-        JSONObject inflowtResp=HttpUtils.doPost(url,inflowtParams.toJSONString(),JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject inflowtResp=HttpUtils.doPost(url,inflowtParams.toJSONString(),JSONObject.class,ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray inflowtIncidentsArray = inflowtResp.getJSONArray("incidents");
         if (inflowtIncidentsArray.size() != 0) {
             for (Object o : inflowtIncidentsArray) {
@@ -120,7 +120,9 @@ public class COEDataExtracter implements ICOEDataExtract {
                 List<Integer> coeIdList2 = coeListPOMapper.selectCoeIdList();
 
                 if (coeIdList2.contains(coePO.getCoeId())) {
+                    log.info("获取coe数据的coeId:{}",coePO.getCoeId());
                     CoeListPO coeListPO = coeListPOMapper.selectByCoeId(coePO.getCoeId());
+
                     coePO.setId(coeListPO.getId());
                     coePO.setAvailable(coeListPO.getAvailable());
                     if (coePO.getOccurDate().compareTo(inceptionDate) <= 0) {
@@ -152,7 +154,7 @@ public class COEDataExtracter implements ICOEDataExtract {
             params.put("list_type", "all");
             List<Integer> coeIdList = coeListPOMapper.selectCoeIdList();
 
-            JSONObject resp = HttpUtils.doPost(url, params.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+            JSONObject resp = HttpUtils.doPost(url, params.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
             JSONArray incidentsArray = resp.getJSONArray("incidents");
             if (incidentsArray.size() != 0) {
                 for (Object o : incidentsArray) {
@@ -277,7 +279,7 @@ public class COEDataExtracter implements ICOEDataExtract {
     }
 
     public void getTodoList(CoeListPO coePO, int coeId) {
-        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
         int todoCount = 0;
@@ -362,7 +364,7 @@ public class COEDataExtracter implements ICOEDataExtract {
     public void getOther(int coeId, CoeListPO po) {
         String cUrl = customUrl + coeId + "/custom";
         log.info("损失信息的URL为：" + cUrl);
-        JSONObject resp = HttpUtils.doGet(cUrl, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject resp = HttpUtils.doGet(cUrl, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONObject custom = resp.getJSONObject("custom");
         if (custom != null) {
             JSONArray instances = custom.getJSONArray("instances");
@@ -437,7 +439,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         getOwnerMis(ownerStr, coePO);
         int coeId = ((JSONObject) o).getInteger("_id");
 
-        JSONObject coeTypeResp = HttpUtils.doGet(coeTypeUrl + coeId + "/types", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeTypeResp = HttpUtils.doGet(coeTypeUrl + coeId + "/types", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray coeTypeArray = coeTypeResp.getJSONArray("types");
         if (coeTypeArray.size() != 0) {
             JSONObject reason = (JSONObject) coeTypeArray.get(0);
@@ -447,7 +449,7 @@ public class COEDataExtracter implements ICOEDataExtract {
         getTodoList(coePO, coeId);
 
         log.info("这条COE的链接是:https://coe.mws.sankuai.com/detail/{}",coeId);
-        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
         if (incidentDetail!=null){
             try {
