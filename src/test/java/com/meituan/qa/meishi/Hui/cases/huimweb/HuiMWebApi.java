@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.model.ResponseMap;
+import com.meituan.toolchain.mario.util.AssertUtil;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
 import com.meituan.toolchain.mario.util.JsonPathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static com.meituan.qa.meishi.Hui.cases.base.TestBase.maitonApi;
-import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPApp;
-import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
+import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.*;
 import static com.meituan.qa.meishi.Hui.util.CheckOrderUtil.getHuiOrderDetailVo;
 
 @Slf4j
@@ -26,6 +26,8 @@ public class HuiMWebApi {
     static String ajaxOrderqueryUrl = "/hui/ajax/orderquery";//订单查询页
     static String ajaxOrderovervieUrl = "/hui/ajax/orderoverview";//全量订单查询总览
     static String ajaxApplyrefundlistqueryUrl = "/hui/ajax/applyrefundlistquery";//退款待办列表查询
+    // mm
+    static String mmWxaPoiUrl = "/hui/mm/wxapoi";  //点评m站进入POI页面，加载POI页门店优惠信息
     /**
      * pc端商家订单详情
      * 例：https://hui-e.51ping.com/hui/orderdetail?serializedId=HGKPET1Z6RZUB3AND&poiId=97224769
@@ -206,4 +208,38 @@ public class HuiMWebApi {
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
         return responseMap;
     }
+
+    /**
+     * 点评m站进入POI页面，加载POI页门店优惠信息
+     * 例子：[test]http://mm.51ping.com/hui/mm/wxapoi?shopId=24799161
+     *      [prod]http://mm.dianping.com/hui/mm/wxapoi?shopId=24799161
+     */
+    @LoopCheck(desc="美团小程序收银台页/点评侧POI页面",interval = 500,timeout = 1000 * 10)
+    public ResponseMap mmWxaPoi(String caseId){
+        maitonApi.replaceUserInfo(DPWx);
+        JSONObject request = new JSONObject();
+        try{
+            request = DBDataProvider.getRequest(mmWxaPoiUrl,caseId);
+            request.getJSONObject("headers").put("param-token",maitonApi.getDpToken());
+            request.getJSONObject("headers").put("user-agent",maitonApi.dpWxClient);
+        }catch (Exception e){
+            log.error("获取/hui/mm/wxapoi的请求参数时发生异常：",e.getMessage());
+        }
+
+        log.info("{点评m站}加载POI页门店优惠信息-请求参数,{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.mm51ping.host",request);
+        return responseMap;
+
+    }
+
+    /**
+     * 成功返回结果的常规校验
+     * 例子：{"code":0,"msg": "success"}
+     */
+    public void commonAssertSuccess(String successRes){
+        JSONObject responseJSON = JSONObject.parseObject(successRes);
+        AssertUtil.assertEquals(responseJSON.get("code"),0);
+        AssertUtil.assertEquals(responseJSON.get("msg"),"success");
+    }
+
 }
