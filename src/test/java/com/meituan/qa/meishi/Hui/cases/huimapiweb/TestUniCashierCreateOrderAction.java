@@ -27,6 +27,7 @@ import java.util.*;
 
 /*
 * 场景：点评、美团创建订单接口 ， 给 >= 7.8.1 版本的APP专用 （底层调用Unicashier接口） 之前版本，请查看 MOpayAction
+* url: https://mapi.51ping.com/hui/unicashiercreateorder.bin
 * */
 
 @ClassAnnotation(author = "zhenyumin",depart = "C",apiName = "",type = "mapi", des = "点评、美团创建订单，给 >= 7.8.1 版本的APP专用")
@@ -47,7 +48,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
         log.info("入参：{}",request);
 
-        ResponseMap response = hmwLoop.createOrderLoopQuery(mtToken,mtClient,request);            // 美团用户
+        ResponseMap response = hmwLoop.postLoopQuery(mtToken,mtClient,request);            // 美团用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -62,7 +63,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
         log.info("入参：{}",request);
 
-        ResponseMap response = hmwLoop.createOrderLoopQuery(mtToken,mtClient,request);            // 美团用户
+        ResponseMap response = hmwLoop.postLoopQuery(mtToken,mtClient,request);            // 美团用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -124,7 +125,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         }
 
         log.info("入参：{}", request);
-        ResponseMap response = hmwLoop.createOrderLoopQuery(mtToken,mtClient,request);            // 美团用户
+        ResponseMap response = hmwLoop.postLoopQuery(mtToken,mtClient,request);            // 美团用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -139,7 +140,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
         log.info("入参：{}",request);
 
-        ResponseMap response = hmwLoop.createOrderLoopQuery(mtToken,mtClient,request);            // 美团用户
+        ResponseMap response = hmwLoop.postLoopQuery(mtToken,mtClient,request);            // 美团用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -153,7 +154,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
         log.info("入参：{}",request);
 
-        ResponseMap response = hmwLoop.createOrderLoopQuery(dpToken,dpClient,request);            // 点评用户
+        ResponseMap response = hmwLoop.postLoopQuery(dpToken,dpClient,request);            // 点评用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -168,7 +169,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
 
         log.info("入参：{}",request);
-        ResponseMap response = hmwLoop.createOrderLoopQuery(dpToken,dpClient,request);            // 点评用户
+        ResponseMap response = hmwLoop.postLoopQuery(dpToken,dpClient,request);            // 点评用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -210,7 +211,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
         request.getJSONObject("body").put("dpdealstring",URLEncoder.encode(deskCoupon.getCipher(), "utf-8"));
 
         log.info("入参：{}",request);
-        ResponseMap response = hmwLoop.createOrderLoopQuery(dpToken,dpClient,request);            // 点评用户
+        ResponseMap response = hmwLoop.postLoopQuery(dpToken,dpClient,request);            // 点评用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果
@@ -224,7 +225,7 @@ public class TestUniCashierCreateOrderAction extends TestDPLogin{
 
         List<String> path_list = Arrays.asList("$.OrderId","$.SerializedId","$.PayToken","$.Tradeno");
         log.info("入参：{}",request);
-        ResponseMap response = hmwLoop.createOrderLoopQuery(dpToken,dpClient,request);            // 点评用户
+        ResponseMap response = hmwLoop.postLoopQuery(dpToken,dpClient,request);            // 点评用户
         log.info("结果返回：{}",JSON.toJSONString(response));
 
         // 校验返回结果

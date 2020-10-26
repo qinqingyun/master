@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 /*
+* url: https://mapi.51ping.com/hui/loadunifiedcashier.bin
 * 场景：点评、美团APP，当前门店支持买单时加载买单收银台【买单收银台，填写买单订单相关信息】
 * */
 

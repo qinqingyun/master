@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
+* url: https://mapi.51ping.com/hui/querymopaystatus.bin
 * 场景：点评、美团APP，买单订单支付完成后调用查询订单支付结果，轮询接口"
 * 返回结果部分参数说明：
 *   支付的状态(0 未支付，1支付成功，-1 支付失败 -10 创建之后发起支付失败，不对用户显示)，2（退款中），3（已退款）

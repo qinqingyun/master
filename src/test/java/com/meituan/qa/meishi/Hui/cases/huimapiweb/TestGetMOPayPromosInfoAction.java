@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
 /*
+* url: https://mapi.51ping.com/hui/getmopaypromosinfo.bin
 * 场景：点评、美团APP门店详情页查询买单优惠、券信息
 * */
 @ClassAnnotation(author = "zhenyumin",depart = "C",apiName = "",type = "mapi",des = "商户页面获取优惠")
