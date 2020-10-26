@@ -130,7 +130,7 @@
         <dependency>
             <groupId>com.dianping</groupId>
             <artifactId>hui-open-business-api</artifactId>
-            <version>0.2.5-SNAPSHOT</version>
+            <version>0.2.10-SNAPSHOT</version>
         </dependency>
         <!--买单业务结束-->
         <!--预订业务开始-->
@@ -212,7 +212,6 @@
             <artifactId>unity-validation-api</artifactId>
             <version>0.0.8</version>
         </dependency>
-
     </dependencies>
     <profiles>
         <profile>

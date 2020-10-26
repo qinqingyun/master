@@ -19,16 +19,19 @@
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
                 <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrder"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderLimitRecord"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderStatistics"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderSummary"/>
-                <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderByReceipt"/>
-
-
             </classes>
         </test>
+    <test name="以新为主_NEW">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrder"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderLimitRecord"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderStatistics"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderSummary"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderByReceipt"/>
+        </classes>
+    </test>
 
     <parameter name="maxRetries" value="3"/>
     <parameter name="sleepBetweenRetries" value="1000"/>

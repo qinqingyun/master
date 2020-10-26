@@ -1,4 +1,4 @@
-<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="8">
+<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="6">
     <parameter name="team_id" value="179"/>
     <test name="以老为主">
         <parameter name="DoubleWriteMode" value="OLD"/>

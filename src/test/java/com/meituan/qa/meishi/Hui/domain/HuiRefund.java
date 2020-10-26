@@ -219,7 +219,7 @@ public class HuiRefund {
         // 原路
         request.setRouter(1);
         request.setUserId(userId);
-        System.out.println(JSON.toJSONString(request));
+        log.info("申请退款参数：{}",JSON.toJSONString(request));
         refundFlowService.applyRefund(request);
         return request;
     }

@@ -79,6 +79,7 @@ public class TestdpOriginalScence_New extends TestDPLogin {
             LionUtil.setUserWriteList(dpUserIdByq + "_0");
             refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
             Tracer.putContext("PAY_MOCK","TRUE");
+            Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
         }
         if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(dpUserIdByq+"_0");

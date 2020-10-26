@@ -1,5 +1,6 @@
 package com.meituan.qa.meishi.Hui.entity.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +13,6 @@ public class UserModel {
     String token;
     String userAgent;
     String userId;
+    String merchantBsid;
     public UserModel(){}
 }

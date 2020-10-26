@@ -38,6 +38,5 @@ public class MaitonCashier {
     private String totalAmountTips;
     private OpbVipInfo opbVipInfo;
     private String huiCouponInfo;
-
 }
 

@@ -91,7 +91,7 @@ public class TestMerchantPromo_New extends TestDPLogin {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
-    //String  doubleWriteMode = "OLD";
+    //String  doubleWriteMode = "NEW";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1")
     @MethodAnotation(author = "wuanran", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
@@ -220,14 +220,22 @@ public class TestMerchantPromo_New extends TestDPLogin {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        //买单侧退款校验
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+        orderCheck.maitonOrder(3,refundOrderResponse);
+
+        // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
+        try {
+            TimeUnit.SECONDS.sleep(8);
+        } catch (InterruptedException e) {
+            log.error("平台校验已消费退款前延迟8s时异常"+e.toString());
+        }
+        log.info("开始  退款平台校验");
+
         //平台侧退款校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
-
-        //买单侧退款校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
         differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_merchantPromo退款成功订单diff");

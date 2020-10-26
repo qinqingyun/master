@@ -115,7 +115,7 @@ public class TestZeroOrder_New extends TestDPLogin {
         orderCheck.maitonOrder(2,QueryOrderResponse);
 
         //支付成功订单diff
-        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_resvZeroScenes_01支付成功订单diff");
+//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_resvZeroScenes_01支付成功订单diff");
 
         //支付结果页
         String statusMsg = checkLoop.getOrderState(serializedId,mtToken,mtClient,"ms_c_huiFullProcess_101_queryMopayStatus");
@@ -141,7 +141,7 @@ public class TestZeroOrder_New extends TestDPLogin {
         //平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_resvZeroScenes_platform_consum");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
-        checkLoop.getPlatformStatus(3,neworderid,refundOrderRequest,String.valueOf(mtUserId));
+        checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
         //买单侧退款校验
         QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);

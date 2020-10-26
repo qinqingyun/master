@@ -80,7 +80,7 @@ public class TestMTShopPromo_New extends TestDPLogin {
      * o6nT68Q0fiFN1Ov04inIQY0TYURST%2FiDjegrqsoweUHOAHeM0Zmz%2BZBUWVOCSwdrydqiNKTPs%2BuxJ0USCEM28U%2BsKm4%2BTKmgJm4esMqnB5w%3D%23ssKyhaTwI%2FXPrviN9Ha7990NpfKddu0%2FHuWVTxZdtjmJUT1BWPTEDCW7bZTgdej8LiE1ZHgyECyTp0rrbP4yXhYKt4914aYBGeugj9iQAo0e%2BSlShx%2BmRRreaSvwXMv3%235gg7O6x3yCWMV%2BinDIZVFjPoKPlhZTn7NZkR%2F6eftsVP1ZH%2BYDsDKN%2Fcbi787AgP8dwhSSGvwOF0aOqxlthMMQ%3D%3D
      * UnifiedCouponIssueRequest：{"userId":123344,"userType":"MT",operationToken:"26332572ACA5F1D2591E34B4B4AF4271","operator":"dengjia06","couponGroupIdList":[],"unifiedCouponGroupIdList":["549009064"]}
      */
-    //String  doubleWriteMode = "NEW";
+    //String  doubleWriteMode = "OLD";
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "点评app，使用商家优惠券买单：返券->发券->买单使用商家优惠券->下单->支付->极速退款")
     @MethodAnotation(author = "byq", createTime = "2019-10-31", updateTime = "2019-10-31", des = "普通下单(原价)")
@@ -155,13 +155,12 @@ public class TestMTShopPromo_New extends TestDPLogin {
         orderCheck.maitonOrder(1,createOrderResponse);
 
         //3、支付
-        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
         Long amount = createOrderResponse.getOrderDTO().getUserAmount().longValue() * 100;
         payNotifyMockRequest.setTradeNo(tradeNo);
         payNotifyMockRequest.setOrderId(neworderid);
         payNotifyMockRequest.setAmount(amount);
-        if(doubleWriteMode.equals("OLD")){
-            payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
+        if (doubleWriteMode.equals("OLD")) {
+            payNotifyMockRequest.setOutNo("DPHUI-" + orderId);
         }
         PayMockUtil.mockPay(payNotifyMockRequest);
 
@@ -204,14 +203,23 @@ public class TestMTShopPromo_New extends TestDPLogin {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        //买单侧退款后校验
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+//        orderCheck.maitonOrder(3,refundOrderResponse);
+
+        // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            log.error("平台校验已消费退款前延迟5s时异常"+e.toString());
+        }
+
         //退款后平台校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_mtshopScenes_platform");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
 
-        //买单侧退款后校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-//        orderCheck.maitonOrder(3,refundOrderResponse);
+
 
     }
 }
