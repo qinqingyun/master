@@ -1,6 +1,7 @@
 package com.meituan.qa.meishi.Hui.cases.huimweb;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meituan.qa.meishi.Hui.entity.OrderSourceEnum;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.model.ResponseMap;
@@ -28,6 +29,8 @@ public class HuiMWebApi {
     static String ajaxApplyrefundlistqueryUrl = "/hui/ajax/applyrefundlistquery";//退款待办列表查询
     // mm
     static String mmWxaPoiUrl = "/hui/mm/wxapoi";  //点评m站进入POI页面，加载POI页门店优惠信息
+    static String mmShopUrl = "/hui/mm/shop";      //点评mm站提单页入口/跳转页面
+    static String mmCashierUrl = "/hui/mm/cashier";      //点评mm站提单页入口
     /**
      * pc端商家订单详情
      * 例：https://hui-e.51ping.com/hui/orderdetail?serializedId=HGKPET1Z6RZUB3AND&poiId=97224769
@@ -231,6 +234,48 @@ public class HuiMWebApi {
         return responseMap;
 
     }
+
+    /**
+     * 点评mm站提单页面入口
+     * 例：http://mm.51ping.com/hui/mm/shop?shopId=66526423
+     * */
+    @LoopCheck(desc = "点评mm站提单页面入口/跳转页面", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap mmShop(String caseId, OrderSourceEnum source, String access) {
+        maitonApi.replaceUserInfo(source);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(mmShopUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        request.getJSONObject("headers").put("param-token",maitonApi.getDpToken());
+        request.getJSONObject("headers").put("user-agent",access);
+        log.info("点评mm站提单页面入口-入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.mm51ping.host", request);
+        return responseMap;
+    }
+
+    /**
+     * 点评mm站提单页面/收银页面
+     * 例：http://mm.51ping.com/hui/mm/cashier?shopType=0&shopId=24799161&amountlocked=0
+     * */
+    @LoopCheck(desc = "点评mm站提单页面入口/跳转页面", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap mmCashier(String caseId) {
+        maitonApi.replaceUserInfo(DPApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(mmCashierUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        request.getJSONObject("headers").put("param-token",maitonApi.getDpToken());
+        request.getJSONObject("headers").put("user-agent",maitonApi.getDpWxClient());
+        log.info("点评mm站提单页面/收银页面-入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.mm51ping.host", request);
+        return responseMap;
+    }
+
+
 
     /**
      * 成功返回结果的常规校验
