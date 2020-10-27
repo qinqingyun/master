@@ -32,7 +32,8 @@ public class DutyDataExtracterTest {
 
     @Test
     public void extractData4Day() {
-        LocalDate today=LocalDate.now().minusDays(3);
+        LocalDate today=LocalDate.now();
+                //.minusDays(1);
         oneDayDutyDataExtract.extractData4Day(today);
 
     }
