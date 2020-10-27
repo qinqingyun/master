@@ -1,9 +1,11 @@
 package com.meituan.qa.meishi.Hui.cases.huimweb;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meituan.toolchain.mario.annotation.LoopCheck;
 import com.meituan.toolchain.mario.framework.DBDataProvider;
 import com.meituan.toolchain.mario.model.ResponseMap;
+import com.meituan.toolchain.mario.util.AssertUtil;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
 import com.meituan.toolchain.mario.util.JsonPathUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +63,7 @@ public class HuiMWebApi {
             request = DBDataProvider.getRequest(unicashierCouponDescUrl, caseId);
         } catch (Exception e) {
             log.error(e.getMessage());
+            return null;
         }
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","token" + maitonApi.getUserModel().get().getToken());
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","mt_token" + maitonApi.getUserModel().get().getToken());
@@ -74,7 +77,7 @@ public class HuiMWebApi {
      * 买单收银页-按门店活动查询
      * 例：https://hui-e.51ping.com/hui/ajax/cashierquery
      * */
-    @LoopCheck(desc = "买单收银页按门店活动查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "买单收银页按门店活动查询轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxCashierquery(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -89,13 +92,22 @@ public class HuiMWebApi {
 
         log.info("买单收银页按门店活动查询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
     /**
      * 买单收银页-总览
      * 例：https://hui-e.51ping.com/hui/ajax/cashieroverview
      * */
-    @LoopCheck(desc = "买单收银页总览轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "买单收银页总览轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxCashieroverview(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -110,6 +122,15 @@ public class HuiMWebApi {
 
         log.info("买单收银页总览入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
     /**获取当前时间所在的0点时段
@@ -133,7 +154,7 @@ public class HuiMWebApi {
      * 买单收银页-订单查询
      * 例：https://hui-e.51ping.com/hui/ajax/cashierquerybyorderid
      * */
-    @LoopCheck(desc = "买单收银页订单查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "买单收银页订单查询轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxCashierquerybyorderid(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -145,13 +166,22 @@ public class HuiMWebApi {
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
         log.info("买单收银页订单查询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
     /**
      * 订单查询页-订单查询
      * 例：https://hui-e.51ping.com/hui/ajax/orderquery
      * */
-    @LoopCheck(desc = "订单查询页订单查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "订单查询页订单查询轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxOrderquery(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -165,13 +195,22 @@ public class HuiMWebApi {
         request.getJSONObject("body").put("endTime", getEndTimeDate());
         log.info("订单查询页订单查询轮询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
     /**
      * 全量订单查询-总览
      * 例：https://hui-e.51ping.com/hui/ajax/orderoverview
      * */
-    @LoopCheck(desc = "全量订单查询总览轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "全量订单查询总览轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxOrderovervie(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -186,13 +225,22 @@ public class HuiMWebApi {
 
         log.info("全量订单查询总览入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
     /**
      * 退款待办列表查询
      * 例：https://hui-e.51ping.com/hui/ajax/applyrefundlistquery
      * */
-    @LoopCheck(desc = "退款待办列表查询轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "退款待办列表查询轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap ajaxApplyrefundlistquery(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
@@ -200,10 +248,20 @@ public class HuiMWebApi {
             request = DBDataProvider.getRequest(ajaxApplyrefundlistqueryUrl, caseId);
         } catch (Exception e) {
             log.error(e.getMessage());
+            return null;
         }
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
         log.info("退款待办列表查询入参：{}",request);
         ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        try {
+            int code = JSONObject.parseObject(responseMap.getResponseBody()).getInteger("code");
+            if(code == 0){
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
         return responseMap;
     }
 }
