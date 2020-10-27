@@ -19,7 +19,7 @@ public class TestCashierquery extends TestBase {
     @Test(groups = "{P1}")
     @MethodAnotation(author = "zhenyumin",createTime = "2020-10-26",des = "点评mm站提单页面/收银页")
     public void ms_c_mmCashier_01(){
-        ResponseMap responseMap = huiMWebApi.cashierquery("ms_c_mmCashier_01");
+        ResponseMap responseMap = huiMWebApi.cashierquery("ms_c_cashierquery_01");
         log.info("返回结果：{}",responseMap.getResponseBody());
 
         AssertUtil.assertHttpCode(responseMap,200,"http状态码不是200!");

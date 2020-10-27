@@ -22,15 +22,18 @@ public class HuiMWebApi {
     static String merchantDtailUrl = "/hui/orderdetail";//商家订单详情页接口
     static String unicashierCouponDescUrl = "/hui/maiton/couponDesc"; //美团APP优惠详情页
     static String ajaxCashierqueryUrl = "/hui/ajax/cashierquery"; //买单收银页按门店活动查询
-    static String ajaxCashieroverviewUrl = "/hui/ajax/cashieroverview";//买单收银页总览
+    static String ajaxCashieroverviewUrl = "/hui/ajax/cashieroverview";//买单收银页总览——返回结果为json数据
     static String ajaxCashierquerybyorderidUrl = "/hui/ajax/cashierquerybyorderid";//买单收银页订单查询
     static String ajaxOrderqueryUrl = "/hui/ajax/orderquery";//订单查询页
     static String ajaxOrderovervieUrl = "/hui/ajax/orderoverview";//全量订单查询总览
     static String ajaxApplyrefundlistqueryUrl = "/hui/ajax/applyrefundlistquery";//退款待办列表查询
-    // mm
-    static String mmWxaPoiUrl = "/hui/mm/wxapoi";  //点评m站进入POI页面，加载POI页门店优惠信息
-    static String mmShopUrl = "/hui/mm/shop";      //点评mm站提单页入口/跳转页面
-    static String mmCashierUrl = "/hui/mm/cashier";      //点评mm站提单页入口
+    // mm站
+    static String mmWxaPoiUrl = "/hui/mm/wxapoi";           //点评m站进入POI页面，加载POI页门店优惠信息
+    static String mmShopUrl = "/hui/mm/shop";               //点评mm站提单页入口/跳转页面，返回结果为html页面
+    static String mmCashierUrl = "/hui/mm/cashier";         //点评mm站提单页/收银页面，返回结果为html页面
+    static String mmCreateOrderUrl = "/hui/mm/createOrder";    //点评mm站提单页下单
+    //商家中心
+    static String cashierqueryUrl = "/hui/cashierquery";    //买单收银页总览页面，返回结果为html页面
     /**
      * pc端商家订单详情
      * 例：https://hui-e.51ping.com/hui/orderdetail?serializedId=HGKPET1Z6RZUB3AND&poiId=97224769
@@ -275,24 +278,40 @@ public class HuiMWebApi {
         return responseMap;
     }
     /**
-     * 买单收银页-无筛选条件
+     * 买单收银页-html页面
      * 例：https://hui-e.51ping.com/hui/cashierquery
      * */
-    @LoopCheck(desc = "买单收银页-无筛选条件", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "买单收银页-html页面", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public ResponseMap cashierquery(String caseId) {
         maitonApi.replaceUserInfo(MTApp);
         JSONObject request = new JSONObject();
         try {
-            request = DBDataProvider.getRequest(ajaxCashierqueryUrl, caseId);
+            request = DBDataProvider.getRequest(cashierqueryUrl, caseId);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
-        request.getJSONObject("body").put("beginTime", getBeginTimeDate());
-        request.getJSONObject("body").put("endTime", getEndTimeDate());
 
-        log.info("买单收银页按门店活动查询入参：{}",request);
-        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        log.info("加载买单收银html页面-入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.meishi.merchant.host", request);
+        return responseMap;
+    }
+    /**
+     * 点评mm站下单
+     * 例子：http://mm.51ping.com/hui/mm/createOrder
+     */
+    @LoopCheck(desc = "点评mm站下单",interval = 500,timeout = 1000 * 10)
+    public ResponseMap mmCreateOrder(String caseId){
+        maitonApi.replaceUserInfo(DPWx);
+        JSONObject request = new JSONObject();
+        try{
+            request = DBDataProvider.getRequest(mmCreateOrderUrl,caseId);
+        }catch (Exception e){
+            log.error("获取测试数据报错："+e.getMessage());
+        }
+
+        log.info("点评mm站下单-入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.mm51ping.host",request);
         return responseMap;
     }
 
