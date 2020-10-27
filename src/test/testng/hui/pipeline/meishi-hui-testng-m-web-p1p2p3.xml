@@ -23,6 +23,7 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
         </classes>
     </test>
 
