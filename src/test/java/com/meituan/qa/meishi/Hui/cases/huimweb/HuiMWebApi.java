@@ -274,6 +274,27 @@ public class HuiMWebApi {
         ResponseMap responseMap = DBCaseRequestUtil.get("env.api.mm51ping.host", request);
         return responseMap;
     }
+    /**
+     * 买单收银页-无筛选条件
+     * 例：https://hui-e.51ping.com/hui/cashierquery
+     * */
+    @LoopCheck(desc = "买单收银页-无筛选条件", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap cashierquery(String caseId) {
+        maitonApi.replaceUserInfo(MTApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxCashierqueryUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        JsonPathUtil.setJsonPathVaule(request, "$.headers.Cookie","hui_bsid_https=" + maitonApi.getUserModel().get().getMerchantBsid());
+        request.getJSONObject("body").put("beginTime", getBeginTimeDate());
+        request.getJSONObject("body").put("endTime", getEndTimeDate());
+
+        log.info("买单收银页按门店活动查询入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.meishi.merchant.host", request);
+        return responseMap;
+    }
 
 
 
