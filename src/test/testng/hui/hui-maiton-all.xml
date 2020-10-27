@@ -16,6 +16,11 @@
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
 
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
+
         </classes>
     </test>
     <test name="以新为主">
@@ -38,6 +43,11 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
+
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
         </classes>
     </test>
 <!--重构后以新为主case-->
@@ -59,6 +69,7 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="5"/>
