@@ -64,13 +64,13 @@ public class TestZeroOrder_New extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    //String  doubleWriteMode="NEW";
+    String  doubleWriteMode="OLD";
 
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     @MethodAnotation(author = "byq", createTime = "2019-12-13",  des = "预定金0元单场景")
 
-    public void ms_c_resvZeroScenes_01(String  doubleWriteMode) throws Exception{
+    public void ms_c_resvZeroScenes_01() throws Exception{
         log.info("ms_c_resvZeroScenes_01走老走新的状态{}",doubleWriteMode);
         DifferentRecord differentRecord = new DifferentRecord(dataCompareAssistService,invokeTaskServiceI);
         //0、预订金订单下单
