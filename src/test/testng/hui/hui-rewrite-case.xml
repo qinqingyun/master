@@ -37,7 +37,7 @@
                 <include name="dpShopPromoTest"/>
                 <include name="dpCouponPromoTest"/>
             </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>-->
         </classes>
     </test>
     <test name="以老为主">
@@ -57,7 +57,7 @@
                 <include name="dpShopPromoTest"/>
                 <include name="dpCouponPromoTest"/>
             </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>-->
         </classes>
     </test>
 
