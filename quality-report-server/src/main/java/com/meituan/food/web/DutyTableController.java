@@ -36,17 +36,17 @@ public class DutyTableController {
         po.setDutyName(dutyTablePO.getDutyName());
         dutyTablePOMapper.updateByPrimaryKey(po);
     }
-    @GetMapping("/push")
-    public void pushList(){
-//        DaXiangUtils.pushToRoom("@部玉琪 轮到你值班了\n"+"周末值班QA须知\n" +
+//    @GetMapping("/push")
+//    public void pushList(){
+//        DaXiangUtils.pushToRoom("@黄桂琳 @秦庆贇 轮到你们值班了\n"+"周末值班QA须知\n" +
 //                "1、客服商服反馈群，有问题反馈，会根据配置自动拉群处理，值班同学需关注群内的进度。\n" +
 //                "2、若提报问题自动匹配错误，需值班同学手动拉相关人进群。若提报问题未自动匹配，则需要值班同学手动拉群处理，并将问题编号记录，同步给buyuqi同学\n" +
 //                "3、值班同学需关注自己值班当天，群内问题的解决情况，若问题已解决，督促提报人关闭问题。\n" +
 //                "4、值班同学可参考各平台业务对接人引导wiki：https://km.sankuai.com/page/181829982，拉取相关同学进群，配合解决问题。",879074L);
 //
-//        DaXiangUtils.pushToRoom("本周值班人员：" + "@部玉琪",64013968876L );
-//        DaXiangUtils.pushToPerson("本周值班人员：" + "部玉琪", "buyuqi");
-    }
+//        DaXiangUtils.pushToRoom("本周值班人员：" + "@黄桂琳 @秦庆贇",64013968876L );
+//        DaXiangUtils.pushToPerson("本周值班人员：" + "黄桂琳 秦庆贇", "buyuqi");
+//    }
 
 
     @GetMapping("/insert")
@@ -89,11 +89,11 @@ public class DutyTableController {
         po4.setDutyMis("caodong03");
         dutyTablePOMapper.insert(po4);
 
-        DutyTablePO po5=new DutyTablePO();
-        po5.setIsOnDuty(false);
-        po5.setDutyName("曹挡挡");
-        po5.setDutyMis("caodangdang");
-        dutyTablePOMapper.insert(po5);
+//        DutyTablePO po5=new DutyTablePO();
+//        po5.setIsOnDuty(false);
+//        po5.setDutyName("曹挡挡");
+//        po5.setDutyMis("caodangdang");
+//        dutyTablePOMapper.insert(po5);
 
         DutyTablePO po6=new DutyTablePO();
         po6.setIsOnDuty(false);
@@ -143,11 +143,11 @@ public class DutyTableController {
 //        r.setDutyName("费立超");
 //        dutyTablePOMapper.insert(r);
 
-        DutyTablePO t=new DutyTablePO();
-        t.setIsOnDuty(false);
-        t.setDutyMis("dengjinbao");
-        t.setDutyName("邓金保");
-        dutyTablePOMapper.insert(t);
+//        DutyTablePO t=new DutyTablePO();
+//        t.setIsOnDuty(false);
+//        t.setDutyMis("dengjinbao");
+//        t.setDutyName("邓金保");
+//        dutyTablePOMapper.insert(t);
 
         DutyTablePO w=new DutyTablePO();
         w.setIsOnDuty(false);
@@ -187,15 +187,15 @@ public class DutyTableController {
 
         DutyTablePO ab=new DutyTablePO();
         ab.setIsOnDuty(false);
-        ab.setDutyMis("zzhangailing03");
+        ab.setDutyMis("zhangailing03");
         ab.setDutyName("张爱玲");
         dutyTablePOMapper.insert(ab);
 
-        DutyTablePO k=new DutyTablePO();
-        k.setIsOnDuty(false);
-        k.setDutyMis("sunnaili");
-        k.setDutyName("孙乃利");
-        dutyTablePOMapper.insert(k);
+//        DutyTablePO k=new DutyTablePO();
+//        k.setIsOnDuty(false);
+//        k.setDutyMis("sunnaili");
+//        k.setDutyName("孙乃利");
+//        dutyTablePOMapper.insert(k);
 
         DutyTablePO h1=new DutyTablePO();
         h1.setIsOnDuty(false);
@@ -203,11 +203,11 @@ public class DutyTableController {
         h1.setDutyName("黄桂琳");
         dutyTablePOMapper.insert(h1);
 
-        DutyTablePO h=new DutyTablePO();
-        h.setIsOnDuty(false);
-        h.setDutyMis("qinqingyun");
-        h.setDutyName("秦庆贇");
-        dutyTablePOMapper.insert(h);
+//        DutyTablePO h=new DutyTablePO();
+//        h.setIsOnDuty(false);
+//        h.setDutyMis("qinqingyun");
+//        h.setDutyName("秦庆贇");
+//        dutyTablePOMapper.insert(h);
 
 //        DutyTablePO ac=new DutyTablePO();
 //        ac.setIsOnDuty(false);
