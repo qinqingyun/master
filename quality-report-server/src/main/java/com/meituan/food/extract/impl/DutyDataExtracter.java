@@ -64,8 +64,8 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
             }
 
             DaXiangUtils.pushToPerson(nameList + "轮到你们值班了\n" + content, "zhangyangyang17");
-         //   DaXiangUtils.pushToRoom(nameList + "轮到你们值班了\n" + content, 879074L);
-          //  DaXiangUtils.pushToRoom("本周值班人员：" + nameList, 64013968876L);
+            DaXiangUtils.pushToRoom(nameList + "轮到你们值班了\n" + content, 879074L);
+            DaXiangUtils.pushToRoom("本周值班人员：" + nameList, 64013968876L);
 
         }
     }
@@ -74,7 +74,7 @@ public class DutyDataExtracter implements IOneDayDutyDataExtract {
     public void pushToAdmin(LocalDate today) {
         String firstDayStr = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         List<String> nameList = dutyTablePOMapper.selectByDate(firstDayStr);
-      //  DaXiangUtils.pushToPerson("本周值班人员：" + nameList.toString(), "buyuqi");
+        DaXiangUtils.pushToPerson("本周值班人员：" + nameList.toString(), "buyuqi");
     }
 
     public static Date localDate2Date(LocalDate localDate) {
