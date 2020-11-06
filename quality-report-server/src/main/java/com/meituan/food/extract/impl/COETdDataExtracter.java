@@ -83,7 +83,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
 
         //获取coe列表数据-到店数据
-        JSONObject Resp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject Resp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray incidentsArray = Resp.getJSONArray("incidents");
         log.info("coe获取的数量：{}", incidentsArray.size());
         log.info("开始时间：{}", firstDayStr);
@@ -251,7 +251,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
 
         //获取coe列表数据-影响到店的数据
-        JSONObject inflowtResp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject inflowtResp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray inflowtIncidentsArray = inflowtResp.getJSONArray("incidents");
         if (inflowtIncidentsArray.size() != 0) {
             for (Object o : inflowtIncidentsArray) {
@@ -351,7 +351,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         getOwnerMis(ownerStr, coePO);
         int coeId = ((JSONObject) o).getInteger("_id");
 
-        JSONObject coeTypeResp = HttpUtils.doGet(coeTypeUrl + coeId + "/types", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeTypeResp = HttpUtils.doGet(coeTypeUrl + coeId + "/types", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray coeTypeArray = coeTypeResp.getJSONArray("types");
         if (coeTypeArray.size() != 0) {
             JSONObject reason = (JSONObject) coeTypeArray.get(0);
@@ -361,7 +361,8 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
         log.info("需要获取orgname的coeid:{}", coeId);
 
-        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332" +
+                ""));
         log.info("访问每个coe的结果:{}", coeDetailResp.toString());
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
         String orgPath = incidentDetail.getString("org_path");
@@ -369,7 +370,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         //  getTodoList(coePO, coeId);
 
         //coe的创建时间
-        JSONObject coeHistoryResp = HttpUtils.doGet(coeHistoryUrl + coeId + "/history", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeHistoryResp = HttpUtils.doGet(coeHistoryUrl + coeId + "/history", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray history = coeHistoryResp.getJSONArray("history");
         List<Object> historyList = new ArrayList<Object>();
         historyList = JSONObject.parseArray(history.toJSONString(), Object.class);
@@ -407,7 +408,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
     //获取每一个case中的todo项
     public void getTodoList(McdCoePO coePO, int coeId, String orgName) {
-        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
         int todoCount = 0;
@@ -492,7 +493,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
     public void getOther(int coeId, McdCoePO po) {
         String cUrl = customUrl + coeId + "/custom";
         log.info("损失信息的URL为：" + cUrl);
-        JSONObject resp = HttpUtils.doGet(cUrl, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject resp = HttpUtils.doGet(cUrl, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONObject custom = resp.getJSONObject("custom");
         if (custom != null) {
             JSONArray instances = custom.getJSONArray("instances");
