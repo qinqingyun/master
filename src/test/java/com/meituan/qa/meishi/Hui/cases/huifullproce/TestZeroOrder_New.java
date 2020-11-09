@@ -89,6 +89,7 @@ public class TestZeroOrder_New extends TestDPLogin {
         if( doubleWriteMode.equals("NEW")) {
             LionUtil.setUserWriteList(mtUserId + "_1");
             Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
+            Tracer.putContext("SettleMock", "true");
         }
         if( doubleWriteMode.equals("OLD")){
             LionUtil.setUserBlackList(mtUserId+"_1");
