@@ -9,6 +9,7 @@
                 <include name="mtDiscountTest"/>
                 <include name="mtShopPromoTest"/>
                 <include name="mtCouponPromoTest"/>
+                <include name="mtResvZeroTest"/>
             </methods>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
             <methods>
@@ -29,6 +30,7 @@
                 <include name="mtDiscountTest"/>
                 <include name="mtShopPromoTest"/>
                 <include name="mtCouponPromoTest"/>
+                <include name="mtResvZeroTest"/>
             </methods>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
             <methods>
@@ -49,6 +51,7 @@
                 <include name="mtDiscountTest"/>
                 <include name="mtShopPromoTest"/>
                 <include name="mtCouponPromoTest"/>
+                <include name="mtResvZeroTest"/>
             </methods>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
             <methods>

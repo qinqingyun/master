@@ -291,7 +291,7 @@ public class DianPingAppTest extends TestBase {
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
-     * 用例简介:     买单使用满减方案+预订金支付，非0元单
+     * 用例简介:     买单使用满减方案+预订金支付，0元单
      * 数据源:       poiId：95191712   shopId：66526423
      * 主要流程:     预订订单生成 -> 查询优惠台 -> 下单 -> 详情 -> 退款
      * 备注:        平台：点评侧 ；买单方案：满减买单；退款方式：极速退款，还没调试通过
