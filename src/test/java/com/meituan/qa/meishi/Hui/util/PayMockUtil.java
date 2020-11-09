@@ -1,6 +1,7 @@
 package com.meituan.qa.meishi.Hui.util;
 
 import com.alibaba.fastjson.JSON;
+import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.toolchain.mario.model.ResponseMap;
@@ -56,11 +57,13 @@ public class PayMockUtil {
             case "NEW_MAIN":
                 payNotifyMockRequest.setScene(Scene.NEW_MAIN);
                 refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
+                Tracer.putContext("SettleMock", "true");            // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
 
             case "NEW_ONLY":
                 payNotifyMockRequest.setScene(Scene.NEW_ONLY);
                 refundNotifyMockRequest.setScene(Scene.NEW_ONLY);
+                Tracer.putContext("SettleMock", "true");              // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
         }
     }
