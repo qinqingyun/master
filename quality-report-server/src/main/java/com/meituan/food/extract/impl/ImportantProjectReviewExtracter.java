@@ -10,7 +10,6 @@ import com.meituan.food.utils.DaXiangUtils;
 import com.meituan.food.utils.HttpUtils;
 import com.meituan.food.utils.SsoUtils;
 import com.meituan.food.utils.UrlUtils;
-import org.apache.tools.ant.taskdefs.Java;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
