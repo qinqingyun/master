@@ -57,13 +57,11 @@ public class PayMockUtil {
             case "NEW_MAIN":
                 payNotifyMockRequest.setScene(Scene.NEW_MAIN);
                 refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
-                Tracer.putContext("SettleMock", "true");            // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
 
             case "NEW_ONLY":
                 payNotifyMockRequest.setScene(Scene.NEW_ONLY);
                 refundNotifyMockRequest.setScene(Scene.NEW_ONLY);
-                Tracer.putContext("SettleMock", "true");              // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
         }
     }

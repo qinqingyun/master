@@ -23,9 +23,11 @@ public class SetTraceUtil extends TestBase {
             case "NEW_MAIN":
                 Tracer.putContext("MOCK_APPLY_REFUND","TRUE");
                 Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
+                Tracer.putContext("SettleMock", "true");            // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
             case "NEW_ONLY":
                 Tracer.putContext("MOCK_ONLYNEWREFUND_SettleAccount","TRUE");
+                Tracer.putContext("SettleMock", "true");              // 各个BP接入平台pr流程的用例全部配置结算mock
                 break;
         }
     }
