@@ -1,4 +1,5 @@
 <suite name="testSuite" parallel="true" thread-count="8">
+    <parameter name="team_id" value="179" />
     <!--设置双写标识-->
     <test name="单写新">
         <parameter name="DoubleWriteMode" value="NEW_ONLY"/>
