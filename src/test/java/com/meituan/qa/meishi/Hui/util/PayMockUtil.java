@@ -1,7 +1,6 @@
 package com.meituan.qa.meishi.Hui.util;
 
 import com.alibaba.fastjson.JSON;
-import com.meituan.mtrace.Tracer;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
 import com.meituan.toolchain.mario.model.ResponseMap;
