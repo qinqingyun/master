@@ -165,7 +165,6 @@ public class DianPingAppTest extends TestBase {
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
-            Assert.assertTrue(false);
             MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel().get(), 65731456,DPApp);
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
