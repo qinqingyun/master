@@ -78,7 +78,7 @@ public class TestZeroOrder_New extends TestDPLogin {
         ResvInfo resvInfo = new ResvInfo(tResvIGoodsService,tResvTradeService,remoteResvOrderService);
         Integer resvOrderId = 0;
         for(int i = 0; i < 5; i++){
-            resvOrderId = resvOrder.reserveOrder(resvInfo,10);
+            resvOrderId = resvOrder.reserveOrder(resvInfo,10,mtToken);
             if(resvOrderId > 0){
                 break;
             }

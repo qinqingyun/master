@@ -31,7 +31,7 @@ public class ResvOrderId {
         Tracer.putContext("platform", String.valueOf(20));
     }
 
-    public Integer reserveOrder(ResvInfo resvInfo,Integer platfarm) throws TException, InternalTException, ResvTradeException, ResvOrderException {
+    public Integer reserveOrder(ResvInfo resvInfo,Integer platfarm,String userToken) throws TException, InternalTException, ResvTradeException, ResvOrderException {
         if(platfarm == 10){
             mtLogin();
         }else {
@@ -39,7 +39,7 @@ public class ResvOrderId {
         }
         Integer bookableTime = resvInfo.getBookableTime(platfarm);
         ResvSkuIdAndSkuVersion skuInfo = resvInfo.getSkuInfo(bookableTime);
-        PlaceOrderResponseModel placeOrderResponseModel = resvInfo.depositOrder(bookableTime, skuInfo.getSkuId(), skuInfo.getSkuVersion(), platfarm);
+        PlaceOrderResponseModel placeOrderResponseModel = resvInfo.depositOrder(bookableTime, skuInfo.getSkuId(), skuInfo.getSkuVersion(), platfarm,userToken);
         if(placeOrderResponseModel == null){
             return 0;
         }
