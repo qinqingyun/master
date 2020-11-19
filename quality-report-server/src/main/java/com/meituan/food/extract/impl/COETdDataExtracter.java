@@ -210,7 +210,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
                             DaXiangUtils.pushToPerson(pushText, "yuan.ding", "qinqingyun", "zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "wangjianming02", "wuqifang", "yangchunxia");
-                            atpPO.setReceiver("wangjianming02");
+                            atpPO.setReceiver("yangchunxia");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到综")) {
