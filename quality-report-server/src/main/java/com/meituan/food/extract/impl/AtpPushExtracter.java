@@ -66,7 +66,7 @@ public class AtpPushExtracter implements IAtpPushExtract {
 
             } else if (business.equals("到餐") || business.equals("收单")) {
                 pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
-                atpPO.setReceiver("wangjianming02");
+                atpPO.setReceiver("yangchunxia");
                 atpPO.setPushText(pushText);
                 coeAtpPOMapper.updateByPrimaryKey(atpPO);
             } else if (business.equals("到综")) {
@@ -78,7 +78,7 @@ public class AtpPushExtracter implements IAtpPushExtract {
             }
             DaXiangUtils.pushToPerson(atpPO.getReceiver()+":"+atpPO.getPushText(),"qinqingyun","zhangyangyang17");
             DaXiangUtils.pushToPerson(atpPO.getPushText(),atpPO.getReceiver());
-            DaXiangUtils.pushToPerson(atpPO.getReceiver()+":"+atpPO.getPushText(),"yangchunxia");
+ //           DaXiangUtils.pushToPerson(atpPO.getReceiver()+":"+atpPO.getPushText(),"yangchunxia");
         }
     }
 
