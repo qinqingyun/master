@@ -95,7 +95,7 @@ public class LoopCheckUtil extends TestBase {
         }
         return queryOrderResponse;
     }
-    @LoopCheck(desc = "支付结果页轮询", interval = 500, timeout = 1000 * 10) // 每间隔1000ms请求一次，共10s
+    @LoopCheck(desc = "支付结果页轮询", interval = 1000, timeout = 1000 * 20) // 每间隔1000ms请求一次，共10s
     public String getPayResultPage(String caseId, String serializedId)  {
         String queryMopayStatus = maitonApi.queryMopayStatus(caseId, serializedId);
         return queryMopayStatus;
@@ -113,7 +113,7 @@ public class LoopCheckUtil extends TestBase {
         }
         return orderDetail;
     }
-    @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 10000 * 10) // 每间隔500ms请求一次，共10s
     public CouponProduct loadUnifiedCashier(String caseId)  {
         CouponProduct couponProduct = maitonApi.loadUnifiedCashier(caseId).orElse(null);;
         return couponProduct;
