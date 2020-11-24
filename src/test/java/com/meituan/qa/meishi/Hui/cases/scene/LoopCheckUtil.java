@@ -113,7 +113,7 @@ public class LoopCheckUtil extends TestBase {
         }
         return orderDetail;
     }
-    @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 10000 * 10) // 每间隔500ms请求一次，共10s
+    @LoopCheck(desc = "加载优惠台轮询", interval = 500, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
     public CouponProduct loadUnifiedCashier(String caseId)  {
         CouponProduct couponProduct = maitonApi.loadUnifiedCashier(caseId).orElse(null);;
         return couponProduct;
