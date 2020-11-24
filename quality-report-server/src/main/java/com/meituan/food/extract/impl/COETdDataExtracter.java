@@ -362,6 +362,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
         log.info("需要获取orgname的coeid:{}", coeId);
 
         JSONObject coeDetailResp = HttpUtils.doGet(coeDetailUrl + coeId, JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
+
         log.info("访问每个coe的结果:{}", coeDetailResp.toString());
         JSONObject incidentDetail = coeDetailResp.getJSONObject("incident");
         String orgPath = incidentDetail.getString("org_path");
