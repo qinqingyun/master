@@ -210,7 +210,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
                             pushText = business + "业务下新增有损失的COE，请及时录入ATP\n【[" + po.getBrief() + "|" + po.getCoeLink() + "]】" + pushText;
                             DaXiangUtils.pushToPerson(pushText, "yuan.ding", "qinqingyun", "zhangyangyang17");
                             DaXiangUtils.pushToPerson(pushText, "wangjianming02", "wuqifang", "yangchunxia");
-                            atpPO.setReceiver("wangjianming02");
+                            atpPO.setReceiver("yangchunxia");
                             atpPO.setPushText(pushText);
                             coeAtpPOMapper.insert(atpPO);
                         } else if (business.equals("到综")) {
@@ -251,7 +251,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
 
         //获取coe列表数据-影响到店的数据
-        JSONObject inflowtResp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject inflowtResp = HttpUtils.doPost(url, inflowtParams.toJSONString(), JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray inflowtIncidentsArray = inflowtResp.getJSONArray("incidents");
         if (inflowtIncidentsArray.size() != 0) {
             for (Object o : inflowtIncidentsArray) {
@@ -408,7 +408,7 @@ public class COETdDataExtracter implements ICOETdDataExtract {
 
     //获取每一个case中的todo项
     public void getTodoList(McdCoePO coePO, int coeId, String orgName) {
-        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 4feddd87883b416c6c2d79b9dbdbe47b5284dc57"));
+        JSONObject coeImprovementsResp = HttpUtils.doGet(coeImprovementsUrl + coeId + "/improvements", JSONObject.class, ImmutableMap.of("content-type", "application/json", "Accept", "text/plain, text/html,application/json", "Authorization", "Bearer 22f9b622729463fee0664e4c27fc901f25614332"));
         JSONArray coeImproArr = coeImprovementsResp.getJSONArray("improvements");
         int doneCount = 0;
         int todoCount = 0;

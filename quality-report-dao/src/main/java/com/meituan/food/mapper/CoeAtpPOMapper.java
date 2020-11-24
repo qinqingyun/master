@@ -122,4 +122,6 @@ public interface CoeAtpPOMapper {
             @Result(column="receiver", property="receiver", jdbcType=JdbcType.VARCHAR)
     })
     List<CoeAtpPO> selectUnfinishCoeList(Date firstPushDate);
+
+
 }
