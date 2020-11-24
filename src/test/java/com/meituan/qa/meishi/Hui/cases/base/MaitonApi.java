@@ -394,7 +394,15 @@ public class MaitonApi {
 
         responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
         String body = responseMap.getResponseBody();
-        OrderDetailCheck orderDetailinfo = parseHtml(responseMap.getResponseBody());
+
+        // 解析订单详情页
+        OrderDetailCheck orderDetailinfo=null;
+        try{
+            orderDetailinfo = parseHtml(responseMap.getResponseBody());
+        }catch (Exception e){
+            log.info("美团app订单详情查询结果：{}，exception：{}",body,e.toString());
+        }
+
         String orderDetailinfoContent = orderDetailinfo.getContent();
         return orderDetailinfoContent;
     }
@@ -427,7 +435,15 @@ public class MaitonApi {
                     e);
         }
         String body = responseMap.getResponseBody();
-        OrderDetailCheck orderDetailinfo = parseHtml(responseMap.getResponseBody());
+
+        // 解析订单详情页
+        OrderDetailCheck orderDetailinfo=null;
+        try{
+            orderDetailinfo = parseHtml(responseMap.getResponseBody());
+        }catch (Exception e){
+            log.info("美团app订单详情查询结果：{}，exception：{}",body,e.toString());
+        }
+
         String orderDetailinfoContent = orderDetailinfo.getContent();
         //Assert.assertEquals(orderDetailinfo.getContent(),"支付成功");
         // Assert.assertEquals(orderDetailinfo.getTotalAmount(),"消费金额：1.00元");
@@ -438,7 +454,7 @@ public class MaitonApi {
     /**
      * html页面解析
      */
-    public OrderDetailCheck parseHtml(String html) {
+    public OrderDetailCheck parseHtml(String html) throws Exception {
         OrderDetailCheck orderDetailCheck = new OrderDetailCheck();
         Document doc = Jsoup.parse(html);
         String content = doc.select("section[class=st-con st-succ]").get(0).select("div[class=st-wrap]").select("div[class=st-tit]").text();
