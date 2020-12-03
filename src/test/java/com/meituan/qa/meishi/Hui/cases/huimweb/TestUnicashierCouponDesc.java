@@ -1,7 +1,5 @@
 package com.meituan.qa.meishi.Hui.cases.huimweb;
 
-import com.alibaba.fastjson.JSONObject;
-import com.jayway.jsonpath.JsonPath;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
 import com.meituan.qa.meishi.util.ClassAnnotation;
 import com.meituan.qa.meishi.util.MethodAnotation;
@@ -9,10 +7,6 @@ import com.meituan.toolchain.mario.model.ResponseMap;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * urls = "http://maiton.meituan.com/hui/unicashier/couponDesc",
  * 美团app版 优惠说明页

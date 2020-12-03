@@ -15,15 +15,19 @@
     <test name="以新为主_NEW">
         <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
         <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMCashier"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashieroverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMShop"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestCashierquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxApplyrefundlistquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
+
         </classes>
     </test>
 
