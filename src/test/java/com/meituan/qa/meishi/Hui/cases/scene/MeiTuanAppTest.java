@@ -377,8 +377,12 @@ public class MeiTuanAppTest extends TestBase {
             Assert.assertTrue(deskCoupon != null,"获取商家券失败，可能原因：调用商家券接口超时或者查券失败");
         }
         //3.创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,1);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        //老为主0元单case新老回放延迟6+s，因此增加5s等待延迟
+        if(MainSystem == "OLD_MAIN"){
+            Thread.sleep(5000);
+        }
         //4.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //5.平台下单校验
@@ -426,7 +430,6 @@ public class MeiTuanAppTest extends TestBase {
         String caseId = "mtCouponPromoZeroTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        //String platformCaseId = "mtCouponPromoZeroTest";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo

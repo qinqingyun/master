@@ -144,7 +144,7 @@ public class LoopCheckUtil extends TestBase {
         return unifiedCouponIssueResponse;
     }
     @LoopCheck(desc = "获取预订订单轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public Integer getResvOrderId(Integer platform) throws ResvTradeException, ResvOrderException, TException, InternalTException {
+    public Integer getResvOrderId(Integer platform) throws Exception {
         Integer reserveOrderId = GetResvOrderIdForMaiton.reserveOrderId(platform);
         if (reserveOrderId == 0){
             return null;

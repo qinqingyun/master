@@ -5,20 +5,10 @@
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>
-                <include name="mtOriginTest"/>
-                <include name="mtDiscountTest"/>
-                <include name="mtShopPromoTest"/>
-                <include name="mtCouponPromoTest"/>
                 <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
             </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
         </classes>
     </test>
     <test name="以新为主">
@@ -26,42 +16,23 @@
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>
-                <include name="mtOriginTest"/>
-                <include name="mtDiscountTest"/>
-                <include name="mtShopPromoTest"/>
-                <include name="mtCouponPromoTest"/>
                 <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
             </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
         </classes>
     </test>
-    <test name="以老为主">
-        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
-            <methods>
-                <include name="mtOriginTest"/>
-                <include name="mtDiscountTest"/>
-                <include name="mtShopPromoTest"/>
-                <include name="mtCouponPromoTest"/>
-                <include name="mtResvZeroTest"/>
-            </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
-        </classes>
-    </test>
+<!--    <test name="以老为主">-->
+<!--        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>-->
+<!--        <classes>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <methods>-->
+<!--                <include name="mtResvZeroTest"/>-->
+<!--                <include name="mtShopPromoZeroTest"/>-->
+<!--                <include name="mtCouponPromoZeroTest"/>-->
+<!--                <include name="mtDiscountAndCouponPromoZeroTest"/>-->
+<!--            </methods>-->
+<!--        </classes>-->
+<!--    </test>-->
 
 </suite>

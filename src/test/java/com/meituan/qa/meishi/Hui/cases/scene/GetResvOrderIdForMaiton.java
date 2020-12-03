@@ -34,7 +34,7 @@ public class GetResvOrderIdForMaiton extends TestBase {
         Tracer.putContext("platform", String.valueOf(20));
     }
 
-    public static Integer reserveOrderId(Integer platfarm) throws TException, InternalTException, ResvTradeException, ResvOrderException {
+    public static Integer reserveOrderId(Integer platfarm) throws Exception {
         if(platfarm == 10){
             mtLogin();
         }else {
@@ -43,6 +43,7 @@ public class GetResvOrderIdForMaiton extends TestBase {
         Integer bookableTime = thriftApi.getBookableTime(platfarm);
         ResvSkuIdAndSkuVersion skuInfo = thriftApi.getSkuInfo(bookableTime);
         PlaceOrderResponseModel placeOrderResponseModel = thriftApi.depositOrder(bookableTime, skuInfo.getSkuId(), skuInfo.getSkuVersion(), platfarm);
+        maitonApi.orderPay(placeOrderResponseModel);
         if(placeOrderResponseModel == null){
             return 0;
         }
