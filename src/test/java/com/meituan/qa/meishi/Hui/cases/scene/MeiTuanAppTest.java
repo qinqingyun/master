@@ -308,12 +308,14 @@ public class MeiTuanAppTest extends TestBase {
      **/
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     public void mtResvZeroTest() throws Exception {
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtResvZeroTest";
         String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(MTApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.预订金订单下单
         Integer resvOrderId = loopCheck.getResvOrderId(10);
         String resvMaitonOrderId = resvOrderId.toString();
