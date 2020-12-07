@@ -220,14 +220,22 @@ public class TestMerchantPromo_New extends TestDPLogin {
         }
         PayMockUtil.mockRefund(refundNotifyMockRequest);
 
+        //买单侧退款校验
+        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
+        orderCheck.maitonOrder(3,refundOrderResponse);
+
+        // 交易平台接收退款回调后更改订单状态可能会存在滞后或者读写延迟问题，故增加延迟等待时间
+        try {
+            TimeUnit.SECONDS.sleep(8);
+        } catch (InterruptedException e) {
+            log.error("平台校验已消费退款前延迟8s时异常"+e.toString());
+        }
+        log.info("开始  退款平台校验");
+
         //平台侧退款校验
         JSONObject refundOrder = DBDataProvider.getRequest(platformPath, "ms_c_merchantPromo_platform");
         JSONObject refundOrderRequest= refundOrder.getJSONObject("params");
         checkLoop.getPlatformStatus(4,neworderid,refundOrderRequest,String.valueOf(mtUserId));
-
-        //买单侧退款校验
-        QueryOrderResponse refundOrderResponse=checkLoop.getMaitonOrder(3,oldorderid);
-        orderCheck.maitonOrder(3,refundOrderResponse);
 
         //退款成功订单diff
         differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_merchantPromo退款成功订单diff");

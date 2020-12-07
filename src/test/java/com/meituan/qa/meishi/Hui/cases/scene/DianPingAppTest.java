@@ -295,7 +295,7 @@ public class DianPingAppTest extends TestBase {
      * 主要流程:     预订订单生成 -> 查询优惠台 -> 下单 -> 详情 -> 退款
      * 备注:        平台：点评侧 ；买单方案：满减买单；退款方式：极速退款，还没调试通过
      **/
-    @Test(groups = "P1",description = "点评app，预定金0元单场景，买单使用满减买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
+    @Test(groups = "P1",enabled = false,description = "点评app，预定金0元单场景，买单使用满减买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     public void dpResvZeroTest() throws Exception {
         String caseId = "mtResvZeroTest";
         String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
@@ -341,7 +341,7 @@ public class DianPingAppTest extends TestBase {
      * 主要流程:     下单 -> 支付 -> 详情 -> 退款
      * 备注:        平台：点评侧 ；买单方案：7折买单；退款方式：直接退款；促销方式：使用买单方案+平台优惠券
      **/
-    @Test(groups = "P1",description = "点评app，使用买单方案+平台优惠券买单：加载优惠台->买单使用7折买单方案+平台优惠券（实付0.01元）->下单->支付->极速退款")
+    @Test(groups = "P1",enabled = false,description = "点评app，使用买单方案+平台优惠券买单：加载优惠台->买单使用7折买单方案+平台优惠券（实付0.01元）->下单->支付->极速退款")
     public void mtDiscountAndCouponPromoZeroTest() throws Exception {
         PayMockUtil payMockUtil = new PayMockUtil();
         SetTraceUtil setTraceUtil = new SetTraceUtil();
@@ -364,7 +364,7 @@ public class DianPingAppTest extends TestBase {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
                 if (detailOptional.isPresent()) {
                     UnifiedCouponIssueDetail issueDetail = detailOptional.get();
-                    couponAmount = issueDetail.getDiscountAmount();
+                    couponAmount = issueDetail.getDiscountAmount();  //暂时不用
                     couponId = issueDetail.getUnifiedCouponId();
                 }
             }

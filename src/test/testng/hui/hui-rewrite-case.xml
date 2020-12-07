@@ -2,27 +2,30 @@
     <parameter name="team_id" value="179" />
     <!--设置双写标识-->
     <test name="单写新">
-        <parameter name="DoubleWriteMode" value="NEW_ONLY"/>
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
-            <methods>
-                <include name="mtResvZeroTest"/>
-                <include name="mtShopPromoZeroTest"/>
-                <include name="mtDiscountAndCouponPromoZeroTest"/>
-            </methods>
-        </classes>
-    </test>
-    <test name="以新为主">
         <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>
+                <include name="mtShopPromoTest"/>
+                <include name="mtCouponPromoTest"/>
                 <include name="mtResvZeroTest"/>
                 <include name="mtShopPromoZeroTest"/>
+                <include name="mtCouponPromoZeroTest"/>
                 <include name="mtDiscountAndCouponPromoZeroTest"/>
             </methods>
         </classes>
     </test>
+<!--    <test name="以新为主">-->
+<!--        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>-->
+<!--        <classes>-->
+<!--            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>-->
+<!--            <methods>-->
+<!--                <include name="mtResvZeroTest"/>-->
+<!--                <include name="mtShopPromoZeroTest"/>-->
+<!--                <include name="mtDiscountAndCouponPromoZeroTest"/>-->
+<!--            </methods>-->
+<!--        </classes>-->
+<!--    </test>-->
 <!--    <test name="以老为主">-->
 <!--        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>-->
 <!--        <classes>-->

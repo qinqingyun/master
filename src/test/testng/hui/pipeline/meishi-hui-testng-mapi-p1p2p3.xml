@@ -49,6 +49,15 @@
         </classes>
     </test>
 
+    <test name="mapi单接口">
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
+        </classes>
+    </test>
+
     <parameter name="maxRetries" value="3"/>
     <parameter name="sleepBetweenRetries" value="1000"/>
 

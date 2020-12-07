@@ -4,20 +4,24 @@
         <parameter name="DoubleWriteMode" value="OLD"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
         </classes>
     </test>
     <test name="以新为主">
         <parameter name="DoubleWriteMode" value="NEW"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
+        </classes>
+    </test>
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtOriginTest"/>
+                <include name="mtDiscountTest"/>
+                <include name="mtShopPromoTest"/>
+                <include name="mtCouponPromoTest"/>
+            </methods>
         </classes>
     </test>
 

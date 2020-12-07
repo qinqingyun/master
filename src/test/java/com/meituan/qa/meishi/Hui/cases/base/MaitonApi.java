@@ -506,6 +506,7 @@ public class MaitonApi {
 
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+            log.info("使用的商家券信息：{}", JSON.toJSONString(deskCoupon));
         } catch (RuntimeException e) {
             e.getMessage();
             return null;
@@ -521,6 +522,7 @@ public class MaitonApi {
         DeskCoupon deskCoupon ;
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+            log.info("使用的平台券信息：{}", JSON.toJSONString(deskCoupon));
         } catch (RuntimeException e) {
             e.getMessage();
             return null;
