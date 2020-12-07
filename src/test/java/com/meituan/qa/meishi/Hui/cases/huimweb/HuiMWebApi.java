@@ -10,8 +10,12 @@ import com.meituan.toolchain.mario.util.AssertUtil;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
 import com.meituan.toolchain.mario.util.JsonPathUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.stringtemplate.v4.ST;
+import org.testng.Assert;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 import static com.meituan.qa.meishi.Hui.cases.base.TestBase.maitonApi;
@@ -28,6 +32,8 @@ public class HuiMWebApi {
     static String ajaxOrderqueryUrl = "/hui/ajax/orderquery";//订单查询页
     static String ajaxOrderovervieUrl = "/hui/ajax/orderoverview";//全量订单查询总览
     static String ajaxApplyrefundlistqueryUrl = "/hui/ajax/applyrefundlistquery";//退款待办列表查询
+    static String orderCheckUrl = "/hui/maiton/ajax/ordercheck"; //点评M站-支付前确认
+    static String createOrderUrl = "hui/cashier/ajaxcreateorder"; //点评M站下单接口
     // mm站
     static String mmWxaPoiUrl = "/hui/mm/wxapoi";           //点评m站进入POI页面，加载POI页门店优惠信息
     static String mmShopUrl = "/hui/mm/shop";               //点评mm站提单页入口/跳转页面，返回结果为html页面
@@ -383,5 +389,60 @@ public class HuiMWebApi {
         AssertUtil.assertEquals(responseJSON.get("code"),0);
         AssertUtil.assertEquals(responseJSON.get("msg"),"success");
     }
-
+    /**
+     * 点评M站-支付前确认
+     * 例：https://m.51ping.com/hui/maiton/ajax/ordercheck?shopId=24799161&shopUuid=G3S8S3ILaJWkoJoP&shopType=0&lat=0&lng=0
+     * */
+    @LoopCheck(desc = "点评M站-支付前确认", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap orderCheck (String caseId) {
+        maitonApi.replaceUserInfo(DPApp);
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(orderCheckUrl, caseId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        log.info("点评M站-支付前确认入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.get("env.api.daozong.m.host", request);
+        if(responseMap.getStatusCode() != 200) {
+            return null;
+        }
+        return responseMap;
+    }
+    /**
+     * 点评M站-下单接口
+     * 例：
+     * */
+    @LoopCheck(desc = "点评M站-下单接口轮询", interval = 1000, timeout = 1000 * 10) // 每间隔500ms请求一次，共10s
+    public ResponseMap ajaxCreateOrder(String caseId){
+        maitonApi.replaceUserInfo(DPApp);
+        JSONObject request = new JSONObject();
+        try{
+            request = DBDataProvider.getRequest(createOrderUrl, caseId);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+        request.getJSONObject("headers").put("pragma-token", maitonApi.getUserModel().get().getToken());
+        request.getJSONObject("headers").put("pragma-newtoken", maitonApi.getUserModel().get().getToken());
+        request.getJSONObject("headers").put("User-Agent", maitonApi.getUserModel().get().getUserAgent());
+        request.getJSONObject("headers").put("pragma-os", maitonApi.getUserModel().get().getUserAgent());
+        ResponseMap response = DBCaseRequestUtil.post("env.api.meishi.hui.maiton.host.dp", request);
+        Map<String,String> result = new HashMap<String,String>();
+        String payToken = null;
+        String tradeNo = null;
+        String msg = null;
+        String serializedId = null;
+        try {
+            payToken = response.getValueByJsonPath("$.payToken");
+            tradeNo = response.getValueByJsonPath("$.tradeNo");
+            msg = response.getValueByJsonPath("$.msg");
+            serializedId = ((String)response.getValueByJsonPath("$.successUrl")).split("=")[1].split("&")[0];
+        }catch (Exception e){
+            return null;
+        }
+        if(tradeNo == null || payToken == null){
+            return null;
+        }
+        return response;
+    }
 }
