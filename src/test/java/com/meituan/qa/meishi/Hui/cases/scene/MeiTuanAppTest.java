@@ -325,6 +325,7 @@ public class MeiTuanAppTest extends TestBase {
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //4.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
+        Thread.sleep(3000);//预订订单强制sleep3s 0元单回放10s
         //5.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
         //6.支付结果页校验
