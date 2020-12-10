@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPApp;
+import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.MTApp;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.退款成功;
 @Slf4j
@@ -164,7 +165,6 @@ public class DianPingAppTest extends TestBase {
         DeskCoupon deskCoupon = loopCheck.getShopCouponCipher(shopCouponid,getHuiPromodeskCaseId);
         //2.若没有商家券，调用发券接口发券
         if(deskCoupon == null){
-            Assert.assertTrue(false);
             MaitonHongbaoTResponse maitonHongbaoTResponse = loopCheck.setShopPromo(maitonApi.getUserModel().get(), 65731456,DPApp);
             shopCouponid = maitonHongbaoTResponse.data.stream().findFirst().get().id;
             //下单前查询优惠
@@ -289,5 +289,127 @@ public class DianPingAppTest extends TestBase {
         //19.退款后商户订单中心校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
-
+    /**
+     * 用例简介:     买单使用满减方案+预订金支付，0元单
+     * 数据源:       poiId：95191712   shopId：66526423
+     * 主要流程:     预订订单生成 -> 查询优惠台 -> 下单 -> 详情 -> 退款
+     * 备注:        平台：点评侧 ；买单方案：满减买单；退款方式：极速退款，还没调试通过
+     **/
+    @Test(groups = "P1",enabled = false,description = "点评app，预定金0元单场景，买单使用满减买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
+    public void dpResvZeroTest() throws Exception {
+        String caseId = "mtResvZeroTest";
+        String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
+        String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
+        String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
+        //0.登录获取基本userInfo
+        maitonApi.replaceUserInfo(DPApp);
+        //1.预订金订单下单
+        Integer resvOrderId = loopCheck.getResvOrderId(20);
+        String resvMaitonOrderId = resvOrderId.toString();
+        log.info("预订订单:{}", resvMaitonOrderId);
+        //2.使用预定金创建订单
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId);
+        log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        //3.新老订单映射
+        MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
+        //4.支付后平台校验
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
+        //5.支付后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
+        //6.支付结果页校验
+        CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
+        //7.用户订单详情页校验
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
+        //8.商户订单详情页校验
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //9.商户订单中心推送校验
+        //10.商家直退
+        DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
+        log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
+        Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
+        //11.退款后平台校验
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
+        //12.退款后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+        //13.退款后商户订单详情校验
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+    }
+    /**
+     * 用例简介:     买单使用全单折买单方案，使用平台券6元，非0元单
+     * 数据源:       poiId：41782956
+     * 主要流程:     下单 -> 支付 -> 详情 -> 退款
+     * 备注:        平台：点评侧 ；买单方案：7折买单；退款方式：直接退款；促销方式：使用买单方案+平台优惠券
+     **/
+    @Test(groups = "P1",enabled = false,description = "点评app，使用买单方案+平台优惠券买单：加载优惠台->买单使用7折买单方案+平台优惠券（实付0.01元）->下单->支付->极速退款")
+    public void mtDiscountAndCouponPromoZeroTest() throws Exception {
+        PayMockUtil payMockUtil = new PayMockUtil();
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
+        String caseId = "mtDiscountAndCouponPromoZeroTest";
+        String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
+        String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
+        String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
+        //0.登录获取基本userInfo
+        maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
+        //1.查询用户账号下是否有可用平台券
+        String couponId = "23738010020695727";
+        DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
+        //2.若没有平台券，调用发券接口发券
+        if(deskCoupon == null){
+            //549009064
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),979962070,MTApp);
+            BigDecimal couponAmount = BigDecimal.ZERO;
+            if (unifiedCouponIssueResponse.getResultCode() == 0) {
+                Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
+                if (detailOptional.isPresent()) {
+                    UnifiedCouponIssueDetail issueDetail = detailOptional.get();
+                    couponAmount = issueDetail.getDiscountAmount();  //暂时不用
+                    couponId = issueDetail.getUnifiedCouponId();
+                }
+            }
+            //下单前查询优惠
+            deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
+            Assert.assertTrue(deskCoupon != null,"获取平台券失败，可能原因：调用平台券接口超时或者查券失败");
+        }
+        //3.加载优惠台
+        CouponProduct couponProduct = loopCheck.loadUnifiedCashier(caseId);
+        log.info("折扣couponOfferId:{}" + JSON.toJSONString(couponProduct));
+        //4.创建订单
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,couponProduct,deskCoupon,1);
+        log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        //5.新老订单映射
+        MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
+        //6.平台下单校验
+        CheckOrderUtil.checkNewPlatform(platformPath,caseId,mappingOrderIds,orderModel,下单成功);
+        //7.买单侧下单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
+        //8.支付mock
+        //maitonApi.orderPay(orderModel);
+        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        //9.支付后平台校验
+        CheckOrderUtil.checkNewPlatform(platformPath,caseId,mappingOrderIds,orderModel,支付成功);
+        //10.支付后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
+        //11.支付结果页校验
+        CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
+        //12.用户订单详情页校验
+        CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
+        //13.商户订单详情页校验
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //14.商户订单中心推送校验
+        //15.商家直退
+        DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
+        log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
+        Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
+        //16.退款回调mock
+        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //17.退款后平台校验
+        CheckOrderUtil.checkNewPlatform(platformPath,caseId,mappingOrderIds,orderModel,退款成功);
+        //18.退款后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+        //19.退款后商户订单详情页校验
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+    }
 }

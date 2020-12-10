@@ -73,7 +73,7 @@ public class TestZeroOrderDP extends TestDPLogin {
         //0、预订金订单下单
         ResvOrderId resvOrder = new ResvOrderId();
         ResvInfo resvInfo = new ResvInfo(tResvIGoodsService,tResvTradeService,remoteResvOrderService);
-        String resvOrderId = resvOrder.reserveOrder(resvInfo,20).toString();
+        String resvOrderId = resvOrder.reserveOrder(resvInfo,20,dpToken).toString();
         log.info("预订订单:{}", resvOrderId);
 
         //1、加载优惠台

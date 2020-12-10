@@ -72,6 +72,7 @@ public class TestOriginalScenes_NEW extends TestDPLogin {
             refundNotifyMockRequest.setScene(Scene.NEW_MAIN);
             Tracer.putContext("PAY_MOCK","TRUE");
             Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
+            Tracer.putContext("SettleMock", "true");
         }
         if( doubleWriteMode.equals("OLD"))
         {

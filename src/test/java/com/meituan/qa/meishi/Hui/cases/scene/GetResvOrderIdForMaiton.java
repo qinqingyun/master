@@ -23,18 +23,18 @@ public class GetResvOrderIdForMaiton extends TestBase {
 
     private static void mtLogin(){
         Tracer.serverRecv(new TraceParam(""));
-        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","5002907380");
+        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr",maitonApi.getUserModel().get().getUserId());
         Tracer.getServerTracer().getSpan().getForeverContext().put("uuid","75FC45E70DA7FD7024468E0077DE660951ADFAD5FB298651AFB59400E67CA63F");
         Tracer.putContext("platform", String.valueOf(10));
     }
     private static void dpLogin(){
         Tracer.serverRecv(new TraceParam(""));
-        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr","9007199254760212");
+        Tracer.getServerTracer().getSpan().getForeverContext().put("userIdStr",maitonApi.getUserModel().get().getUserId());
         Tracer.getServerTracer().getSpan().getForeverContext().put("uuid","75FC45E70DA7FD7024468E0077DE660951ADFAD5FB298651AFB59400E67CA63F");
         Tracer.putContext("platform", String.valueOf(20));
     }
 
-    public static Integer reserveOrderId(Integer platfarm) throws TException, InternalTException, ResvTradeException, ResvOrderException {
+    public static Integer reserveOrderId(Integer platfarm) throws Exception {
         if(platfarm == 10){
             mtLogin();
         }else {
@@ -43,6 +43,7 @@ public class GetResvOrderIdForMaiton extends TestBase {
         Integer bookableTime = thriftApi.getBookableTime(platfarm);
         ResvSkuIdAndSkuVersion skuInfo = thriftApi.getSkuInfo(bookableTime);
         PlaceOrderResponseModel placeOrderResponseModel = thriftApi.depositOrder(bookableTime, skuInfo.getSkuId(), skuInfo.getSkuVersion(), platfarm);
+        maitonApi.orderPay(placeOrderResponseModel);
         if(placeOrderResponseModel == null){
             return 0;
         }

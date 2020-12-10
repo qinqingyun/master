@@ -40,8 +40,6 @@ public class TestBase {
     public static String MainSystem = "OLD_MAIN";
     //#是否校验老订单系统
     public static boolean IS_CHECK_OLD_ORDER_SYSTEM = true;
-    //是否进行db数据diff
-    public static boolean IS_CHECK_DB_RECORD = true;
     //#是否校验新订单系统
     public static boolean IS_CHECK_NEW_ORDER_SYSTEM = true;
 
@@ -99,17 +97,16 @@ public class TestBase {
         }
     }
 
-    @BeforeSuite
-    public void beforeTestSetUserForLion() throws Exception {
-        // 判断并改写双写模式
-        if (MainSystem.equals("NEW_MAIN")) {
-            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
-            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
-        }
-        if (MainSystem.equals("OLD_MAIN")) {
-            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
-            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
-        }
-    }
-
+//    @BeforeSuite
+//    public void beforeTestSetUserForLion() throws Exception {
+//        // 判断并改写双写模式
+//        if (MainSystem.equals("NEW_MAIN")) {
+//            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
+//            LionUtil.setUserWriteList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
+//        }
+//        if (MainSystem.equals("OLD_MAIN")) {
+//            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.MTApp.getText()).getUserId() + "_1");
+//            LionUtil.setUserBlackList(maitonApi.getUserModelMap().get(NEW_MAIN.getText() + "_" + OrderSourceEnum.DPApp.getText()).getUserId() + "_0");
+//        }
+//    }
 }

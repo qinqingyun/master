@@ -80,7 +80,7 @@ public class ResvInfo {
         return resvSkuIdAndSkuVersion;
     }
     //2。获取预订订单
-    public PlaceOrderResponseModel depositOrder(Integer bookableTime, Integer skuId, Integer skuVersion,Integer platform) throws TException,ResvTradeException {
+    public PlaceOrderResponseModel depositOrder(Integer bookableTime, Integer skuId, Integer skuVersion,Integer platform,String userToken) throws TException,ResvTradeException {
         PlaceOrderResponseModel response = null;
         try {
             PlaceOrderRequestModel placeOrderRequestModel = new PlaceOrderRequestModel();
@@ -105,7 +105,7 @@ public class ResvInfo {
             return null;
         }
         //支付
-        resvPay(response);
+        resvPay(response,userToken);
         return response;
     }
     //3。商家接单
@@ -136,15 +136,35 @@ public class ResvInfo {
     }
 
 // 预订支付
-    private boolean resvPay(PlaceOrderResponseModel response) {
+    private boolean resvPay(PlaceOrderResponseModel response,String userToken) {
+
+        //        支付自动化工具包 - B端收银台
+//        PayApi obj = new PayApi("stable.pay.test.sankuai.com");
+//        Map<String, String> params = new HashMap<String, String>();
+//        params.put("tradeno",response.preTradeNo);
+//        params.put("pay_token",response.payToken);
+//        //params.put("nb_platform", "..."); //可传可不传，默认值为www(即B端PC收银台)；可选值有www和touch。如果是B端i版收银台请传nb_platform=touch
+//        boolean ret = false;
+//        try {
+//            ret = obj.doPayForBusiness(params);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return ret;
+
+        // 支付自动化工具包-C端收银台
         PayApi obj = new PayApi("stable.pay.test.sankuai.com");
         Map<String, String> params = new HashMap<String, String>();
+        params.put("type", "2");  //type {0:绑卡，1:余额， 2:支付宝支付，3:微信支付}    推荐使用支付宝方式，无需密码，可用性和稳定性更高
         params.put("tradeno",response.preTradeNo);
         params.put("pay_token",response.payToken);
-        //params.put("nb_platform", "..."); //可传可不传，默认值为www(即B端PC收银台)；可选值有www和touch。如果是B端i版收银台请传nb_platform=touch
+//        params.put("pay_password", "..."); //绑卡和余额支付时必传，设置支付密码http://payc.fsp.test.sankuai.com/rstpwd/index.htm
+        params.put("token", userToken); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
+//        params.put("nb_app", "...");//非必传，默认值是group
+
         boolean ret = false;
         try {
-            ret = obj.doPayForBusiness(params);
+            ret = obj.doPayNew(params);   //支付成功会返回true
         } catch (Exception e) {
             e.printStackTrace();
         }

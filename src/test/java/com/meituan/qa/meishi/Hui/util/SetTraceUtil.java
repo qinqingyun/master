@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
  * 2、新为主退款回调mock：服务：com.sankuai.mptrade.domainproxy，接口：ITradeOrderThrift.applyRefund，mock特征值：trace.get("MOCK_APPLY_REFUND")=="TRUE"
  * 3、新为主退款结算mock：服务：com.sankuai.mptrade.domainproxy，接口：ClearCommandService.getSettleAccountInfo，mock特征值：trace.get("MOCK_REFUND_SettleAccount")=="TRUE"
  * 4、单写新退款结算mock：服务：com.sankuai.mptrade.refund，接口：ClearCommandService.getSettleAccountInfo，mock特征值：trace.get("MOCK_ONLYNEWREFUND_SettleAccount")=="TRUE"
+ * 5、新为主交易平台侧结算mock：服务：com.sankuai.travel.dsg.athena，接口：IPartnerInvoicePlatService.queryPartnerInvoiceInfoAndSettleInfo，mock特征值：trace.get('SettleMock') == true
+ * 6、单写新交易平台侧结算mock：服务：com.sankuai.travel.dsg.athena，接口：IPartnerInvoicePlatService.queryPartnerInvoiceInfoAndSettleInfo，mock特征值：trace.get('SettleMock') == true
+ * 其中5和6的mock配置由交易平台统一管理，负责人：@shentianyi，mock场景：交易平台创建订单时查询结算接口，配置wiki：https://km.sankuai.com/page/417090135
  */
 
 @Slf4j
@@ -23,9 +26,11 @@ public class SetTraceUtil extends TestBase {
             case "NEW_MAIN":
                 Tracer.putContext("MOCK_APPLY_REFUND","TRUE");
                 Tracer.putContext("MOCK_REFUND_SettleAccount","TRUE");
+                Tracer.putContext("SettleMock", "true");
                 break;
             case "NEW_ONLY":
                 Tracer.putContext("MOCK_ONLYNEWREFUND_SettleAccount","TRUE");
+                Tracer.putContext("SettleMock", "true");
                 break;
         }
     }
