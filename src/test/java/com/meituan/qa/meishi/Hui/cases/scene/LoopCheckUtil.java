@@ -161,5 +161,15 @@ public class LoopCheckUtil extends TestBase {
         }
         return merchentOrderJsonObject;
     }
+    @LoopCheck(desc = "点评M站创建订单,无需加载优惠台", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public OrderModel ajaxCreateOrder(String caseId){
+        OrderModel orderCreateResult = maitonApi.ajaxCreateOrder(caseId);
+        return orderCreateResult;
+    }
+    @LoopCheck(desc = "点评微信小程序创建订单,无需加载优惠台", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
+    public OrderModel wxaCreateOrder(String caseId){
+        OrderModel orderCreateResult = maitonApi.wxaCreateOrder(caseId);
+        return orderCreateResult;
+    }
 }
 

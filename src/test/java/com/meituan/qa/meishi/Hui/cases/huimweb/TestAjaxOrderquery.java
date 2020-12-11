@@ -1,6 +1,5 @@
 package com.meituan.qa.meishi.Hui.cases.huimweb;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jayway.jsonpath.JsonPath;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;

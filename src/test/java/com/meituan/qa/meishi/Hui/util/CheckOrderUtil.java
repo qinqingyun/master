@@ -109,6 +109,9 @@ public class CheckOrderUtil extends TestBase {
             mappingOrderIds.setNewOrderId(orderModel.getOrderId());
             mappingOrderIds.setOldOrderId(orderModel.getOrderId());
         }
+        if (mappingOrderIds == null){
+            Assert.assertNotNull(mappingOrderIds,"idmapping结果为null，调idmapping结果异常或订单未双写");
+        }
         return mappingOrderIds;
     }
     public static void checkPayOrderResultPage(String caseId, OrderModel orderModel) throws Exception {

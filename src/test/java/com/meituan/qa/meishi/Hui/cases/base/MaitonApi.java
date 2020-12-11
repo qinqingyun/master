@@ -7,6 +7,7 @@ import com.dianping.hui.common.enums.UserType;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
+import com.meituan.qa.meishi.Hui.dto.HuiCreateOrderMResult;
 import com.meituan.qa.meishi.Hui.dto.OrderDetailCheck;
 import com.meituan.qa.meishi.Hui.dto.UseCard;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
@@ -79,6 +80,9 @@ public class MaitonApi {
     static String mtOrderDetailUrl = "/maiton/order/{orderid}";  //美团订单详情接口
     static String dpOrderDetailUrl = "/hui/maiton/order";//点评订单详情接口
     static String merchantDtailUrl = "/hui/orderdetail";//商家订单详情页接口
+    static String ajaxcreateorderUrl = "hui/cashier/ajaxcreateorder";//点评M站下单接口
+    static String wxaCreateOrderUrl = "/hui/mm/wxacreateorder"; //点评微信小程序下单接口
+
 
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
@@ -504,6 +508,90 @@ public class MaitonApi {
             log.error(e.getMessage());
         }
         return expect;
+    }
+    /**
+     * 点评M站下单接口，接口文档：
+     * 美团点评根据不同token和useragent区分平台
+     */
+    public OrderModel ajaxCreateOrder(String caseid)  {
+        // 生成新Trace
+        MtraceUtil.generatTrace("点评M站下单请求");
+        String payToken;
+        String tradeNo;
+        Long orderId;
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(ajaxcreateorderUrl, caseid);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        String cookie = "dper=" + userModel.get().getToken();
+        request.getJSONObject("headers").put("pragma-token", userModel.get().getToken());
+        request.getJSONObject("headers").put("pragma-newtoken", userModel.get().getToken());
+        request.getJSONObject("headers").put("User-Agent", userModel.get().getUserAgent());
+        request.getJSONObject("headers").put("Cookie", cookie);
+        log.info("买单创建订单请求参数request:{}", request.toString());
+        ResponseMap response = null;
+        try {
+            response = DBCaseRequestUtil.post("env.api.51ping.host", request);
+            log.info("买单创建订单结果返回response:{}", response.toString());
+        } catch (Exception e) {
+            log.error("下单接口请求失败，异常为：{}", e.getMessage());
+            return null;
+        }
+        if (response.getStatusCode() != 200) {
+            return null;
+        }
+        try {
+            HuiCreateOrderMResult mResult = JSON.parseObject(response.getResponseBody(), HuiCreateOrderMResult.class);
+            payToken = mResult.getPayToken();
+            tradeNo = mResult.getTradeNo();
+            String url= mResult.getSuccessURL();
+            orderId= Long.valueOf(url.substring(url.indexOf('=')+1,url.indexOf('&')));
+        } catch (Exception e) {
+            log.info("有异常创单失败");
+            return null;
+        }
+        return setOrderModel(orderId.toString(), payToken, tradeNo);
+    }
+    /**
+     * 点评微信小程序下单接口，接口文档：
+     * 美团点评根据不同token和useragent区分平台
+     */
+    public OrderModel wxaCreateOrder(String caseid)  {
+        // 生成新Trace
+        MtraceUtil.generatTrace("点评微信小程序下单请求");
+        String payToken;
+        String tradeNo;
+        Long orderId;
+        JSONObject request = new JSONObject();
+        try {
+            request = DBDataProvider.getRequest(wxaCreateOrderUrl, caseid);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        request.getJSONObject("headers").put("token", userModel.get().getToken());
+        request.getJSONObject("body").put("token", userModel.get().getToken());
+        log.info("买单创建订单请求参数request:{}", request.toString());
+        ResponseMap response = null;
+        try {
+            response = DBCaseRequestUtil.post("env.api.51ping.host", request);
+            log.info("买单创建订单结果返回response:{}", response.toString());
+        } catch (Exception e) {
+            log.error("下单接口请求失败，异常为：{}", e.getMessage());
+            return null;
+        }
+        if (response.getStatusCode() != 200) {
+            return null;
+        }
+        try {
+            JSONObject responseBody = JSONObject.parseObject(response.getResponseBody()).getJSONObject("data");
+            orderId= responseBody.getLong("orderId");
+        } catch (Exception e) {
+            log.info("有异常创单失败");
+            return null;
+        }
+        return setOrderModel(orderId.toString(), "", "");
     }
 
 }

@@ -39,6 +39,7 @@ public class HuiMWebApi {
     static String mmShopUrl = "/hui/mm/shop";               //点评mm站提单页入口/跳转页面，返回结果为html页面
     static String mmCashierUrl = "/hui/mm/cashier";         //点评mm站提单页/收银页面，返回结果为html页面
     static String mmCreateOrderUrl = "/hui/mm/createOrder";    //点评mm站提单页下单
+    static String wxaCheckUrl = "/hui/mm/wxacheck"; //微信小程序距离检查
     //商家中心
     static String cashierqueryUrl = "/hui/cashierquery";    //买单收银页总览页面，返回结果为html页面
     /**
@@ -444,5 +445,23 @@ public class HuiMWebApi {
             return null;
         }
         return response;
+    }
+    /**
+     * 点评微信小程序距离检查
+     * 例子：http://m.51ping.com/hui/mm/wxacheck
+     */
+    @LoopCheck(desc = "点评微信小程序距离检查",interval = 500,timeout = 1000 * 10)
+    public ResponseMap wxaCheck(String caseId){
+        maitonApi.replaceUserInfo(DPWx);
+        JSONObject request = new JSONObject();
+        try{
+            request = DBDataProvider.getRequest(wxaCheckUrl,caseId);
+        }catch (Exception e){
+            log.error("获取测试数据报错："+e.getMessage());
+        }
+        request.getJSONObject("headers").put("token", maitonApi.getDpToken());
+        log.info("点评微信小程序距离检查-入参：{}",request);
+        ResponseMap responseMap = DBCaseRequestUtil.post("env.api.daozong.m.host",request);
+        return responseMap;
     }
 }

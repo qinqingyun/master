@@ -1,19 +1,7 @@
 <suite name="testSuite" parallel="true" thread-count="8">
     <!--设置双写标识-->
     <test name="以老为主">
-        <parameter name="DoubleWriteMode" value="OLD"/>
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
-        </classes>
-    </test>
-    <test name="以新为主">
-        <parameter name="DoubleWriteMode" value="NEW"/>
-        <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
-        </classes>
-    </test>
-    <test name="以新为主_NEW">
-        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
@@ -27,7 +15,9 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
-
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestOrdercheck"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaCheck"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
         </classes>
     </test>
 
