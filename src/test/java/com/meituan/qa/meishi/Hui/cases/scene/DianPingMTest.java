@@ -103,7 +103,7 @@ public class DianPingMTest extends TestBase {
         //10.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
         //11.商户订单详情页校验
-        CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
+        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //12.商户订单中心推送校验
         //13.用户申请退款校验
         ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
