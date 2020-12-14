@@ -69,7 +69,8 @@ public class TestDiscountScenes_New extends TestDPLogin  {
     @PigeonAPI(url = "http://service.dianping.com/mopayService/refundFlowService_1.0.0")
     private RefundFlowService refundFlowService;
 
-    //String  doubleWriteMode = "OLD";
+    //String  doubleWriteMode = "NEW";
+
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
     @MethodAnotation(author = "byq", createTime = "2020-01-13", updateTime = "2020-01-13", des =
@@ -138,6 +139,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
             payNotifyMockRequest.setOutNo("DPHUI-"+orderId);
         }
         PayMockUtil.mockPay(payNotifyMockRequest);
+        //CreateOrderUtil.orderPay(payToken, tradeNo, mtToken);
 
         //支付后平台校验
         JSONObject payOrderRequest = DBDataProvider.getRequest(platformPath, "ms_c_discount_platform_consum");
@@ -150,7 +152,7 @@ public class TestDiscountScenes_New extends TestDPLogin  {
         //增加金额校验
 
         //支付成功订单diff
-//        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
+        differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
         try {
             differentRecord.diffRecordList(oldorderid,neworderid,"ms_c_discountScenes_01支付成功订单diff");
         }catch (Exception e){

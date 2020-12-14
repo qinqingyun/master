@@ -3,7 +3,6 @@ package com.meituan.qa.meishi.Hui.cases.base;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.api.PayApi;
-import com.dianping.hui.common.enums.UserType;
 import com.dianping.hui.order.response.QueryOrderResponse;
 import com.meituan.qa.meishi.Hui.domain.HuiPromoDesk;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
@@ -29,6 +28,7 @@ import com.meituan.toolchain.mario.model.ResponseMap;
 import com.meituan.toolchain.mario.util.DBCaseRequestUtil;
 import com.meituan.toolchain.mario.util.JsonPathUtil;
 import com.meituan.toolchain.mario.util.MtraceUtil;
+import com.sankuai.meituan.resv.trade.idl.model.PlaceOrderResponseModel;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -82,8 +82,6 @@ public class MaitonApi {
     static String merchantDtailUrl = "/hui/orderdetail";//商家订单详情页接口
     static String ajaxcreateorderUrl = "hui/cashier/ajaxcreateorder";//点评M站下单接口
     static String wxaCreateOrderUrl = "/hui/mm/wxacreateorder"; //点评微信小程序下单接口
-
-
 
     @LoopCheck(desc = "登录接口", interval = interval, timeout = timeout)
     public String userLogin(String username) {
@@ -185,6 +183,36 @@ public class MaitonApi {
         Assert.assertEquals(payRequest, Boolean.TRUE, "重试3次仍支付失败");
         Thread.sleep(1000);
     }
+    //预订订单使用
+    public void orderPay(PlaceOrderResponseModel response) throws Exception {
+        String payHost = ConfigMange.getValue("env.api.meishi.hui.pay");
+        PayApi obj = new PayApi(payHost);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", "2");  //type {0:绑卡，1:余额 2.支付宝} 建议用余额支付
+        params.put("tradeno", response.preTradeNo);
+        params.put("pay_token", response.payToken);
+        params.put("token", userModel.get().getToken()); //获取token http://payc.fsp.test.sankuai.com/user/index.htm 或者 http://admin-user.wpt.test.sankuai.com/service/normal 或参考下面代码调用用户中心接口动态获取
+        Boolean payRequest = false;
+        for (int i = 0; i < 3; i++) {
+            try {
+                payRequest = obj.doPayNew(params);   //支付成功会返回true
+                log.info("支付状态： " + payRequest);
+                //Assert.assertEquals(payRequest,true);
+            } catch (Exception e) {
+                log.error("支付异常：", e.getMessage());
+                if (e.getMessage().contains("cashier_payorder_already_payed")) {
+                    payRequest = TRUE;
+                    break;
+                }
+                log.error("第" + (i + 1) + "次支付失败", e);
+            }
+            if (payRequest == TRUE)
+                break;
+            Thread.sleep(500);
+        }
+        Assert.assertEquals(payRequest, Boolean.TRUE, "重试3次仍支付失败");
+        Thread.sleep(1000);
+    }
 
     /**
      * APP下单接口，接口文档：
@@ -243,7 +271,7 @@ public class MaitonApi {
             if (!Strings.isNullOrEmpty(deskcoupon.getCipher())) {
                 body.put("dpdealstring", URLEncoder.encode(deskcoupon.getCipher(), "utf-8"));
             }
-            if (isZero == 1) {
+            if (isZero == 1) {//只有预定金0元单isZero == 1，预定金0元单实际支付为0，其他0元单实际支付0.01
                 body.put("useramount", "0");
             } else {
                 BigDecimal couponAmount = BigDecimal.valueOf(deskcoupon.getAmount());
@@ -350,7 +378,8 @@ public class MaitonApi {
      */
     public String queryMopayStatus(String caseId, String serializedId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("支付结果查询请求");
+
         JSONObject request = DBDataProvider.getRequest(queryMopayStatusUrl, caseId);
         request.getJSONObject("headers").put("pragma-token", userModel.get().getToken());
         request.getJSONObject("headers").put("pragma-newtoken", userModel.get().getToken());
@@ -376,7 +405,7 @@ public class MaitonApi {
      */
     public String MtOrderDetail(String caseId, String orderId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("美团app订单详情页查询");
 
         ResponseMap responseMap = null;
 
@@ -391,7 +420,15 @@ public class MaitonApi {
 
         responseMap = DBCaseRequestUtil.get("env.api.meishi.hui.maiton.host.mt", request);
         String body = responseMap.getResponseBody();
-        OrderDetailCheck orderDetailinfo = parseHtml(responseMap.getResponseBody());
+
+        // 解析订单详情页
+        OrderDetailCheck orderDetailinfo=null;
+        try{
+            orderDetailinfo = parseHtml(responseMap.getResponseBody());
+        }catch (Exception e){
+            log.info("美团app订单详情查询结果：{}，exception：{}",body,e.toString());
+        }
+
         String orderDetailinfoContent = orderDetailinfo.getContent();
         return orderDetailinfoContent;
     }
@@ -401,7 +438,7 @@ public class MaitonApi {
      */
     public String DpOrderDetail(String caseId, String orderId) {
         // 生成新Trace
-        TracerUtil.initAndLogTrace();
+        MtraceUtil.generatTrace("点评app订单详情查询");
         log.info("MTOrderDetail Enter");
 
         ResponseMap responseMap = null;
@@ -424,7 +461,15 @@ public class MaitonApi {
                     e);
         }
         String body = responseMap.getResponseBody();
-        OrderDetailCheck orderDetailinfo = parseHtml(responseMap.getResponseBody());
+
+        // 解析订单详情页
+        OrderDetailCheck orderDetailinfo=null;
+        try{
+            orderDetailinfo = parseHtml(responseMap.getResponseBody());
+        }catch (Exception e){
+            log.info("美团app订单详情查询结果：{}，exception：{}",body,e.toString());
+        }
+
         String orderDetailinfoContent = orderDetailinfo.getContent();
         //Assert.assertEquals(orderDetailinfo.getContent(),"支付成功");
         // Assert.assertEquals(orderDetailinfo.getTotalAmount(),"消费金额：1.00元");
@@ -435,7 +480,7 @@ public class MaitonApi {
     /**
      * html页面解析
      */
-    public OrderDetailCheck parseHtml(String html) {
+    public OrderDetailCheck parseHtml(String html) throws Exception {
         OrderDetailCheck orderDetailCheck = new OrderDetailCheck();
         Document doc = Jsoup.parse(html);
         String content = doc.select("section[class=st-con st-succ]").get(0).select("div[class=st-wrap]").select("div[class=st-tit]").text();
@@ -456,6 +501,7 @@ public class MaitonApi {
 
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+            log.info("使用的商家券信息：{}", JSON.toJSONString(deskCoupon));
         } catch (RuntimeException e) {
             e.getMessage();
             return null;
@@ -471,6 +517,7 @@ public class MaitonApi {
         DeskCoupon deskCoupon ;
         try {
             deskCoupon = promoDesk.shopCouponCipher(hongbaoid).orElseThrow(() -> new RuntimeException("DeskCoupon not found"));
+            log.info("使用的平台券信息：{}", JSON.toJSONString(deskCoupon));
         } catch (RuntimeException e) {
             e.getMessage();
             return null;
@@ -593,5 +640,4 @@ public class MaitonApi {
         }
         return setOrderModel(orderId.toString(), "", "");
     }
-
 }

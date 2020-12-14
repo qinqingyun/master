@@ -20,7 +20,6 @@ import com.sankuai.meituan.resv.i.thrift.service.TResvIGoodsService;
 import com.sankuai.meituan.resv.order.thrift.service.RemoteResvOrderService;
 import com.sankuai.meituan.resv.trade.idl.TResvTradeService;
 import com.sankuai.mptrade.datatoolapi.service.DataCompareAssistService;
-import com.sankuai.nibqa.trade.payMock.params.enums.Scene;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Author:      buyuqi
- * Modified:    buyuqi
+ * Modified:    buyuqiimport com.sankuai.nibqa.trade.payMock.params.enums.Scene;
  * Date:        2019-12-06
  * 用例简介:     买单使用预订金支付，0元单
  * 数据源:       poiId：95191712
@@ -64,7 +63,8 @@ public class TestZeroOrder_New extends TestDPLogin {
     DataCompareAssistService dataCompareAssistService;
     @ThriftAPI(appkey = "com.sankuai.mptrade.datacomparetool",localAppkey = "com.sankuai.meishi.qa.capicase")
     InvokeTaskServiceI invokeTaskServiceI;
-    //String  doubleWriteMode="NEW";
+
+    //String  doubleWriteMode="OLD";
 
     @Parameters({ "DoubleWriteMode" })
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")

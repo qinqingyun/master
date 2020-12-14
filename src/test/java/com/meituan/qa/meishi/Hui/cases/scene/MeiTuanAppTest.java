@@ -302,18 +302,20 @@ public class MeiTuanAppTest extends TestBase {
     }
     /**
      * 用例简介:     买单使用预订金支付，0元单
-     * 数据源:       poiId：6207656
+     * 数据源:       poiId：95191712
      * 主要流程:     预订订单生成 -> 查询优惠台 -> 下单 -> 详情 -> 退款
      * 备注:        平台：美团侧 ；买单方案：原价买单；退款方式：极速退款
      **/
     @Test(groups = "P1",description = "美团app，预定金0元单场景，买单使用预订买单方案->预订订单生成->方案选取->下单->支付->用户申请->商家同意->退款")
     public void mtResvZeroTest() throws Exception {
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "mtResvZeroTest";
         String platformCaseId = "ms_c_resvZeroScenes_platform_consum";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo
         maitonApi.replaceUserInfo(MTApp);
+        setTraceUtil.setTrace(); //mock相关配置
         //1.预订金订单下单
         Integer resvOrderId = loopCheck.getResvOrderId(10);
         String resvMaitonOrderId = resvOrderId.toString();
@@ -325,6 +327,7 @@ public class MeiTuanAppTest extends TestBase {
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //4.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
+        Thread.sleep(3000);//预订订单强制sleep3s 0元单回放10s
         //5.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
         //6.支付结果页校验
@@ -377,8 +380,12 @@ public class MeiTuanAppTest extends TestBase {
             Assert.assertTrue(deskCoupon != null,"获取商家券失败，可能原因：调用商家券接口超时或者查券失败");
         }
         //3.创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,1);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,null,deskCoupon,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        //老为主0元单case新老回放延迟6+s，因此增加5s等待延迟
+        if(MainSystem == "OLD_MAIN"){
+            Thread.sleep(5000);
+        }
         //4.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
         //5.平台下单校验
@@ -426,7 +433,6 @@ public class MeiTuanAppTest extends TestBase {
         String caseId = "mtCouponPromoZeroTest";
         String getHuiPromodeskCaseId= "ms_c_hui_gethuipromodesk";
         String loadUnifiedCashier = "ms_c_mtshoploadUnifiedCashier_02";
-        //String platformCaseId = "mtCouponPromoZeroTest";
         String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
         String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
         //0.登录获取基本userInfo

@@ -102,6 +102,8 @@ public class CheckOrderUtil extends TestBase {
 //        }
     }
     public static MappingOrderIds checkOrderMapping(OrderModel orderModel) throws Exception {
+        // 生成新Trace
+        MtraceUtil.generatTrace("新老订单映射");
         MappingOrderIds mappingOrderIds=new MappingOrderIds();
         if(MainSystem.equals("OLD_MAIN") || MainSystem.equals("NEW_MAIN")){
             mappingOrderIds = loopCheck.getMappingOrderIds(orderModel.getOrderId());

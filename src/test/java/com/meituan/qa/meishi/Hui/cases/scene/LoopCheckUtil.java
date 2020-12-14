@@ -24,8 +24,6 @@ import com.sankuai.nibqa.trade.api.dto.ValidResponse;
 import com.sankuai.web.campaign.assigncard.tservice.maitonhongbao.MaitonHongbaoTResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
-import org.stringtemplate.v4.ST;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -92,7 +90,7 @@ public class LoopCheckUtil extends TestBase {
         }
         return queryOrderResponse;
     }
-    @LoopCheck(desc = "支付结果页轮询", interval = 500, timeout = 1000 * 10) // 每间隔1000ms请求一次，共10s
+    @LoopCheck(desc = "支付结果页轮询", interval = 1000, timeout = 1000 * 60) // 每间隔1000ms请求一次，共60s
     public String getPayResultPage(String caseId, String serializedId)  {
         String queryMopayStatus = maitonApi.queryMopayStatus(caseId, serializedId);
         return queryMopayStatus;
@@ -141,7 +139,7 @@ public class LoopCheckUtil extends TestBase {
         return unifiedCouponIssueResponse;
     }
     @LoopCheck(desc = "获取预订订单轮询", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public Integer getResvOrderId(Integer platform) throws ResvTradeException, ResvOrderException, TException, InternalTException {
+    public Integer getResvOrderId(Integer platform) throws Exception {
         Integer reserveOrderId = GetResvOrderIdForMaiton.reserveOrderId(platform);
         if (reserveOrderId == 0){
             return null;

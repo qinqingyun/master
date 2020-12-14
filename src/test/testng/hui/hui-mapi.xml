@@ -1,0 +1,33 @@
+<suite name="TestMeishiHuiCreateOrderTest" parallel="true" thread-count="8">
+    <parameter name="team_id" value="179"/>
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtOriginTest"/>
+                <include name="mtDiscountTest"/>
+                <include name="mtShopPromoTest"/>
+                <include name="mtResvZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
+            <methods>
+                <include name="dpOriginTest"/>
+                <include name="dpDiscountTest"/>
+                <include name="dpShopPromoTest"/>
+                <include name="dpCouponPromoTest"/>
+            </methods>
+        </classes>
+    </test>
+    <test name="mapi单接口">
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
+        </classes>
+    </test>
+    <parameter name="sleepBetweenRetries" value="1000"/>
+
+</suite>

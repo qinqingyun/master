@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="TestMeishiHuiCreateOrderTest">
-    <parameter name="team_id" value="179"/>
-    <test name="meishiHuiCreateOrderTest">
+<suite name="testSuite" parallel="true" thread-count="8">
+    <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
+    <test name="以老为主">
         <groups>
             <define name="all">
                 <include name="P1"/>
@@ -12,13 +12,24 @@
             </run>
         </groups>
         <classes>
-            <!--链路-->
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMDiscountScenes"/>
-            <!--<class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMoriginalScenes"/>-->
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMCashier"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashieroverview"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMShop"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxApplyrefundlistquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestOrdercheck"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaCheck"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
         </classes>
     </test>
 
     <parameter name="maxRetries" value="3"/>
     <parameter name="sleepBetweenRetries" value="1000"/>
-
 </suite>

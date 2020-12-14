@@ -16,13 +16,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.util.concurrent.TimeUnit;
 import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPApp;
+import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.DPM;
 import static com.meituan.qa.meishi.Hui.entity.OrderStatusEnum.*;
 
 @Slf4j
 public class DianPingMTest extends TestBase {
     private String platformPath="/platformPath";
     /**
-     * 用例简介:     买单使用原价买单方案，只有原价买单，点评m站不双写
+     * 用例简介:     买单使用原价买单方案，门店只有原价买单方案，M站和小程序下单单走老
      * 数据源:       shopId：65731456
      * 主要流程:     下单 -> 支付 -> 详情 -> 退款
      * 备注:        平台：点评M站 ；买单方案：原价买单；退款方式：直接退款
@@ -45,7 +46,7 @@ public class DianPingMTest extends TestBase {
         mappingOrderIds.setOldOrderId(orderModel.getOrderId());
         //3.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
-        //4.支付mock
+        //4.支付
         maitonApi.orderPay(orderModel);
         //5.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
@@ -145,21 +146,21 @@ public class DianPingMTest extends TestBase {
         MappingOrderIds mappingOrderIds = new MappingOrderIds();
         mappingOrderIds.setNewOrderId(orderModel.getOrderId());
         mappingOrderIds.setOldOrderId(orderModel.getOrderId());
-        //7.支付后买单校验
+        //3.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
-        //8.支付结果页校验
+        //4.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
-        //9.用户订单详情页校验
+        //5.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
-        //10.商户订单详情页校验
+        //6.商户订单详情页校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
-        //11.商户订单中心推送校验
-        //12.商家直退
+        //7.商户订单中心推送校验
+        //8.商家直退
         DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
         log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
-        //16.退款后买单校验
+        //9.退款后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
     }
     /**
@@ -184,18 +185,18 @@ public class DianPingMTest extends TestBase {
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //3.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
-        //7.支付后平台校验
+        //4.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
-        //8.支付后买单校验
+        //5.支付后买单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
-        //9.支付结果页校验
+        //6.支付结果页校验
         CheckOrderUtil.checkPayOrderResultPage(payResultCaseId,orderModel);
-        //10.用户订单详情页校验
+        //7.用户订单详情页校验
         CheckOrderUtil.checkOrderDetail(orderDetailCaseId,orderModel,DPApp);
-        //11.商户订单详情页校验
+        //8.商户订单详情页校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
-        //12.商户订单中心推送校验
-        //13.用户申请退款校验
+        //9.商户订单中心推送校验
+        //10.用户申请退款校验
         ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
         log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
         TimeUnit.SECONDS.sleep(1);
@@ -210,5 +211,58 @@ public class DianPingMTest extends TestBase {
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
         //17.退款后商户订单中心校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+    }
+    /**
+     * 用例简介:     买单使用全单折买单方案
+     * 数据源:       shopId：24799161
+     * 主要流程:     下单 -> 支付 -> 详情
+     * 备注:        平台：美团微信小程序 ；买单方案：7折买单；退款方式：不退款；促销方式：买单7折优惠
+     * TODO：使用美团小程序
+     **/
+
+    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
+    public void mtWxDiscountTest() throws Exception {
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
+        String caseId = "dpWxDiscountTest";
+        String platformCaseId = "ms_c_dpdiscount_platform_consum";
+        String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
+        String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
+        //0.登录获取基本userInfo
+        maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
+        //2.创建订单
+        OrderModel orderModel = loopCheck.wxaCreateOrder(caseId);
+        log.info("创单成功！{}:",JSON.toJSONString(orderModel));
+        //3.新老订单映射
+        MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);
+        //4.支付后平台校验
+        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
+        //5.支付后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
+    }
+    /**
+     * 用例简介:     买单使用原价买单方案，只有原价买单，点评微信不双写
+     * 数据源:       shopId：65731456
+     * 主要流程:     下单 -> 支付 -> 详情
+     * 备注:        平台：美团微信小程序 ；买单方案：原价买单；退款方式：不退款
+     **/
+    @Test(groups = "P1",description = "点评app，买单使用原价买单方案->方案选取->下单->支付")
+    public void mtWxOriginTest() throws Exception {
+        SetTraceUtil setTraceUtil = new SetTraceUtil();
+        String caseId = "dpWxOriginTest";
+        String payResultCaseId = "ms_c_huiFullProcess_101_queryMopayStatus";
+        String orderDetailCaseId = "ms_c_huiFullProcess_101_huiMaitonOrderMT";
+        //0.登录获取基本userInfo
+        maitonApi.replaceUserInfo(DPApp);
+        setTraceUtil.setTrace(); //mock相关配置
+        //1.创建订单
+        OrderModel orderModel = loopCheck.wxaCreateOrder(caseId);
+        log.info("创单成功！{}:", JSON.toJSONString(orderModel));
+        //2.新老订单映射
+        MappingOrderIds mappingOrderIds = new MappingOrderIds();
+        mappingOrderIds.setNewOrderId(orderModel.getOrderId());
+        mappingOrderIds.setOldOrderId(orderModel.getOrderId());
+        //3.支付后买单校验
+        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,支付成功);
     }
 }

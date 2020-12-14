@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 /**
  * urls = "https://m.51ping.com/hui/maiton/ajax/ordercheck?shopId=24799161&shopUuid=G3S8S3ILaJWkoJoP&shopType=0&lat=0&lng=0",
- * 点评M站-支付前确认
+ * 点评M站-支付前确认，距离检查
  * * 接口文档：
  * @return
  */
@@ -27,5 +27,18 @@ public class TestOrdercheck extends TestBase {
         ResponseMap responseMap = huiMWebApi.orderCheck("ms_c_orderCheck_01");
         log.info("点评M站-支付前确认结果：{}",responseMap.getResponseBody());
         AssertUtil.assertHttpCode(responseMap,200,"http状态码!=200");
+    }
+    @Test(groups = {"P3"})
+    @MethodAnotation(author = "byq",createTime = "2020-12-10",des = "纬度为空")
+    public void ms_c_orderCheck_02(){
+        ResponseMap responseMap = huiMWebApi.orderCheck("ms_c_orderCheck_02");
+        AssertUtil.assertHttp200(responseMap,"接口返回不为200");
+    }
+
+    @Test(groups = {"P3"})
+    @MethodAnotation(author = "byq",createTime = "2020-12-10",des = "经度为空")
+    public void ms_c_orderCheck_03(){
+        ResponseMap responseMap = huiMWebApi.orderCheck("ms_c_orderCheck_03");
+        AssertUtil.assertHttp200(responseMap,"接口返回不为200");
     }
 }

@@ -26,7 +26,6 @@ public class TestGetMOPayPromosInfoAction extends TestDPLogin {
     @MethodAnotation(author = "zhenyumin",createTime = "2020-08-04",updateTime = "2020-08-04",des = "正确用例-获取POI页买单优惠")
     public void ms_c_getMOPayPromosInfoAction_01(JSONObject request, JSONObject expect){
 
-
         log.info("入参：{}",JSONObject.toJSONString(request));
         ResponseMap responseMap = hmpLoopCheck.getLoopQuery(mtToken,mtClient,request);      // 美团用户
 

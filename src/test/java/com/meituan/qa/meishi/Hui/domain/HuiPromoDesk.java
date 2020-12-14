@@ -41,7 +41,6 @@ public class HuiPromoDesk {
         request.getJSONObject("headers").put("user-agent", client);
         request.getJSONObject("headers").put("pragma-os", client);
         JsonPathUtil.setJsonPathVaule(request, "$.params.token", mttoken);
-        log.info("查询商家券信息headers======"+request.getJSONObject("headers").toString());
         log.info("查询商家券信息request======"+request.toString());
         ResponseMap response = null;
         PromoResponse promoResponse = new PromoResponse();
@@ -68,16 +67,13 @@ public class HuiPromoDesk {
 
         /*平台券*/
         if (useCardflag == UseCard.USE_PLATFORM_CARD) {
-            return promoResponse.getCoupon().getCoupons().stream()
+            return promoResponse.getCoupon().getCoupons().stream().parallel().findAny();
 //          .filter(x-> couponId.equals(x.getId()))
-            .findFirst();
         }
         /*商家券*/
         if (useCardflag == UseCard.USE_MERCHANT_CARD) {
-            return promoResponse.getShopcoupon().getCoupons().stream()
+            return promoResponse.getShopcoupon().getCoupons().stream().parallel().findAny();
 //           .filter(x-> couponId.equals(x.getId()))
-            .findFirst();
-
         }
         return Optional.empty();
     }
