@@ -4,52 +4,44 @@
         <parameter name="DoubleWriteMode" value="OLD"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
+
             <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
-        </classes>
-    </test>
-    <test name="以新为主">
-        <parameter name="DoubleWriteMode" value="NEW"/>
-        <classes>
+
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpSpayScenes"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestSpayOriginalScenes"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
-
-            <class name="com.meituan.qa.meishi.Hui.cases.huiopenbusinessweb.TestCreateOrder"/>
-
-            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestUniCashierCreateOrderAction"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestQueryMOPayStatusAction"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestLoadUnifiedCashierAction"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimapiweb.TestGetMOPayPromosInfoAction"/>
         </classes>
     </test>
 <!--重构后以新为主case-->
-    <test name="以新为主,重构后">
-        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+    <test name="以老为主,重构后">
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
-            <methods>
-                <include name="mtOriginTest"/>
-                <include name="mtDiscountTest"/>
-                <include name="mtShopPromoTest"/>
-                <include name="mtCouponPromoTest"/>
-                <include name="mtResvZeroTest"/>
-                <include name="mtShopPromoZeroTest"/>
-                <include name="mtCouponPromoZeroTest"/>
-                <include name="mtDiscountAndCouponPromoZeroTest"/>
-            </methods>
+<!--            <methods>-->
+<!--                <include name="mtOriginTest"/>-->
+<!--                <include name="mtDiscountTest"/>-->
+<!--                <include name="mtShopPromoTest"/>-->
+<!--                <include name="mtCouponPromoTest"/>-->
+<!--                <include name="mtResvZeroTest"/>-->
+<!--                <include name="mtShopPromoZeroTest"/>-->
+<!--                <include name="mtCouponPromoZeroTest"/>-->
+<!--                <include name="mtDiscountAndCouponPromoZeroTest"/>-->
+<!--            </methods>-->
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-            <methods>
-                <include name="dpOriginTest"/>
-                <include name="dpDiscountTest"/>
-                <include name="dpShopPromoTest"/>
-                <include name="dpCouponPromoTest"/>
-            </methods>
+<!--            <methods>-->
+<!--                <include name="dpOriginTest"/>-->
+<!--                <include name="dpDiscountTest"/>-->
+<!--                <include name="dpShopPromoTest"/>-->
+<!--                <include name="dpCouponPromoTest"/>-->
+<!--            </methods>-->
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
+
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrder"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderLimitRecord"/>
@@ -57,15 +49,20 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderSummary"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderByReceipt"/>
 
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMCashier"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashieroverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquery"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestMMShop"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestCashierquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestGetMerchantOrderDetail"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestUnicashierCouponDesc"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxApplyrefundlistquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxCashierquerybyorderid"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderoverview"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaPoi"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestOrdercheck"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaCheck"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="4"/>

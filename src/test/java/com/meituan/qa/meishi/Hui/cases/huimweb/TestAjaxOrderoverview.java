@@ -30,6 +30,7 @@ public class TestAjaxOrderoverview extends TestBase {
         JSONObject huiOverviewResponseVo = JsonPath.read(response, "$.huiOverviewResponseVo");
         JSONObject huiOverviewVoResponse = JsonPath.read(huiOverviewResponseVo, "$.huiOverviewVo");
         BigDecimal totalOriginAmount = JsonPath.read(huiOverviewVoResponse, "$.totalOriginAmount");
-        Assert.assertTrue(totalOriginAmount.compareTo(BigDecimal.ZERO) == 1,"查询全量门店总览查询为空");
+        Assert.assertTrue(totalOriginAmount.compareTo(BigDecimal.ZERO) == 1 ,"查询全量门店总览查询为空");
     }
 }
+

@@ -24,7 +24,7 @@ import static com.meituan.qa.meishi.Hui.entity.OrderSourceEnum.*;
 public class TestMMShop extends TestBase {
 
     @Test(groups = "{P1}")
-    @MethodAnotation(author = "zhenyumin",createTime = "2020-10-26",des = "点评mm站提单页面入口")
+    @MethodAnotation(author = "zhenyumin",createTime = "2020-10-26",des = "点评mm站跳shop页")
     public void ms_c_mmShop_01(){
         ResponseMap responseMap = huiMWebApi.mmShop("ms_c_mmShop_01",DPApp,maitonApi.dpWxClient);
         log.info("返回结果：{}",responseMap.getResponseBody());
