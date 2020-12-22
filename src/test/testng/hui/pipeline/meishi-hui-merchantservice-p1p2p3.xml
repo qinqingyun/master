@@ -1,16 +1,24 @@
 <suite name="testSuite" parallel="true" thread-count="8">
-
-    <!--重构后case-->
+    <parameter name="team_id" value="179" />
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
+            <methods>
+                <include name="dpOriginTest"/>
+                <include name="dpDiscountTest"/>
+            </methods>
+        </classes>
+    </test>
     <test name="以老为主,重构后">
         <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
             <methods>
-                <include name="mtOriginTest"/>
-                <include name="mtDiscountTest"/>
+                <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoTest"/>
             </methods>
-
         </classes>
     </test>
-    <parameter name="maxRetries" value="4"/>
+
 </suite>

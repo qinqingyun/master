@@ -1,37 +1,30 @@
 <suite name="testSuite" parallel="true" thread-count="6">
     <parameter name="team_id" value="179"/>
     <!--设置双写标识-->
+    <!--重构后case-->
     <test name="以老为主">
-        <parameter name="DoubleWriteMode" value="OLD"/>
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <exclude name="mtShopPromoZeroTest"/>
+                <exclude name="mtCouponPromoZeroTest"/>
+                <exclude name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
         </classes>
     </test>
-    <test name="以新为主">
-        <parameter name="DoubleWriteMode" value="NEW"/>
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpOriginalScence_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPShopPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDpMerchantPromo_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestZeroOrder_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestCouponHuiInfo"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDPHuiInfo"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMTHuiInfo"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
-
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoZeroTest"/>
+                <include name="mtCouponPromoZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
         </classes>
     </test>
 
