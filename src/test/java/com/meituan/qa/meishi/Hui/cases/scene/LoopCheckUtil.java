@@ -93,6 +93,7 @@ public class LoopCheckUtil extends TestBase {
     @LoopCheck(desc = "支付结果页轮询", interval = 1000, timeout = 1000 * 60) // 每间隔1000ms请求一次，共60s
     public String getPayResultPage(String caseId, String serializedId)  {
         String queryMopayStatus = maitonApi.queryMopayStatus(caseId, serializedId);
+        log.info("支付结果页面状态{}",queryMopayStatus);
         return queryMopayStatus;
     }
     @LoopCheck(desc = "订单详情页轮询", interval = 500, timeout = 1000 * 10) // 每间隔1000ms请求一次，共10s

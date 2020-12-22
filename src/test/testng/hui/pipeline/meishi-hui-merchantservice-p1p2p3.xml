@@ -1,27 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="TestMeishiHuiCreateOrderTest">
-    <parameter name="team_id" value="179"/>
-    <test name="meishiHuiMerchant">
-        <parameter name="DoubleWriteMode" value="OLD"/>
-        <groups>
-            <define name="all">
-                <include name="P1"/>
-                <include name="P2"/>
-                <include name="P3"/>
-            </define>
-            <run>
-                <include name="all"/>
-            </run>
-        </groups>
+<suite name="testSuite" parallel="true" thread-count="8">
+
+    <!--重构后case-->
+    <test name="以老为主,重构后">
+        <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
-            <!--<class name="com.meituan.qa.meishi.Hui.cases.huimerchantservice.TestGetSchemeInvoiceStatus"/>-->
-            <!--链路-->
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes_New"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes_NEW"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtOriginTest"/>
+                <include name="mtDiscountTest"/>
+            </methods>
+
         </classes>
     </test>
-
-    <parameter name="maxRetries" value="3"/>
-    <parameter name="sleepBetweenRetries" value="1000"/>
-
+    <parameter name="maxRetries" value="4"/>
 </suite>

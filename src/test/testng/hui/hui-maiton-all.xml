@@ -18,28 +18,17 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestMMHuiInfo"/>
         </classes>
     </test>
-<!--重构后以新为主case-->
+<!--重构后case-->
     <test name="以老为主,重构后">
         <parameter name="DoubleWriteMode" value="OLD_MAIN"/>
         <classes>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
-<!--            <methods>-->
-<!--                <include name="mtOriginTest"/>-->
-<!--                <include name="mtDiscountTest"/>-->
-<!--                <include name="mtShopPromoTest"/>-->
-<!--                <include name="mtCouponPromoTest"/>-->
-<!--                <include name="mtResvZeroTest"/>-->
-<!--                <include name="mtShopPromoZeroTest"/>-->
-<!--                <include name="mtCouponPromoZeroTest"/>-->
-<!--                <include name="mtDiscountAndCouponPromoZeroTest"/>-->
-<!--            </methods>-->
+            <methods>
+                <exclude name="mtShopPromoZeroTest"/>
+                <exclude name="mtCouponPromoZeroTest"/>
+                <exclude name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
-<!--            <methods>-->
-<!--                <include name="dpOriginTest"/>-->
-<!--                <include name="dpDiscountTest"/>-->
-<!--                <include name="dpShopPromoTest"/>-->
-<!--                <include name="dpCouponPromoTest"/>-->
-<!--            </methods>-->
             <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingMTest"/>
 
             <class name="com.meituan.qa.meishi.Hui.cases.huiorderservice.TestQueryMainOrderBySerializedId"/>
@@ -63,6 +52,19 @@
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestAjaxOrderquery"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestOrdercheck"/>
             <class name="com.meituan.qa.meishi.Hui.cases.huimweb.TestWxaCheck"/>
+        </classes>
+    </test>
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
+        <classes>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoZeroTest"/>
+                <include name="mtCouponPromoZeroTest"/>
+                <include name="mtDiscountAndCouponPromoZeroTest"/>
+            </methods>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
         </classes>
     </test>
     <parameter name="maxRetries" value="4"/>
