@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="TestMeishiHuiCreateOrderTest">
-    <listeners>
-        <listener class-name="com.meituan.toolchain.mario.listener.JsonReportNG"/>
-    </listeners>
-    <parameter name="team_id" value="179"/>
-    <test name="meishiHuiMerchant">
-
+<suite name="bpf-product" parallel="true" thread-count="8">
+    <parameter name="team_id" value="179" />
+    <test name="以新为主,重构后">
+        <parameter name="DoubleWriteMode" value="NEW_MAIN"/>
         <classes>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestDiscountScenes"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestdpDiscountScenes"/>
-            <class name="com.meituan.qa.meishi.Hui.cases.huifullproce.TestOriginalScenes"/>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.MeiTuanAppTest"/>
+            <methods>
+                <include name="mtResvZeroTest"/>
+                <include name="mtShopPromoTest"/>
+            </methods>
+            <class name="com.meituan.qa.meishi.Hui.cases.scene.DianPingAppTest"/>
+            <methods>
+                <include name="dpOriginTest"/>
+                <include name="dpDiscountTest"/>
+            </methods>
         </classes>
     </test>
-
-    <parameter name="maxRetries" value="3"/>
-    <parameter name="sleepBetweenRetries" value="1000"/>
 
 </suite>
