@@ -2,12 +2,15 @@ package com.meituan.qa.meishi.Hui.cases.scene;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
+import com.dianping.mopayprocess.refundflow.response.RejectRefundResponse;
 import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueDetail;
 import com.dianping.unified.coupon.issue.api.response.UnifiedCouponIssueResponse;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
+import com.meituan.qa.meishi.Hui.domain.HuiRefund;
 import com.meituan.qa.meishi.Hui.dto.DeskCoupon;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.dto.cashier.CouponProduct;
@@ -85,7 +88,7 @@ public class DianPingAppTest extends TestBase {
         //17.退款后商户订单中心校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
-    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
+    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家拒绝->退款失败")
     public void dpDiscountTest() throws Exception {
         PayMockUtil payMockUtil = new PayMockUtil();
         SetTraceUtil setTraceUtil = new SetTraceUtil();
@@ -127,19 +130,17 @@ public class DianPingAppTest extends TestBase {
         ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
         log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
         TimeUnit.SECONDS.sleep(1);
-        AgreeRefundResponse agreeRefundResponse = thriftApi.agreeRefund(orderModel, maitonApi.getUserModel().get());
-        log.info("获取退款结果:{}", JSON.toJSONString(agreeRefundResponse));
+        RejectRefundResponse rejectRefundResponse = thriftApi.rejectRefund(orderModel, maitonApi.getUserModel().get());
+        log.info("获取退款结果:{}", JSON.toJSONString(rejectRefundResponse));
         TimeUnit.SECONDS.sleep(1);
-        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(agreeRefundResponse));
-        Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
-        //14.退款mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
-        //15.退款后平台校验
-        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
-        //16.退款后买单校验
-        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
-        //17.退款后商户订单中心校验
-        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(rejectRefundResponse));
+        Assert.assertEquals(jsonObject.getString("errCode"),"0","拒绝退款失败");
+//        //15.退款后平台校验
+//        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
+//        //16.退款后买单校验
+//        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+//        //17.退款后商户订单中心校验
+//        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券

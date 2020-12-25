@@ -12,9 +12,11 @@ import com.dianping.hui.order.shard.service.QueryMainOrder4MTService;
 import com.dianping.mopayprocess.refundflow.request.AgreeRefundRequest;
 import com.dianping.mopayprocess.refundflow.request.ApplyRefundRequest;
 import com.dianping.mopayprocess.refundflow.request.DirectRefundRequest;
+import com.dianping.mopayprocess.refundflow.request.RejectRefundRequest;
 import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
+import com.dianping.mopayprocess.refundflow.response.RejectRefundResponse;
 import com.dianping.mopayprocess.refundflow.service.RefundFlowService;
 import com.dianping.unified.coupon.issue.api.UnifiedCouponIssueTrustService;
 import com.dianping.unified.coupon.issue.api.dto.UnifiedCouponIssueOption;
@@ -231,6 +233,30 @@ public class ThriftApi {
             agreeRefundResponse.setIsSuccess(true);
         }
         return agreeRefundResponse;
+    }
+    /**
+     * 商家同意退款
+     *
+     */
+    public RejectRefundResponse rejectRefund(OrderModel orderModel,UserModel userModel) {
+        // 生成新Trace
+        TracerUtil.initAndLogTrace();
+
+        RejectRefundRequest request = new RejectRefundRequest();
+        request.setReason("拒绝退款");
+        request.setIp("127.0.0.1");
+        request.setDesc("拒绝款desc");
+        request.setOperator(userModel.getUserId());
+        request.setOrderId(Long.valueOf(orderModel.getOrderId()));
+        request.setTarget(RefundFlowTargetEnum.MERCHANT.getCode());
+        request.setPlatform(RefundFlowPlatformEnum.ECOM.getCode());
+        String ret = JSON.toJSONString(request);
+        System.out.println(ret);
+        RejectRefundResponse rejectRefundResponse = refundFlowService.rejectRefund(request);
+        if (rejectRefundResponse.getErrCode() == 0) {
+            rejectRefundResponse.setIsSuccess(true);
+        }
+        return rejectRefundResponse;
     }
         /**
          * 商家券发券接口
