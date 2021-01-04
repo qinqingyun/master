@@ -135,12 +135,6 @@ public class DianPingAppTest extends TestBase {
         TimeUnit.SECONDS.sleep(1);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(rejectRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","拒绝退款失败");
-        //15.退款后平台校验
-        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
-        //16.退款后买单校验
-        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
-        //17.退款后商户订单中心校验
-        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券
