@@ -324,7 +324,8 @@ public class ThriftApi {
      */
     public Integer getBookableTime(Integer platform) throws TException, InternalTException {
         String _APIPATH = "/tResvIGoodsService.getBookableTime";
-        String caseIdList = "ms_c_resvGetBookableTime";
+        //String caseIdList = "ms_c_resvGetBookableTime";
+        String caseIdList = "ms_c_resvGetBookableTimeTest";
         JSONObject obj = DBDataProvider.getRequest(_APIPATH,caseIdList);
         log.info("请求参数{}",obj);
         if (platform == 20){
@@ -338,7 +339,8 @@ public class ThriftApi {
     }
     public ResvSkuIdAndSkuVersion getSkuInfo(Integer bookableTime) throws TException, InternalTException {
         String _APIPATH_LIST = "/tResvIGoodsService.getTableInfoQuery";
-        String caseIdList = "ms_c_resvGetSkuInfo_01";
+        //String caseIdList = "ms_c_resvGetSkuInfo_01";
+        String caseIdList = "ms_c_resvGetSkuInfo_01_test";
         JSONObject obj = DBDataProvider.getRequest(_APIPATH_LIST,caseIdList);
         TableInfoQueryDTO tableInfoQueryDTO = JSON.parseObject(obj.toString(), TableInfoQueryDTO.class);
         tableInfoQueryDTO.setBookingTime(bookableTime);

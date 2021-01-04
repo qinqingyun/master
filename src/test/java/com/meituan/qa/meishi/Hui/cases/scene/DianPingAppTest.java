@@ -113,8 +113,8 @@ public class DianPingAppTest extends TestBase {
         //5.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //6.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //7.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //8.支付后买单校验
@@ -236,7 +236,7 @@ public class DianPingAppTest extends TestBase {
         DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),519477930,DPApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),998226223,DPApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
@@ -263,8 +263,8 @@ public class DianPingAppTest extends TestBase {
         //7.买单侧下单校验
         CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,下单成功);
         //8.支付mock
-        //maitonApi.orderPay(orderModel);
-        payMockUtil.mockPay(orderModel,mappingOrderIds);
+        maitonApi.orderPay(orderModel);
+        //payMockUtil.mockPay(orderModel,mappingOrderIds);
         //9.支付后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,支付成功);
         //10.支付后买单校验
@@ -282,7 +282,7 @@ public class DianPingAppTest extends TestBase {
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
         //16.退款mock
-        payMockUtil.mockRefund(orderModel,mappingOrderIds);
+        //payMockUtil.mockRefund(orderModel,mappingOrderIds);
         //17.退款后平台校验
         CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
         //18.退款后买单校验
@@ -309,7 +309,7 @@ public class DianPingAppTest extends TestBase {
         String resvMaitonOrderId = resvOrderId.toString();
         log.info("预订订单:{}", resvMaitonOrderId);
         //2.使用预定金创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //3.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);

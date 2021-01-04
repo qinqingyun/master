@@ -234,9 +234,10 @@ public class MaitonApi {
     }
 
     //无需加载优惠平台接口,下单使用预订金
-    public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {
-        return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,null,null,resvOrderId,0);
+    public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId,Integer isZero) throws UnsupportedEncodingException {
+        return uniCashierCreateOrder(userModel.get().getToken(),userModel.get().getUserAgent(),caseId,null,null,resvOrderId,isZero);
     }
+
 
     public OrderModel uniCashierCreateOrder(String token, String userAgent, String caseid, CouponProduct couponProduct, DeskCoupon deskcoupon, String receipt, Integer isZero) throws UnsupportedEncodingException {
         // 生成新Trace
