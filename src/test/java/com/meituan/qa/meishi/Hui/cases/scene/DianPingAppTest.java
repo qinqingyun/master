@@ -135,12 +135,6 @@ public class DianPingAppTest extends TestBase {
         TimeUnit.SECONDS.sleep(1);
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(rejectRefundResponse));
         Assert.assertEquals(jsonObject.getString("errCode"),"0","拒绝退款失败");
-//        //15.退款后平台校验
-//        CheckOrderUtil.checkNewPlatform(platformPath,platformCaseId,mappingOrderIds,orderModel,退款成功);
-//        //16.退款后买单校验
-//        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
-//        //17.退款后商户订单中心校验
-//        //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,退款成功);
     }
     /**
      * 用例简介:     买单使用原价买单方案，使用商家券
@@ -236,7 +230,7 @@ public class DianPingAppTest extends TestBase {
         DeskCoupon deskCoupon = loopCheck.getPlatformCouponCipher(couponId,getHuiPromodeskCaseId);
         //2.若没有平台券，调用发券接口发券
         if(deskCoupon == null){
-            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),519477930,DPApp);
+            UnifiedCouponIssueResponse unifiedCouponIssueResponse = loopCheck.setCouponPromo(maitonApi.getUserModel().get(),998226223,DPApp);
             BigDecimal couponAmount = BigDecimal.ZERO;
             if (unifiedCouponIssueResponse.getResultCode() == 0) {
                 Optional<UnifiedCouponIssueDetail> detailOptional = unifiedCouponIssueResponse.getResult().getResult().stream().findFirst();
@@ -309,7 +303,7 @@ public class DianPingAppTest extends TestBase {
         String resvMaitonOrderId = resvOrderId.toString();
         log.info("预订订单:{}", resvMaitonOrderId);
         //2.使用预定金创建订单
-        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId);
+        OrderModel orderModel = loopCheck.uniCashierCreateOrder(caseId,resvMaitonOrderId,0);
         log.info("创单成功！{}:",JSON.toJSONString(orderModel));
         //3.新老订单映射
         MappingOrderIds mappingOrderIds = CheckOrderUtil.checkOrderMapping(orderModel);

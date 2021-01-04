@@ -45,8 +45,8 @@ public class LoopCheckUtil extends TestBase {
         return orderCreateResult;
     }
     @LoopCheck(desc = "使用预定金买单创建订单", interval = 500, timeout = 500 * 20) // 每间隔500ms请求一次，共10s
-    public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId) throws UnsupportedEncodingException {
-        OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,resvOrderId);
+    public OrderModel uniCashierCreateOrder(String caseId, String resvOrderId,Integer isZero) throws UnsupportedEncodingException {
+        OrderModel orderCreateResult = maitonApi.uniCashierCreateOrder(caseId,resvOrderId,isZero);
         return orderCreateResult;
     }
     @LoopCheck(desc = "查询新老订单ID映射轮询", interval = 500, timeout = 500 * 30) // 每间隔500ms请求一次，共10s
