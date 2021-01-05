@@ -144,7 +144,9 @@ public class TestCreateOrder extends TestDPLogin {
         log.info("正常下单请求参数:" + JSON.toJSONString(ecomOrderCreateReq));
         EcomOrderCreateResp  createResp= ecomOrderCreateService.createOrder(ecomOrderCreateReq);
         log.info("正常下单返回结果:" + JSON.toJSONString(createResp));
-        Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+        if(doubleWriteMode.equals("OLD")){
+            Assert.assertTrue(createResp.getOrderId()>0 && createResp.getPayToken() != null && createResp.getTradeNo()!= null,"下单失败");
+        }
 
     }
     @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
