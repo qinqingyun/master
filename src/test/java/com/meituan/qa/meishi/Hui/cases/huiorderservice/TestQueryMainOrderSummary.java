@@ -76,7 +76,7 @@ public class TestQueryMainOrderSummary extends TestBase {
         log.info("结果返回：{}",JSON.toJSONString(queryOrderStatisticsResponse));
         Assert.assertTrue(queryOrderStatisticsResponse.getOrderNum() == 0);
     }
-    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class)
+    @Test(dataProvider = "dbdata", dataProviderClass = DBDataProvider.class,enabled = false)
     @MethodAnotation(author = "byq", createTime = "20200708", des = "参数beginTime：时间晚于endTime")
     public void ms_c_queryMainOrderSummary_06(JSONObject request, JSONObject expect){
         QueryMainOrderBaseRequest queryMainOrderBaseRequest = JSON.parseObject(request.toString(), QueryMainOrderBaseRequest.class);
