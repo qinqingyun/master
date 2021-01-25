@@ -20,6 +20,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.meituan.toolchain.mario</groupId>
+                <artifactId>mario-common</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            <dependency>
                 <groupId>com.sankuai</groupId>
                 <artifactId>inf-bom</artifactId>
                 <version>1.3.9.9</version>
