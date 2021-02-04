@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dianping.mopayprocess.refundflow.response.AgreeRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.ApplyRefundResponse;
 import com.dianping.mopayprocess.refundflow.response.DirectRefundResponse;
+import com.dianping.mopayprocess.refundflow.response.RejectRefundResponse;
 import com.meituan.qa.meishi.Hui.cases.base.TestBase;
 import com.meituan.qa.meishi.Hui.dto.MappingOrderIds;
 import com.meituan.qa.meishi.Hui.entity.model.OrderModel;
@@ -130,7 +131,7 @@ public class DianPingMTest extends TestBase {
      * 主要流程:     下单 -> 支付 -> 详情 -> 退款
      * 备注:        平台：点评微信小程序 ；买单方案：原价买单；退款方式：直接退款
      **/
-    @Test(groups = "P1",description = "点评app，买单使用原价买单方案->方案选取->下单->支付->商家直退->退款成功")
+    @Test(groups = "P1",description = "点评app，买单使用原价买单方案->方案选取->下单->支付->用户申请->商家拒绝->退款失败")
     public void dpWxOriginTest() throws Exception {
         SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpWxOriginTest";
@@ -155,13 +156,15 @@ public class DianPingMTest extends TestBase {
         //6.商户订单详情页校验
         //CheckOrderUtil.checkMerchantOrderDetail(caseId,orderModel,支付成功);
         //7.商户订单中心推送校验
-        //8.商家直退
-        DirectRefundResponse directRefundResponse = thriftApi.superRefund("qa-autocase", orderModel);
-        log.info("获取退款结果:{}", JSON.toJSONString(directRefundResponse));
-        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(directRefundResponse));
-        Assert.assertEquals(jsonObject.getString("errCode"),"0","发起退款失败");
-        //9.退款后买单校验
-        CheckOrderUtil.checkOldOrderSystem(mappingOrderIds,退款成功);
+        //8.用户申请->商家拒绝
+        ApplyRefundResponse applyRefundResponse = thriftApi.applyRefund(orderModel, maitonApi.getUserModel().get());
+        log.info("申请退款结果:{}",JSON.toJSONString(applyRefundResponse));
+        TimeUnit.SECONDS.sleep(1);
+        RejectRefundResponse rejectRefundResponse = thriftApi.rejectRefund(orderModel, maitonApi.getUserModel().get());
+        log.info("获取退款结果:{}", JSON.toJSONString(rejectRefundResponse));
+        TimeUnit.SECONDS.sleep(1);
+        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(rejectRefundResponse));
+        Assert.assertEquals(jsonObject.getString("errCode"),"0","拒绝退款失败");
     }
     /**
      * 用例简介:     买单使用全单折买单方案
@@ -170,7 +173,7 @@ public class DianPingMTest extends TestBase {
      * 备注:        平台：点评微信小程序 ；买单方案：7折买单；退款方式：直接退款；促销方式：买单7折优惠
      **/
 
-    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款")
+    @Test(groups = "P1",description = "点评app，买单使用折扣买单方案->方案选取->下单->支付->用户申请->商家同意->退款成功")
     public void dpWxDiscountTest() throws Exception {
         SetTraceUtil setTraceUtil = new SetTraceUtil();
         String caseId = "dpWxDiscountTest";
